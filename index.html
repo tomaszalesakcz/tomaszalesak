@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomáš Zálešák | CRM a E-mail Marketing Specialista</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            color: #35437b;
+            margin-bottom: 30px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .hero-image {
+            text-align: center;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(53, 67, 123, 0.15);
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #35437b;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(53, 67, 123, 0.15);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            background: #35437b;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            color: #35437b;
+            margin-bottom: 15px;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 80px 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: #35437b;
+        }
+
+        .faq-question {
+            padding: 25px 30px;
+            cursor: pointer;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #35437b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:after {
+            content: '+';
+            font-size: 1.5rem;
+            color: #35437b;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: #666;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 30px 25px 30px;
+            max-height: 500px;
+        }
+
+        .faq-item.active .faq-question:after {
+            transform: rotate(45deg);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(53, 67, 123, 0.2);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid #35437b;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: #35437b;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            color: #35437b;
+            margin-bottom: 15px;
+        }
+
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #35437b;
+            margin: 20px 0;
+        }
+
+        .pricing-card .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #666;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            color: #555;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .pricing-features li:before {
+            content: '✓';
+            color: #35437b;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            color: #35437b;
+            margin-bottom: 25px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 45px;
+            background: #35437b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #2a3561;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(53, 67, 123, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #f8f9fa;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        footer p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .benefits-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Zvyšuji opakované nákupy a tržby vašeho e-shopu</h1>
+                <p>
+                    Jmenuji se Tomáš Zálešák a jsem specialista na CRM a e-mail marketing. 
+                    Pomáhám e-shopům budovat dlouhodobé vztahy se zákazníky a maximalizovat 
+                    hodnotu každého nákupu.
+                </p>
+                <p>
+                    Mým hlavním cílem není pouze přivést nové zákazníky, ale především zajistit, 
+                    aby se k vám vraceli znovu a znovu. Prostřednictvím chytré segmentace, 
+                    personalizace a automatizace vytvářím e-mailové kampaně, které skutečně fungují.
+                </p>
+                <p>
+                    Spolupracuji s e-shopy všech velikostí – od rodinných podniků až po velké 
+                    online obchody. Každý projekt přistupuji individuálně s důrazem na měřitelné 
+                    výsledky a návratnost investice.
+                </p>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&h=1000&fit=crop" alt="Tomáš Zálešák">
+            </div>
+        </section>
+    </div>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Proč investovat do CRM a e-mail marketingu?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Vyšší míra opakovaných nákupů</h3>
+                    <p>
+                        Automatizované kampaně a cílená komunikace udržují zákazníky aktivní. 
+                        Průměrně zvyšuji frekvenci nákupů o 35-50% díky personalizovaným 
+                        nabídkám a časovaným připomínkám.
+                    </p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Až 42× návratnost investice</h3>
+                    <p>
+                        E-mail marketing patří mezi nejrentabilnější marketingové kanály. 
+                        Za každou investovanou korunu můžete získat až 42 korun zpět. 
+                        Správně nastavené kampaně platí samy sebe několikrát.
+                    </p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Lepší znalost zákazníků</h3>
+                    <p>
+                        Díky CRM systémům získáte kompletní přehled o chování vašich zákazníků. 
+                        Víte, co kupují, kdy nakupují a co je zajímá. To vám umožní nabízet 
+                        přesně to, co chtějí.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Často kladené otázky</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">Jak rychle uvidím první výsledky?</div>
+                    <div class="faq-answer">
+                        První výsledky můžete vidět už po 2-3 týdnech od spuštění kampaní. 
+                        Plný potenciál se však projeví po 2-3 měsících, kdy získáme dostatek 
+                        dat pro optimalizaci a zákazníci začnou procházet celými automatizačními sekvencemi.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Jaké nástroje používáte?</div>
+                    <div class="faq-answer">
+                        Pracuji s nejmodernějšími platformami jako Ecomail, Mailchimp, Klaviyo, 
+                        nebo ActiveCampaign. Volba závisí na vašich specifických potřebách, 
+                        rozpočtu a stávající infrastruktuře. Vždy doporučím tu nejlepší variantu pro váš e-shop.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Potřebuji velkou databázi kontaktů?</div>
+                    <div class="faq-answer">
+                        Ne nutně. I s menší, ale kvalitní databází můžeme dosáhnout výborných výsledků. 
+                        Důležitější než velikost je kvalita kontaktů a správná segmentace. 
+                        Navíc vám pomohu databázi postupně rozšiřovat organickým způsobem.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Jak vypadá naše spolupráce?</div>
+                    <div class="faq-answer">
+                        Začneme detailním auditem vašeho současného stavu a stanovením cílů. 
+                        Následně navrhneme strategii a implementujeme ji krok za krokem. 
+                        Pravidelně se setkáváme (online nebo osobně) a vyhodnocujeme výsledky. 
+                        Vždy máte plnou kontrolu a přehled o tom, co se děje.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Garantujete konkrétní výsledky?</div>
+                    <div class="faq-answer">
+                        Přestože nemohu garantovat konkrétní čísla (závisí na mnoha faktorech), 
+                        zavazuji se k maximálnímu úsilí a transparentnímu reportingu. 
+                        Pokud během prvních 3 měsíců neuvidíte pozitivní trend, společně najdeme řešení 
+                        nebo ukončíme spolupráci bez dalších závazků.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+        <div class="container">
+            <h2 class="section-title">Orientační ceník</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Základní audit</h3>
+                    <div class="price">12 000 Kč</div>
+                    <ul class="pricing-features">
+                        <li>Detailní analýza současného stavu</li>
+                        <li>Audit e-mailové databáze</li>
+                        <li>Doporučení pro optimalizaci</li>
+                        <li>Akční plán na 3 měsíce</li>
+                        <li>1 hodina konzultace</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Nejoblíbenější</div>
+                    <h3>Kompletní setup</h3>
+                    <div class="price">35 000 Kč</div>
+                    <ul class="pricing-features">
+                        <li>Vše ze základního auditu</li>
+                        <li>Nastavení CRM systému</li>
+                        <li>Vytvoření 5-7 automatizací</li>
+                        <li>Design e-mailové šablony</li>
+                        <li>Segmentace databáze</li>
+                        <li>30 dní podpora po spuštění</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Průběžná správa</h3>
+                    <div class="price">Od 15 000 Kč <span>/ měsíc</span></div>
+                    <ul class="pricing-features">
+                        <li>Pravidelná správa kampaní</li>
+                        <li>Tvorba newsletterů</li>
+                        <li>Optimalizace automatizací</li>
+                        <li>Měsíční reporting</li>
+                        <li>Neomezené úpravy a konzultace</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Pojďme zvýšit vaše tržby</h2>
+            <p>Napište mi a domluvíme si nezávaznou konzultaci</p>
+            <a href="mailto:tomas@zalesak.cz" class="btn">tomas@zalesak.cz</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tomáš Zálešák. Všechna práva vyhrazena.</p>
+            <p>IČO: 12345678</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                faqItems.forEach(i => i.classList.remove('active'));
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
