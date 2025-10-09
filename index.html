@@ -44,10 +44,59 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            background: #35437b;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
             font-size: 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
             font-weight: 700;
             color: #35437b;
-            text-decoration: none;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #35437b;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 0.7;
+        }
+
+        .social-links svg {
+            width: 24px;
+            height: 24px;
         }
 
         .header-btn {
@@ -89,14 +138,6 @@
             align-items: center;
         }
 
-        .hero-content h1 {
-            font-size: 3rem;
-            color: #35437b;
-            margin-bottom: 30px;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
         .hero-content p {
             font-size: 1.15rem;
             color: #555;
@@ -116,7 +157,7 @@
 
         /* Benefits Section */
         .benefits {
-            padding: 80px 0;
+            padding: 100px 0;
             background: #f8f9fa;
         }
 
@@ -172,7 +213,7 @@
 
         /* FAQ Section */
         .faq {
-            padding: 80px 0;
+            padding: 100px 0;
         }
 
         .faq-container {
@@ -230,7 +271,7 @@
 
         /* Pricing Section */
         .pricing {
-            padding: 80px 0;
+            padding: 100px 0;
             background: #f8f9fa;
         }
 
@@ -256,12 +297,12 @@
         }
 
         .pricing-card.featured {
-            border: 3px solid #35437b;
-            transform: scale(1.05);
+            border: 2px solid #e0e0e0;
+            transform: scale(1);
         }
 
         .pricing-card.featured:hover {
-            transform: scale(1.05) translateY(-10px);
+            transform: translateY(-10px);
         }
 
         .pricing-badge {
@@ -366,8 +407,18 @@
 
         /* Responsive */
         @media (max-width: 968px) {
-            .logo {
+            .logo-text {
+                font-size: 1.1rem;
+            }
+
+            .logo-img {
+                width: 40px;
+                height: 40px;
                 font-size: 1.2rem;
+            }
+
+            .social-links {
+                display: none;
             }
 
             .header-btn {
@@ -407,8 +458,25 @@
     <!-- Header -->
     <header>
         <div class="header-content">
-            <a href="#" class="logo">Tomáš Zálešák</a>
-            <a href="#kontakt" class="header-btn">Kontakt</a>
+            <a href="#" class="logo">
+                <img src="images/TZ-Logo.png" alt="TZ" style="width: 50px; height: 50px; border-radius: 8px;">
+                <span class="logo-text">Tomáš Zálešák</span>
+            </a>
+            <div class="header-nav">
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/tomas-zalesak" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" aria-label="YouTube">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                </div>
+                <a href="#kontakt" class="header-btn">Kontakt</a>
+            </div>
         </div>
     </header>
 
@@ -416,22 +484,21 @@
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-title">
-                <h1>Více zákazníků díky chytrému e-mailingu</h1>
+                <h1>Více opakovaných nákupů, vyšší tržby</h1>
             </div>
             <div class="hero-columns">
                 <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&h=1000&fit=crop" alt="Tomáš Zálešák">
+                    <img src="images/Tomas-Zalesak.png" alt="Tomáš Zálešák">
                 </div>
                 <div class="hero-content">
                     <p>
-                        Svěřte správu e-mail marketingu specialistovi, který vám získá více vracejících se zákazníků.
+                        Jsem CRM & E-mail marketing specialista s více než 6 lety zkušeností na volné noze.
                     </p>
                     <p>
-                        Jsem marketingový specialista na volné noze. Více než 6 let se zaměřuji na e-mail marketing a automatizace. 
-                        Zajímám se o ostatní kanály digitálního marketingu a programování. Veškerý volný čas věnuji rodině a pohybu.
+                        Pomáhám klientům využít jejich zákaznickou databázi naplno – od základního nastavení e-mailingu až po komplexní automatizace a kampaně. Díky promyšleným scénářům, segmentaci a personalizaci zvyšuju počet opakovaných nákupů a tím i dlouhodobý růst tržeb.
                     </p>
                     <p>
-                        Do spolupráce vstupuji výhradně v případě, kdy výsledek mé práce znásobí vaši počáteční investici.
+                        Tam, kde to dává smysl, e-mailing propojuji i s jinými komunikačními kanály, mezi které patří např. SMS, věrnostní programy, notifikace v aplikaci, direct maily nebo chatbot na webu. Propojením těchto kanálů vzniká funkční komunikační systém, který podporuje růst značky a zvyšuje návratnost marketingu.
                     </p>
                 </div>
             </div>
@@ -441,33 +508,27 @@
     <!-- Benefits Section -->
     <section class="benefits">
         <div class="container">
-            <h2 class="section-title">Proč investovat do CRM a e-mail marketingu?</h2>
+            <h2 class="section-title">Co vám to přinese?</h2>
             <div class="benefits-grid">
                 <div class="benefit-card">
-                    <div class="benefit-icon">📈</div>
-                    <h3>Vyšší míra opakovaných nákupů</h3>
+                    <div class="benefit-icon">🔄</div>
+                    <h3>Více opakovaných nákupů</h3>
                     <p>
-                        Automatizované kampaně a cílená komunikace udržují zákazníky aktivní. 
-                        Průměrně zvyšuji frekvenci nákupů o 35-50% díky personalizovaným 
-                        nabídkám a časovaným připomínkám.
+                        Zákazníci, kteří už u vás jednou nakoupili, se budou vracet.
                     </p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">💰</div>
-                    <h3>Až 42× návratnost investice</h3>
+                    <div class="benefit-icon">⚙️</div>
+                    <h3>Automatizace pracují 24/7</h3>
                     <p>
-                        E-mail marketing patří mezi nejrentabilnější marketingové kanály. 
-                        Za každou investovanou korunu můžete získat až 42 korun zpět. 
-                        Správně nastavené kampaně platí samy sebe několikrát.
+                        Nastavené scénáře vydělávají i ve chvíli, kdy zrovna spíte.
                     </p>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">🎯</div>
-                    <h3>Lepší znalost zákazníků</h3>
+                    <div class="benefit-icon">📊</div>
+                    <h3>Efektivnější marketing</h3>
                     <p>
-                        Díky CRM systémům získáte kompletní přehled o chování vašich zákazníků. 
-                        Víte, co kupují, kdy nakupují a co je zajímá. To vám umožní nabízet 
-                        přesně to, co chtějí.
+                        Udržet si zákazníka je levnější než získat nového.
                     </p>
                 </div>
             </div>
@@ -480,45 +541,21 @@
             <h2 class="section-title">Často kladené otázky</h2>
             <div class="faq-container">
                 <div class="faq-item">
-                    <div class="faq-question">Jak rychle uvidím první výsledky?</div>
+                    <div class="faq-question">Co když e-mailing ještě vůbec nevyužívám?</div>
                     <div class="faq-answer">
-                        První výsledky můžete vidět už po 2-3 týdnech od spuštění kampaní. 
-                        Plný potenciál se však projeví po 2-3 měsících, kdy získáme dostatek 
-                        dat pro optimalizaci a zákazníci začnou procházet celými automatizačními sekvencemi.
+                        Začneme od základu – od výběru nástroje, přes strategii až po první automatizace a kampaně. E-mailing poroste společně s vaším e-shopem.
                     </div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-question">Jaké nástroje používáte?</div>
+                    <div class="faq-question">Kdy uvidím první výsledky?</div>
                     <div class="faq-answer">
-                        Pracuji s nejmodernějšími platformami jako Ecomail, Mailchimp, Klaviyo, 
-                        nebo ActiveCampaign. Volba závisí na vašich specifických potřebách, 
-                        rozpočtu a stávající infrastruktuře. Vždy doporučím tu nejlepší variantu pro váš e-shop.
+                        První viditelné výsledky obvykle přicházejí už během prvních týdnů po spuštění. U dlouhodobé spolupráce se efekt násobí s časem a daty.
                     </div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-question">Potřebuji velkou databázi kontaktů?</div>
+                    <div class="faq-question">Zaměřujete se jen na e-mailing?</div>
                     <div class="faq-answer">
-                        Ne nutně. I s menší, ale kvalitní databází můžeme dosáhnout výborných výsledků. 
-                        Důležitější než velikost je kvalita kontaktů a správná segmentace. 
-                        Navíc vám pomohu databázi postupně rozšiřovat organickým způsobem.
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Jak vypadá naše spolupráce?</div>
-                    <div class="faq-answer">
-                        Začneme detailním auditem vašeho současného stavu a stanovením cílů. 
-                        Následně navrhneme strategii a implementujeme ji krok za krokem. 
-                        Pravidelně se setkáváme (online nebo osobně) a vyhodnocujeme výsledky. 
-                        Vždy máte plnou kontrolu a přehled o tom, co se děje.
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Garantujete konkrétní výsledky?</div>
-                    <div class="faq-answer">
-                        Přestože nemohu garantovat konkrétní čísla (závisí na mnoha faktorech), 
-                        zavazuji se k maximálnímu úsilí a transparentnímu reportingu. 
-                        Pokud během prvních 3 měsíců neuvidíte pozitivní trend, společně najdeme řešení 
-                        nebo ukončíme spolupráci bez dalších závazků.
+                        Pokud má e-shop dostatečnou zákaznickou základnu, propojuji e-mailing s dalšími komunikačními kanály. Cílem je vytvořit komplexní retenční strategii, ne jen nahodile posílat kampaně.
                     </div>
                 </div>
             </div>
@@ -531,40 +568,61 @@
             <h2 class="section-title">Orientační ceník</h2>
             <div class="pricing-grid">
                 <div class="pricing-card">
-                    <h3>Základní audit</h3>
-                    <div class="price">12 000 Kč</div>
+                    <h3>Kompletní rozjezd e-mailingu</h3>
+                    <div class="price">Od 25 000 Kč</div>
+                    <p class="pricing-description">Pro byznysy, které s e-mail marketingem teprve začínají.</p>
                     <ul class="pricing-features">
                         <li>Detailní analýza současného stavu</li>
-                        <li>Audit e-mailové databáze</li>
-                        <li>Doporučení pro optimalizaci</li>
-                        <li>Akční plán na 3 měsíce</li>
-                        <li>1 hodina konzultace</li>
-                    </ul>
-                </div>
-
-                <div class="pricing-card featured">
-                    <div class="pricing-badge">Nejoblíbenější</div>
-                    <h3>Kompletní setup</h3>
-                    <div class="price">35 000 Kč</div>
-                    <ul class="pricing-features">
-                        <li>Vše ze základního auditu</li>
-                        <li>Nastavení CRM systému</li>
-                        <li>Vytvoření 5-7 automatizací</li>
+                        <li>Výběr a nastavení e-mailové platformy</li>
+                        <li>Vytvoření strategie a plánu</li>
                         <li>Design e-mailové šablony</li>
+                        <li>Nastavení základních automatizací</li>
                         <li>Segmentace databáze</li>
-                        <li>30 dní podpora po spuštění</li>
+                        <li>Školení týmu</li>
                     </ul>
                 </div>
 
                 <div class="pricing-card">
-                    <h3>Průběžná správa</h3>
-                    <div class="price">Od 15 000 Kč <span>/ měsíc</span></div>
+                    <h3>Audit & optimalizace e-mailingu</h3>
+                    <div class="price">Od 25 000 Kč</div>
+                    <p class="pricing-description">Pro byznysy, které už e-maily posílají, ale chtějí zlepšit výsledky.</p>
                     <ul class="pricing-features">
-                        <li>Pravidelná správa kampaní</li>
-                        <li>Tvorba newsletterů</li>
+                        <li>Komplexní audit současného stavu</li>
+                        <li>Analýza výkonnosti kampaní</li>
                         <li>Optimalizace automatizací</li>
-                        <li>Měsíční reporting</li>
-                        <li>Neomezené úpravy a konzultace</li>
+                        <li>Návrh nových scénářů</li>
+                        <li>Zlepšení segmentace</li>
+                        <li>Doporučení pro zvýšení konverzí</li>
+                        <li>Akční plán na 3-6 měsíců</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Pravidelná správa</h3>
+                    <div class="price">Od 15 000 Kč <span>/ měsíc</span></div>
+                    <p class="pricing-description">Pro byznysy, které chtějí dlouhodobě růst.</p>
+                    <ul class="pricing-features">
+                        <li>Měsíční spolupráce</li>
+                        <li>E-mailové a CRM kampaně</li>
+                        <li>Optimalizace a tvorba automatizací</li>
+                        <li>A/B testy</li>
+                        <li>Pravidelný reporting</li>
+                        <li>Strategické konzultace</li>
+                        <li>Neomezená podpora</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Konzultace</h3>
+                    <div class="price">1 500 Kč <span>/ hod</span></div>
+                    <p class="pricing-description">Pro jednorázovou nebo pravidelnou podporu.</p>
+                    <ul class="pricing-features">
+                        <li>Strategické poradenstí pro e-mailing</li>
+                        <li>Řešení konkrétních problémů</li>
+                        <li>Audit kampaní nebo automatizací</li>
+                        <li>Školení týmu nebo jednotlivců</li>
+                        <li>Nastavení nástrojů a platforem</li>
+                        <li>Zodpovězení dotazů k CRM</li>
                     </ul>
                 </div>
             </div>
@@ -574,8 +632,8 @@
     <!-- CTA Section -->
     <section class="cta">
         <div class="container">
-            <h2>Pojďme zvýšit vaše tržby</h2>
-            <p>Napište mi a domluvíme si nezávaznou konzultaci</p>
+            <h2>Chcete zvýšit tržby?</h2>
+            <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
             <a href="mailto:tomas@zalesak.cz" class="btn">tomas@zalesak.cz</a>
         </div>
     </section>
