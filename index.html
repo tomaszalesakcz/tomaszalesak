@@ -119,6 +119,7 @@
         /* Hero Section */
         .hero {
             padding: 80px 0 40px;
+            background: #f5f6fa;
         }
 
         .hero-title {
@@ -128,7 +129,7 @@
 
         .hero-title h1 {
             font-size: 3rem;
-            color: #35437b;
+            color: #000000;
             font-weight: 700;
             line-height: 1.2;
         }
@@ -160,13 +161,13 @@
         /* Benefits Section */
         .benefits {
             padding: 100px 0;
-            background: #f8f9fa;
+            background: #ffffff;
         }
 
         .section-title {
             text-align: center;
             font-size: 2.5rem;
-            color: #35437b;
+            color: #000000;
             margin-bottom: 60px;
             font-weight: 700;
         }
@@ -191,15 +192,9 @@
         }
 
         .benefit-icon {
-            width: 60px;
-            height: 60px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
+            font-size: 3rem;
             margin-bottom: 20px;
+            display: block;
         }
 
         .benefit-card h3 {
@@ -216,6 +211,7 @@
         /* FAQ Section */
         .faq {
             padding: 100px 0;
+            background: #f5f6fa;
         }
 
         .faq-container {
@@ -225,19 +221,12 @@
 
         .faq-item {
             background: white;
-            border: 2px solid #f0f0f0;
-            border-radius: 12px;
             margin-bottom: 20px;
             overflow: hidden;
-            transition: border-color 0.3s ease;
-        }
-
-        .faq-item:hover {
-            border-color: #35437b;
         }
 
         .faq-question {
-            padding: 25px 30px;
+            padding: 25px 0;
             cursor: pointer;
             font-size: 1.15rem;
             font-weight: 600;
@@ -245,6 +234,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 2px solid #f0f0f0;
+            transition: color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: #2a3561;
         }
 
         .faq-question:after {
@@ -255,7 +250,7 @@
         }
 
         .faq-answer {
-            padding: 0 30px;
+            padding: 0;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease, padding 0.3s ease;
@@ -263,7 +258,7 @@
         }
 
         .faq-item.active .faq-answer {
-            padding: 0 30px 25px 30px;
+            padding: 25px 0;
             max-height: 500px;
         }
 
@@ -274,7 +269,7 @@
         /* Pricing Section */
         .pricing {
             padding: 100px 0;
-            background: #f8f9fa;
+            background: #ffffff;
         }
 
         .pricing-grid {
@@ -324,21 +319,32 @@
 
         .pricing-card h3 {
             font-size: 1.8rem;
-            color: #35437b;
+            color: #000000;
             margin-bottom: 15px;
+            font-weight: 700;
         }
 
         .pricing-card .price {
-            font-size: 2.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: #35437b;
             margin: 20px 0;
         }
 
         .pricing-card .price span {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 400;
             color: #666;
+        }
+
+        .pricing-description {
+            font-size: 0.95rem;
+            color: #35437b;
+            margin: 15px 0 25px 0;
+            padding: 12px 15px;
+            background: #f5f6fa;
+            border-radius: 8px;
+            font-weight: 500;
         }
 
         .pricing-features {
@@ -365,12 +371,14 @@
         .cta {
             padding: 100px 0;
             text-align: center;
+            background: #f5f6fa;
         }
 
         .cta h2 {
             font-size: 2.5rem;
-            color: #35437b;
+            color: #000000;
             margin-bottom: 25px;
+            font-weight: 700;
         }
 
         .cta p {
@@ -550,6 +558,7 @@
                     <div class="faq-answer">
                         Pokud má e-shop dostatečnou zákaznickou základnu, propojuji e-mailing s dalšími komunikačními kanály. Cílem je předat zákazníkům relevantní sdělení ve správný čas.
                     </div>
+                </div>
                 <div class="faq-item">
                     <div class="faq-question">Co když e-mailing ještě vůbec nevyužívám?</div>
                     <div class="faq-answer">
