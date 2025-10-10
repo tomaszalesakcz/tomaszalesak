@@ -219,46 +219,59 @@
         }
 
         .faq-item {
-            background: white;
+            /* Původně background: white; margin-bottom: 20px; overflow: hidden; */
             margin-bottom: 20px;
             overflow: hidden;
+            border-radius: 25px; /* Pro zaoblení celého FAQ boxu */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Jemný stín, aby otázka vystoupila */
         }
-
+        
+        /* Úprava pro otázku: Tmavě modrá výplň, bílé písmo, oválný tvar */
         .faq-question {
-            padding: 25px 0;
+            padding: 20px 30px; /* Větší padding pro oválný efekt */
             cursor: pointer;
             font-size: 1.15rem;
             font-weight: 600;
-            color: #35437b;
+            color: white; /* Bílé písmo */
+            background: #35437b; /* Tmavě modrá výplň */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #f0f0f0;
-            transition: color 0.3s ease;
+            border-bottom: none; /* Odstranění spodní čáry */
+            transition: background 0.3s ease;
         }
 
         .faq-question:hover {
-            color: #2a3561;
+            background: #2a3561; /* Mírně tmavší modrá při najetí */
+            color: white;
         }
 
+        /* Úprava pro křížek: Bílá barva a otočení (je to font) */
         .faq-question:after {
             content: '+';
             font-size: 1.5rem;
-            color: #35437b;
+            color: white; /* Bílý křížek */
             transition: transform 0.3s ease;
         }
 
+        /* Obal pro odpověď, aby byla bílá */
         .faq-answer {
             padding: 0;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease, padding 0.3s ease;
-            color: #666;
         }
 
+        .faq-answer-content {
+            background: white; /* Bílý vnitřek pro odpověď */
+            padding: 25px 30px; /* Padding ve vnitřním divu */
+            color: #666;
+            border-top: 1px solid #f0f0f0; /* Oddělovací linka pro odpověď */
+        }
+        
         .faq-item.active .faq-answer {
-            padding: 25px 0;
             max-height: 500px;
+            padding: 0; /* padding se teď řídí přes .faq-answer-content */
         }
 
         .faq-item.active .faq-question:after {
@@ -333,6 +346,18 @@
             font-size: 0.9rem;
             font-weight: 400;
             color: #666;
+        }
+
+        /* Nový styl pro pricing description - modrá výplň a bílý text */
+        .pricing-description-highlight {
+            background: #35437b; /* Tmavě modrá výplň */
+            color: white; /* Bílý text */
+            padding: 12px 20px;
+            border-radius: 50px; /* Oválný tvar */
+            font-size: 1.0rem;
+            text-align: center;
+            margin: 20px 0;
+            line-height: 1.4;
         }
 
         .pricing-features {
@@ -455,7 +480,6 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="header-content">
             <a href="#" class="logo">
@@ -481,7 +505,6 @@
     </header>
 
     <div class="container">
-        <!-- Hero Section -->
         <section class="hero">
             <div class="hero-title">
                 <h1>Více opakovaných nákupů, vyšší tržby</h1>
@@ -505,7 +528,6 @@
         </section>
     </div>
 
-    <!-- Benefits Section -->
     <section class="benefits">
         <div class="container">
             <h2 class="section-title">Co vám spolupráce přinese?</h2>
@@ -535,7 +557,6 @@
         </div>
     </section>
 
-    <!-- FAQ Section -->
     <section class="faq">
         <div class="container">
             <h2 class="section-title">Často kladené otázky</h2>
@@ -543,26 +564,31 @@
                  <div class="faq-item">
                     <div class="faq-question">Zaměřujete se jen na e-mailing?</div>
                     <div class="faq-answer">
-                        Pokud má e-shop dostatečnou zákaznickou základnu, propojuji e-mailing s dalšími komunikačními kanály. Cílem je předat zákazníkům relevantní sdělení ve správný čas.
+                        <div class="faq-answer-content">
+                            Pokud má e-shop dostatečnou zákaznickou základnu, propojuji e-mailing s dalšími komunikačními kanály. Cílem je předat zákazníkům relevantní sdělení ve správný čas.
+                        </div>
                     </div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">Co když e-mailing ještě vůbec nevyužívám?</div>
                     <div class="faq-answer">
-                        Začneme od základu – od výběru nástroje, přes strategii až po první automatizace a kampaně. E-mailing poroste společně s vaším e-shopem.
+                        <div class="faq-answer-content">
+                            Začneme od základu – od výběru nástroje, přes strategii až po první automatizace a kampaně. E-mailing poroste společně s vaším e-shopem.
+                        </div>
                     </div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">Kdy uvidím první výsledky?</div>
                     <div class="faq-answer">
-                        První viditelné výsledky obvykle přicházejí už během prvních týdnů po spuštění. U dlouhodobé spolupráce se efekt násobí s časem a daty.
+                        <div class="faq-answer-content">
+                            První viditelné výsledky obvykle přicházejí už během prvních týdnů po spuštění. U dlouhodobé spolupráce se efekt násobí s časem a daty.
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing Section -->
     <section class="pricing">
         <div class="container">
             <h2 class="section-title">Orientační ceník</h2>
@@ -570,7 +596,7 @@
                 <div class="pricing-card">
                     <h3>Kompletní rozjezd e-mailingu</h3>
                     <div class="price">Od 25 000 Kč</div>
-                    <p class="pricing-description">Pro byznysy, které s e-mail marketingem teprve začínají.</p>
+                    <p class="pricing-description-highlight">Pro byznysy, které s e-mail marketingem teprve začínají.</p>
                     <ul class="pricing-features">
                         <li>Výběr nástroje</li>
                         <li>Integrace a kompletní technické nastavení nástroje</li>
@@ -585,7 +611,7 @@
                 <div class="pricing-card">
                     <h3>Audit & optimalizace e-mailingu</h3>
                     <div class="price">Od 25 000 Kč</div>
-                    <p class="pricing-description">Pro byznysy, které už e-maily posílají, ale chtějí zlepšit výsledky.</p>
+                    <p class="pricing-description-highlight">Pro byznysy, které už e-maily posílají, ale chtějí zlepšit výsledky.</p>
                     <ul class="pricing-features">
                         <li>Komplexní audit současného stavu</li>
                         <li>Kontrola nastavení</li>
@@ -600,7 +626,7 @@
                 <div class="pricing-card">
                     <h3>Pravidelná správa</h3>
                     <div class="price">Od 15 000 Kč <span>/ měsíc</span></div>
-                    <p class="pricing-description">Pro byznysy, které chtějí dlouhodobě růst.</p>
+                    <p class="pricing-description-highlight">Pro byznysy, které chtějí dlouhodobě růst.</p>
                     <ul class="pricing-features">
                         <li>Dlouhodobá spolupráce</li>
                         <li>E-mailové a CRM kampaně</li>
@@ -613,7 +639,7 @@
                 <div class="pricing-card">
                     <h3>Konzultace</h3>
                     <div class="price">1 500 Kč <span>/ hod</span></div>
-                    <p class="pricing-description">Pro jednorázovou nebo pravidelnou podporu.</p>
+                    <p class="pricing-description-highlight">Pro jednorázovou nebo pravidelnou podporu.</p>
                     <ul class="pricing-features">
                         <li>Strategické poradenství pro e-mailing a retenci</li>
                         <li>Řešení konkrétních problémů</li>
@@ -626,7 +652,6 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
     <section class="cta" id="cta">
         <div class="container">
             <h2>Chcete zvýšit tržby?</h2>
@@ -635,7 +660,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <p>&copy; 2025 Tomáš Zálešák. Všechna práva vyhrazena.</p>
