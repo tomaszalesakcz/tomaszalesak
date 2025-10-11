@@ -314,10 +314,11 @@
         .pricing-card {
             background: white;
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 60px 30px 40px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
+            margin-top: 20px;
         }
 
         .pricing-card:hover {
@@ -326,7 +327,6 @@
         }
 
         .pricing-card.featured {
-            border: 2px solid #e0e0e0;
             transform: scale(1);
         }
 
@@ -336,14 +336,17 @@
 
         .pricing-badge {
             position: absolute;
-            top: -15px;
-            right: 30px;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
             background: #35437b;
             color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
             font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(53, 67, 123, 0.25);
         }
 
         .pricing-card h3 {
@@ -615,6 +618,7 @@
             <h2 class="section-title">Orientační ceník</h2>
             <div class="pricing-grid">
                 <div class="pricing-card">
+                    <div class="pricing-badge">„Chceme nastartovat e-mailing"</div>
                     <h3>Kompletní rozjezd e-mailingu</h3>
                     <div class="price">Od 25 000 Kč</div>
                     <p class="pricing-description">Pro byznysy, které s e-mail marketingem teprve začínají.</p>
@@ -630,6 +634,7 @@
                 </div>
 
                 <div class="pricing-card">
+                    <div class="pricing-badge">„Chceme z e-mailingu vytěžit víc"</div>
                     <h3>Audit & optimalizace e-mailingu</h3>
                     <div class="price">Od 25 000 Kč</div>
                     <p class="pricing-description">Pro byznysy, které už e-maily posílají, ale chtějí zlepšit výsledky.</p>
@@ -645,6 +650,7 @@
                 </div>
 
                 <div class="pricing-card">
+                    <div class="pricing-badge">„Chceme z e-mailingu vytěžit víc"</div>
                     <h3>Pravidelná správa</h3>
                     <div class="price">Od 15 000 Kč <span>/ měsíc</span></div>
                     <p class="pricing-description">Pro byznysy, které chtějí dlouhodobě růst.</p>
@@ -658,6 +664,7 @@
                 </div>
 
                 <div class="pricing-card">
+                    <div class="pricing-badge">„Potřebujeme poradit nebo nasměrovat"</div>
                     <h3>Konzultace</h3>
                     <div class="price">1 500 Kč <span>/ hod</span></div>
                     <p class="pricing-description">Pro jednorázovou nebo pravidelnou podporu.</p>
