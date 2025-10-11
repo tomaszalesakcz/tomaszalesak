@@ -440,6 +440,130 @@
         </section>
     </div>
 
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Co vám spolupráce přinese?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    <h3>Více opakovaných nákupů</h3>
+                    <p>
+                        Zákazníci, kteří už u vás jednou nakoupili, se budou vracet.
+                    </p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚙️</div>
+                    <h3>Automatizace pracují 24/7</h3>
+                    <p>
+                        Nastavené scénáře vydělávají i ve chvíli, kdy zrovna spíte.
+                    </p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3>Efektivnější marketing</h3>
+                    <p>
+                        Každý zákazník, kterého si udržíte, zvyšuje návratnost vašeho marketingu.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Často kladené otázky</h2>
+            <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">Zaměřujete se jen na e-mailing?</div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Pokud má e-shop dostatečnou zákaznickou základnu, propojuji e-mailing s dalšími komunikačními kanály (např. SMS, věrnostní program, notifikace, chatbot, direct mail), aby zákazníci déle zůstávali a opakovaně nakupovali.
+                            </div>
+                        </div>
+                    </div>
+                <div class="faq-item">
+                    <div class="faq-question">Co když e-mailing ještě vůbec nevyužívám?</div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Začneme od základu – od výběru nástroje, přes strategii až po první automatizace a kampaně. E-mailing poroste společně s vaším e-shopem.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Kdy uvidím první výsledky?</div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            První viditelné výsledky obvykle přicházejí už během prvních týdnů po spuštění. U dlouhodobé spolupráce se efekt násobí s časem a daty.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing">
+        <div class="container">
+            <h2 class="section-title">Orientační ceník</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-badge">„Chceme nastartovat e-mailing"</div>
+                    <h3>Kompletní rozjezd e-mailingu</h3>
+                    <div class="price">Od 25 000 Kč</div>
+                    <ul class="pricing-features">
+                        <li>Výběr nástroje</li>
+                        <li>Integrace a kompletní technické nastavení nástroje</li>
+                        <li>Vytvoření strategie a plánu</li>
+                        <li>Design e-mailové šablony</li>
+                        <li>Vytvoření automatizací</li>
+                        <li>Segmentace databáze</li>
+                        <li>Nastavení sběru kontaktů</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-badge">„Chceme z e-mailingu vytěžit víc"</div>
+                    <h3>Audit & optimalizace e-mailingu</h3>
+                    <div class="price">Od 25 000 Kč</div>
+                    <ul class="pricing-features">
+                        <li>Komplexní audit současného stavu</li>
+                        <li>Kontrola nastavení</li>
+                        <li>Strategie e-mailingu</li>
+                        <li>Optimalizace automatizací</li>
+                        <li>Analýza výkonnosti kampaní</li>
+                        <li>Práce s databází</li>
+                        <li>Akční plán</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-badge">„Chceme z e-mailingu vytěžit víc"</div>
+                    <h3>Pravidelná správa</h3>
+                    <div class="price">Od 15 000 Kč <span>/ měsíc</span></div>
+                    <ul class="pricing-features">
+                        <li>Dlouhodobá spolupráce</li>
+                        <li>E-mailové a CRM kampaně</li>
+                        <li>Optimalizace a tvorba automatizací</li>
+                        <li>Pravidelný reporting</li>
+                        <li>Strategické konzultace</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-badge">„Potřebujeme poradit nebo nasměrovat"</div>
+                    <h3>Konzultace</h3>
+                    <div class="price">1 500 Kč <span>/ hod</span></div>
+                    <ul class="pricing-features">
+                        <li>Strategické poradenství pro e-mailing a retenci</li>
+                        <li>Řešení konkrétních problémů</li>
+                        <li>Rychlý audit kampaní nebo automatizací</li>
+                        <li>Pomoc s technickým nastavením</li>
+                        <li>Školení týmu nebo jednotlivců</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="cta" id="cta">
         <div class="container">
             <h2>Chcete zvýšit tržby?</h2>
@@ -466,6 +590,815 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
+                }
+            });
+        });
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                faqItems.forEach(i => i.classList.remove('active'));
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+Super, jen malá úprava: mohl by být highlight malinko zkosený, jak to bylo původně (tedy ne čistý obdélník)?
+
+
+Dobře, chápu. Chtěli byste, aby highlight pokrýval celou frázi, ale zároveň si zachoval ten mírně zkosený efekt z původního linear-gradient namísto čistého obdélníku.
+
+Toho docílíme tak, že změníme pouze koncové hodnoty transparent a rgba v gradientu, aby podtržení začínalo na 0% a končilo na 100%, ale zachovalo si úhel 120deg.
+
+Zde je upravený CSS kód:
+
+CSS
+
+.hero-title h1 .highlight {
+    background-image: linear-gradient(120deg, transparent 0%, rgba(53, 67, 123, 0.3) 0%, rgba(53, 67, 123, 0.3) 100%, transparent 100%);
+    background-size: 100% 0.4em;
+    background-repeat: no-repeat;
+    background-position: 0 85%;
+    padding: 0 0.1em;
+}
+Vysvětlení úpravy:
+
+linear-gradient(120deg, ...): Zachovává úhel 120 stupňů, který způsobuje zkosení.
+
+transparent 0%: Zajistí, že před začátkem podtržení není žádná barva.
+
+rgba(53, 67, 123, 0.3) 0%: Okamžitě začne s barvou podtržení na 0 % šířky elementu.
+
+rgba(53, 67, 123, 0.3) 100%: Barva podtržení pokračuje až do 100 % šířky elementu.
+
+transparent 100%: Zajistí, že po konci podtržení není žádná barva.
+
+Tímto způsobem se celý text "vyšší tržby" podtrhne s mírným zkosením.
+
+Kompletní Kód s Upraveným Zkoseným Highlightem
+Zde je celý HTML kód s touto změnou v sekci <style>:
+
+HTML
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomáš Zálešák: CRM & E-mail marketing specialista</title>
+    <meta name="description" content="Jsem CRM & e-mail marketing specialista. Pomáhám byznysům zvyšovat hodnotu zákazníků, aby déle zůstávali, víc nakupovali a přinášeli zisk..">
+    <link rel="icon" type="image/png" href="images/TZ Logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #f0f0f0;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            background: #35437b;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #35437b;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #35437b;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-links a:hover {
+            opacity: 0.7;
+        }
+
+        .social-links svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .header-btn {
+            padding: 12px 30px;
+            background: #35437b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .header-btn:hover {
+            background: #2a3561;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 40px;
+            background: #ffffff;
+        }
+
+        .hero-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero-title h1 {
+            font-size: 3rem;
+            color: #000000;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        /* Zde je upravený highlight pro zkosený efekt */
+        .hero-title h1 .highlight {
+            background-image: linear-gradient(120deg, transparent 0%, rgba(53, 67, 123, 0.3) 0%, rgba(53, 67, 123, 0.3) 100%, transparent 100%);
+            background-size: 100% 0.4em;
+            background-repeat: no-repeat;
+            background-position: 0 85%;
+            padding: 0 0.1em;
+        }
+        
+        .hero-title {
+            text-align: center;
+            margin-bottom: 60px;
+            line-height: 1.4;
+        }
+
+        .hero-columns {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .hero-image {
+            text-align: center;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(53, 67, 123, 0.15);
+        }
+        
+        /* Nové styly pro jméno a titul */
+        .name-and-title {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .name-and-title h3 {
+            font-size: 1.5rem;
+            color: #000000;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        
+        .name-and-title p {
+            font-size: 1.15rem;
+            color: #35437b;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #000000;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(53, 67, 123, 0.15);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            color: #35437b;
+            margin-bottom: 15px;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 100px 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            overflow: hidden;
+            border-radius: 25px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+        }
+        
+        .faq-question {
+            padding: 20px 30px; 
+            cursor: pointer;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: white;
+            background: #35437b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: none; 
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #2a3561; 
+            color: white;
+        }
+
+        .faq-question:after {
+            content: '+';
+            font-size: 1.5rem;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .faq-answer-content {
+            background: white; 
+            padding: 25px 30px; 
+            color: #666;
+            border-top: 1px solid #f0f0f0; 
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-item.active .faq-question:after {
+            transform: rotate(45deg);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 30px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(53, 67, 123, 0.2);
+        }
+
+        .pricing-card.featured {
+            transform: scale(1);
+        }
+
+        .pricing-card.featured:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #35437b;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(53, 67, 123, 0.25);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            color: #000000;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .pricing-description {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .pricing-card .price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #35437b;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .pricing-card .price span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #666;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            color: #555;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .pricing-features li:before {
+            content: '✓';
+            color: #35437b;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            color: #000000;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 45px;
+            background: #35437b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #2a3561;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(53, 67, 123, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: #f8f9fa;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        footer p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .logo-text {
+                font-size: 1.1rem;
+            }
+
+            .logo-img {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .social-links {
+                display: none;
+            }
+
+            .header-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .hero-title h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-columns {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            /* Zmenšení nadpisů sekcí */
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            /* Zmenšení názvů služeb v ceníku */
+            .pricing-card h3 {
+                font-size: 1.4rem;
+            }
+
+            .benefits-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="logo">
+                <img src="images/TZ Logo.png" alt="TZ" style="width: 50px; height: 50px; border-radius: 8px;">
+                <span class="logo-text">Tomáš Zálešák</span>
+            </a>
+            <div class="header-nav">
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/tomas-zalesak" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" aria-label="YouTube">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                </div>
+                <a href="#cta" class="header-btn">Kontakt</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <div class="hero-title">
+                <h1>Více opakovaných nákupů, <span class="highlight">vyšší tržby</span></h1>
+            </div>
+            <div class="hero-columns">
+                <div class="hero-image">
+                    <img src="images/Tomas-Zalesak.png" alt="Tomáš Zálešák">
+                </div>
+                <div class="hero-content">
+                    <p>
+                        Jsem <strong>CRM & E-mail marketing specialista</strong> s více než 6 lety zkušeností na volné noze.
+                    </p>
+                    <p>
+                        Pomáhám klientům naplno využít jejich zákaznickou databázi – od chytrého e-mailingu až po komplexní omnichannel komunikaci. Prostřednictvím kampaní a automatizací založených na zákaznických datech <strong>zvyšuju počet opakovaných nákupů a tím i dlouhodobý růst tržeb</strong>.
+                    </p>
+                    <div class="name-and-title">
+                        <h3>Tomáš Zálešák</h3>
+                        <p>CRM & E-mail marketing specialista</p>
+                    </div>
+                    </div>
+            </div>
+        </section>
+    </div>
+
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Co vám spolupráce přinese?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    <h3>Více opakovaných nákupů</h3>
+                    <p>
+                        Zákazníci, kteří už u vás jednou nakoupili, se budou vracet.
+                    </p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚙️</div>
+                    <h3>Automatizace pracují 24/7</h3>
+                    <p>
+                        Nastavené scénáře vydělávají i ve chvíli, kdy zrovna spíte.
+                    </p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3>Efektivnější marketing</h3>
+                    <p>
+                        Každý zákazník, kterého si udržíte, zvyšuje návratnost vašeho marketingu.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Často kladené otázky</h2>
+            <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">Zaměřujete se jen na e-mailing?</div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Pokud má e-shop dostatečnou zákaznickou základnu, propojuji e-mailing s dalšími komunikačními kanály (např. SMS, věrnostní program, notifikace, chatbot, direct mail), aby zákazníci déle zůstávali a opakovaně nakupovali.
+                            </div>
+                        </div>
+                    </div>
+                <div class="faq-item">
+                    <div class="faq-question">Co když e-mailing ještě vůbec nevyužívám?</div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Začneme od základu – od výběru nástroje, přes strategii až po první automatizace a kampaně. E-mailing poroste společně s vaším e-shopem.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Kdy uvidím první výsledky?</div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            První viditelné výsledky obvykle přicházejí už během prvních týdnů po spuštění. U dlouhodobé spolupráce se efekt násobí s časem a daty.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing">
+        <div class="container">
+            <h2 class="section-title">Orientační ceník</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-badge">„Chceme nastartovat e-mailing"</div>
+                    <h3>Kompletní rozjezd e-mailingu</h3>
+                    <div class="price">Od 25 000 Kč</div>
+                    <ul class="pricing-features">
+                        <li>Výběr nástroje</li>
+                        <li>Integrace a kompletní technické nastavení nástroje</li>
+                        <li>Vytvoření strategie a plánu</li>
+                        <li>Design e-mailové šablony</li>
+                        <li>Vytvoření automatizací</li>
+                        <li>Segmentace databáze</li>
+                        <li>Nastavení sběru kontaktů</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-badge">„Chceme z e-mailingu vytěžit víc"</div>
+                    <h3>Audit & optimalizace e-mailingu</h3>
+                    <div class="price">Od 25 000 Kč</div>
+                    <ul class="pricing-features">
+                        <li>Komplexní audit současného stavu</li>
+                        <li>Kontrola nastavení</li>
+                        <li>Strategie e-mailingu</li>
+                        <li>Optimalizace automatizací</li>
+                        <li>Analýza výkonnosti kampaní</li>
+                        <li>Práce s databází</li>
+                        <li>Akční plán</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-badge">„Chceme z e-mailingu vytěžit víc"</div>
+                    <h3>Pravidelná správa</h3>
+                    <div class="price">Od 15 000 Kč <span>/ měsíc</span></div>
+                    <ul class="pricing-features">
+                        <li>Dlouhodobá spolupráce</li>
+                        <li>E-mailové a CRM kampaně</li>
+                        <li>Optimalizace a tvorba automatizací</li>
+                        <li>Pravidelný reporting</li>
+                        <li>Strategické konzultace</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-badge">„Potřebujeme poradit nebo nasměrovat"</div>
+                    <h3>Konzultace</h3>
+                    <div class="price">1 500 Kč <span>/ hod</span></div>
+                    <ul class="pricing-features">
+                        <li>Strategické poradenství pro e-mailing a retenci</li>
+                        <li>Řešení konkrétních problémů</li>
+                        <li>Rychlý audit kampaní nebo automatizací</li>
+                        <li>Pomoc s technickým nastavením</li>
+                        <li>Školení týmu nebo jednotlivců</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="cta">
+        <div class="container">
+            <h2>Chcete zvýšit tržby?</h2>
+            <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
+            <a href="mailto:jsem@tomaszalesak.cz" class="btn">jsem@tomaszalesak.cz</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Tomáš Zálešák. Všechna práva vyhrazena.</p>
+            <p>IČO: 08372284 (neplátce DPH)</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // FAQ Accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                faqItems.forEach(i => i.classList.remove('active'));
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
                 }
             });
         });
