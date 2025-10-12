@@ -164,6 +164,25 @@
             border-radius: 3px;
             filter: blur(0.5px);
         }
+           .hero-title h2 .highlight {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+
+        .hero-title h2 .highlight::before {
+            content: "";
+            position: absolute;
+            left: -2px;
+            bottom: 0.15em;
+            width: calc(100% + 4px);
+            height: 0.3em;
+            background: rgba(53, 67, 123, 0.3);
+            transform: skew(-8deg);
+            z-index: -1;
+            border-radius: 3px;
+            filter: blur(0.5px);
+        }
 
         .hero-columns {
             display: grid;
