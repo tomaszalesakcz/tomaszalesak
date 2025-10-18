@@ -260,6 +260,43 @@
             line-height: 1.8;
         }
 
+        .article-cta {
+            margin-top: 60px;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .article-cta h3 {
+            font-size: 1.5rem;
+            color: #35437b;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .article-cta p {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+
+        .article-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #35437b;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: gap 0.3s ease;
+        }
+
+        .article-link:hover {
+            gap: 12px;
+        }
+
         /* FAQ Section */
         .faq {
             padding: 100px 0;
@@ -568,6 +605,14 @@
                 text-align: center;
                 max-width: 90%;
             }
+
+            .article-cta {
+                padding: 30px 20px;
+            }
+
+            .article-cta h3 {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
@@ -646,6 +691,14 @@
                         Každý zákazník, kterého si udržíte, zvyšuje návratnost vašeho marketingu.
                     </p>
                 </div>
+            </div>
+            
+            <div class="article-cta">
+                <h3>Chcete se dozvědět víc?</h3>
+                <p>Přečtěte si článek o retenčním marketingu.</p>
+                <a href="clanky/retencni-marketing.html" class="btn">
+                    Přečíst článek
+                </a>
             </div>
         </div>
     </section>
@@ -769,30 +822,4 @@
                 if (target) {
                     target.scrollIntoView({
                         behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // FAQ Accordion
-        const faqItems = document.querySelectorAll('.faq-item');
-        
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            
-            question.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                
-                // Close all items
-                faqItems.forEach(i => i.classList.remove('active'));
-                
-                // Open clicked item if it wasn't active
-                if (!isActive) {
-                    item.classList.add('active');
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                        block: 'start
