@@ -39,8 +39,6 @@
         header {
             padding: 20px 0;
             border-bottom: 1px solid #f0f0f0;
-            position: sticky;
-            top: 0;
             background: white;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -155,7 +153,6 @@
 
         .article-header {
             margin-bottom: 50px;
-            text-align: center;
         }
 
         .article-title {
@@ -163,12 +160,14 @@
             color: #000000;
             font-weight: 700;
             line-height: 1.2;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
-        .article-meta {
-            color: #666;
-            font-size: 1rem;
+        .article-image {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
         .article-content {
@@ -208,6 +207,15 @@
         .article-content ul li {
             margin-bottom: 12px;
             padding-left: 10px;
+        }
+
+        .article-content a {
+            color: #35437b;
+            text-decoration: underline;
+        }
+
+        .article-content a:hover {
+            opacity: 0.7;
         }
 
         .highlight-box {
@@ -311,7 +319,7 @@
 <body>
     <header>
         <div class="header-content">
-            <a href="../index.html" class="logo">
+            <a href="https://tomaszalesak.cz" class="logo">
                 <img src="../images/TZ Logo.png" alt="TZ" style="width: 50px; height: 50px; border-radius: 8px;">
                 <span class="logo-text">Tomáš Zálešák</span>
             </a>
@@ -339,7 +347,7 @@
             
             <header class="article-header">
                 <h1 class="article-title">Retenční marketing: Jak si udržet zákazníky</h1>
-                <div class="article-meta">Tomáš Zálešák • Průvodce retenčním marketingem</div>
+                <img src="../images/retencni-marketing.png" alt="Retenční marketing" class="article-image">
             </header>
 
             <div class="article-content">
@@ -347,9 +355,9 @@
                 
                 <p><strong>Velká chyba!</strong></p>
 
-                <p>Náklady na placenou reklamu se zvyšují a přináší stále méně ovoce. Ne snad, že by se kterékoli podnikání obešlo bez získávání nových zákazníků, ale pokud firmy nabízí produkty nebo služby, které zákazníci mohou nakupovat opakovaně, pak by měli retenci věnovat minimálně stejnou pozornost než akvizici.</p>
+                <p>Náklady na placenou reklamu se zvyšují a přináší stále méně ovoce. Ne snad, že by se kterékoli podnikání obešlo bez získávání nových zákazníků, ale pokud firmy nabízí produkty nebo služby, které zákazníci mohou <strong>nakupovat opakovaně</strong>, pak by měli retenci věnovat minimálně stejnou pozornost jako akvizici.</p>
 
-                <p>Platí to zvlášť pro e-commerce. Společnost Smile.io dělala průzkum, v rámci kterého analyzovala 250 000 e-commerce byznysů. Výsledky vás pravděpodobně překvapí: <strong>v průměru 8 % zákazníků tvoří více než 41 % celkových ročních příjmů!</strong></p>
+                <p>Platí to zvlášť pro <strong>e-commerce</strong>. Společnost Smile.io <a href="https://blog.smile.io/repeat-customers-profitable" target="_blank" rel="noopener">dělala průzkum</a>, v rámci kterého analyzovala 250 000 e-commerce byznysů. Výsledky vás pravděpodobně překvapí: <strong>v průměru 8 % zákazníků tvoří více než 41 % celkových ročních příjmů!</strong></p>
 
                 <p>Ve světle těchto statistik se zdá až absurdní, jak málo pozornosti se věnuje retenci.</p>
 
@@ -358,16 +366,16 @@
                 <p>Ze všeho výše uvedeného je asi zřejmé, co je podstatou retenčního marketingu:</p>
 
                 <div class="highlight-box">
-                    <p><strong>Retenční marketing je strategický přístup, který se zaměřuje na péči o stávající zákazníky. Cílem je udržet co nejvíc zákazníků co nejdelší dobu, a maximalizovat tak jejich hodnotu.</strong></p>
+                    <p><strong>Retenční marketing je strategický přístup, který se zaměřuje na péči o stávající zákazníky.</strong> Cílem je udržet co nejvíc zákazníků co nejdelší dobu, a maximalizovat tak jejich hodnotu.</p>
                 </div>
 
-                <p>Abyste udrželi více zákazníků, potřebujete porozumět jejich potřebám, preferencím a chování. Na základě těchto dat pak vytvoříte konkrétní retenční strategii, jejímž cílem je posílit věrnost.</p>
+                <p>Abyste udrželi více zákazníků, potřebujete <strong>porozumět jejich potřebám, preferencím a chování</strong>. Na základě těchto dat pak vytvoříte konkrétní retenční strategii, jejímž cílem je posílit věrnost.</p>
 
                 <p>Jak ale takový věrný zákazník vypadá?</p>
 
                 <h2>Kdo je věrný zákazník?</h2>
 
-                <p>V první řadě se smiřte s tím, že neexistuje 100% loajální zákazník, který by ve vašem odvětví (např. elektronika, gastronomie, cestovní ruch) pokaždé nakoupil právě u vás.</p>
+                <p>V první řadě se smiřte s tím, že <strong>neexistuje 100% loajální zákazník</strong>, který by ve vašem odvětví (např. elektronika, gastronomie, cestovní ruch) pokaždé nakoupil právě u vás.</p>
 
                 <p>Zákazníci jsou rozmlsaní a přelétaví. Rozhodují se podle toho, co je pro ně aktuálně nejlepší. Nicméně i tak můžeme obecně definovat věrného zákazníka.</p>
 
@@ -379,19 +387,19 @@
                     <li>se nerozhoduje jen podle ceny</li>
                 </ul>
 
-                <p>Nic extra složitého. Zákazník vás nemusí bezmezně milovat ani na vás pět ódy. Minimálně však musí být s vašimi produkty nebo službami spokojený, aby se k vám vrátil. A pokud získáte jeho důvěru, nebude mít problém doporučit vás svým známým (což je pro každý byznys ta nejlepší reklama).</p>
+                <p>Nic extra složitého. <strong>Zákazník vás nemusí bezmezně milovat</strong> ani na vás pět ódy. Minimálně však musí být s vašimi produkty nebo službami <strong>spokojený</strong>, aby se k vám vrátil. A pokud získáte jeho důvěru, nebude mít problém <strong>doporučit vás</strong> svým známým (což je pro každý byznys ta nejlepší reklama).</p>
 
-                <p>Investice do retenčního marketingu se vám tedy určitě vyplatí. Ano, většina zákazníků nakoupí a pak už je nikdy neuvidíte. Podle průzkumu Smile.io se jich po prvním nákupu v průměru vrátí jen 27 %.</p>
+                <p>Investice do retenčního marketingu se vám tedy určitě vyplatí. Ano, <strong>většina zákazníků nakoupí a pak už je nikdy neuvidíte</strong>. Podle průzkumu Smile.io se jich po prvním nákupu v průměru vrátí jen 27 %.</p>
 
-                <p>Dobrá zpráva je, že pokud se vám podaří povzbudit zákazníka k druhému nákupu, dramaticky se zvyšuje pravděpodobnost, že u vás nakoupí i potřetí, počtvrté... možná i podesáté. Jinými slovy, stává se z něho „věrný zákazník".</p>
+                <p>Dobrá zpráva je, že pokud se vám podaří <strong>povzbudit zákazníka k druhému nákupu</strong>, dramaticky se zvyšuje pravděpodobnost, že u vás nakoupí i potřetí, počtvrté... možná i podesáté. Jinými slovy, stává se z něho „věrný zákazník".</p>
 
                 <h2>Rozhoduje první zkušenost</h2>
 
-                <p>Ne nadarmo se říká, že záleží na prvním dojmu. Aby u vás zákazníci znovu nakoupili, musí mít dobrou zkušenost s prvním nákupem.</p>
+                <p>Ne nadarmo se říká, že <strong>záleží na prvním dojmu</strong>. Aby u vás zákazníci znovu nakoupili, musí mít dobrou zkušenost s prvním nákupem.</p>
 
                 <p>Když se potenciální zákazník proklikne na váš web, jak rychle se načte? Dokáže se v něm pohotově zorientovat, nebo působí spíše chaoticky? Pokud u vás dokončí objednávku, informujete ho o průběhu objednávky? Přijde mu zásilka včas? A odpovídá kvalita dodaného zboží tomu, co očekával?</p>
 
-                <p>Všechny tyto jednotlivé zkušenosti určují, jak vás zákazník vnímá. Co se na první pohled zdá jako maličkost, má ve skutečnosti dalekosáhlý dopad. Mnoho e-shopů si to bohužel neuvědomuje, a místo aby jednotlivé nedostatky řešily, zvýší rozpočet na placenou reklamu.</p>
+                <p>Všechny tyto <strong>jednotlivé zkušenosti určují, jak vás zákazník vnímá</strong>. Co se na první pohled zdá jako maličkost, má ve skutečnosti dalekosáhlý dopad. Mnoho e-shopů si to bohužel neuvědomuje, a místo aby jednotlivé nedostatky řešily, zvýší rozpočet na <strong>placenou reklamu</strong>.</p>
 
                 <p>Výše uvedenými příklady vše začíná. Na zkušenost zákazníka působí celá řada dalších faktorů.</p>
 
@@ -399,25 +407,25 @@
 
                 <p>Zákazník, který cítí, že e-shopu není lhostejný, bude mít mnohem větší chuť se do něj vracet. Jak mu tedy dokázat, že pro vás není jen chodící peněženkou?</p>
 
-                <p>Především aktivně komunikujte. Nenechte dotazy a podněty zákazníků ležet ladem, ať jsou jakékoli. Zákazníci určitě ocení, když jejich dotazy neberete jako nutné zlo. Rychlá, přátelská a nápomocná komunikace – ať už po e-mailu, telefonu nebo na sociálních sítích – výrazně zlepšuje celkový dojem.</p>
+                <p>Především <strong>aktivně komunikujte</strong>. Nenechte dotazy a podněty zákazníků ležet ladem, ať jsou jakékoli. Zákazníci určitě ocení, když jejich dotazy neberete jako nutné zlo. Rychlá, přátelská a nápomocná komunikace – ať už po e-mailu, telefonu nebo na sociálních sítích – <strong>výrazně zlepšuje celkový dojem</strong>.</p>
 
-                <p>Potom, co u vás zákazník nakoupí, se zajímejte o jeho nákupní zkušenost. Dejte zákazníkovi prostor se vyjádřit.</p>
+                <p>Potom, co u vás zákazník nakoupí, se zajímejte o jeho nákupní zkušenost. <strong>Dejte zákazníkovi prostor se vyjádřit</strong>.</p>
 
-                <p>Nepříjemnou, ale nevyhnutelnou součástí e-shopů jsou reklamace. Právě v této oblasti se však můžete odlišit od konkurence. Některé společnosti totiž jednají nepříjemně nebo dokonce agresivně.</p>
+                <p>Nepříjemnou, ale nevyhnutelnou součástí e-shopů jsou <strong>reklamace</strong>. Právě v této oblasti se však můžete odlišit od konkurence. Některé společnosti totiž jednají nepříjemně nebo dokonce agresivně.</p>
 
-                <p>Rychlá, klidná a vstřícná reakce na problém může na zákazníka zapůsobit více než samotný produkt. Pokud zákazník vidí, že jeho problém berete vážně a snažíte se ho vyřešit co nejlépe, bude mít důvod se k vám vrátit – třeba i přes původní komplikaci.</p>
+                <p>Rychlá, klidná a <strong>vstřícná reakce na problém</strong> může na zákazníka zapůsobit více než samotný produkt. Pokud zákazník vidí, že jeho problém berete vážně a snažíte se ho vyřešit co nejlépe, bude mít důvod se k vám vrátit – třeba i přes původní komplikaci.</p>
 
-                <p>Zákaznická péče zkrátka hraje v oblasti retence velmi důležitou roli.</p>
+                <p><strong>Zákaznická péče</strong> zkrátka hraje v oblasti retence velmi důležitou roli.</p>
 
                 <h2>Věrný a věrnější</h2>
 
-                <p>Nyní se dostáváme k jádru retenčního marketingu: jak si udržet co nejvíc zákazníků, které už máte v databázi?</p>
+                <p>Nyní se dostáváme k jádru retenčního marketingu: <strong>jak si udržet co nejvíc zákazníků</strong>, které už máte v databázi?</p>
 
-                <p>Začněte zákaznickými daty. Podívejte se, jak vypadá vaše databáze. Pokud je dostatečně velká, rozdělte si své zákazníky do segmentů, např. pomocí RFM analýzy. Díky ní získáte přehled o tom, jak jsou vám zákazníci (ne)věrní.</p>
+                <p>Začněte zákaznickými daty. Podívejte se, jak vypadá vaše databáze. Pokud je dostatečně velká, rozdělte si své zákazníky do segmentů, např. pomocí <strong>RFM analýzy</strong>. Díky ní získáte přehled o tom, jak jsou vám zákazníci (ne)věrní.</p>
 
-                <p>Co dál? Lidé si často myslí, že se mají v první řadě zaměřit na málo aktivní zákazníky a postupně je „předělat" na věrné. Jenže pasivní zákazníci většinou pasivní zůstanou, případně zareagují pouze na vysokou slevu.</p>
+                <p>Co dál? Lidé si často myslí, že se mají v první řadě zaměřit na málo aktivní zákazníky a postupně je „předělat" na věrné. Jenže <strong>pasivní zákazníci většinou pasivní zůstanou</strong>, případně zareagují pouze na vysokou slevu.</p>
 
-                <p>Úplnou ztrátou času pak bývá snaha oživit „mrtvé duše" – zákazníky, kteří u vás kdysi dávno nakoupili, ale od té doby nenakupují, nenavštěvují web ani neotvírají e-maily.</p>
+                <p>Úplnou ztrátou času pak bývá snaha oživit <strong>„mrtvé duše"</strong> – zákazníky, kteří u vás kdysi dávno nakoupili, ale od té doby nenakupují, nenavštěvují web ani neotvírají e-maily.</p>
 
                 <p>Nejvíc se vyplatí zaměřit se na aktuálně věrné zákazníky, kteří opakovaně nakupují, a to ze dvou důvodů:</p>
 
@@ -430,37 +438,37 @@
 
                 <h2>E-mail marketing: Základní retenční nástroj</h2>
 
-                <p>E-mail není v žádném případě mrtvý. E-shopy se bez něho prakticky neobejdou, protože většinou slouží jako hlavní kanál, pomocí kterého komunikují se zákazníky.</p>
+                <p>E-mail není v žádném případě mrtvý. E-shopy se bez něho prakticky neobejdou, protože <strong>většinou slouží jako hlavní kanál</strong>, pomocí kterého komunikují se zákazníky.</p>
 
                 <p>Už v rámci první objednávky dokážou e-maily v zákazníkovi navodit pozitivní emoce, nebo ho naopak odradit.</p>
 
                 <p>Jaký e-mail obdrží zákazník poté, co u vás dokončí nákup? Co v něm najde? Jenom shrnutí, a pár zdvořilostních frází, nebo originální zprávu, kterou se odlišujete od konkurence?</p>
 
-                <p>E-mailing samozřejmě hraje důležitou roli v rámci ponákupní péče. Nejenže byste měli zákazníkovi poděkovat za objednávku a požádat ho o feedback, ale také s ním dále komunikovat.</p>
+                <p>E-mailing samozřejmě hraje důležitou roli v rámci <strong>ponákupní péče</strong>. Nejenže byste měli zákazníkovi poděkovat za objednávku a požádat ho o feedback, ale také s ním dále komunikovat.</p>
 
-                <p>Z mé zkušenosti e-mailovou komunikaci podceňují i velcí hráči na trhu. Nevyužívají automatizace, které reagují na zákazníkovo chování v reálném čase, a newslettery posílají nahodile a bez strategie.</p>
+                <p>Z mé zkušenosti e-mailovou komunikaci podceňují i velcí hráči na trhu. Nevyužívají <strong>automatizace</strong>, které reagují na zákazníkovo chování v reálném čase, a newslettery posílají nahodile a bez strategie.</p>
 
-                <p>Nereflektují zájmy a potřeby zákazníků, ale spíše chrlí sdělení s irelevantním obsahem. Posílají jen informace o nových produktech nebo lákají na ty stávající (případně posílají slevy), ale ve svých e-mailech neposkytují příjemcům žádnou přidanou hodnotu.</p>
+                <p>Nereflektují <strong>zájmy a potřeby zákazníků</strong>, ale spíše chrlí sdělení s irelevantním obsahem. Posílají jen informace o nových produktech nebo lákají na ty stávající (případně posílají slevy), ale ve svých e-mailech neposkytují příjemcům <strong>žádnou přidanou hodnotu</strong>.</p>
 
-                <p>Úspěšný e-mail marketing stojí na segmentaci, personalizaci a postupné inovaci. Využívejte veškerá dostupná data o svých zákaznících a kampaně postupně vylepšujte na základě reportů.</p>
+                <p>Úspěšný e-mail marketing stojí na <strong>segmentaci, personalizaci</strong> a postupné <strong>inovaci</strong>. Využívejte veškerá dostupná data o svých zákaznících a kampaně postupně vylepšujte na základě reportů.</p>
 
                 <p>U zákazníků tím získáte plusové body a zvýšíte pravděpodobnost, že u vás znovu nakoupí. Proto e-mail marketingu rozhodně věnujte zvýšenou pozornost.</p>
 
                 <h2>Odměňujte věrnost</h2>
 
-                <p>Pokud u vás zákazník opakovaně nakupuje nebo dlouhodobě využívá vaše služby, podvědomě očekává, že si toho všimnete. A jedním ze způsobů, jak projevit vděčnost, je forma odměny.</p>
+                <p>Pokud u vás zákazník opakovaně nakupuje nebo dlouhodobě využívá vaše služby, podvědomě očekává, že si toho všimnete. A jedním ze způsobů, jak projevit vděčnost, je <strong>forma odměny</strong>.</p>
 
-                <p>Ale pozor, samotná odměna nestačí. Zákazník potřebuje také vědět, proč ho odměňujete. Pokud mu například pošlete malý dárek, nevysvětlí si ho automaticky jako odměnu za svou věrnost. Když ale k dárku připojíte vzkaz objasňující všechny souvislosti, dokážete tím zákazníkovi, že o něm víte, zajímáte se o něho a vážíte si ho.</p>
+                <p>Ale pozor, samotná odměna nestačí. Zákazník potřebuje také vědět, <strong>proč ho odměňujete</strong>. Pokud mu například pošlete malý dárek, nevysvětlí si ho automaticky jako odměnu za svou věrnost. Když ale k dárku připojíte vzkaz objasňující všechny souvislosti, dokážete tím zákazníkovi, že o něm víte, zajímáte se o něho a vážíte si ho.</p>
 
-                <p>Samostatnou kapitolu tvoří věrnostní programy. Aby věrnostní programy fungovaly, většinou nestačí krabicové řešení. Měly by se každé firmě nebo e-shopu tvořit na míru.</p>
+                <p>Samostatnou kapitolu tvoří <strong>věrnostní programy</strong>. Aby věrnostní programy fungovaly, většinou nestačí krabicové řešení. Měly by se každé firmě nebo e-shopu tvořit na míru.</p>
 
-                <p>Nemusíte ani tvořit oficiální (viditelný) věrnostní program v podobě klubu nebo aplikace, do kterého se snažíte zlanařit své zákazníky. Často stačí věrnostní schéma, na základě kterého jednotlivým segmentům přizpůsobíte komunikaci i odměny.</p>
+                <p>Nemusíte ani tvořit oficiální (viditelný) věrnostní program v podobě klubu nebo aplikace, do kterého se snažíte zlanařit své zákazníky. Často stačí <strong>věrnostní schéma</strong>, na základě kterého jednotlivým segmentům přizpůsobíte komunikaci i odměny.</p>
 
-                <p>Vděčnost zákazníkům můžeme dát najevo i jinak než samotnou odměnou. Zapojte je. Například pro své nejvěrnější můžete vytvořit speciální nabídku nebo uspořádat soukromou akci. Ve svých online příspěvcích či e-mailech můžete sdílet komentáře zákazníků nebo jejich příběhy. Můžete vyhlašovat soutěže a ankety. Podobné aktivity vytváří pocit sounáležitosti.</p>
+                <p>Vděčnost zákazníkům můžeme dát najevo i jinak než samotnou odměnou. <strong>Zapojte je</strong>. Například pro své nejvěrnější můžete vytvořit speciální nabídku nebo uspořádat soukromou akci. Ve svých online příspěvcích či e-mailech můžete sdílet komentáře zákazníků nebo jejich příběhy. Můžete vyhlašovat soutěže a ankety. Podobné aktivity vytváří <strong>pocit sounáležitosti</strong>.</p>
 
                 <h2>Vžijte se do kůže zákazníka</h2>
 
-                <p>Pokud bych měl všechny tipy shrnout do jednoho, pak je to tento: představte si, že jste jeden z vašich zákazníků. Opravdu by se vám všechno líbilo? Byli byste se vším spokojení, nebo by vás něco odradilo?</p>
+                <p>Pokud bych měl všechny tipy shrnout do jednoho, pak je to tento: <strong>představte si, že jste jeden z vašich zákazníků</strong>. Opravdu by se vám všechno líbilo? Byli byste se vším spokojení, nebo by vás něco odradilo?</p>
 
                 <p>I tato jednoduchá metoda může odhalit slabá místa vašeho byznysu.</p>
             </div>
