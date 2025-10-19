@@ -322,6 +322,7 @@
             align-items: center;
             border-bottom: none; 
             transition: background 0.3s ease;
+            user-select: none;
         }
 
         .faq-question:hover {
@@ -527,12 +528,10 @@
         }
 
         @media (max-width: 768px) {
-            /* Skrýt text loga v záhlaví */
             .logo-text {
                 display: none;
             }
 
-            /* Zmenšit nadpisy sekcí */
             .section-title {
                 font-size: 1.8rem;
             }
@@ -541,13 +540,11 @@
                 font-size: 1.8rem;
             }
 
-            /* Pricing tabulky pod sebou */
             .pricing-grid {
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
 
-            /* Upravit padding pro mobil */
             .benefits {
                 padding: 60px 0;
             }
@@ -568,7 +565,6 @@
                 padding: 40px 0 20px;
             }
 
-            /* Zmenšit mezery v hero sekci */
             .hero-columns {
                 gap: 30px;
             }
@@ -577,12 +573,10 @@
                 margin-bottom: 40px;
             }
 
-            /* Upravit CTA nadpis */
             .cta h2 {
                 font-size: 1.8rem;
             }
 
-            /* Zmenšit tlačítka pro mobil */
             .header-btn {
                 padding: 10px 20px;
                 font-size: 0.9rem;
@@ -593,7 +587,6 @@
                 font-size: 1rem;
             }
 
-            /* Upravit pricing badge pro mobil */
             .pricing-badge {
                 font-size: 0.8rem;
                 padding: 8px 16px;
@@ -830,3 +823,9 @@
                 // Otevřít kliknutou položku, pokud nebyla aktivní
                 if (!isActive) {
                     faqItem.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
