@@ -210,6 +210,56 @@
             margin-bottom: 0;
         }
 
+        /* Benefits Section */
+        .benefits {
+            padding: 100px 0;
+            background: #ffffff;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #000000;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(53, 67, 123, 0.15);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            color: #35437b;
+            margin-bottom: 15px;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
         /* Retention Marketing Diagram */
         .retention-diagram {
             padding: 80px 0 40px;
@@ -309,93 +359,10 @@
             left: 10%;
         }
 
-        /* Benefits Section */
-        .benefits {
-            padding: 100px 0;
-            background: #ffffff;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: #000000;
-            margin-bottom: 60px;
-            font-weight: 700;
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .benefit-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .benefit-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(53, 67, 123, 0.15);
-        }
-
-        .benefit-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .benefit-card h3 {
-            font-size: 1.5rem;
-            color: #35437b;
-            margin-bottom: 15px;
-        }
-
-        .benefit-card p {
-            color: #666;
-            line-height: 1.8;
-        }
-
-        .article-cta {
-            margin-top: 60px;
-            text-align: center;
-        }
-
-        .article-cta h3 {
-            font-size: 1.5rem;
-            color: #35437b;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .article-cta p {
-            color: #666;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-
-        .article-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #35437b;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.05rem;
-            transition: gap 0.3s ease;
-        }
-
-        .article-link:hover {
-            gap: 12px;
-        }
-
         /* FAQ Section */
         .faq {
             padding: 100px 0;
-            background: #f8f9fa;
+            background: #ffffff;
         }
 
         .faq-container {
@@ -462,7 +429,7 @@
         /* Pricing Section */
         .pricing {
             padding: 100px 0;
-            background: #ffffff;
+            background: #f8f9fa;
         }
 
         .pricing-grid {
@@ -563,7 +530,7 @@
         .cta {
             padding: 100px 0;
             text-align: center;
-            background: #f8f9fa;
+            background: #ffffff;
         }
 
         .cta h2 {
@@ -696,14 +663,6 @@
                 max-width: 90%;
             }
 
-            .article-cta {
-                padding: 30px 20px;
-            }
-
-            .article-cta h3 {
-                font-size: 1.3rem;
-            }
-
             .retention-diagram {
                 padding: 60px 0 40px;
             }
@@ -784,6 +743,35 @@
         </section>
     </div>
 
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Co vám spolupráce přinese?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    <h3>Více opakovaných nákupů</h3>
+                    <p>
+                        Zákazníci, kteří už u vás jednou nakoupili, se budou vracet.
+                    </p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚙️</div>
+                    <h3>Automatizace pracují 24/7</h3>
+                    <p>
+                        Nastavené scénáře vydělávají i ve chvíli, kdy zrovna spíte.
+                    </p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3>Efektivnější marketing</h3>
+                    <p>
+                        Každý zákazník, kterého si udržíte, zvyšuje návratnost vašeho marketingu.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="retention-diagram">
         <div class="container">
             <h2 class="section-title" style="margin-bottom: 15px;">Retence e-mailingem nekončí</h2>
@@ -841,193 +829,4 @@
                 <div class="channel-item">
                     <div class="channel-icon">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
-                        </svg>
-                    </div>
-                    <div class="channel-label">Věrnostní<br>program</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="benefits">
-        <div class="container">
-            <h2 class="section-title">Co vám spolupráce přinese?</h2>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">🔄</div>
-                    <h3>Více opakovaných nákupů</h3>
-                    <p>
-                        Zákazníci, kteří už u vás jednou nakoupili, se budou vracet.
-                    </p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">⚙️</div>
-                    <h3>Automatizace pracují 24/7</h3>
-                    <p>
-                        Nastavené scénáře vydělávají i ve chvíli, kdy zrovna spíte.
-                    </p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">📊</div>
-                    <h3>Efektivnější marketing</h3>
-                    <p>
-                        Každý zákazník, kterého si udržíte, zvyšuje návratnost vašeho marketingu.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="faq">
-        <div class="container">
-            <h2 class="section-title">Často kladené otázky</h2>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">Zaměřujete se jen na e-mailing?</div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            E-mailing vnímám jako součást retenčního marketingu. Proto se zaměřuji také na analýzu zákaznických dat, pokročilou segmentaci a komunikační scénáře napříč kanály, jako jsou SMS, věrnostní programy, notifikace nebo direct mail. Cílem je, aby zákazníci déle zůstávali a opakovaně nakupovali.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Co když e-mailing ještě vůbec nevyužívám?</div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Začneme od základu – od výběru nástroje, přes strategii až po první automatizace a kampaně. E-mailing poroste společně s vaším e-shopem.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Kdy uvidím první výsledky?</div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            První viditelné výsledky obvykle přicházejí už během prvních týdnů po spuštění. U dlouhodobé spolupráce se efekt násobí s časem a daty.
-                        </div>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Pomůžete mi i v jiných oblastech marketingu?</div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Mám sice přesah i do dalších oblastí online marketingu, ale mým hlavním zaměřením zůstává retenční marketing. Každopádně vám rád doporučím prověřené kolegy.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="pricing">
-        <div class="container">
-            <h2 class="section-title">Orientační ceník</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-badge">„Chceme nastartovat e-mailing"</div>
-                    <h3>Kompletní rozjezd e-mailingu</h3>
-                    <div class="price">Od 25 000 Kč</div>
-                    <ul class="pricing-features">
-                        <li>Integrace a kompletní technické nastavení nástroje</li>
-                        <li>Vytvoření strategie a plánu</li>
-                        <li>Design e-mailové šablony</li>
-                        <li>Vytvoření automatizací</li>
-                        <li>Segmentace databáze</li>
-                        <li>Nastavení sběru kontaktů</li>
-                    </ul>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="pricing-badge">„Chceme z retence vytěžit víc"</div>
-                    <h3>Audit & optimalizace komunikace</h3>
-                    <div class="price">Od 25 000 Kč</div>
-                    <ul class="pricing-features">
-                        <li>Komplexní audit současného stavu</li>
-                        <li>Kontrola technického nastavení</li>
-                        <li>Analýza zákaznických dat</li>
-                        <li>Komunikační strategie</li>
-                        <li>Tvorba a optimalizace automatizací a kampaní</li>
-                        <li>Akční plán s prioritami</li>
-                    </ul>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="pricing-badge">„Chceme dlouhodobě růst"</div>
-                    <h3>Dlouhodobá spolupráce</h3>
-                    <div class="price">Od 15 000 Kč <span>/ měsíc</span></div>
-                    <ul class="pricing-features">
-                        <li>E-mailové/CRM kampaně</li>
-                        <li>Optimalizace a tvorba automatizací</li>
-                        <li>Pravidelný reporting</li>
-                        <li>Konzultace a rozvoj retenční strategie</li>
-                        <li>Spolupráce s interním týmem nebo externími specialisty</li>
-                    </ul>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="pricing-badge">„Potřebujeme poradit nebo nasměrovat"</div>
-                    <h3>Konzultace</h3>
-                    <div class="price">1 500 Kč <span>/ hod</span></div>
-                    <ul class="pricing-features">
-                        <li>Strategické poradenství pro retenční marketing</li>
-                        <li>Řešení konkrétních problémů, které brzdí váš byznys</li>
-                        <li>Rychlý audit kampaní nebo automatizací</li>
-                        <li>Pomoc s technickým nastavením</li>
-                        <li>Školení týmu nebo jednotlivců</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="cta" id="cta">
-        <div class="container">
-            <h2><span class="highlight">Plácneme si?</span></h2>
-            <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
-            <a href="mailto:jsem@tomaszalesak.cz" class="btn">jsem@tomaszalesak.cz</a>
-            <p style="margin-top: 20px; font-size: 0.95rem; color: #888;">Odpovídám nejpozději do 2. pracovního dne</p>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Tomáš Zálešák</p>
-            <p>IČO: 08372284 (neplátce DPH)</p>
-        </div>
-    </footer>
-
-    <script>
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // FAQ toggle functionality
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', function() {
-                const faqItem = this.parentElement;
-                const isActive = faqItem.classList.contains('active');
-
-                // Zavřít všechny ostatní FAQ položky
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-
-                // Otevřít kliknutou položku, pokud nebyla aktivní
-                if (!isActive) {
-                    faqItem.classList.add('active');
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.
