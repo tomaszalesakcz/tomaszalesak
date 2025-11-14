@@ -219,10 +219,60 @@
             margin-bottom: 0;
         }
 
+        /* Benefits Section */
+        .benefits {
+            padding: 100px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #000000;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(53, 67, 123, 0.15);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            color: #35437b;
+            margin-bottom: 15px;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
         /* Retention Marketing Diagram */
         .retention-diagram {
             padding: 80px 0 40px;
-            background: #f8f9fa;
+            background: #ffffff;
         }
 
         .diagram-container {
@@ -285,7 +335,7 @@
             text-align: center;
         }
 
-            /* Positioning of channels */
+        /* Positioning of channels */
         .channel-item:nth-child(2) { /* E-mailing */
             top: 0;
             left: 50%;
@@ -316,56 +366,6 @@
         .channel-item:nth-child(7) { /* Direct mail */
             top: 20%;
             left: 10%;
-        }
-
-        /* Benefits Section */
-        .benefits {
-            padding: 100px 0;
-            background: #ffffff;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: #000000;
-            margin-bottom: 60px;
-            font-weight: 700;
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .benefit-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .benefit-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(53, 67, 123, 0.15);
-        }
-
-        .benefit-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .benefit-card h3 {
-            font-size: 1.5rem;
-            color: #35437b;
-            margin-bottom: 15px;
-        }
-
-        .benefit-card p {
-            color: #666;
-            line-height: 1.8;
         }
 
         .article-cta {
@@ -718,27 +718,69 @@
             }
 
             .diagram-container {
-                height: 500px;
+                height: 450px;
             }
 
             .center-circle {
-                width: 160px;
-                height: 160px;
-                font-size: 1.2rem;
+                width: 140px;
+                height: 140px;
+                font-size: 1.1rem;
             }
 
             .channel-icon {
-                width: 60px;
-                height: 60px;
+                width: 55px;
+                height: 55px;
             }
 
             .channel-icon svg {
-                width: 28px;
-                height: 28px;
+                width: 24px;
+                height: 24px;
             }
 
             .channel-label {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+            }
+
+            .benefit-icon {
+                font-size: 2.5rem;
+            }
+
+            .benefit-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .benefit-card p {
+                font-size: 0.95rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .name-and-title h3 {
+                font-size: 1.3rem;
+            }
+
+            .name-and-title p {
+                font-size: 1rem;
+            }
+
+            .pricing-card h3 {
+                font-size: 1.5rem;
+            }
+
+            .pricing-card .price {
+                font-size: 1.4rem;
+            }
+
+            .faq-question {
+                font-size: 1rem;
+                padding: 18px 25px;
+            }
+
+            .faq-answer-content {
+                font-size: 0.95rem;
+                padding: 20px 25px;
             }
         }
     </style>
@@ -796,7 +838,36 @@
         </section>
     </div>
 
-   <section class="retention-diagram">
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Co vám spolupráce přinese?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    <h3>Více opakovaných nákupů</h3>
+                    <p>
+                        Zákazníci, kteří už u vás jednou nakoupili, se budou vracet.
+                    </p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚙️</div>
+                    <h3>Automatizace pracují 24/7</h3>
+                    <p>
+                        Nastavené scénáře vydělávají i ve chvíli, kdy zrovna spíte.
+                    </p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3>Efektivnější marketing</h3>
+                    <p>
+                        Každý zákazník, kterého si udržíte, zvyšuje návratnost vašeho marketingu.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="retention-diagram">
         <div class="container">
             <h2 class="section-title" style="margin-bottom: 15px;">Retence e-mailingem nekončí</h2>
             <p style="text-align: center; font-size: 1.15rem; color: #666; margin-bottom: 80px; max-width: 700px; margin-left: auto; margin-right: auto;">Pomůžu vám i s komplexní retenční strategií, která kombinuje více kanálů.</p>
@@ -857,35 +928,6 @@
                         </svg>
                     </div>
                     <div class="channel-label">Věrnostní<br>program</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="benefits">
-        <div class="container">
-            <h2 class="section-title">Co vám spolupráce přinese?</h2>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">🔄</div>
-                    <h3>Více opakovaných nákupů</h3>
-                    <p>
-                        Zákazníci, kteří už u vás jednou nakoupili, se budou vracet.
-                    </p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">⚙️</div>
-                    <h3>Automatizace pracují 24/7</h3>
-                    <p>
-                        Nastavené scénáře vydělávají i ve chvíli, kdy zrovna spíte.
-                    </p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">📊</div>
-                    <h3>Efektivnější marketing</h3>
-                    <p>
-                        Každý zákazník, kterého si udržíte, zvyšuje návratnost vašeho marketingu.
-                    </p>
                 </div>
             </div>
         </div>
@@ -1042,4 +1084,4 @@
         });
     </script>
 </body>
-</html>">
+</html>
