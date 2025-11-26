@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tomáš Zálešák | E-mail marketing & retence zákazníků</title>
+    <title>Tomáš Zálešák | Retenční marketing a e-mailing</title>
     <meta name="description" content="Jsem specialista retenčního marketingu. Pomáhám byznysům zvyšovat hodnotu zákazníků, aby déle zůstávali a opakovaně nakupovali.">
     <link rel="icon" type="image/png" href="images/TZ Logo.png">
 
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZS7GT3PJ2"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -17,7 +16,6 @@
       gtag('config', 'G-5ZS7GT3PJ2');
     </script>
 
-    <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -27,6 +25,7 @@
     </script>
 
     <style>
+        /* Global & Reset */
         * {
             margin: 0;
             padding: 0;
@@ -46,6 +45,50 @@
             padding: 0 20px;
         }
 
+        /* Utility classes */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #000000;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+        .highlight {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+        .highlight::before {
+            content: "";
+            position: absolute;
+            left: -2px;
+            bottom: 0.15em;
+            width: calc(100% + 4px);
+            height: 0.3em;
+            background: rgba(53, 67, 123, 0.3);
+            transform: skew(-8deg);
+            z-index: -1;
+            border-radius: 3px;
+            filter: blur(0.5px);
+        }
+        .btn {
+            display: inline-block;
+            padding: 18px 45px;
+            background: #35437b;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn:hover {
+            background: #2a3561;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(53, 67, 123, 0.3);
+        }
+
+        /* Header */
         header {
             padding: 20px 0;
             border-bottom: 1px solid #f0f0f0;
@@ -72,19 +115,6 @@
             text-decoration: none;
         }
 
-        .logo-img {
-            width: 50px;
-            height: 50px;
-            background: #35437b;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
         .logo-text {
             font-size: 1.3rem;
             font-weight: 700;
@@ -95,6 +125,21 @@
             display: flex;
             align-items: center;
             gap: 25px;
+        }
+        
+        .main-nav {
+            display: none; /* Hide on mobile by default */
+        }
+        .main-nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 5px 10px;
+            transition: color 0.3s ease;
+        }
+        .main-nav a:hover {
+            color: #35437b;
         }
 
         .social-links {
@@ -142,51 +187,27 @@
             background: #ffffff;
         }
 
-        .hero-title {
-            text-align: center;
-            margin-bottom: 60px;
+        .hero-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
         }
 
-        .hero-title h1 {
+        .hero-content h1 {
             font-size: 3rem;
             color: #000000;
             font-weight: 700;
             line-height: 1.2;
-        }
-
-        .hero-title h1 .highlight {
-            position: relative;
-            display: inline-block;
-            z-index: 1;
-        }
-
-        .hero-title h1 .highlight::before {
-            content: "";
-            position: absolute;
-            left: -2px;
-            bottom: 0.15em;
-            width: calc(100% + 4px);
-            height: 0.3em;
-            background: rgba(53, 67, 123, 0.3);
-            transform: skew(-8deg);
-            z-index: -1;
-            border-radius: 3px;
-            filter: blur(0.5px);
-        }
-
-        .hero-columns {
-            display: grid;
-            grid-template-columns: 1fr 1.3fr;
-            gap: 60px;
-            align-items: center;
+            margin-bottom: 25px;
         }
 
         .hero-content p {
             font-size: 1.15rem;
             color: #555;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
-
+        
         .hero-image {
             text-align: center;
         }
@@ -198,51 +219,23 @@
             box-shadow: 0 20px 60px rgba(53, 67, 123, 0.15);
         }
 
-        .name-and-title {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .name-and-title h3 {
-            font-size: 1.5rem;
-            color: #000000;
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-
-        .name-and-title p {
-            font-size: 1.15rem;
-            color: #35437b;
-            font-weight: 600;
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-
         /* Benefits Section */
         .benefits {
             padding: 100px 0;
             background: #f8f9fa;
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: #000000;
-            margin-bottom: 60px;
-            font-weight: 700;
-        }
-
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
         }
 
         .benefit-card {
-            background: white;
-            padding: 40px 30px;
+            padding: 30px 20px;
             border-radius: 15px;
+            background: white;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -254,32 +247,77 @@
 
         .benefit-icon {
             font-size: 3rem;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: block;
+            color: #35437b;
         }
 
         .benefit-card h3 {
-            font-size: 1.5rem;
-            color: #35437b;
-            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: #000000;
+            font-weight: 700;
         }
-
-        .benefit-card p {
-            color: #666;
-            line-height: 1.8;
-        }
-
-        /* Retention Marketing Diagram */
-        .retention-diagram {
-            padding: 80px 0 40px;
+        
+        /* Workflow Section */
+        .workflow {
+            padding: 100px 0;
             background: #ffffff;
         }
-
+        
+        .workflow-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: flex-start;
+        }
+        
+        .workflow-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .workflow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .workflow-step:hover {
+            box-shadow: 0 8px 30px rgba(53, 67, 123, 0.15);
+        }
+        
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #35437b;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        
+        .step-content h3 {
+            font-size: 1.5rem;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+        
+        .step-content p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Retention Diagram - Adapted from original styles */
         .diagram-container {
-            max-width: 800px;
+            max-width: 500px;
             margin: 0 auto;
             position: relative;
-            height: 600px;
+            height: 550px;
         }
 
         .center-circle {
@@ -335,240 +373,232 @@
             text-align: center;
         }
 
-        /* Positioning of channels */
+        /* Positioning of channels (7 total) */
         .channel-item:nth-child(2) { /* E-mailing */
             top: 0;
             left: 50%;
             transform: translateX(-50%);
         }
-
         .channel-item:nth-child(3) { /* SMS */
-            top: 20%;
-            right: 10%;
+            top: 10%;
+            right: 15%;
         }
-
         .channel-item:nth-child(4) { /* Notifikace */
-            bottom: 20%;
-            right: 10%;
+            top: 40%;
+            right: 0%;
         }
-
-        .channel-item:nth-child(5) { /* Věrnostní programy */
+        .channel-item:nth-child(5) { /* Obsah (New) */
+            bottom: 10%;
+            right: 15%;
+        }
+        .channel-item:nth-child(6) { /* Věrnostní programy */
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
         }
-
-        .channel-item:nth-child(6) { /* Předplatné */
-            bottom: 20%;
-            left: 10%;
+        .channel-item:nth-child(7) { /* Předplatné */
+            bottom: 10%;
+            left: 15%;
         }
-
-        .channel-item:nth-child(7) { /* Direct mail */
-            top: 20%;
-            left: 10%;
+        .channel-item:nth-child(8) { /* Direct mail */
+            top: 40%;
+            left: 0%;
         }
-
-        .article-cta {
-            margin-top: 60px;
+        
+        /* References Section */
+        .references {
+            padding: 80px 0;
+            background: #f8f9fa;
             text-align: center;
         }
 
-        .article-cta h3 {
-            font-size: 1.5rem;
-            color: #35437b;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .article-cta p {
-            color: #666;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-        }
-
-        .article-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #35437b;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.05rem;
-            transition: gap 0.3s ease;
-        }
-
-        .article-link:hover {
-            gap: 12px;
-        }
-
-        /* FAQ Section */
-        .faq {
-            padding: 100px 0;
-            background: #f8f9fa;
-        }
-
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            margin-bottom: 20px;
-            overflow: hidden;
-            border-radius: 25px; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
-        }
-
-        .faq-question {
-            padding: 20px 30px; 
-            cursor: pointer;
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: white;
-            background: #35437b;
+        .logos-grid {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: none; 
-            transition: background 0.3s ease;
-            user-select: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
         }
 
-        .faq-question:hover {
-            background: #2a3561; 
-            color: white;
+        .client-logo a {
+            display: block;
+            opacity: 0.7;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
-
-        .faq-question:after {
-            content: '+';
-            font-size: 1.5rem;
-            color: white;
-            transition: transform 0.3s ease;
+        .client-logo a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
         }
-
-        .faq-answer {
-            padding: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
+        .client-logo img {
+            height: 40px; /* Standardized height for all logos */
+            width: auto;
         }
-
-        .faq-answer-content {
-            background: white; 
-            padding: 25px 30px; 
-            color: #666;
-            border-top: 1px solid #f0f0f0; 
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-        }
-
-        .faq-item.active .faq-question:after {
-            transform: rotate(45deg);
-        }
-
-        /* Pricing Section */
-        .pricing {
+        
+        /* Services Section */
+        .services {
             padding: 100px 0;
             background: #ffffff;
         }
-
-        .pricing-grid {
+        
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
-            margin-top: 60px;
             max-width: 1100px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 60px auto 0;
         }
-
-        .pricing-card {
+        
+        .service-card {
             background: white;
             border-radius: 20px;
-            padding: 60px 30px 40px;
+            padding: 40px 30px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
-            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
         }
-
-        .pricing-card:hover {
+        
+        .service-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 12px 40px rgba(53, 67, 123, 0.2);
         }
-
-        .pricing-card.featured {
-            transform: scale(1);
-        }
-
-        .pricing-card.featured:hover {
-            transform: translateY(-10px);
-        }
-
-        .pricing-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
+        
+        .service-badge {
             background: #35437b;
             color: white;
-            padding: 10px 24px;
+            padding: 8px 16px;
             border-radius: 50px;
             font-size: 0.9rem;
             font-weight: 600;
-            white-space: nowrap;
-            box-shadow: 0 4px 12px rgba(53, 67, 123, 0.25);
+            margin-bottom: 20px;
+            display: inline-block;
         }
-
-        .pricing-card h3 {
+        
+        .service-card h3 {
             font-size: 1.8rem;
             color: #000000;
             margin-bottom: 15px;
-            text-align: center;
         }
-
-        .pricing-description {
+        
+        .service-description {
             color: #555;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            flex-grow: 1;
         }
-
-        .pricing-card .price {
-            font-size: 1.6rem;
+        
+        .service-price {
+            font-size: 1.4rem;
             font-weight: 700;
             color: #35437b;
-            margin: 20px 0;
-            text-align: center;
+            margin-top: auto; /* Push to the bottom */
         }
-
-        .pricing-card .price span {
+        .service-price span {
             font-size: 0.9rem;
             font-weight: 400;
             color: #666;
         }
-
-        .pricing-features {
-            list-style: none;
-            margin: 30px 0;
+        
+        /* About Section */
+        .about {
+            padding: 100px 0;
+            background: #f8f9fa;
         }
 
-        .pricing-features li {
-            padding: 12px 0;
+        .about-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .about-content h2 {
+            font-size: 2.5rem;
+            color: #000000;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
             color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .about-content .btn {
+            margin-top: 15px;
+            padding: 15px 40px;
+            font-size: 1rem;
+        }
+        
+        .about-image {
+            text-align: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(53, 67, 123, 0.1);
+        }
+
+        /* Portfolio/Articles Section */
+        .portfolio {
+            padding: 100px 0;
+            background: #ffffff;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .portfolio-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            position: relative;
+            text-decoration: none;
+            color: #333;
             display: flex;
-            align-items: flex-start;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
         }
-
-        .pricing-features li:before {
-            content: '✓';
-            color: #35437b;
-            font-weight: bold;
-            margin-right: 12px;
+        
+        .portfolio-card:hover {
+            box-shadow: 0 8px 30px rgba(53, 67, 123, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .portfolio-card h3 {
             font-size: 1.2rem;
+            color: #35437b;
+            margin-bottom: 10px;
+        }
+        
+        .portfolio-card p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .link-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 24px;
+            height: 24px;
+            color: #35437b;
         }
 
-        /* CTA Section */
+
+        /* CTA Section - Reused styles from original CTA */
         .cta {
             padding: 100px 0;
             text-align: center;
@@ -588,24 +618,8 @@
             margin-bottom: 40px;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 18px 45px;
-            background: #35437b;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-        }
 
-        .btn:hover {
-            background: #2a3561;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(53, 67, 123, 0.3);
-        }
-
+        /* Footer - Reused styles */
         footer {
             background: #ffffff;
             padding: 40px 0;
@@ -618,169 +632,114 @@
             margin: 5px 0;
         }
 
-        @media (max-width: 968px) {
-            .hero-title h1 {
-                font-size: 2.2rem;
-            }
 
-            .hero-columns {
-                grid-template-columns: 1fr;
-                text-align: center;
+        /* Media Queries */
+        @media (min-width: 969px) {
+            .main-nav {
+                display: flex;
+                gap: 20px;
             }
-
-            .benefits-grid {
-                grid-template-columns: 1fr;
+        }
+        
+        @media (max-width: 1050px) {
+            .benefits-grid, .services-grid, .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-
-            .pricing-grid {
-                grid-template-columns: 1fr;
+            .services-grid {
+                max-width: 800px;
             }
         }
 
+        @media (max-width: 968px) {
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-columns, .workflow-columns, .about-columns {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .workflow-step {
+                text-align: left;
+            }
+            
+            .workflow-timeline {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .benefits-grid, .services-grid, .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            .services-grid {
+                max-width: 500px;
+            }
+            
+            .portfolio-grid {
+                max-width: 500px;
+                margin: 60px auto 0;
+            }
+            
+            .hero-image, .about-image {
+                order: -1; /* Image first on mobile */
+            }
+            
+            .diagram-container {
+                height: 400px;
+            }
+            
+            .center-circle {
+                width: 160px;
+                height: 160px;
+                font-size: 1.2rem;
+            }
+            
+            .channel-icon {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .channel-icon svg {
+                width: 28px;
+                height: 28px;
+            }
+            
+            .channel-label {
+                font-size: 0.9rem;
+            }
+            
+            /* Repositioning for mobile layout */
+            .channel-item:nth-child(3) { right: 5%; }
+            .channel-item:nth-child(4) { top: 40%; right: 5%; }
+            .channel-item:nth-child(5) { bottom: 20%; right: 5%; }
+            .channel-item:nth-child(7) { left: 5%; }
+            .channel-item:nth-child(8) { top: 40%; left: 5%; }
+            .channel-item:nth-child(2), .channel-item:nth-child(6) { transform: translateX(-50%); }
+
+        }
+        
         @media (max-width: 768px) {
             .logo-text {
                 display: none;
             }
-
-            .section-title {
+            .section-title, .cta h2, .about-content h2 {
                 font-size: 1.8rem;
             }
-
-            .hero-title h1 {
+            .hero-content h1 {
                 font-size: 1.8rem;
             }
-
-            .pricing-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .benefits {
-                padding: 60px 0;
-            }
-
-            .faq {
-                padding: 60px 0;
-            }
-
-            .pricing {
-                padding: 60px 0;
-            }
-
-            .cta {
-                padding: 60px 0;
-            }
-
-            .hero {
-                padding: 40px 0 20px;
-            }
-
-            .hero-columns {
-                gap: 30px;
-            }
-
-            .hero-title {
-                margin-bottom: 40px;
-            }
-
-            .cta h2 {
-                font-size: 1.8rem;
-            }
-
             .header-btn {
                 padding: 10px 20px;
                 font-size: 0.9rem;
             }
-
             .btn {
                 padding: 15px 35px;
                 font-size: 1rem;
             }
-
-            .pricing-badge {
-                font-size: 0.8rem;
-                padding: 8px 16px;
-                white-space: normal;
-                text-align: center;
-                max-width: 90%;
-            }
-
-            .article-cta {
-                padding: 30px 20px;
-            }
-
-            .article-cta h3 {
-                font-size: 1.3rem;
-            }
-
-            .retention-diagram {
-                padding: 60px 0 40px;
-            }
-
-            .diagram-container {
-                height: 450px;
-            }
-
-            .center-circle {
-                width: 140px;
-                height: 140px;
-                font-size: 1.1rem;
-            }
-
-            .channel-icon {
-                width: 55px;
-                height: 55px;
-            }
-
-            .channel-icon svg {
-                width: 24px;
-                height: 24px;
-            }
-
-            .channel-label {
-                font-size: 0.85rem;
-            }
-
-            .benefit-icon {
-                font-size: 2.5rem;
-            }
-
-            .benefit-card h3 {
-                font-size: 1.3rem;
-            }
-
-            .benefit-card p {
-                font-size: 0.95rem;
-            }
-
-            .hero-content p {
-                font-size: 1rem;
-            }
-
-            .name-and-title h3 {
-                font-size: 1.3rem;
-            }
-
-            .name-and-title p {
-                font-size: 1rem;
-            }
-
-            .pricing-card h3 {
-                font-size: 1.5rem;
-            }
-
-            .pricing-card .price {
-                font-size: 1.4rem;
-            }
-
-            .faq-question {
-                font-size: 1rem;
-                padding: 18px 25px;
-            }
-
-            .faq-answer-content {
-                font-size: 0.95rem;
-                padding: 20px 25px;
+            .hero, .benefits, .workflow, .references, .services, .about, .portfolio, .cta {
+                padding: 60px 0;
             }
         }
     </style>
@@ -793,16 +752,18 @@
                 <span class="logo-text">Tomáš Zálešák</span>
             </a>
             <div class="header-nav">
+                <nav class="main-nav">
+                    <a href="#workflow">Průběh spolupráce</a>
+                    <a href="#services">Služby</a>
+                    <a href="#references">Reference</a>
+                    <a href="#about">O mně</a>
+                </nav>
                 <div class="social-links">
                     <a href="https://www.linkedin.com/in/tomas-zalesak" target="_blank" rel="noopener" aria-label="LinkedIn">
-                        <svg fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                     </a>
                     <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" aria-label="YouTube">
-                        <svg fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                        </svg>
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                     </a>
                 </div>
                 <a href="#cta" class="header-btn">Kontakt</a>
@@ -812,27 +773,14 @@
 
     <div class="container">
         <section class="hero">
-            <div class="hero-title">
-                <h1>Více opakovaných nákupů, <span class="highlight">vyšší tržby</span></h1>
-            </div>
             <div class="hero-columns">
+                <div class="hero-content">
+                    <h1>Více věrných zákazníků, <span class="highlight">vyšší tržby</span></h1>
+                    <p>Pomůžu vašemu byznysu růst pomocí věrných zákazníků, kteří se vrací a opakovaně nakupují. Stavím na datech a zákaznickém výzkumu.</p>
+                    <a href="#cta" class="btn">Napište mi</a>
+                </div>
                 <div class="hero-image">
                     <img src="images/Tomas-Zalesak.png" alt="Tomáš Zálešák">
-                </div>
-                <div class="hero-content">
-                    <p>
-                        Jsem <strong>specialista na e-mailing a retenční marketing</strong>. Pomáhám klientům naplno využít potenciál jejich zákaznické databáze – od chytrého e-mailingu až po vícekanálovou retenční strategii.
-                    </p>
-                    <p>
-                        Prostřednictvím kampaní a automatizací založených na zákaznických datech <strong>zvyšuji počet opakovaných nákupů a tím i dlouhodobý růst tržeb</strong>. 
-                    </p>
-                    <p>
-                        Na volné noze podnikám <strong>více než 6 let</strong>. Od copywritingu a content marketingu jsem se postupně přesunul čistě k retenčnímu marketingu. Díky tomu dokážu efektivně pracovat s databázi zákazníků – třeba i tou vaší.
-                    </p>
-                    <div class="name-and-title">
-                        <h3>Tomáš Zálešák</h3>
-                        <p>Specialista e-mailingu a retenčního marketingu</p>
-                    </div>
                 </div>
             </div>
         </section>
@@ -840,196 +788,235 @@
 
     <section class="benefits">
         <div class="container">
-            <h2 class="section-title">Co vám spolupráce přinese?</h2>
+            <h2 class="section-title">Co získáte?</h2>
             <div class="benefits-grid">
                 <div class="benefit-card">
-                    <div class="benefit-icon">🔄</div>
-                    <h3>Více opakovaných nákupů</h3>
-                    <p>
-                        Zákazníci, kteří už u vás jednou nakoupili, se budou vracet.
-                    </p>
+                    <div class="benefit-icon">📈</div>
+                    <h3>Vyšší a stabilnější tržby</h3>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">❤️</div>
+                    <h3>Více vracejících se zákazníků</h3>
                 </div>
                 <div class="benefit-card">
                     <div class="benefit-icon">⚙️</div>
-                    <h3>Automatizace pracují 24/7</h3>
-                    <p>
-                        Nastavené scénáře vydělávají i ve chvíli, kdy zrovna spíte.
-                    </p>
+                    <h3>Efektivnější marketing s vyšší návratností</h3>
                 </div>
                 <div class="benefit-card">
-                    <div class="benefit-icon">📊</div>
-                    <h3>Efektivnější marketing</h3>
-                    <p>
-                        Každý zákazník, kterého si udržíte, zvyšuje návratnost vašeho marketingu.
-                    </p>
+                    <div class="benefit-icon">💰</div>
+                    <h3>Snížení závislosti na placené reklamě</h3>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="retention-diagram">
+    <section class="workflow" id="workflow">
         <div class="container">
-            <h2 class="section-title" style="margin-bottom: 15px;">Retence e-mailingem nekončí</h2>
-            <p style="text-align: center; font-size: 1.15rem; color: #666; margin-bottom: 80px; max-width: 700px; margin-left: auto; margin-right: auto;">Pomůžu vám i s komplexní retenční strategií, která kombinuje více kanálů.</p>
-            <div class="diagram-container">
-                <div class="center-circle">
-                    Retenční<br>marketing
-                </div>
+            <h2 class="section-title">Jak to probíhá?</h2>
+            <div class="workflow-columns">
+                <div class="workflow-diagram">
+                    <div class="diagram-container">
+                        <div class="center-circle">
+                            Retenční<br>marketing
+                        </div>
 
-                <div class="channel-item">
-                    <div class="channel-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <div class="channel-label">E-mailing</div>
-                </div>
+                        <div class="channel-item">
+                            <div class="channel-icon">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            </div>
+                            <div class="channel-label">E-mailing</div>
+                        </div>
 
-                <div class="channel-item">
-                    <div class="channel-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                        </svg>
-                    </div>
-                    <div class="channel-label">SMS</div>
-                </div>
+                        <div class="channel-item">
+                            <div class="channel-icon">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                            </div>
+                            <div class="channel-label">SMS</div>
+                        </div>
 
-                <div class="channel-item">
-                    <div class="channel-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-                        </svg>
-                    </div>
-                    <div class="channel-label">Notifikace</div>
-                </div>
+                        <div class="channel-item">
+                            <div class="channel-icon">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                            </div>
+                            <div class="channel-label">Notifikace</div>
+                        </div>
+                        
+                        <div class="channel-item">
+                            <div class="channel-icon">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            </div>
+                            <div class="channel-label">Obsah</div>
+                        </div>
 
-                <div class="channel-item">
-                    <div class="channel-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                        </svg>
-                    </div>
-                    <div class="channel-label">Direct mail</div>
-                </div>
+                        <div class="channel-item">
+                            <div class="channel-icon">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+                            </div>
+                            <div class="channel-label">Věrnostní<br>program</div>
+                        </div>
 
-                <div class="channel-item">
-                    <div class="channel-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
-                        </svg>
-                    </div>
-                    <div class="channel-label">Předplatné</div>
-                </div>
+                        <div class="channel-item">
+                            <div class="channel-icon">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                            </div>
+                            <div class="channel-label">Předplatné</div>
+                        </div>
 
-                <div class="channel-item">
-                    <div class="channel-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
-                        </svg>
-                    </div>
-                    <div class="channel-label">Věrnostní<br>program</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="faq">
-        <div class="container">
-            <h2 class="section-title">Často kladené otázky</h2>
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">Zaměřujete se jen na e-mailing?</div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            E-mailing vnímám jako součást retenčního marketingu. Proto se zaměřuji také na analýzu zákaznických dat, pokročilou segmentaci a komunikační scénáře napříč kanály, jako jsou SMS, věrnostní programy, notifikace nebo direct mail. Cílem je, aby zákazníci déle zůstávali a opakovaně nakupovali.
+                        <div class="channel-item">
+                            <div class="channel-icon">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+                            </div>
+                            <div class="channel-label">Direct mail</div>
                         </div>
                     </div>
                 </div>
-                 <div class="faq-item">
-                    <div class="faq-question">S jakými typy byznysů spolupracujete?</div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Zaměřuji se hlavně na e-commerce a gastro podniky, ale retenční marketing se vyplatí všem B2C i B2B byznysům, které chtějí zvýšit počet opakovaných nákupů nebo dlouhodobě budovat vztah se zákazníkem.
+
+                <div class="workflow-timeline">
+                    <div class="workflow-step">
+                        <div class="step-number">01</div>
+                        <div class="step-content">
+                            <h3>FÁZE 1 – Analýza</h3>
+                            <p>Ponořím se do dat o vašich zákaznících, podívám se na vaše stávající marketingové aktivity a zjistím, kde vám utíkají příležitosti.</p>
                         </div>
                     </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Kdy uvidím první výsledky?</div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Záleží na typu projektu a způsobu řešení. V případě e-mailingu přichází viditelné výsledky obvykle už během prvních týdnů po zahájení spolupráce. U dlouhodobé spolupráce se efekt násobí s časem a daty.
+                    <div class="workflow-step">
+                        <div class="step-number">02</div>
+                        <div class="step-content">
+                            <h3>FÁZE 2 – Strategie</h3>
+                            <p>Na základě dat a výzkumu vytvoříme strategii, která propojí potřeby zákazníků s vašimi obchodními cíli.</p>
                         </div>
                     </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Pomůžete mi i v jiných oblastech marketingu?</div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Kromě retenčního marketingu vám dokážu pomoct i s copywritingem a content marketingem, ve kterých mám letité zkušenosti. Přestože mám určitý vhled i do dalších oblastí online marketingu (např. UX, SEO, PPC), raději vám doporučím nebo přizvu do projektu jiné specialisty.
+                    <div class="workflow-step">
+                        <div class="step-number">03</div>
+                        <div class="step-content">
+                            <h3>FÁZE 3 – Nástroje</h3>
+                            <p>Strategii převedeme do praxe. Pomůžu vám vytěžit maximum z kanálů, které už využíváte, nebo zavést nové.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">04</div>
+                        <div class="step-content">
+                            <h3>FÁZE 4 – Měření a optimalizace</h3>
+                            <p>Určíme klíčové metriky ke sledování, abychom mohli retenční marketing vyhodnocovat a ladit.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <section class="pricing">
+    
+    <section class="references" id="references">
         <div class="container">
-            <h2 class="section-title">Orientační ceník</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-badge">„Chceme nastartovat e-mailing"</div>
-                    <h3>Kompletní rozjezd e-mailingu</h3>
-                    <div class="price">Od 15 000 Kč</div>
-                    <ul class="pricing-features">
-                        <li>Integrace a kompletní technické nastavení nástroje</li>
-                        <li>Strategie a plán</li>
-                        <li>Design e-mailové šablony</li>
-                        <li>Vytvoření automatizací</li>
-                        <li>Segmentace databáze</li>
-                        <li>Nastavení sběru kontaktů</li>
-                    </ul>
+            <h2 class="section-title">S kým už mám tu čest</h2>
+            <div class="logos-grid">
+                <div class="client-logo">
+                    <a href="https://e-shop-vehiclass.cz" target="_blank" rel="noopener"><img src="images/logo-vehiclass.png" alt="Vehiclass logo"></a>
+                </div>
+                <div class="client-logo">
+                    <a href="https://dualvit.cz" target="_blank" rel="noopener"><img src="images/logo-dualvit.png" alt="Dualvit logo"></a>
+                </div>
+                <div class="client-logo">
+                    <a href="https://vosime.cz" target="_blank" rel="noopener"><img src="images/logo-vosime.png" alt="Vosime logo"></a>
+                </div>
+                <div class="client-logo">
+                    <a href="https://zendino.cz" target="_blank" rel="noopener"><img src="images/logo-zendino.png" alt="Zendino logo"></a>
+                </div>
+                <div class="client-logo">
+                    <a href="https://ordinace-cekarny.cz" target="_blank" rel="noopener"><img src="images/logo-cekarny.png" alt="Ordinace-Cekarny logo"></a>
+                </div>
+                <div class="client-logo">
+                    <a href="https://poda.cz" target="_blank" rel="noopener"><img src="images/logo-poda.png" alt="PODA logo"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Můžeme spolupracovat jednorázově i dlouhodobě</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-badge">„Chceme odhalit největší příležitosti"</div>
+                    <h3>Retenční audit</h3>
+                    <div class="service-description">
+                        Na základě analýzy vašich dat zjistím, kde vám unikají peníze, proč se zákazníci nevracejí a jak zvýšit jejich hodnotu. Dostanete jasné výstupy, doporučení a plán kroků, který můžete okamžitě převést do praxe.
+                    </div>
+                    <div class="service-price">Od 15 000 Kč</div>
                 </div>
 
-                <div class="pricing-card">
-                    <div class="pricing-badge">„Chceme z retence vytěžit víc"</div>
-                    <h3>Retenční audit & strategie</h3>
-                    <div class="price">Od 25 000 Kč</div>
-                    <ul class="pricing-features">
-                        <li>Analýza zákaznické databáze a nákupního chování</li>
-                        <li>Audit současné marketingové komunikace</li>
-                        <li>Kontrola nastavení</li>
-                        <li>Tvorba retenční strategie</li>
-                        <li>Optimalizace automatizací a kampaní</li>
-                        <li>Akční plán s prioritami</li>
-                    </ul>
+                <div class="service-card">
+                    <div class="service-badge">„Chceme naplno využít retenci"</div>
+                    <h3>Retenční strategie a implementace</h3>
+                    <div class="service-description">
+                        Ponořím se do vašich dat a vytvořím komplexní strategii, která propojí potřeby zákazníků s obchodními cíli. Strategie nesmí zůstat jen na papíře, proto vám samozřejmě pomůžu i s její implementací.
+                    </div>
+                    <div class="service-price">Od 45 000 Kč</div>
                 </div>
 
-                <div class="pricing-card">
-                    <div class="pricing-badge">„Chceme dlouhodobě růst"</div>
-                    <h3>Dlouhodobá spolupráce</h3>
-                    <div class="price">Od 15 000 Kč <span>/ měsíc</span></div>
-                    <ul class="pricing-features">
-                        <li>E-mailové/CRM kampaně</li>
-                        <li>Optimalizace a tvorba automatizací</li>
-                        <li>Pravidelný reporting</li>
-                        <li>Konzultace a rozvoj retenční strategie</li>
-                        <li>Spolupráce s interním týmem nebo externími specialisty</li>
-                    </ul>
-                </div>
-
-                <div class="pricing-card">
-                    <div class="pricing-badge">„Potřebujeme poradit nebo nasměrovat"</div>
+                <div class="service-card">
+                    <div class="service-badge">„Potřebujeme poradit nebo nasměrovat"</div>
                     <h3>Konzultace</h3>
-                    <div class="price">1 500 Kč <span>/ hod</span></div>
-                    <ul class="pricing-features">
-                        <li>Strategické poradenství pro retenční marketing</li>
-                        <li>Hledání a řešení konkrétních problémů, které brzdí váš byznys</li>
-                        <li>Rychlý audit kampaní nebo automatizací</li>
-                        <li>Pomoc s technickým nastavením</li>
-                        <li>Školení týmu nebo jednotlivců</li>
-                    </ul>
+                    <div class="service-description">
+                        Pravidelná nebo jednorázová spolupráce, při které vám pomůžu řešit konkrétní problémy, kampaně nebo procesy.
+                    </div>
+                    <div class="service-price">1 500 Kč <span>/ hod</span></div>
                 </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-columns">
+                <div class="about-content">
+                    <h2>Kdo jsem a jak pracuji</h2>
+                    <p>Jsem **specialista na retenční marketing**. Pomáhám klientům naplno využít potenciál jejich zákaznické databáze – od chytrého e-mailingu až po komplexní retenční strategii.</p>
+                    <p>Prostřednictvím kampaní a automatizací založených na zákaznických datech zvyšuji počet opakovaných nákupů a tím i dlouhodobý růst tržeb.</p>
+                    <p>Na volné noze podnikám **více než 6 let**. Od copywritingu a content marketingu jsem se postupně přesunul čistě k retenčnímu marketingu. Díky tomu dokážu efektivně pracovat s databázi zákazníků – třeba i tou vaší.</p>
+                    <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
+                </div>
+                <div class="about-image">
+                    <img src="images/Tomas-Zalesak.png" alt="Tomáš Zálešák">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio">
+        <div class="container">
+            <h2 class="section-title">O své know-how se dělím</h2>
+            <div class="portfolio-grid">
+                <a href="https://tomaszalesak.cz/retencni-marketing" target="_blank" rel="noopener" class="portfolio-card">
+                    <div>
+                        <h3>Retenční marketing: Jak si udržet zákazníky</h3>
+                        <p>Blogový článek</p>
+                    </div>
+                    <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+                
+                <a href="https://www.podnikatel.cz/clanky/co-je-zakaznicka-zkusenost-a-proc-ji-vubec-resit-udelejte-z-ni-konkurencni-vyhodu" target="_blank" rel="noopener" class="portfolio-card">
+                    <div>
+                        <h3>Co je zákaznická zkušenost a proč ji vůbec řešit?</h3>
+                        <p>Článek pro Podnikatel.cz</p>
+                    </div>
+                    <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+                
+                <a href="https://www.podnikatel.cz/clanky/zakaznik-ma-vzdy-pravdu-opravdu" target="_blank" rel="noopener" class="portfolio-card">
+                    <div>
+                        <h3>Zákazník má vždy pravdu. Opravdu?</h3>
+                        <p>Článek pro Podnikatel.cz</p>
+                    </div>
+                    <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+
+                <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" class="portfolio-card">
+                    <div>
+                        <h3>YouTube kanál</h3>
+                        <p>Postřehy ze světa marketingu</p>
+                    </div>
+                    <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
             </div>
         </div>
     </section>
@@ -1064,24 +1051,8 @@
                 }
             });
         });
-
-        // FAQ toggle functionality
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', function() {
-                const faqItem = this.parentElement;
-                const isActive = faqItem.classList.contains('active');
-
-                // Zavřít všechny ostatní FAQ položky
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-
-                // Otevřít kliknutou položku, pokud nebyla aktivní
-                if (!isActive) {
-                    faqItem.classList.add('active');
-                }
-            });
-        });
+        
+        // Removed FAQ toggle functionality as FAQ section was removed.
     </script>
 </body>
 </html>
