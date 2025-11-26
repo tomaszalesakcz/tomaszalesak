@@ -53,6 +53,11 @@
             margin-bottom: 60px;
             font-weight: 700;
         }
+        /* Zvětšení mezer mezi sekcemi na desktopu */
+        .benefits, .workflow, .services, .about, .portfolio, .cta {
+            padding: 120px 0; 
+        }
+
         .highlight {
             position: relative;
             display: inline-block;
@@ -131,7 +136,7 @@
             display: none; /* Hide on mobile by default */
         }
         .main-nav a {
-            color: #35437b; /* Změna barvy anchor odkazů na modrou */
+            color: #35437b; /* Modrá barva */
             text-decoration: none;
             font-weight: 600;
             font-size: 1rem;
@@ -140,7 +145,7 @@
         }
         .main-nav a:hover {
             color: #2a3561;
-            text-decoration: underline; /* Podtržení po najetí myší */
+            text-decoration: underline; /* Podtržení po najetí */
         }
 
         .social-links {
@@ -182,7 +187,7 @@
             transform: translateY(-2px);
         }
 
-        /* Hero Section */
+        /* Hero Section (White) */
         .hero {
             padding: 80px 0 40px;
             background: #ffffff;
@@ -220,9 +225,8 @@
             box-shadow: 0 20px 60px rgba(53, 67, 123, 0.15);
         }
 
-        /* Benefits Section */
+        /* Benefits Section (Grey) */
         .benefits {
-            padding: 100px 0;
             background: #f8f9fa;
         }
 
@@ -239,7 +243,7 @@
             background: white;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex; /* Flexbox pro zarovnání obsahu */
+            display: flex; 
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
@@ -261,16 +265,15 @@
             font-size: 1.2rem;
             color: #000000;
             font-weight: 700;
-            height: 3.6em; /* Pevná výška pro 2 řádky (cca 1.2rem * 1.5 line-height * 2) */
+            height: 3.6em; /* Pevná výška pro 2 řádky */
             line-height: 1.4;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         
-        /* Workflow Section */
+        /* Workflow Section (White) */
         .workflow {
-            padding: 100px 0;
             background: #ffffff;
         }
         
@@ -384,91 +387,36 @@
         }
 
         /* Positioning of channels (8 total) */
-        .channel-item:nth-child(2) { /* E-mailing */
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .channel-item:nth-child(3) { /* SMS */
-            top: 10%;
-            right: 15%;
-        }
-        .channel-item:nth-child(4) { /* Notifikace */
-            top: 40%;
-            right: 0%;
-        }
-        .channel-item:nth-child(5) { /* Obsah */
-            bottom: 10%;
-            right: 15%;
-        }
-        .channel-item:nth-child(6) { /* Referral program (NEW) */
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .channel-item:nth-child(7) { /* Věrnostní programy (Moved) */
-            bottom: 10%;
-            left: 15%;
-        }
-        .channel-item:nth-child(8) { /* Předplatné (Moved) */
-            top: 40%;
-            left: 0%;
-        }
-        .channel-item:nth-child(9) { /* Direct mail (Moved) */
-            top: 10%;
-            left: 15%;
-        }
+        .channel-item:nth-child(2) { top: 0; left: 50%; transform: translateX(-50%); } 
+        .channel-item:nth-child(3) { top: 10%; right: 15%; } 
+        .channel-item:nth-child(4) { top: 40%; right: 0%; } 
+        .channel-item:nth-child(5) { bottom: 10%; right: 15%; } 
+        .channel-item:nth-child(6) { bottom: 0; left: 50%; transform: translateX(-50%); } 
+        .channel-item:nth-child(7) { bottom: 10%; left: 15%; } 
+        .channel-item:nth-child(8) { top: 40%; left: 0%; } 
+        .channel-item:nth-child(9) { top: 10%; left: 15%; } 
         
-        /* References Section */
-        .references {
-            padding: 80px 0;
-            background: #f8f9fa;
-            text-align: center;
-        }
-
-        .logos-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 40px;
-        }
-
-        .client-logo a {
-            display: block;
-            opacity: 0.7;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        .client-logo a:hover {
-            opacity: 1;
-            transform: translateY(-2px);
-        }
-        .client-logo img {
-            height: 40px; 
-            width: auto;
-        }
         
-        /* Services Section */
+        /* Services Section (Grey) */
         .services {
-            padding: 100px 0;
-            background: #ffffff;
+            background: #f8f9fa; /* Změna na šedou pro střídání */
         }
         
         .services-list {
-            display: flex; /* Změněno z grid na flex pro uspořádání pod sebou */
+            display: flex; 
             flex-direction: column;
-            gap: 30px;
-            max-width: 700px; /* Nastavení max. šířky pro centrování */
+            gap: 60px; /* Větší mezera mezi službami */
+            max-width: 700px; 
             margin: 60px auto 0;
         }
         
         .service-card {
             background: white;
             border-radius: 20px;
-            padding: 40px 30px;
+            padding: 60px 30px 40px; /* Zvýšený padding nahoře pro badge */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
+            position: relative; /* Pro absolutní pozicování badge */
             text-align: center;
         }
         
@@ -486,6 +434,14 @@
             font-weight: 600;
             margin-bottom: 20px;
             display: inline-block;
+            
+            /* Nové styly pro umístění nad box */
+            position: absolute;
+            top: -20px; 
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            white-space: nowrap;
         }
         
         .service-card h3 {
@@ -497,7 +453,7 @@
         .service-description {
             color: #555;
             margin-bottom: 25px;
-            text-align: left; /* Zarovnání popisu vlevo */
+            text-align: left; 
         }
         
         .service-price {
@@ -513,10 +469,9 @@
             color: #666;
         }
         
-        /* About Section */
+        /* About Section (White) */
         .about {
-            padding: 100px 0;
-            background: #f8f9fa;
+            background: #ffffff; /* Změna na bílou pro střídání */
         }
 
         .about-columns {
@@ -561,10 +516,9 @@
             box-shadow: 0 15px 40px rgba(53, 67, 123, 0.1);
         }
 
-        /* Portfolio/Articles Section (Slider) */
+        /* Portfolio/Articles Section (Grey) */
         .portfolio {
-            padding: 100px 0;
-            background: #ffffff;
+            background: #f8f9fa; /* Změna na šedou pro střídání */
         }
 
         .portfolio-slider-wrapper {
@@ -578,7 +532,7 @@
             overflow-x: scroll;
             scroll-snap-type: x mandatory;
             gap: 30px;
-            padding-bottom: 20px; /* Space for scrollbar */
+            padding-bottom: 20px; 
         }
 
         .portfolio-slider::-webkit-scrollbar {
@@ -591,20 +545,20 @@
         }
 
         .portfolio-slider::-webkit-scrollbar-track {
-            background: #f0f0f0;
+            background: #e0e0e0;
             border-radius: 10px;
         }
 
         .portfolio-card {
-            min-width: 300px; /* Základní velikost karty, aby se nevešly 4 */
+            min-width: 300px; 
             height: 220px;
             scroll-snap-align: start;
-            background: #35437b; /* Tmavě modrá barva */
+            background: #35437b; 
             color: white;
             border-radius: 16px;
             padding: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            transition: box-shadow 0.3s ease; /* Odstraněn transform z transition */
             position: relative;
             text-decoration: none;
             display: flex;
@@ -614,11 +568,11 @@
         
         .portfolio-card:hover {
             box-shadow: 0 8px 30px rgba(53, 67, 123, 0.3);
-            transform: translateY(-3px);
+            /* transform: translateY(-3px); ODSTRANĚNO */
         }
         
         .portfolio-card h3 {
-            font-size: 1.4rem; /* Zvětšení písma */
+            font-size: 1.4rem; 
             color: white;
             margin-bottom: 10px;
         }
@@ -639,11 +593,9 @@
         }
 
 
-        /* CTA Section - Reused styles from original CTA */
+        /* CTA Section (White) */
         .cta {
-            padding: 100px 0;
-            text-align: center;
-            background: #f8f9fa;
+            background: #ffffff; /* Změna na bílou pro střídání */
         }
 
         .cta h2 {
@@ -660,7 +612,7 @@
         }
 
 
-        /* Footer - Reused styles */
+        /* Footer */
         footer {
             background: #ffffff;
             padding: 40px 0;
@@ -715,14 +667,14 @@
                 grid-template-columns: 1fr;
             }
             .services-list {
-                max-width: 100%; /* Plná šířka na mobilu */
+                max-width: 100%; 
             }
             .service-description {
-                text-align: center; /* Zarovnat na střed i popis na mobilu, pro lepší vzhled */
+                text-align: center; 
             }
             
             .hero-image, .about-image {
-                order: -1; /* Image first on mobile */
+                order: -1; 
             }
             
             .diagram-container {
@@ -750,15 +702,14 @@
             }
             
             /* Repositioning for mobile layout */
-            /* Zde jsou pozice upraveny pro lepší rozložení na malém displeji */
-            .channel-item:nth-child(2) { top: 0; left: 50%; transform: translateX(-50%); } /* E-mailing */
-            .channel-item:nth-child(3) { top: 10%; right: 5%; } /* SMS */
-            .channel-item:nth-child(4) { top: 40%; right: 5%; } /* Notifikace */
-            .channel-item:nth-child(5) { bottom: 20%; right: 5%; } /* Obsah */
-            .channel-item:nth-child(6) { bottom: 0; left: 50%; transform: translateX(-50%); } /* Referral */
-            .channel-item:nth-child(7) { bottom: 20%; left: 5%; } /* Věrnostní */
-            .channel-item:nth-child(8) { top: 40%; left: 5%; } /* Předplatné */
-            .channel-item:nth-child(9) { top: 10%; left: 5%; } /* Direct mail */
+            .channel-item:nth-child(2) { top: 0; left: 50%; transform: translateX(-50%); } 
+            .channel-item:nth-child(3) { top: 10%; right: 5%; } 
+            .channel-item:nth-child(4) { top: 40%; right: 5%; } 
+            .channel-item:nth-child(5) { bottom: 20%; right: 5%; } 
+            .channel-item:nth-child(6) { bottom: 0; left: 50%; transform: translateX(-50%); } 
+            .channel-item:nth-child(7) { bottom: 20%; left: 5%; } 
+            .channel-item:nth-child(8) { top: 40%; left: 5%; } 
+            .channel-item:nth-child(9) { top: 10%; left: 5%; } 
         }
         
         @media (max-width: 768px) {
@@ -779,8 +730,9 @@
                 padding: 15px 35px;
                 font-size: 1rem;
             }
-            .hero, .benefits, .workflow, .references, .services, .about, .portfolio, .cta {
-                padding: 60px 0;
+            /* Zvětšení mezer mezi sekcemi na mobilu */
+            .hero, .benefits, .workflow, .services, .about, .portfolio, .cta {
+                padding: 80px 0;
             }
             .portfolio-card {
                 min-width: 250px;
@@ -803,7 +755,6 @@
                 <nav class="main-nav">
                     <a href="#workflow">Průběh spolupráce</a>
                     <a href="#services">Služby</a>
-                    <a href="#references">Reference</a>
                     <a href="#about">O mně</a>
                 </nav>
                 <div class="social-links">
@@ -959,11 +910,12 @@
             </div>
         </div>
     </section>
-
+    
     <section class="services" id="services">
         <div class="container">
             <h2 class="section-title">Můžeme spolupracovat jednorázově i dlouhodobě</h2>
-            <div class="services-list"> <div class="service-card">
+            <div class="services-list"> 
+                <div class="service-card">
                     <div class="service-badge">„Chceme odhalit největší příležitosti"</div>
                     <h3>Retenční audit</h3>
                     <div class="service-description">
@@ -1004,7 +956,7 @@
                     <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
                 </div>
                 <div class="about-image">
-                    <img src="images/TZ1.png" alt="Tomáš Zálešák" style="max-width: 300px;">
+                    <img src="images/TZ.png" alt="Tomáš Zálešák" style="max-width: 300px;">
                 </div>
             </div>
         </div>
@@ -1081,12 +1033,6 @@
                 }
             });
         });
-        
-        // Funkce pro jednoduchý slider
-        const slider = document.querySelector('.portfolio-slider');
-        
-        // Volitelně lze přidat posuvné tlačítka, prozatím se spoléháme na scroll/přejetí
-        // V CSS je nastaveno scroll-snap pro lepší uživatelský zážitek.
     </script>
 </body>
 </html>
