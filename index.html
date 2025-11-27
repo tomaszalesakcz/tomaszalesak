@@ -192,8 +192,7 @@
 
         /* Hero Section (White) */
         .hero {
-            padding: 120px 0 40px;
-            /* UPRAVENO: Zvětšen padding-top */
+            padding: 120px 0 40px; /* UPRAVENO: Zvětšen padding-top */
             background: #ffffff;
         }
 
@@ -540,8 +539,7 @@
             scroll-snap-type: x mandatory;
             gap: 30px;
             padding-bottom: 20px; 
-            scroll-behavior: smooth;
-            /* Hladký posun */
+            scroll-behavior: smooth; /* Hladký posun */
         }
 
         .portfolio-slider::-webkit-scrollbar {
@@ -638,8 +636,7 @@
         .cta {
             background: #ffffff;
             /* Změna na bílou pro střídání */
-            text-align: center;
-            /* UPRAVENO: Zarovnání na střed */
+            text-align: center; /* UPRAVENO: Zarovnání na střed */
         }
 
         .cta h2 {
@@ -745,18 +742,18 @@
                 font-size: 0.9rem;
             }
             
-            /* Repositioning for mobile layout (OPRAVENO) */
+            /* Repositioning for mobile layout */
             .channel-item:nth-child(2) { top: 0; left: 50%; transform: translateX(-50%); } 
-            .channel-item:nth-child(3) { top: 15%; right: 5%; } 
-            .channel-item:nth-child(4) { top: 40%; right: 0%; } 
-            .channel-item:nth-child(5) { bottom: 15%; right: 5%; } 
+            .channel-item:nth-child(3) { top: 10%; right: 5%; } 
+            .channel-item:nth-child(4) { top: 40%; right: 5%; } 
+            .channel-item:nth-child(5) { bottom: 20%; right: 5%; } 
             .channel-item:nth-child(6) { bottom: 0; left: 50%; transform: translateX(-50%); } 
-            .channel-item:nth-child(7) { bottom: 15%; left: 5%; } 
-            .channel-item:nth-child(8) { top: 40%; left: 0%; } 
-            .channel-item:nth-child(9) { top: 15%; left: 5%; } 
+            .channel-item:nth-child(7) { bottom: 20%; left: 5%; } 
+            .channel-item:nth-child(8) { top: 40%; left: 5%; } 
+            .channel-item:nth-child(9) { top: 10%; left: 5%; } 
             
             .slider-nav {
-                right: 20px;
+                right: 20px; 
             }
         }
         
@@ -790,8 +787,7 @@
                 height: 3.4em;
             }
             .slider-nav {
-                display: none;
-                /* Skrýt šipku na úzkých mobilních zařízeních */
+                display: none; /* Skrýt šipku na úzkých mobilních zařízeních */
             }
         }
     </style>
@@ -809,253 +805,319 @@
                     <a href="#workflow">Průběh spolupráce</a>
                     <a href="#services">Služby</a>
                     <a href="#about">O mně</a>
+         
                </nav>
                 <div class="social-links">
                     <a href="https://www.linkedin.com/in/tomas-zalesak" target="_blank" rel="noopener" aria-label="LinkedIn">
-                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" /></svg>
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 
+0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                     </a>
-                    <a href="https://www.facebook.com/tomaszalesakcz" target="_blank" rel="noopener" aria-label="Facebook">
-                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.99 4.388 10.954 10.125 11.854V15.4h-3.03v-3.414h3.03V9.45c0-3.007 1.792-4.669 4.533-4.669 1.314 0 2.682.235 2.682.235v2.953H14.41c-1.49 0-1.954.925-1.954 1.874v2.24h3.328l-.532 3.414h-2.796v6.453C19.612 22.954 24 17.99 24 12c0-6.627-5.373-12-12-12z" /></svg>
+                    <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" aria-label="YouTube">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 
+3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                     </a>
                 </div>
-                <a href="#cta" class="header-btn">Nezávazná konzultace</a>
-            </div>
+                <a href="#cta" class="header-btn">Kontakt</a>
+ 
+           </div>
         </div>
     </header>
 
-    <main>
+    <div class="container">
         <section class="hero">
-            <div class="container">
-                <div class="hero-columns">
-                    <div class="hero-content">
-                        <h1>Váš byznys stojí na **návratnosti** zákazníků.</h1>
-                        <p>Jsem **specialista retenčního marketingu**. Pomáhám byznysům **zvyšovat hodnotu zákazníků**, aby déle zůstávali a **opakovaně nakupovali**.</p>
-                        <a href="#cta" class="btn">Chci vyšší LTV</a>
-                    </div>
-                    <div class="hero-image">
-                        <img src="images/tomas-zalesak-profile.jpg" alt="Tomáš Zálešák" loading="eager">
-                    </div>
+            <div class="hero-columns">
+                <div class="hero-content">
+                    <h1>Více věrných zákazníků, <span class="highlight">vyšší tržby</span></h1>
+        
+                    <p>Pomůžu vašemu byznysu růst pomocí věrných zákazníků, kteří se vrací a opakovaně nakupují. Stavím na datech a zákaznickém výzkumu.</p>
+                    <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
+                </div>
+                <div class="hero-image">
+                    <img src="images/Tomas-Zalesak.png" alt="Tomáš Zálešák">
+                
                 </div>
             </div>
         </section>
+    </div>
 
-        <section class="benefits">
-            <div class="container">
-                <h2 class="section-title">Jaké jsou výhody retenčního marketingu?</h2>
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <span class="benefit-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8v2m0 4v2m-6 3h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        </span>
-                        <h3>Vyšší ziskovost</h3>
-                    </div>
-                    <div class="benefit-card">
-                        <span class="benefit-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                        </span>
-                        <h3>Stabilní cashflow</h3>
-                    </div>
-                    <div class="benefit-card">
-                        <span class="benefit-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-                        </span>
-                        <h3>Nižší náklady</h3>
-                    </div>
-                    <div class="benefit-card">
-                        <span class="benefit-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.24a2 2 0 010 3.397l-6.796 3.722L12 18h.01l-1.328-1.584M12 21a9 9 0 100-18 9 9 0 000 18z" /></svg>
-                        </span>
-                        <h3>Udržitelnost růstu</h3>
-                    </div>
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Co získáte?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                  
+                    <div class="benefit-icon">💰</div>
+                    <h3>Vyšší a stabilnější tržby</h3>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    
+                    <h3>Více vracejících se zákazníků</h3>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Efektivnější marketing s vyšší návratností</h3>
+                </div>
+   
+                <div class="benefit-card">
+                    <div class="benefit-icon">📢</div>
+                    <h3>Snížení závislosti na placené reklamě</h3>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="workflow" id="workflow">
-            <div class="container">
-                <h2 class="section-title">Jak to probíhá?</h2>
-                <div class="workflow-columns">
-                    <div class="workflow-timeline">
-                        <div class="workflow-step">
-                            <span class="step-number">1.</span>
-                            <div class="step-content">
-                                <h3>Data a analýza</h3>
-                                <p>Začneme **analýzou dat** o vašich zákaznících a nákupním chování. Odhalím **silné stránky a slabiny** vaší současné retence a definujeme cílové metriky (LTV, frekvence nákupů, churn).</p>
-                            </div>
-                        </div>
-                        <div class="workflow-step">
-                            <span class="step-number">2.</span>
-                            <div class="step-content">
-                                <h3>Strategie a segmentace</h3>
-                                <p>Vytvořím **kompletní retenční strategii** s jasnými cíli pro jednotlivé segmenty zákazníků. Definujeme, **co, kdy a komu** budeme komunikovat pro maximalizaci jejich hodnoty.</p>
-                            </div>
-                        </div>
-                        <div class="workflow-step">
-                            <span class="step-number">3.</span>
-                            <div class="step-content">
-                                <h3>Implementace a automatizace</h3>
-                                <p>Strategie se musí přenést do praxe. Nastavím **automatizované kampaně** a zajistím spuštění v klíčových kanálech. Ujistím se, že vše běží efektivně a škálovatelně.</p>
-                            </div>
-                        </div>
-                        <div class="workflow-step">
-                            <span class="step-number">4.</span>
-                            <div class="step-content">
-                                <h3>Optimalizace a reporting</h3>
-                                <p>Kampaně pravidelně vyhodnocujeme a **optimalizujeme** pro ještě lepší výsledky. Dostanete **pravidelný reporting** se srozumitelným vysvětlením dopadu na byznys.</p>
-                            </div>
-                        </div>
-                    </div>
+ 
+    <section class="workflow" id="workflow">
+        <div class="container">
+            <h2 class="section-title">Jak to probíhá?</h2>
+            <div class="workflow-columns">
+                <div class="workflow-diagram">
                     <div class="diagram-container">
+                    
                         <div class="center-circle">
-                            Zákazník <br> v centru pozornosti
+                            Retenční<br>marketing
                         </div>
+
                         <div class="channel-item">
+                  
                             <div class="channel-icon">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                         
                             </div>
-                            <div class="channel-label">E-mail</div>
+                            <div class="channel-label">E-mailing</div>
                         </div>
+
                         <div class="channel-item">
+                   
                             <div class="channel-icon">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                           
                             </div>
-                            <div class="channel-label">SMS / <br> mobil</div>
+                            <div class="channel-label">SMS</div>
                         </div>
+
                         <div class="channel-item">
+                     
                             <div class="channel-icon">
-                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                       
                             </div>
                             <div class="channel-label">Notifikace</div>
                         </div>
+                        
+                  
                         <div class="channel-item">
                             <div class="channel-icon">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+  
                             </div>
                             <div class="channel-label">Obsah</div>
                         </div>
+
+                     
+                     <div class="channel-item">
+    <div class="channel-icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M14 9V5a3 3 0 00-3-3l-1 5H5a2 2 0 00-2 2v7a2 2 0 002 2h11.28a2 2 0 001.94-1.515l1.5-6A2 2 0 0017.78 9H14z" />
+        </svg>
+    </div>
+    <div class="channel-label">Referral<br>program</div>
+</div>
+
                         <div class="channel-item">
+     
                             <div class="channel-icon">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 9V5a3 3 0 00-3-3l-1 5H5a2 2 0 00-2 2v7a2 2 0 002 2h11.28a2 2 0 001.94-1.515l1.5-6A2 2 0 0017.78 9H14z" /> </svg>
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 
+24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                             </div>
-                            <div class="channel-label">Referral<br>program</div>
+                            <div class="channel-label">Direct mail</div>
                         </div>
+
                         <div class="channel-item">
+ 
                             <div class="channel-icon">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
+       
                             </div>
                             <div class="channel-label">Věrnostní<br>program</div>
                         </div>
+
                         <div class="channel-item">
                             <div class="channel-icon">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18V6a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2z" /></svg>
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 
+012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
                             </div>
-                            <div class="channel-label">Video</div>
+                            <div class="channel-label">Předplatné</div>
                         </div>
-                        <div class="channel-item">
-                            <div class="channel-icon">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                            </div>
-                            <div class="channel-label">Personalizace</div>
+               
+                    </div>
+                </div>
+
+                <div class="workflow-timeline">
+                    <div class="workflow-step">
+                        <div class="step-number">01</div>
+     
+                        <div class="step-content">
+                            <h3>Analýza</h3>
+                            <p>Ponořím se do dat o vašich zákaznících, podívám se na vaše stávající marketingové aktivity a zjistím, kde vám utíkají příležitosti.</p>
+     
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">02</div>
+               
+                        <div class="step-content">
+                            <h3>Strategie</h3>
+                            <p>Na základě dat a výzkumu vytvoříme strategii, která propojí potřeby zákazníků s vašimi obchodními cíli.</p>
+                    
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        <div class="step-number">03</div>
+                        <div class="step-content">
+     
+                            <h3>Nástroje</h3>
+                            <p>Strategii převedeme do praxe. Pomůžu vám vytěžit maximum z kanálů, které už využíváte, nebo zavést nové.</p>
+                        </div>
+                    </div>
+                    <div class="workflow-step">
+                        
+                        <div class="step-number">04</div>
+                        <div class="step-content">
+                            <h3>Měření a optimalizace</h3>
+                            <p>Určíme klíčové metriky ke sledování, abychom mohli retenční marketing vyhodnocovat a ladit.</p>
+     
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+    
+    <section class="services" id="services">
+        <div class="container">
+  
+           <h2 class="section-title">Možnosti spolupráce</h2>
+            <div class="services-list"> 
+                <div class="service-card">
+                    <div class="service-badge">„Chceme odhalit největší příležitosti"</div>
+                    <h3>Retenční audit</h3>
+         
+                    <div class="service-description">
+                        Na základě analýzy vašich dat zjistím, kde vám unikají peníze, proč se zákazníci nevracejí a jak zvýšit jejich hodnotu. Dostanete jasné výstupy, doporučení a plán kroků, který můžete okamžitě převést do praxe.
+                    </div>
+                    <div class="service-price">Od 15 000 Kč</div>
+                </div>
 
-        <section class="services" id="services">
-            <div class="container">
-                <h2 class="section-title">Jak vám mohu pomoci?</h2>
-                <div class="services-list">
-                    <div class="service-card">
-                        <div class="service-badge">„Chceme odhalit největší příležitosti"</div>
-                        <h3>Retenční audit</h3>
-                        <div class="service-description">
-                            Na základě analýzy vašich dat zjistím, kde vám unikají peníze, proč se zákazníci nevracejí a jak zvýšit jejich hodnotu. Dostanete jasné výstupy, doporučení a plán kroků, který můžete okamžitě převést do praxe.
-                        </div>
-                        <div class="service-price">Od 15 000 Kč</div>
+                <div class="service-card">
+                    <div class="service-badge">„Chceme naplno využít retenci"</div>
+                   
+                    <h3>Retenční strategie a implementace</h3>
+                    <div class="service-description">
+                        Ponořím se do vašich dat a vytvořím komplexní strategii, která propojí potřeby zákazníků s obchodními cíli. Strategie nesmí zůstat jen na papíře, proto vám samozřejmě pomůžu i s její implementací.
                     </div>
-                    <div class="service-card">
-                        <div class="service-badge">„Chceme naplno využít retenci"</div>
-                        <h3>Retenční strategie a implementace</h3>
-                        <div class="service-description">
-                            Ponořím se do vašich dat a vytvořím komplexní strategii, která propojí potřeby zákazníků s obchodními cíli. Strategie nesmí zůstat jen na papíře, proto vám samozřejmě pomůžu i s její implementací.
-                        </div>
-                        <div class="service-price">Od 45 000 Kč</div>
+                    <div class="service-price">Od 45 000 Kč</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-badge">„Potřebujeme poradit nebo nasměrovat"</div>
+                   
+                    <h3>Konzultace</h3>
+                    <div class="service-description">
+                        Pravidelná nebo jednorázová spolupráce, při které vám pomůžu řešit konkrétní problémy, kampaně nebo procesy.
                     </div>
-                    <div class="service-card">
-                        <div class="service-badge">„Potřebujeme poradit nebo nasměrovat"</div>
-                        <h3>Konzultace</h3>
-                        <div class="service-description">
-                            Pravidelná nebo jednorázová spolupráce, při které vám pomůžu řešit konkrétní problémy, kampaně nebo procesy.
-                        </div>
-                        <div class="service-price">1 500 Kč <span>/ hod</span></div>
-                    </div>
+                    <div class="service-price">1 500 Kč <span>/ hod</span></div>
                 </div>
             </div>
-        </section>
-
-        <section class="about" id="about">
-            <div class="container">
-                <div class="about-columns">
-                    <div class="about-content">
-                        <h2>Kdo vlastně jsem?</h2>
-                        <p>Jsem **specialista na retenční marketing**. Posledních **7 let** pomáhám digitálním firmám a e-shopům budovat silné vztahy se zákazníky, zvyšovat jejich životní hodnotu (LTV) a snižovat náklady na akvizici.</p>
-                        <p>Věřím, že **udržení zákazníka je základem** každého udržitelného a ziskového byznysu. Svou práci zakládám na **datech, ověřených psychologických principech** a automatizaci, která zajistí, že se vaše značka stane první volbou zákazníka i při opakovaném nákupu.</p>
-                        <a href="#cta" class="btn">Chci se seznámit</a>
-                    </div>
-                    <div class="about-image">
-                        <img src="images/tomas-zalesak-about.jpg" alt="Tomáš Zálešák" loading="lazy">
-                    </div>
+        </div>
+    </section>
+    
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-columns">
+   
+                <div class="about-content">
+                    <h2>Kdo vlastně jsem?</h2>
+                    <p>Jsem <strong>specialista na retenční marketing</strong>. Pomáhám klientům naplno využít potenciál jejich zákaznické databáze – od chytrého e-mailingu až po komplexní retenční strategii.</p>
+                    <p>Prostřednictvím kampaní a automatizací založených na zákaznických datech zvyšuji počet opakovaných nákupů a tím i dlouhodobý růst tržeb.</p>
+                    <p>Na volné noze podnikám <strong>více než 6 let</strong>. Od copywritingu a content marketingu jsem se postupně přesunul čistě k retenčnímu marketetingu. Díky tomu dokážu efektivně pracovat s databázi zákazníků – třeba i tou vaší.</p>
+                    <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
+                </div>
+                <div class="about-image">
+                    <img src="images/TZ1.png" alt="Tomáš Zálešák" style="max-width: 300px;">
+       
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="portfolio">
-            <div class="container">
-                <h2 class="section-title">Moje práce a obsah</h2>
-                <div class="portfolio-slider-wrapper">
-                    <div class="portfolio-slider" id="portfolioSlider">
-                        <a href="https://blog.tomaszalesak.cz" target="_blank" rel="noopener" class="portfolio-card">
-                            <div>
-                                <h3>Odborný blog</h3>
-                                <p>Tipy, návody a případové studie ze světa e-mailingu a retence. Nový článek každý měsíc.</p>
-                            </div>
-                            <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                        </a>
-                        <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" class="portfolio-card">
-                            <div>
-                                <h3>YouTube kanál</h3>
-                                <p>Videa a rozhovory o LTV, CRM, e-mail marketingu a automatizaci.</p>
-                            </div>
-                            <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                        </a>
-                        <a href="https://www.linkedin.com/in/tomas-zalesak" target="_blank" rel="noopener" class="portfolio-card">
-                            <div>
-                                <h3>LinkedIn</h3>
-                                <p>Denní porce myšlenek, komentářů a krátkých tipů z oboru.</p>
-                            </div>
-                            <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                        </a>
-                    </div>
-                    <div class="slider-nav">
-                        <button id="slideRight" class="slider-arrow" aria-label="Další">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                        </button>
-                    </div>
+    <section class="portfolio">
+        <div class="container">
+            <h2 class="section-title">O své know-how se dělím</h2>
+            <div class="portfolio-slider-wrapper">
+                <div class="portfolio-slider" id="portfolioSlider">
+      
+                    <a href="https://tomaszalesak.cz/retencni-marketing" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>Retenční marketing: Jak si udržet zákazníky</h3>
+                         
+                            <p>Blogový článek</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+  
+                   
+                    <a href="https://www.podnikatel.cz/clanky/co-je-zakaznicka-zkusenost-a-proc-ji-vubec-resit-udelejte-z-ni-konkurencni-vyhodu" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>Co je zákaznická zkušenost a proč 
+ji vůbec řešit?</h3>
+                            <p>Článek pro Podnikatel.cz</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 
+2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                    
+                    <a href="https://www.podnikatel.cz/clanky/zakaznik-ma-vzdy-pravdu-opravdu" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+      
+                            <h3>Zákazník má vždy pravdu. Opravdu?</h3>
+                            <p>Článek pro Podnikatel.cz</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 
+0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+
+                    <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            
+                            <h3>YouTube kanál</h3>
+                            <p>Postřehy ze světa marketingu</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 
+2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                </div>
+                <div class="slider-nav">
+                    <button class="slider-arrow" id="slideRight">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="cta" id="cta">
-            <div class="container">
-                <h2 class="section-title">Chcete zvýšit hodnotu svých zákazníků?</h2>
-                <p>Nezávazně probereme vaše cíle a navrhnu první kroky. Odpovím nejpozději do 2. pracovního dne.</p>
-                <a href="mailto:tomas@tomaszalesak.cz" class="btn">Napsat mi e-mail</a>
-                <p style="margin-top: 20px; font-size: 0.95rem; color: #888;">Odpovídám nejpozději do 2. pracovního dne</p>
-            </div>
-        </section>
-
-    </main>
+    <section class="cta" id="cta">
+        <div class="container">
+            <h2><span class="highlight">Plácneme si?</span></h2>
+     
+            <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
+            <a href="mailto:jsem@tomaszalesak.cz" class="btn">jsem@tomaszalesak.cz</a>
+            <p style="margin-top: 20px;
+font-size: 0.95rem; color: #888;">Odpovídám nejpozději do 2. pracovního dne</p>
+        </div>
+    </section>
 
     <footer>
         <div class="container">
@@ -1073,6 +1135,7 @@
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({
+          
                         behavior: 'smooth',
                         block: 'start'
                     });
@@ -1094,6 +1157,7 @@
                 });
             });
         }
+    
     </script>
 </body>
 </html>
