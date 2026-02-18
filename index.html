@@ -54,7 +54,7 @@
             font-weight: 700;
         }
         /* Zvětšení mezer mezi sekcemi na desktopu */
-        .benefits, .workflow, .services, .about, .portfolio, .cta {
+        .benefits, .challenges, .services, .about, .portfolio, .cta {
             padding: 120px 0;
         }
 
@@ -272,70 +272,45 @@
             justify-content: center;
         }
         
-        /* Workflow Section (White) */
-        .workflow {
+        /* Challenges Section (Formerly Workflow) - WHITE */
+        .challenges {
             background: #ffffff;
         }
         
-        .workflow-columns {
+        .challenges-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: flex-start;
-        }
-        
-        .workflow-timeline {
-            display: flex;
-            flex-direction: column;
+            grid-template-columns: repeat(3, 1fr); /* 3 vedle sebe */
             gap: 30px;
         }
         
-        .workflow-step {
-            display: flex;
-            align-items: flex-start;
-            gap: 25px;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: box-shadow 0.3s ease;
+        .challenge-card {
+            background: #fff;
+            border: 1px solid #eeeeee;
+            border-left: 5px solid #35437b; /* Výrazný levý okraj pro odlišení */
+            border-radius: 8px; /* Méně kulaté rohy než u services */
+            padding: 35px 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+            height: 100%; /* Stejná výška */
         }
         
-        .workflow-step:hover {
-            box-shadow: 0 8px 30px rgba(53, 67, 123, 0.15);
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(53, 67, 123, 0.1);
         }
         
-        .step-number {
-            font-size: 2.5rem;
-            font-weight: 700;
+        .challenge-card h3 {
+            font-size: 1.3rem;
             color: #35437b;
-            line-height: 1;
-            flex-shrink: 0;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.4;
         }
         
-        .step-content h3 {
-            font-size: 1.5rem;
-            color: #000000;
-            margin-bottom: 10px;
-        }
-        
-        .step-content p {
+        .challenge-card p {
             font-size: 1rem;
-            color: #666;
+            color: #555;
             line-height: 1.6;
-        }
-        
-        /* Retention Diagram (Replaced with Image) */
-        .diagram-image-wrapper {
-            max-width: 600px; /* Slightly adjusted max-width for the image */
-            margin: 0 auto;
-            text-align: center;
-        }
-        .diagram-image-wrapper img {
-            width: 100%;
-            height: auto;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         /* Services Section (Grey) */
@@ -665,19 +640,18 @@
                 font-size: 2.2rem;
             }
 
-            .hero-columns, .workflow-columns, .about-columns {
+            .hero-columns, .about-columns {
                 grid-template-columns: 1fr;
                 text-align: center;
                 gap: 40px;
             }
             
-            .workflow-step {
-                text-align: left;
+            /* Úprava challenges na mobilu */
+            .challenges-grid {
+                grid-template-columns: 1fr;
             }
-            
-            .workflow-timeline {
-                max-width: 500px;
-                margin: 0 auto;
+            .challenge-card {
+                padding: 30px;
             }
 
             .benefits-grid {
@@ -693,8 +667,6 @@
             .about-image {
                 order: -1;
             }
-            
-            /* Diagram specific overrides removed, the image will scale */
             
             .slider-nav {
                 right: 20px;
@@ -720,7 +692,7 @@
                 font-size: 1rem;
             }
             /* Zvětšení mezer mezi sekcemi na mobilu */
-            .hero, .benefits, .workflow, .services, .about, .portfolio, .cta {
+            .hero, .benefits, .challenges, .services, .about, .portfolio, .cta {
                 padding: 80px 0;
             }
             .portfolio-card {
@@ -746,7 +718,7 @@
     
             <div class="header-nav">
                 <nav class="main-nav">
-                    <a href="#workflow">Průběh spolupráce</a>
+                    <a href="#challenges">Poznáváte se v tom?</a>
                     <a href="#services">Služby</a>
                     <a href="#about">O mně</a>
                 </nav>
@@ -803,45 +775,24 @@
         </div>
     </section>
 
-    <section class="workflow" id="workflow">
+    <section class="challenges" id="challenges">
         <div class="container">
-            <h2 class="section-title">Jak to probíhá?</h2>
-            <div class="workflow-columns">
-                <div class="workflow-timeline">
-                    <div class="workflow-step">
-                        <div class="step-number">01</div>
-                        <div class="step-content">
-                            <h3>Analýza</h3>
-                            <p>Ponořím se do dat o vašich zákaznících, podívám se na vaše stávající marketingové aktivity a zjistím, kde vám utíkají příležitosti.</p>
-                        </div>
-                    </div>
-                    <div class="workflow-step">
-                        <div class="step-number">02</div>
-                        <div class="step-content">
-                            <h3>Strategie</h3>
-                            <p>Na základě dat a výzkumu vytvoříme strategii, která propojí potřeby zákazníků s obchodními cíli a zajistí dlouhodobý růst.</p>
-                        </div>
-                    </div>
-                    <div class="workflow-step">
-                        <div class="step-number">03</div>
-                        <div class="step-content">
-                            <h3>Implementace</h3>
-                            <p>Strategii nenecháme v šuplíku, ale převedeme ji do praxe.</p>
-                        </div>
-                    </div>
-                    <div class="workflow-step">
-                        <div class="step-number">04</div>
-                        <div class="step-content">
-                            <h3>Optimalizace</h3>
-                            <p>Průběžně sledujeme výsledky a na základě dat optimalizujeme kampaně, abychom maximalizovali zisk.</p>
-                        </div>
-                    </div>
+            <h2 class="section-title">Poznáváte se v tom?</h2>
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <h3>„Akvizice zdražuje a nedaří se nám udržet zákazníky"</h3>
+                    <p>Získat nového zákazníka je čím dál dražší a placená reklama se přestává vyplácet. Identifikuji příležitosti a pomůžu vám nastavit systém, který zvýší opakované nákupy.</p>
                 </div>
                 
-                <div class="diagram-image-wrapper">
-                    <img src="images/diagram.png" alt="Diagram retenčního marketingu" loading="lazy">
+                <div class="challenge-card">
+                    <h3>„Nevíme, jak postupovat. Chybí nám strategie“</h3>
+                    <p>Možná občas pošlete newsletter, ale chybí komunikační strategie. Na základě analýzy vašeho aktuálního stavu určím směr, vyberu správné kanály a vytvořím plán s přímým dopadem na tržby.</p>
                 </div>
                 
+                <div class="challenge-card">
+                    <h3>„Neumíme z dat a nástrojů vytěžit maximum“</h3>
+                    <p>Ať už vhodný nástroj teprve vybíráte, nebo nějaký využíváte, pomůžu vám je efektivně spravovat. Propojím vaše data a nastavím základy pro komunikaci se zákazníky napříč různými kanály.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -849,7 +800,7 @@
     <section class="services" id="services">
         <div class="container">
             <h2 class="section-title">Možnosti spolupráce</h2>
-             <p class="services-intro">Jde o přehled nejběžnějších služeb.</p>
+             <p class="services-intro">Jde o přehled nejběžnějších služeb. Nicméně každý projekt je jiný, takže neexistuje univerzální řešení pro všechny.</p>
             <div class="services-list">
                 <div class="service-card">
                     <div class="service-badge">„Nevíme, kde začít a jaké nástroje vlastně potřebujeme"</div>
@@ -860,9 +811,9 @@
                     </div>
                     <div class="service-points">
                         <ul>
-                            <li>Analýza zákaznické báze a marketingu</li>
-                            <li>Kontrola nastavení nástrojů</li>
-                            <li>Jasná strategie s cílem co nejrychleji zvýšit tržby</li>
+                            <li>RFM analýza a segmentace zákazníků</li>
+                            <li>Revize technického nastavení a nástrojů</li>
+                            <li>Prioritizovaný akční plán (Roadmapa)</li>
                         </ul>
                     </div>
                 </div>
@@ -876,9 +827,9 @@
                     </div>
                     <div class="service-points">
                         <ul>
-                            <li>Propojení a aktivace dat</li>
-                            <li>Výběr a nastavení nástrojů</li>
-                            <li>Komunikační strategie napříč kanály</li>
+                            <li>Propojení CDP a aktivace dat</li>
+                            <li>Nastavení omnichannel automatizací</li>
+                            <li>Personalizace komunikace v praxi</li>
                         </ul>
                     </div>
                 </div>
@@ -887,13 +838,13 @@
                     <div class="service-badge">„Potřebujeme strategického partnera"</div>
                     <h3>Externí řízení retenčního marketingu</h3>
                     <div class="service-description">
-                        Chcete se opřít do retence, ale nemáte na to člověka? Spojím síly s vaším nebo externím týmem.
+                        Chcete se opřít do retence, ale nemáte na to člověka? Spojím síly s vaším týmem.
                         Nastavím procesy, předám zkušenosti a postavím základy, na kterých můžete do budoucna stavět.
                     </div>
                     <div class="service-points">
                         <ul>
                             <li>Role externího Head of Retention</li>
-                            <li>Spolupráce s interním nebo externím týmem</li>
+                            <li>Kontrola kvality exekuce (Stavební dozor)</li>
                             <li>Pravidelná optimalizace na základě dat</li>
                         </ul>
                     </div>
@@ -909,8 +860,8 @@
                     </div>
                     <div class="service-points">
                         <ul>
-                            <li>Jednorázové nebo pravidelné konzultace</li>
-                            <li>Workshopy pro týmy</li>
+                            <li>Intenzivní školení (RFM, Omnichannel)</li>
+                            <li>Deep-dive do nástrojů (Klaviyo, Bloomreach)</li>
                             <li>Praktické postupy přenositelné do praxe</li>
                         </ul>
                     </div>
