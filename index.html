@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tomáš Zálešák | Specialista retenčního marketingu</title>
+    <title>Tomáš Zálešák | Retenční marketing a e-mailing</title>
     <meta name="description" content="Jsem specialista retenčního marketingu. Pomáhám byznysům zvyšovat hodnotu zákazníků, aby déle zůstávali a opakovaně nakupovali.">
     <link rel="icon" type="image/png" href="images/TZ Logo.png">
 
@@ -405,14 +405,16 @@
             text-align: left; 
         }
 
-        /* --- NOVÉ STYLY PRO BODY SE SLUŽBAMI (CHECKMARKY) --- */
+        /* --- UPRAVENO: STYLY PRO BODY SE SLUŽBAMI (CHECKMARKY) --- */
         .service-points {
-            text-align: left;
+            text-align: center; /* Tímto vycentrujeme vnitřní blok UL */
             margin-top: 15px;
             padding-top: 15px;
             border-top: 1px solid #eee;
         }
         .service-points ul {
+            display: inline-block; /* Seznam se smrskne podle nejdelšího textu */
+            text-align: left;      /* Text uvnitř seznamu zůstane zarovnaný vlevo */
             list-style: none;
             padding: 0;
             margin: 0;
@@ -687,12 +689,6 @@
             }
             .service-description {
                 text-align: center;
-            }
-            /* Adjust list alignment for mobile if description is centered */
-            .service-points {
-                text-align: left; /* Keep left aligned for readability */
-                display: inline-block; /* Helps centering block in parent */
-                width: 100%;
             }
             
             .about-image {
