@@ -31,298 +31,153 @@
       background: var(--bg);
       color: var(--text);
       font-family: 'DM Sans', sans-serif;
-      font-weight: 400;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.025;
-      pointer-events: none;
-      z-index: 0;
+      opacity: 0.025; pointer-events: none; z-index: 0;
     }
 
     .app { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 32px 24px 80px; }
 
     header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 48px;
-      gap: 16px;
-      flex-wrap: wrap;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 48px; gap: 16px; flex-wrap: wrap;
     }
 
     .header-left h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(2rem, 4vw, 3rem);
-      letter-spacing: -0.03em;
-      line-height: 1;
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; line-height: 1;
     }
-
     .header-left h1 span { color: var(--accent); }
 
     .header-meta {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 8px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--muted); margin-top: 8px; letter-spacing: 0.05em; text-transform: uppercase;
     }
-
     .header-meta .dot {
-      display: inline-block;
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent2);
-      margin-right: 6px;
-      animation: pulse 2s infinite;
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent2); margin-right: 6px; animation: pulse 2s infinite;
     }
-
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-    /* MONTH SELECTOR */
     .month-selector {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 14px;
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 16px;
     }
-
     .month-selector label {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      white-space: nowrap;
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); white-space: nowrap;
     }
-
     .month-selector select {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      font-size: 12px;
-      padding: 6px 10px;
-      cursor: pointer;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text);
+      font-family: 'DM Mono', monospace; font-size: 12px;
+      padding: 6px 28px 6px 10px; cursor: pointer; outline: none;
+      appearance: none; -webkit-appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-      padding-right: 28px;
+      background-repeat: no-repeat; background-position: right 8px center;
     }
-
     .month-selector select:focus { border-color: rgba(240,192,64,0.4); }
-
-    .compare-badge {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    .compare-badge strong { color: var(--text); }
+    .compare-info { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; }
+    .compare-info strong { color: var(--text); }
 
     .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
     }
-
     .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
 
     .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      margin-bottom: 40px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px; margin-bottom: 40px;
     }
 
     .kpi-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 20px 22px;
-      position: relative;
-      overflow: hidden;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 20px 22px;
+      position: relative; overflow: hidden;
       transition: border-color 0.2s, transform 0.2s;
     }
-
     .kpi-card:hover { border-color: rgba(255,255,255,0.14); transform: translateY(-2px); }
-
     .kpi-card.primary {
       border-color: rgba(240,192,64,0.3);
       background: linear-gradient(135deg, rgba(240,192,64,0.06) 0%, var(--surface) 60%);
     }
-
     .kpi-card.primary::before {
-      content:'';
-      position:absolute;
-      top:0; left:0; right:0;
-      height:2px;
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
       background: linear-gradient(90deg, var(--accent), transparent);
     }
-
     .kpi-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 10px;
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
     }
-
     .kpi-value {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      letter-spacing: -0.02em;
-      color: var(--text);
-      line-height: 1;
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -0.02em; line-height: 1;
     }
-
     .kpi-card.primary .kpi-value { color: var(--accent); }
 
     .kpi-delta {
-      margin-top: 8px;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      margin-top: 8px; font-family: 'DM Mono', monospace; font-size: 11px;
+      display: flex; align-items: center; gap: 4px;
     }
-
     .kpi-delta.up { color: var(--up); }
     .kpi-delta.down { color: var(--down); }
     .kpi-delta.neutral { color: var(--muted); }
 
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 40px;
-    }
-
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
     @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 22px;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 22px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .card-title { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 15px; }
-    .card-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.05em; }
-
+    .card-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
     .chart-wrap { position: relative; height: 220px; }
 
     .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-
     .data-table th {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-align: left;
-      padding: 0 8px 12px 0;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); text-align: left;
+      padding: 0 8px 12px 0; border-bottom: 1px solid var(--border); white-space: nowrap;
     }
-
     .data-table th:last-child, .data-table td:last-child { text-align: right; padding-right: 0; }
-
     .data-table td {
-      padding: 12px 8px 12px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 12px 8px 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
       vertical-align: middle;
     }
-
     .data-table tr:last-child td { border-bottom: none; }
     .data-table tr:hover td { background: rgba(255,255,255,0.02); }
 
-    .campaign-name { font-weight: 500; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .campaign-name { font-weight: 500; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .campaign-date { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 2px; }
-
-    .metric-pill {
-      font-family: 'DM Mono', monospace;
-      font-size: 11px;
-      padding: 2px 7px;
-      border-radius: 4px;
-      background: var(--surface2);
-    }
-
+    .metric-pill { font-family: 'DM Mono', monospace; font-size: 11px; padding: 2px 7px; border-radius: 4px; background: var(--surface2); }
     .revenue-val { font-family: 'Syne', sans-serif; font-weight: 600; color: var(--accent); font-size: 14px; }
 
-    .lists-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 12px;
-      margin-bottom: 40px;
-    }
-
+    .lists-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 40px; }
     .list-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 20px 22px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r);
+      padding: 20px 22px; display: flex; justify-content: space-between; align-items: center; gap: 12px;
     }
-
     .list-name { font-weight: 500; margin-bottom: 4px; font-size: 14px; }
     .list-count { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 24px; color: var(--accent3); letter-spacing: -0.02em; }
 
-    .full-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 22px;
-      margin-bottom: 16px;
-      overflow-x: auto;
-    }
-
-    .badge { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.05em; }
+    .full-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 22px; margin-bottom: 16px; overflow-x: auto; }
+    .badge { font-family: 'DM Mono', monospace; font-size: 10px; padding: 2px 8px; border-radius: 20px; }
     .badge.active { background: rgba(74,222,128,0.12); color: var(--accent2); }
     .badge.inactive { background: rgba(107,114,128,0.15); color: var(--muted); }
 
     #loading {
-      position: fixed; inset: 0;
-      background: var(--bg);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+      position: fixed; inset: 0; background: var(--bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
       z-index: 100; gap: 16px;
     }
-
     .loader-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2rem; color: var(--accent); }
     .loader-bar { width: 200px; height: 2px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
     .loader-bar-inner { height: 100%; background: var(--accent); animation: loading 1.2s ease-in-out infinite; }
@@ -333,25 +188,12 @@
     @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
     .error-box {
-      background: rgba(248,113,113,0.1);
-      border: 1px solid rgba(248,113,113,0.3);
-      border-radius: var(--r);
-      padding: 20px;
-      color: var(--danger);
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
+      background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3);
+      border-radius: var(--r); padding: 20px; color: var(--danger);
+      font-family: 'DM Mono', monospace; font-size: 13px;
     }
-
     .no-data { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; text-align: center; padding: 24px; }
-
-    .automation-note {
-      font-family: 'DM Mono', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid var(--border);
-    }
+    .automation-note { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
   </style>
 </head>
 <body>
@@ -363,19 +205,15 @@
 </div>
 
 <div class="app" id="app" style="display:none">
-
   <header>
     <div class="header-left">
       <h1>Ecomail <span>Dashboard</span></h1>
-      <div class="header-meta">
-        <span class="dot"></span>
-        <span id="last-updated">Aktualizováno: –</span>
-      </div>
+      <div class="header-meta"><span class="dot"></span><span id="last-updated">–</span></div>
     </div>
     <div class="month-selector">
       <label>Období</label>
-      <select id="month-select" onchange="onMonthChange()"></select>
-      <div class="compare-badge">vs. <strong id="prev-month-label">–</strong></div>
+      <select id="month-select" onchange="renderAll()"></select>
+      <div class="compare-info">vs. <strong id="prev-label">–</strong></div>
     </div>
   </header>
 
@@ -384,21 +222,11 @@
 
   <div class="two-col">
     <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Tržby z e-mailingu</div>
-          <div class="card-sub">Kampaně + automatizace</div>
-        </div>
-      </div>
+      <div class="card-header"><div><div class="card-title">Tržby z e-mailingu</div><div class="card-sub">Kampaně + automatizace</div></div></div>
       <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
     </div>
     <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">Engagement metriky</div>
-          <div class="card-sub">Průměr kampaní — OR, CTR</div>
-        </div>
-      </div>
+      <div class="card-header"><div><div class="card-title">Engagement metriky</div><div class="card-sub">Průměr kampaní — OR, CTR</div></div></div>
       <div class="chart-wrap"><canvas id="metricsChart"></canvas></div>
     </div>
   </div>
@@ -408,7 +236,7 @@
 
   <div class="section-label">Kampaně</div>
   <div class="full-card">
-    <div class="card-header"><div class="card-title">Přehled kampaní <span id="campaign-month-label" style="font-weight:400;color:var(--muted);font-size:13px"></span></div></div>
+    <div class="card-header"><div class="card-title">Přehled kampaní &nbsp;<span id="camp-period" style="font-weight:400;color:var(--muted);font-size:13px"></span></div></div>
     <div id="campaigns-table-wrap"></div>
   </div>
 
@@ -416,304 +244,264 @@
   <div class="full-card">
     <div class="card-header"><div class="card-title">Přehled automatizací</div></div>
     <div id="automations-table-wrap"></div>
-    <div class="automation-note">⚠ Statistiky automatizací jsou kumulativní za celou dobu běhu, nelze je filtrovat po měsících.</div>
+    <div class="automation-note">⚠ Statistiky automatizací jsou kumulativní za celou dobu běhu – nelze je filtrovat po měsících.</div>
   </div>
-
 </div>
 
 <script>
-const DATA_BASE = 'https://tomaszalesak.cz/vehiclass/data';
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const DATA_URL = 'https://tomaszalesak.cz/vehiclass/data/current.json';
 
-// ── GLOBALS ───────────────────────────────────────────────────────────────
-let fullData = null;
-let revenueChart = null;
-let metricsChart = null;
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let RAW = null;           // raw current.json
+let MONTHS = [];          // sorted desc: ['2026-03', '2026-02', ...]
+let CAMP_BY_MONTH = {};   // { '2026-03': [...campaigns] }
+let rChart = null, mChart = null;
 
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
 const MONTH_NAMES = ['leden','únor','březen','duben','květen','červen','červenec','srpen','září','říjen','listopad','prosinec'];
 
-// ── HELPERS ───────────────────────────────────────────────────────────────
 const fmt = {
-  money: v => v == null ? '—' : Number(v).toLocaleString('cs-CZ', {minimumFractionDigits:0, maximumFractionDigits:0}) + ' Kč',
-  pct: v => v == null ? '—' : Number(v).toFixed(1) + ' %',
-  num: v => v == null ? '—' : Number(v).toLocaleString('cs-CZ'),
-  date: v => { if (!v) return '—'; try { return new Date(v).toLocaleDateString('cs-CZ', {day:'numeric',month:'short',year:'numeric'}); } catch { return v; } },
-  datetime: v => { if (!v) return '—'; try { return new Date(v).toLocaleString('cs-CZ', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch { return v; } },
-  monthLabel: key => { if (!key) return '—'; const [y,m] = key.split('-'); return `${MONTH_NAMES[parseInt(m)-1]} ${y}`; },
+  money: v => Number(v || 0).toLocaleString('cs-CZ', {minimumFractionDigits:0, maximumFractionDigits:0}) + ' Kč',
+  pct:   v => Number(v || 0).toFixed(1) + ' %',
+  num:   v => Number(v || 0).toLocaleString('cs-CZ'),
+  date:  v => { if (!v) return '—'; try { return new Date(v).toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'}); } catch { return v; }},
+  dt:    v => { if (!v) return '—'; try { return new Date(v).toLocaleString('cs-CZ',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch { return v; }},
+  month: k => { if (!k) return '—'; const [y,m] = k.split('-'); return `${MONTH_NAMES[+m-1]} ${y}`; },
 };
 
-function delta(current, prev, format, suffix = '') {
-  if (prev == null || prev === 0) return '<span class="kpi-delta neutral">— bez srovnání</span>';
-  const diff = current - prev;
-  const pctChange = ((diff / prev) * 100).toFixed(1);
+function monthKey(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  if (isNaN(d)) return null;
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+function selectedMonth() { return document.getElementById('month-select').value; }
+
+function prevMonth(key) {
+  const idx = MONTHS.indexOf(key);
+  return idx >= 0 && idx < MONTHS.length - 1 ? MONTHS[idx + 1] : null;
+}
+
+function summarize(campaigns) {
+  const rev = campaigns.reduce((s,c) => s + (c.conversions_value||0), 0);
+  const or  = campaigns.length ? campaigns.reduce((s,c) => s+(c.open_rate||0),0)/campaigns.length : 0;
+  const ctr = campaigns.length ? campaigns.reduce((s,c) => s+(c.click_rate||0),0)/campaigns.length : 0;
+  return { campaign_revenue: rev, avg_or: or, avg_ctr: ctr };
+}
+
+function deltaHtml(cur, prev, format, prevKey) {
+  if (prev == null) return `<span class="kpi-delta neutral">— bez srovnání</span>`;
+  const diff = cur - prev;
+  if (prev === 0 && diff === 0) return `<span class="kpi-delta neutral">— bez srovnání</span>`;
+  const pct = prev !== 0 ? ((diff/prev)*100).toFixed(1) : '∞';
   const cls = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
   const arrow = diff > 0 ? '↑' : diff < 0 ? '↓' : '→';
-  let label;
-  if (format === 'money') label = fmt.money(Math.abs(diff));
-  else if (format === 'num') label = fmt.num(Math.abs(diff));
-  else label = Math.abs(diff).toFixed(1) + suffix;
-  return `<span class="kpi-delta ${cls}">${arrow} ${label} (${diff > 0 ? '+' : ''}${pctChange}%) vs. ${fmt.monthLabel(getPrevMonthKey())} </span>`;
+  let label = format === 'money' ? fmt.money(Math.abs(diff))
+            : format === 'num'   ? fmt.num(Math.abs(diff))
+            : Math.abs(diff).toFixed(1) + (format||'');
+  return `<span class="kpi-delta ${cls}">${arrow} ${label} (${diff>0?'+':''}${pct}%) vs. ${fmt.month(prevKey)}</span>`;
 }
 
-function getSelectedMonth() {
-  return document.getElementById('month-select').value;
-}
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+async function init() {
+  try {
+    const res = await fetch(DATA_URL + '?v=' + Date.now());
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    RAW = await res.json();
 
-function getPrevMonthKey() {
-  const sel = getSelectedMonth();
-  const months = fullData.available_months || [];
-  const idx = months.indexOf(sel);
-  return idx < months.length - 1 ? months[idx + 1] : null;
-}
+    document.getElementById('last-updated').textContent = 'Aktualizováno: ' + fmt.dt(RAW.timestamp);
 
-function getMonthData(key) {
-  if (!key || !fullData.monthly) return null;
-  return fullData.monthly[key] || null;
-}
+    // Build month index from campaigns
+    RAW.campaigns.forEach(c => {
+      const k = monthKey(c.sent_at);
+      if (!k) return;
+      if (!CAMP_BY_MONTH[k]) CAMP_BY_MONTH[k] = [];
+      CAMP_BY_MONTH[k].push(c);
+    });
 
-// ── FETCH ─────────────────────────────────────────────────────────────────
-async function loadJSON(path) {
-  const res = await fetch(path + '?v=' + Date.now());
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
-  return res.json();
-}
+    MONTHS = Object.keys(CAMP_BY_MONTH).sort().reverse();
 
-async function loadData() {
-  return loadJSON(`${DATA_BASE}/current.json`);
-}
+    // Populate select
+    const sel = document.getElementById('month-select');
+    sel.innerHTML = MONTHS.map(m => `<option value="${m}">${fmt.month(m)}</option>`).join('');
 
-// ── MONTH SELECT ──────────────────────────────────────────────────────────
-function populateMonthSelect() {
-  const sel = document.getElementById('month-select');
-  const months = fullData.available_months || [];
-  sel.innerHTML = months.map(m =>
-    `<option value="${m}">${fmt.monthLabel(m)}</option>`
-  ).join('');
-  // Default = most recent month
-  if (months.length > 0) sel.value = months[0];
-}
+    renderAll();
 
-function onMonthChange() {
-  renderAll();
-}
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
 
-// ── RENDER ────────────────────────────────────────────────────────────────
-function renderAll() {
-  const selectedKey = getSelectedMonth();
-  const prevKey = getPrevMonthKey();
-  const current = getMonthData(selectedKey);
-  const prev = getMonthData(prevKey);
-
-  if (!current) {
-    document.getElementById('kpi-grid').innerHTML = '<div class="no-data">Žádná data pro vybrané období</div>';
-    return;
+  } catch(err) {
+    document.getElementById('loading').innerHTML = `<div style="max-width:480px;padding:24px"><div class="error-box"><strong>Chyba při načítání dat</strong><br><br>${err.message}</div></div>`;
   }
-
-  // Update prev month label
-  document.getElementById('prev-month-label').textContent = prevKey ? fmt.monthLabel(prevKey) : 'žádné srovnání';
-  document.getElementById('campaign-month-label').textContent = `— ${fmt.monthLabel(selectedKey)}`;
-
-  renderKPIs(current, prev);
-  renderCharts(current, prev, selectedKey, prevKey);
-  renderLists(current, prev);
-  renderCampaignsTable(current);
-  renderAutomationsTable(current);
 }
 
-function renderKPIs(current, prev) {
-  const s = current.summary;
-  const ps = prev?.summary;
+// ─── RENDER ALL ───────────────────────────────────────────────────────────────
+function renderAll() {
+  const selKey  = selectedMonth();
+  const prevKey = prevMonth(selKey);
+  const camps   = CAMP_BY_MONTH[selKey] || [];
+  const prevCamps = prevKey ? (CAMP_BY_MONTH[prevKey] || []) : null;
+  const autoRevenue = RAW.automations.reduce((s,a) => s+(a.conversions_value||0), 0);
 
-  const kpis = [
-    { label: 'Celkové tržby', value: fmt.money(s.total_revenue), deltaHtml: delta(s.total_revenue, ps?.total_revenue, 'money'), primary: true },
-    { label: 'Tržby z kampaní', value: fmt.money(s.total_campaign_revenue), deltaHtml: delta(s.total_campaign_revenue, ps?.total_campaign_revenue, 'money') },
-    { label: 'Tržby z automatizací', value: fmt.money(s.total_automation_revenue), deltaHtml: delta(s.total_automation_revenue, ps?.total_automation_revenue, 'money') },
-    { label: 'Prům. Open Rate', value: fmt.pct(s.avg_campaign_open_rate), deltaHtml: delta(parseFloat(s.avg_campaign_open_rate), parseFloat(ps?.avg_campaign_open_rate), 'raw', ' p.p.') },
-    { label: 'Prům. Click Rate', value: fmt.pct(s.avg_campaign_click_rate), deltaHtml: delta(parseFloat(s.avg_campaign_click_rate), parseFloat(ps?.avg_campaign_click_rate), 'raw', ' p.p.') },
-    { label: 'Celkem kontaktů', value: fmt.num(s.total_contacts), deltaHtml: delta(s.total_contacts, ps?.total_contacts, 'num') },
+  document.getElementById('prev-label').textContent = prevKey ? fmt.month(prevKey) : 'žádné srovnání';
+  document.getElementById('camp-period').textContent = `— ${fmt.month(selKey)}`;
+
+  const cur  = summarize(camps);
+  const prev = prevCamps ? summarize(prevCamps) : null;
+
+  renderKPIs(cur, prev, prevKey, autoRevenue);
+  renderCharts(cur, prev, selKey, prevKey, autoRevenue);
+  renderLists();
+  renderCampaigns(camps);
+  renderAutomations();
+}
+
+// ─── KPIs ─────────────────────────────────────────────────────────────────────
+function renderKPIs(cur, prev, prevKey, autoRevenue) {
+  const totalRev = cur.campaign_revenue + autoRevenue;
+  const prevTotalRev = prev ? prev.campaign_revenue + autoRevenue : null; // auto is cumulative
+
+  const cards = [
+    { label:'Celkové tržby',         value: fmt.money(totalRev),            delta: deltaHtml(totalRev, prevTotalRev, 'money', prevKey), primary:true },
+    { label:'Tržby z kampaní',        value: fmt.money(cur.campaign_revenue), delta: deltaHtml(cur.campaign_revenue, prev?.campaign_revenue, 'money', prevKey) },
+    { label:'Tržby z automatizací',   value: fmt.money(autoRevenue),         delta: `<span class="kpi-delta neutral">kumulativní za celou dobu</span>` },
+    { label:'Prům. Open Rate',        value: fmt.pct(cur.avg_or),            delta: deltaHtml(cur.avg_or, prev?.avg_or, ' p.p.', prevKey) },
+    { label:'Prům. Click Rate',       value: fmt.pct(cur.avg_ctr),           delta: deltaHtml(cur.avg_ctr, prev?.avg_ctr, ' p.p.', prevKey) },
+    { label:'Celkem kontaktů',        value: fmt.num(RAW.summary.total_contacts), delta: `<span class="kpi-delta neutral">— bez srovnání</span>` },
   ];
 
-  document.getElementById('kpi-grid').innerHTML = kpis.map(k => `
-    <div class="kpi-card ${k.primary ? 'primary' : ''} fade-in">
-      <div class="kpi-label">${k.label}</div>
-      <div class="kpi-value">${k.value}</div>
-      ${k.deltaHtml}
-    </div>
-  `).join('');
+  document.getElementById('kpi-grid').innerHTML = cards.map(c => `
+    <div class="kpi-card ${c.primary?'primary':''} fade-in">
+      <div class="kpi-label">${c.label}</div>
+      <div class="kpi-value">${c.value}</div>
+      ${c.delta}
+    </div>`).join('');
 }
 
-function renderCharts(current, prev, selectedKey, prevKey) {
-  const s = current.summary;
-  const ps = prev?.summary;
+// ─── CHARTS ───────────────────────────────────────────────────────────────────
+function renderCharts(cur, prev, selKey, prevKey, autoRevenue) {
+  if (rChart) { rChart.destroy(); rChart = null; }
+  if (mChart) { mChart.destroy(); mChart = null; }
 
-  // Destroy old charts
-  if (revenueChart) { revenueChart.destroy(); revenueChart = null; }
-  if (metricsChart) { metricsChart.destroy(); metricsChart = null; }
-
-  // Revenue chart
   const rCtx = document.getElementById('revenueChart').getContext('2d');
-  const rDatasets = [{
-    label: fmt.monthLabel(selectedKey),
-    data: [s.total_campaign_revenue, s.total_automation_revenue],
-    backgroundColor: ['rgba(240,192,64,0.85)', 'rgba(240,192,64,0.5)'],
+  const rDS = [{
+    label: fmt.month(selKey),
+    data: [cur.campaign_revenue, autoRevenue],
+    backgroundColor: ['rgba(240,192,64,0.85)','rgba(240,192,64,0.45)'],
     borderRadius: 6, borderSkipped: false,
   }];
-  if (ps) rDatasets.push({
-    label: fmt.monthLabel(prevKey),
-    data: [ps.total_campaign_revenue, ps.total_automation_revenue],
-    backgroundColor: ['rgba(107,114,128,0.35)', 'rgba(107,114,128,0.2)'],
+  if (prev) rDS.push({
+    label: fmt.month(prevKey),
+    data: [prev.campaign_revenue, autoRevenue],
+    backgroundColor: ['rgba(107,114,128,0.4)','rgba(107,114,128,0.2)'],
     borderRadius: 6, borderSkipped: false,
   });
 
-  revenueChart = new Chart(rCtx, {
-    type: 'bar',
-    data: { labels: ['Kampaně', 'Automatizace'], datasets: rDatasets },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { labels: { color: '#6b7280', font: { family: 'DM Mono', size: 11 }, boxWidth: 12 } },
-        tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + fmt.money(ctx.raw) } }
+  rChart = new Chart(rCtx, {
+    type:'bar', data:{ labels:['Kampaně','Automatizace'], datasets:rDS },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{color:'#6b7280',font:{family:'DM Mono',size:11},boxWidth:12}},
+        tooltip:{callbacks:{label:ctx=>' '+ctx.dataset.label+': '+fmt.money(ctx.raw)}}
       },
-      scales: {
-        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280', font: { family: 'DM Mono', size: 11 } } },
-        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280', font: { family: 'DM Mono', size: 11 }, callback: v => (v/1000) + 'k' } }
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#6b7280',font:{family:'DM Mono',size:11}}},
+        y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#6b7280',font:{family:'DM Mono',size:11},callback:v=>(v/1000)+'k'}}
       }
     }
   });
 
-  // Metrics chart
   const mCtx = document.getElementById('metricsChart').getContext('2d');
-  const mDatasets = [{
-    label: fmt.monthLabel(selectedKey),
-    data: [parseFloat(s.avg_campaign_open_rate), parseFloat(s.avg_campaign_click_rate)],
-    backgroundColor: 'rgba(96,165,250,0.2)',
-    borderColor: '#60a5fa',
-    pointBackgroundColor: '#60a5fa',
-    borderWidth: 2, fill: true,
+  const mDS = [{
+    label: fmt.month(selKey),
+    data:[cur.avg_or, cur.avg_ctr],
+    backgroundColor:'rgba(96,165,250,0.2)', borderColor:'#60a5fa',
+    pointBackgroundColor:'#60a5fa', borderWidth:2, fill:true,
   }];
-  if (ps) mDatasets.push({
-    label: fmt.monthLabel(prevKey),
-    data: [parseFloat(ps.avg_campaign_open_rate), parseFloat(ps.avg_campaign_click_rate)],
-    backgroundColor: 'rgba(107,114,128,0.1)',
-    borderColor: 'rgba(107,114,128,0.5)',
-    pointBackgroundColor: 'rgba(107,114,128,0.5)',
-    borderWidth: 2, fill: true, borderDash: [4,4],
+  if (prev) mDS.push({
+    label: fmt.month(prevKey),
+    data:[prev.avg_or, prev.avg_ctr],
+    backgroundColor:'rgba(107,114,128,0.1)', borderColor:'rgba(107,114,128,0.5)',
+    pointBackgroundColor:'rgba(107,114,128,0.5)', borderWidth:2, fill:true, borderDash:[4,4],
   });
 
-  metricsChart = new Chart(mCtx, {
-    type: 'bar',
-    data: { labels: ['Open Rate', 'Click Rate'], datasets: mDatasets },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { labels: { color: '#6b7280', font: { family: 'DM Mono', size: 11 }, boxWidth: 12 } },
-        tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.raw.toFixed(1) + ' %' } }
+  mChart = new Chart(mCtx, {
+    type:'bar', data:{ labels:['Open Rate','Click Rate'], datasets:mDS },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{color:'#6b7280',font:{family:'DM Mono',size:11},boxWidth:12}},
+        tooltip:{callbacks:{label:ctx=>' '+ctx.dataset.label+': '+ctx.raw.toFixed(1)+' %'}}
       },
-      scales: {
-        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280', font: { family: 'DM Mono', size: 11 } } },
-        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280', font: { family: 'DM Mono', size: 11 }, callback: v => v + ' %' } }
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#6b7280',font:{family:'DM Mono',size:11}}},
+        y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#6b7280',font:{family:'DM Mono',size:11},callback:v=>v+' %'}}
       }
     }
   });
 }
 
-function renderLists(current) {
+// ─── LISTS ────────────────────────────────────────────────────────────────────
+function renderLists() {
   const grid = document.getElementById('lists-grid');
-  if (!current.lists?.length) { grid.innerHTML = '<div class="no-data">Žádné listy</div>'; return; }
-  grid.innerHTML = current.lists.map(list => `
+  if (!RAW.lists?.length) { grid.innerHTML='<div class="no-data">Žádné listy</div>'; return; }
+  grid.innerHTML = RAW.lists.map(l=>`
     <div class="list-card fade-in">
       <div>
-        <div class="list-name">${list.name}</div>
+        <div class="list-name">${l.name}</div>
         <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px">aktivní kontakty</div>
       </div>
-      <div class="list-count">${fmt.num(list.subscriber_count)}</div>
-    </div>
-  `).join('');
+      <div class="list-count">${fmt.num(l.subscriber_count)}</div>
+    </div>`).join('');
 }
 
-function renderCampaignsTable(current) {
+// ─── CAMPAIGNS TABLE ──────────────────────────────────────────────────────────
+function renderCampaigns(camps) {
   const wrap = document.getElementById('campaigns-table-wrap');
-  const campaigns = current.campaigns;
-  if (!campaigns?.length) { wrap.innerHTML = '<div class="no-data">Žádné kampaně v tomto období</div>'; return; }
-
-  const sorted = [...campaigns].sort((a,b) => {
-    if (!a.sent_at) return 1; if (!b.sent_at) return -1;
-    return new Date(b.sent_at) - new Date(a.sent_at);
-  });
-
+  if (!camps?.length) { wrap.innerHTML='<div class="no-data">Žádné kampaně v tomto období</div>'; return; }
+  const sorted = [...camps].sort((a,b)=>new Date(b.sent_at||0)-new Date(a.sent_at||0));
   wrap.innerHTML = `
     <table class="data-table">
       <thead><tr>
         <th>Kampaň</th><th>Doručeno</th><th>OR</th><th>CTR</th><th>Konverze</th><th>Tržby</th>
       </tr></thead>
-      <tbody>
-        ${sorted.map(c => `
-          <tr>
-            <td><div class="campaign-name">${c.name}</div><div class="campaign-date">${fmt.date(c.sent_at)}</div></td>
-            <td><span class="metric-pill">${fmt.num(c.delivered)}</span></td>
-            <td><span class="metric-pill">${fmt.pct(c.open_rate)}</span></td>
-            <td><span class="metric-pill">${fmt.pct(c.click_rate)}</span></td>
-            <td><span class="metric-pill">${fmt.num(c.conversions)}</span></td>
-            <td><span class="revenue-val">${fmt.money(c.conversions_value)}</span></td>
-          </tr>
-        `).join('')}
+      <tbody>${sorted.map(c=>`
+        <tr>
+          <td><div class="campaign-name">${c.name}</div><div class="campaign-date">${fmt.date(c.sent_at)}</div></td>
+          <td><span class="metric-pill">${fmt.num(c.delivered)}</span></td>
+          <td><span class="metric-pill">${fmt.pct(c.open_rate)}</span></td>
+          <td><span class="metric-pill">${fmt.pct(c.click_rate)}</span></td>
+          <td><span class="metric-pill">${fmt.num(c.conversions)}</span></td>
+          <td><span class="revenue-val">${fmt.money(c.conversions_value)}</span></td>
+        </tr>`).join('')}
       </tbody>
-    </table>
-  `;
+    </table>`;
 }
 
-function renderAutomationsTable(current) {
+// ─── AUTOMATIONS TABLE ────────────────────────────────────────────────────────
+function renderAutomations() {
   const wrap = document.getElementById('automations-table-wrap');
-  const automations = current.automations;
-  if (!automations?.length) { wrap.innerHTML = '<div class="no-data">Žádné automatizace</div>'; return; }
-
+  if (!RAW.automations?.length) { wrap.innerHTML='<div class="no-data">Žádné automatizace</div>'; return; }
+  const sorted = [...RAW.automations].sort((a,b)=>(b.conversions_value||0)-(a.conversions_value||0));
   wrap.innerHTML = `
     <table class="data-table">
       <thead><tr>
-        <th>Automatizace</th><th>Status</th><th>Spuštění</th><th>OR</th><th>CTR</th><th>Konverze</th><th>Tržby</th>
+        <th>Automatizace</th><th>Spuštění</th><th>OR</th><th>CTR</th><th>Konverze</th><th>Tržby celkem</th>
       </tr></thead>
-      <tbody>
-        ${automations.map(a => `
-          <tr>
-            <td><div class="campaign-name">${a.name}</div></td>
-            <td><span class="badge ${a.status === 'active' ? 'active' : 'inactive'}">${a.status || '—'}</span></td>
-            <td><span class="metric-pill">${fmt.num(a.triggered)}</span></td>
-            <td><span class="metric-pill">${fmt.pct(a.open_rate)}</span></td>
-            <td><span class="metric-pill">${fmt.pct(a.click_rate)}</span></td>
-            <td><span class="metric-pill">${fmt.num(a.conversions)}</span></td>
-            <td><span class="revenue-val">${fmt.money(a.conversions_value)}</span></td>
-          </tr>
-        `).join('')}
+      <tbody>${sorted.map(a=>`
+        <tr>
+          <td><div class="campaign-name">${a.name}</div></td>
+          <td><span class="metric-pill">${fmt.num(a.triggered)}</span></td>
+          <td><span class="metric-pill">${fmt.pct(a.open_rate)}</span></td>
+          <td><span class="metric-pill">${fmt.pct(a.click_rate)}</span></td>
+          <td><span class="metric-pill">${fmt.num(a.conversions)}</span></td>
+          <td><span class="revenue-val">${fmt.money(a.conversions_value)}</span></td>
+        </tr>`).join('')}
       </tbody>
-    </table>
-  `;
-}
-
-// ── INIT ──────────────────────────────────────────────────────────────────
-async function init() {
-  try {
-    fullData = await loadData();
-    document.getElementById('last-updated').textContent = 'Aktualizováno: ' + fmt.datetime(fullData.timestamp);
-
-    // If old format (no monthly), wrap it
-    if (!fullData.available_months || fullData.available_months.length === 0) {
-      const key = `${fullData.year}-${String(fullData.month).padStart(2,'0')}`;
-      fullData.available_months = [key];
-      fullData.monthly = { [key]: { campaigns: fullData.campaigns, automations: fullData.automations, lists: fullData.lists, summary: fullData.summary } };
-    }
-
-    populateMonthSelect();
-    renderAll();
-
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-  } catch (err) {
-    document.getElementById('loading').innerHTML = `
-      <div style="max-width:480px;padding:24px">
-        <div class="error-box"><strong>Chyba při načítání dat</strong><br><br>${err.message}</div>
-      </div>
-    `;
-    console.error(err);
-  }
+    </table>`;
 }
 
 init();
