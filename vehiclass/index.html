@@ -222,7 +222,7 @@
 
   <div class="two-col">
     <div class="card">
-      <div class="card-header"><div><div class="card-title">Tržby z e-mailingu</div><div class="card-sub">Kampaně + automatizace</div></div></div>
+      <div class="card-header"><div><div class="card-title">Tržby z kampaní</div><div class="card-sub">Filtrováno dle zvoleného měsíce</div></div></div>
       <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
     </div>
     <div class="card">
@@ -256,6 +256,7 @@ const DATA_URL = 'https://tomaszalesak.cz/vehiclass/data/current.json';
 let RAW = null;           // raw current.json
 let MONTHS = [];          // sorted desc: ['2026-03', '2026-02', ...]
 let CAMP_BY_MONTH = {};   // { '2026-03': [...campaigns] }
+let CONTACTS = 0;         // subscriber count from "Zákazníci" list
 let rChart = null, mChart = null;
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
@@ -313,6 +314,10 @@ async function init() {
 
     document.getElementById('last-updated').textContent = 'Aktualizováno: ' + fmt.dt(RAW.timestamp);
 
+    // Get contacts count from "Zákazníci" list only
+    const zakaznici = RAW.lists?.find(l => l.name === 'Zákazníci');
+    CONTACTS = zakaznici?.subscriber_count || RAW.summary?.total_contacts || 0;
+
     // Build month index from campaigns
     RAW.campaigns.forEach(c => {
       const k = monthKey(c.sent_at);
@@ -343,7 +348,6 @@ function renderAll() {
   const prevKey = prevMonth(selKey);
   const camps   = CAMP_BY_MONTH[selKey] || [];
   const prevCamps = prevKey ? (CAMP_BY_MONTH[prevKey] || []) : null;
-  const autoRevenue = RAW.automations.reduce((s,a) => s+(a.conversions_value||0), 0);
 
   document.getElementById('prev-label').textContent = prevKey ? fmt.month(prevKey) : 'žádné srovnání';
   document.getElementById('camp-period').textContent = `— ${fmt.month(selKey)}`;
@@ -351,25 +355,20 @@ function renderAll() {
   const cur  = summarize(camps);
   const prev = prevCamps ? summarize(prevCamps) : null;
 
-  renderKPIs(cur, prev, prevKey, autoRevenue);
-  renderCharts(cur, prev, selKey, prevKey, autoRevenue);
+  renderKPIs(cur, prev, prevKey);
+  renderCharts(cur, prev, selKey, prevKey);
   renderLists();
   renderCampaigns(camps);
   renderAutomations();
 }
 
 // ─── KPIs ─────────────────────────────────────────────────────────────────────
-function renderKPIs(cur, prev, prevKey, autoRevenue) {
-  const totalRev = cur.campaign_revenue + autoRevenue;
-  const prevTotalRev = prev ? prev.campaign_revenue + autoRevenue : null; // auto is cumulative
-
+function renderKPIs(cur, prev, prevKey) {
   const cards = [
-    { label:'Celkové tržby',         value: fmt.money(totalRev),            delta: deltaHtml(totalRev, prevTotalRev, 'money', prevKey), primary:true },
-    { label:'Tržby z kampaní',        value: fmt.money(cur.campaign_revenue), delta: deltaHtml(cur.campaign_revenue, prev?.campaign_revenue, 'money', prevKey) },
-    { label:'Tržby z automatizací',   value: fmt.money(autoRevenue),         delta: `<span class="kpi-delta neutral">kumulativní za celou dobu</span>` },
-    { label:'Prům. Open Rate',        value: fmt.pct(cur.avg_or),            delta: deltaHtml(cur.avg_or, prev?.avg_or, ' p.p.', prevKey) },
-    { label:'Prům. Click Rate',       value: fmt.pct(cur.avg_ctr),           delta: deltaHtml(cur.avg_ctr, prev?.avg_ctr, ' p.p.', prevKey) },
-    { label:'Celkem kontaktů',        value: fmt.num(RAW.summary.total_contacts), delta: `<span class="kpi-delta neutral">— bez srovnání</span>` },
+    { label:'Tržby z kampaní',   value: fmt.money(cur.campaign_revenue), delta: deltaHtml(cur.campaign_revenue, prev?.campaign_revenue, 'money', prevKey), primary:true },
+    { label:'Prům. Open Rate',   value: fmt.pct(cur.avg_or),  delta: deltaHtml(cur.avg_or,  prev?.avg_or,  ' p.p.', prevKey) },
+    { label:'Prům. Click Rate',  value: fmt.pct(cur.avg_ctr), delta: deltaHtml(cur.avg_ctr, prev?.avg_ctr, ' p.p.', prevKey) },
+    { label:'Celkem kontaktů',   value: fmt.num(CONTACTS),    delta: `<span class="kpi-delta neutral">— aktuální stav</span>` },
   ];
 
   document.getElementById('kpi-grid').innerHTML = cards.map(c => `
@@ -381,26 +380,26 @@ function renderKPIs(cur, prev, prevKey, autoRevenue) {
 }
 
 // ─── CHARTS ───────────────────────────────────────────────────────────────────
-function renderCharts(cur, prev, selKey, prevKey, autoRevenue) {
+function renderCharts(cur, prev, selKey, prevKey) {
   if (rChart) { rChart.destroy(); rChart = null; }
   if (mChart) { mChart.destroy(); mChart = null; }
 
   const rCtx = document.getElementById('revenueChart').getContext('2d');
   const rDS = [{
     label: fmt.month(selKey),
-    data: [cur.campaign_revenue, autoRevenue],
-    backgroundColor: ['rgba(240,192,64,0.85)','rgba(240,192,64,0.45)'],
+    data: [cur.campaign_revenue],
+    backgroundColor: ['rgba(240,192,64,0.85)'],
     borderRadius: 6, borderSkipped: false,
   }];
   if (prev) rDS.push({
     label: fmt.month(prevKey),
-    data: [prev.campaign_revenue, autoRevenue],
-    backgroundColor: ['rgba(107,114,128,0.4)','rgba(107,114,128,0.2)'],
+    data: [prev.campaign_revenue],
+    backgroundColor: ['rgba(107,114,128,0.4)'],
     borderRadius: 6, borderSkipped: false,
   });
 
   rChart = new Chart(rCtx, {
-    type:'bar', data:{ labels:['Kampaně','Automatizace'], datasets:rDS },
+    type:'bar', data:{ labels:['Tržby z kampaní'], datasets:rDS },
     options:{
       responsive:true, maintainAspectRatio:false,
       plugins:{
@@ -447,15 +446,17 @@ function renderCharts(cur, prev, selKey, prevKey, autoRevenue) {
 // ─── LISTS ────────────────────────────────────────────────────────────────────
 function renderLists() {
   const grid = document.getElementById('lists-grid');
-  if (!RAW.lists?.length) { grid.innerHTML='<div class="no-data">Žádné listy</div>'; return; }
-  grid.innerHTML = RAW.lists.map(l=>`
+  // Show only "Zákazníci" list
+  const zakaznici = RAW.lists?.find(l => l.name === 'Zákazníci');
+  if (!zakaznici) { grid.innerHTML='<div class="no-data">List Zákazníci nenalezen</div>'; return; }
+  grid.innerHTML = `
     <div class="list-card fade-in">
       <div>
-        <div class="list-name">${l.name}</div>
+        <div class="list-name">${zakaznici.name}</div>
         <div style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px">aktivní kontakty</div>
       </div>
-      <div class="list-count">${fmt.num(l.subscriber_count)}</div>
-    </div>`).join('');
+      <div class="list-count">${fmt.num(zakaznici.subscriber_count)}</div>
+    </div>`;
 }
 
 // ─── CAMPAIGNS TABLE ──────────────────────────────────────────────────────────
