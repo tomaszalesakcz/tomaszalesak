@@ -1,1 +1,922 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecomail Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 
+  <style>
+    :root {
+      --bg: #0c0e10;
+      --surface: #13161a;
+      --surface2: #1a1e24;
+      --border: rgba(255,255,255,0.07);
+      --text: #e8eaed;
+      --muted: #6b7280;
+      --accent: #f0c040;
+      --accent2: #4ade80;
+      --accent3: #60a5fa;
+      --danger: #f87171;
+      --up: #4ade80;
+      --down: #f87171;
+      --r: 10px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NOISE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* LAYOUT */
+    .app { position: relative; z-index: 1; max-width: 1400px; margin: 0 auto; padding: 32px 24px 80px; }
+
+    /* HEADER */
+    header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .header-left h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .header-left h1 span {
+      color: var(--accent);
+    }
+
+    .header-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .header-meta .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent2);
+      margin-right: 6px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .period-badge {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .period-badge strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* SECTION LABELS */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* KPI GRID */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px 22px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .kpi-card:hover {
+      border-color: rgba(255,255,255,0.14);
+      transform: translateY(-2px);
+    }
+
+    .kpi-card.primary {
+      border-color: rgba(240, 192, 64, 0.3);
+      background: linear-gradient(135deg, rgba(240,192,64,0.06) 0%, var(--surface) 60%);
+    }
+
+    .kpi-card.primary::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .kpi-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .kpi-value {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      letter-spacing: -0.02em;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .kpi-card.primary .kpi-value {
+      color: var(--accent);
+    }
+
+    .kpi-delta {
+      margin-top: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .kpi-delta.up { color: var(--up); }
+    .kpi-delta.down { color: var(--down); }
+    .kpi-delta.neutral { color: var(--muted); }
+    .kpi-delta .arrow { font-size: 10px; }
+
+    /* TWO-COL GRID */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 900px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    /* CARD */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 22px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .card-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* CHART CONTAINER */
+    .chart-wrap {
+      position: relative;
+      height: 220px;
+    }
+
+    /* TABLE */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: left;
+      padding: 0 8px 12px 0;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .data-table th:last-child,
+    .data-table td:last-child { text-align: right; padding-right: 0; }
+
+    .data-table td {
+      padding: 12px 8px 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: middle;
+      color: var(--text);
+    }
+
+    .data-table tr:last-child td { border-bottom: none; }
+
+    .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .campaign-name {
+      font-weight: 500;
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .campaign-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .metric-pill {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--surface2);
+    }
+
+    .revenue-val {
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 14px;
+    }
+
+    /* LISTS SECTION */
+    .lists-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .list-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .list-name {
+      font-weight: 500;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .list-count {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: var(--accent3);
+      letter-spacing: -0.02em;
+    }
+
+    .list-delta-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    /* FULL-WIDTH CARD */
+    .full-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 22px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+
+    /* STATUS BADGE */
+    .badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    .badge.active { background: rgba(74, 222, 128, 0.12); color: var(--accent2); }
+    .badge.inactive { background: rgba(107, 114, 128, 0.15); color: var(--muted); }
+
+    /* LOADING */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      gap: 16px;
+    }
+
+    .loader-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--accent);
+      letter-spacing: -0.04em;
+    }
+
+    .loader-bar {
+      width: 200px;
+      height: 2px;
+      background: var(--surface2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .loader-bar-inner {
+      height: 100%;
+      background: var(--accent);
+      animation: loading 1.2s ease-in-out infinite;
+    }
+
+    @keyframes loading {
+      0% { width: 0%; margin-left: 0; }
+      50% { width: 60%; margin-left: 20%; }
+      100% { width: 0%; margin-left: 100%; }
+    }
+
+    .loader-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* FADE IN */
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ERROR */
+    .error-box {
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      border-radius: var(--r);
+      padding: 20px;
+      color: var(--danger);
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+    }
+
+    .no-data {
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      text-align: center;
+      padding: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loading">
+  <div class="loader-logo">Ecomail</div>
+  <div class="loader-bar"><div class="loader-bar-inner"></div></div>
+  <div class="loader-text">Načítám data...</div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app" id="app" style="display:none">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <h1>Ecomail <span>Dashboard</span></h1>
+      <div class="header-meta">
+        <span class="dot"></span>
+        <span id="last-updated">Aktualizováno: –</span>
+      </div>
+    </div>
+    <div class="period-badge">
+      Srovnání: <strong id="period-label">aktuální vs. předchozí měsíc</strong>
+    </div>
+  </header>
+
+  <!-- KPI GRID -->
+  <div class="section-label">Klíčové ukazatele</div>
+  <div class="kpi-grid" id="kpi-grid"></div>
+
+  <!-- REVENUE CHART + OR/CTR -->
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Tržby z e-mailingu</div>
+          <div class="card-sub">Kampaně + automatizace</div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="revenueChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Engagement metriky</div>
+          <div class="card-sub">Průměr kampaní — OR, CTR, CR</div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="metricsChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="section-label">Databáze kontaktů</div>
+  <div class="lists-grid" id="lists-grid"></div>
+
+  <!-- CAMPAIGNS TABLE -->
+  <div class="section-label">Kampaně</div>
+  <div class="full-card">
+    <div class="card-header">
+      <div class="card-title">Přehled kampaní</div>
+    </div>
+    <div id="campaigns-table-wrap"></div>
+  </div>
+
+  <!-- AUTOMATIONS TABLE -->
+  <div class="section-label">Automatizace</div>
+  <div class="full-card">
+    <div class="card-header">
+      <div class="card-title">Přehled automatizací</div>
+    </div>
+    <div id="automations-table-wrap"></div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// CONFIG
+// ─────────────────────────────────────────────────────────────────────────────
+const DATA_BASE = './data';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────────────────────
+const fmt = {
+  money: v => v == null ? '—' : Number(v).toLocaleString('cs-CZ') + ' Kč',
+  pct: v => v == null ? '—' : Number(v).toFixed(1) + ' %',
+  num: v => v == null ? '—' : Number(v).toLocaleString('cs-CZ'),
+  date: v => {
+    if (!v) return '—';
+    try {
+      return new Date(v).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch { return v; }
+  },
+  datetime: v => {
+    if (!v) return '—';
+    try {
+      return new Date(v).toLocaleString('cs-CZ', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    } catch { return v; }
+  }
+};
+
+function delta(current, prev, format = 'pct', suffix = '') {
+  if (prev == null || prev === 0) return '<span class="kpi-delta neutral">— bez srovnání</span>';
+  const diff = current - prev;
+  const pctChange = ((diff / prev) * 100).toFixed(1);
+  const cls = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
+  const arrow = diff > 0 ? '↑' : diff < 0 ? '↓' : '→';
+  let label;
+  if (format === 'money') label = fmt.money(Math.abs(diff));
+  else if (format === 'num') label = fmt.num(Math.abs(diff));
+  else label = Math.abs(diff).toFixed(1) + suffix;
+  return `<span class="kpi-delta ${cls}"><span class="arrow">${arrow}</span> ${label} (${pctChange > 0 ? '+' : ''}${pctChange}%) vs. min. měsíc</span>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// FETCH DATA
+// ─────────────────────────────────────────────────────────────────────────────
+async function loadJSON(path) {
+  const res = await fetch(path + '?v=' + Date.now());
+  if (!res.ok) throw new Error(`HTTP ${res.status} for ${path}`);
+  return res.json();
+}
+
+async function loadData() {
+  const current = await loadJSON(`${DATA_BASE}/current.json`);
+
+  let prev = null;
+  let historyIndex = [];
+  try {
+    historyIndex = await loadJSON(`${DATA_BASE}/history-index.json`);
+  } catch (e) {}
+
+  // Find previous month snapshot
+  if (historyIndex.length >= 2) {
+    const currentKey = `${current.year}-${String(current.month).padStart(2,'0')}`;
+    const sorted = historyIndex.filter(k => k !== currentKey).sort();
+    const prevKey = sorted[sorted.length - 1];
+    if (prevKey) {
+      try { prev = await loadJSON(`${DATA_BASE}/snapshot-${prevKey}.json`); } catch (e) {}
+    }
+  } else {
+    // Try to load snapshot for prev month directly
+    const d = new Date(current.year, current.month - 2, 1);
+    const prevKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2,'0')}`;
+    try { prev = await loadJSON(`${DATA_BASE}/snapshot-${prevKey}.json`); } catch (e) {}
+  }
+
+  return { current, prev };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────────────────────────────────────
+function renderKPIs(current, prev) {
+  const s = current.summary;
+  const ps = prev?.summary;
+
+  const kpis = [
+    {
+      label: 'Celkové tržby',
+      value: fmt.money(s.total_revenue),
+      deltaHtml: delta(s.total_revenue, ps?.total_revenue, 'money'),
+      primary: true
+    },
+    {
+      label: 'Tržby z kampaní',
+      value: fmt.money(s.total_campaign_revenue),
+      deltaHtml: delta(s.total_campaign_revenue, ps?.total_campaign_revenue, 'money'),
+    },
+    {
+      label: 'Tržby z automatizací',
+      value: fmt.money(s.total_automation_revenue),
+      deltaHtml: delta(s.total_automation_revenue, ps?.total_automation_revenue, 'money'),
+    },
+    {
+      label: 'Prům. Open Rate',
+      value: fmt.pct(s.avg_campaign_open_rate),
+      deltaHtml: delta(parseFloat(s.avg_campaign_open_rate), parseFloat(ps?.avg_campaign_open_rate), 'raw', ' p.p.'),
+    },
+    {
+      label: 'Prům. Click Rate',
+      value: fmt.pct(s.avg_campaign_click_rate),
+      deltaHtml: delta(parseFloat(s.avg_campaign_click_rate), parseFloat(ps?.avg_campaign_click_rate), 'raw', ' p.p.'),
+    },
+    {
+      label: 'Celkem kontaktů',
+      value: fmt.num(s.total_contacts),
+      deltaHtml: delta(s.total_contacts, ps?.total_contacts, 'num'),
+    },
+  ];
+
+  const grid = document.getElementById('kpi-grid');
+  grid.innerHTML = kpis.map(k => `
+    <div class="kpi-card ${k.primary ? 'primary' : ''} fade-in">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.value}</div>
+      ${k.deltaHtml}
+    </div>
+  `).join('');
+}
+
+function renderCharts(current, prev) {
+  const s = current.summary;
+  const ps = prev?.summary;
+
+  // Revenue bar chart
+  const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+  const labels = ['Kampaně', 'Automatizace'];
+  const currentVals = [s.total_campaign_revenue, s.total_automation_revenue];
+  const prevVals = ps ? [ps.total_campaign_revenue, ps.total_automation_revenue] : null;
+
+  const datasets = [
+    {
+      label: 'Aktuální měsíc',
+      data: currentVals,
+      backgroundColor: ['rgba(240,192,64,0.85)', 'rgba(240,192,64,0.5)'],
+      borderRadius: 6,
+      borderSkipped: false,
+    }
+  ];
+  if (prevVals) {
+    datasets.push({
+      label: 'Předchozí měsíc',
+      data: prevVals,
+      backgroundColor: ['rgba(107,114,128,0.35)', 'rgba(107,114,128,0.2)'],
+      borderRadius: 6,
+      borderSkipped: false,
+    });
+  }
+
+  new Chart(revenueCtx, {
+    type: 'bar',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#6b7280', font: { family: 'DM Mono', size: 11 }, boxWidth: 12 } },
+        tooltip: {
+          callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + fmt.money(ctx.raw) }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280', font: { family: 'DM Mono', size: 11 } } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280', font: { family: 'DM Mono', size: 11 }, callback: v => (v/1000) + 'k Kč' } }
+      }
+    }
+  });
+
+  // Metrics radar / grouped bar
+  const metricsCtx = document.getElementById('metricsChart').getContext('2d');
+  const mLabels = ['Open Rate', 'Click Rate'];
+  const mCurrent = [parseFloat(s.avg_campaign_open_rate), parseFloat(s.avg_campaign_click_rate)];
+  const mPrev = ps ? [parseFloat(ps.avg_campaign_open_rate), parseFloat(ps.avg_campaign_click_rate)] : null;
+
+  const mDatasets = [
+    {
+      label: 'Aktuální měsíc',
+      data: mCurrent,
+      backgroundColor: 'rgba(96,165,250,0.2)',
+      borderColor: '#60a5fa',
+      pointBackgroundColor: '#60a5fa',
+      borderWidth: 2,
+      fill: true,
+      tension: 0.4,
+    }
+  ];
+  if (mPrev) {
+    mDatasets.push({
+      label: 'Předchozí měsíc',
+      data: mPrev,
+      backgroundColor: 'rgba(107,114,128,0.1)',
+      borderColor: 'rgba(107,114,128,0.5)',
+      pointBackgroundColor: 'rgba(107,114,128,0.5)',
+      borderWidth: 2,
+      fill: true,
+      tension: 0.4,
+      borderDash: [4, 4],
+    });
+  }
+
+  new Chart(metricsCtx, {
+    type: 'bar',
+    data: { labels: mLabels, datasets: mDatasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#6b7280', font: { family: 'DM Mono', size: 11 }, boxWidth: 12 } },
+        tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.raw.toFixed(1) + ' %' } }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280', font: { family: 'DM Mono', size: 11 } } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#6b7280', font: { family: 'DM Mono', size: 11 }, callback: v => v + ' %' } }
+      }
+    }
+  });
+}
+
+function renderLists(current, prev) {
+  const grid = document.getElementById('lists-grid');
+  if (!current.lists?.length) {
+    grid.innerHTML = '<div class="no-data">Žádné listy</div>';
+    return;
+  }
+
+  grid.innerHTML = current.lists.map(list => {
+    const prevList = prev?.lists?.find(l => l.id === list.id);
+    const diff = prevList ? list.subscriber_count - prevList.subscriber_count : null;
+    const cls = diff > 0 ? 'up' : diff < 0 ? 'down' : 'neutral';
+    const arrow = diff > 0 ? '↑' : diff < 0 ? '↓' : '→';
+    const diffHtml = diff != null
+      ? `<div class="list-delta-text kpi-delta ${cls}">${arrow} ${Math.abs(diff).toLocaleString('cs-CZ')} vs. min. měsíc</div>`
+      : '';
+
+    return `
+      <div class="list-card fade-in">
+        <div>
+          <div class="list-name">${list.name}</div>
+          <div style="font-size:12px; color:var(--muted); font-family:'DM Mono',monospace; margin-top:2px">aktivní kontakty</div>
+          ${diffHtml}
+        </div>
+        <div class="list-count">${fmt.num(list.subscriber_count)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderCampaignsTable(current) {
+  const wrap = document.getElementById('campaigns-table-wrap');
+  const campaigns = current.campaigns;
+
+  if (!campaigns?.length) {
+    wrap.innerHTML = '<div class="no-data">Žádné kampaně</div>';
+    return;
+  }
+
+  // Sort by sent_at desc
+  const sorted = [...campaigns].sort((a, b) => {
+    if (!a.sent_at) return 1;
+    if (!b.sent_at) return -1;
+    return new Date(b.sent_at) - new Date(a.sent_at);
+  });
+
+  wrap.innerHTML = `
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Kampaň</th>
+          <th>Doručeno</th>
+          <th>OR</th>
+          <th>CTR</th>
+          <th>Konverze</th>
+          <th>Tržby</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${sorted.map(c => `
+          <tr>
+            <td>
+              <div class="campaign-name">${c.name}</div>
+              <div class="campaign-date">${fmt.date(c.sent_at)}</div>
+            </td>
+            <td><span class="metric-pill">${fmt.num(c.delivered)}</span></td>
+            <td><span class="metric-pill">${fmt.pct(c.open_rate)}</span></td>
+            <td><span class="metric-pill">${fmt.pct(c.click_rate)}</span></td>
+            <td><span class="metric-pill">${fmt.num(c.conversions)}</span></td>
+            <td><span class="revenue-val">${fmt.money(c.conversions_value)}</span></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function renderAutomationsTable(current) {
+  const wrap = document.getElementById('automations-table-wrap');
+  const automations = current.automations;
+
+  if (!automations?.length) {
+    wrap.innerHTML = '<div class="no-data">Žádné automatizace</div>';
+    return;
+  }
+
+  wrap.innerHTML = `
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Automatizace</th>
+          <th>Status</th>
+          <th>Spuštění</th>
+          <th>OR</th>
+          <th>CTR</th>
+          <th>Konverze</th>
+          <th>Tržby</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${automations.map(a => `
+          <tr>
+            <td>
+              <div class="campaign-name">${a.name}</div>
+            </td>
+            <td><span class="badge ${a.status === 'active' ? 'active' : 'inactive'}">${a.status || '—'}</span></td>
+            <td><span class="metric-pill">${fmt.num(a.triggered)}</span></td>
+            <td><span class="metric-pill">${fmt.pct(a.open_rate)}</span></td>
+            <td><span class="metric-pill">${fmt.pct(a.click_rate)}</span></td>
+            <td><span class="metric-pill">${fmt.num(a.conversions)}</span></td>
+            <td><span class="revenue-val">${fmt.money(a.conversions_value)}</span></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+async function init() {
+  try {
+    const { current, prev } = await loadData();
+
+    // Set last updated
+    document.getElementById('last-updated').textContent = 'Aktualizováno: ' + fmt.datetime(current.timestamp);
+
+    // Period label
+    if (prev) {
+      const monthNames = ['leden','únor','březen','duben','květen','červen','červenec','srpen','září','říjen','listopad','prosinec'];
+      document.getElementById('period-label').textContent =
+        `${monthNames[current.month - 1]} ${current.year} vs. ${monthNames[prev.month - 1]} ${prev.year}`;
+    }
+
+    renderKPIs(current, prev);
+    renderCharts(current, prev);
+    renderLists(current, prev);
+    renderCampaignsTable(current);
+    renderAutomationsTable(current);
+
+    // Hide loading, show app
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+  } catch (err) {
+    document.getElementById('loading').innerHTML = `
+      <div style="max-width:480px; padding:24px">
+        <div class="error-box">
+          <strong>Chyba při načítání dat</strong><br><br>
+          ${err.message}<br><br>
+          Zkontrolujte, zda existuje soubor <code>data/current.json</code>.
+        </div>
+      </div>
+    `;
+    console.error(err);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
