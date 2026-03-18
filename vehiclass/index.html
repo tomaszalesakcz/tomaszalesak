@@ -248,11 +248,9 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 </div>
 <script>
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
-const SHOP  = 'vehiclass'; // shop name in Ecomail tracker
 
-// ── DATE STATE ──────────────────────────────────────────────────────────────
+// ── DATE STATE ───────────────────────────────────────────────────────────────
 let dateFrom = '', dateTo = '';
-
 function todayStr(){ return new Date().toISOString().split('T')[0]; }
 function daysAgoStr(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().split('T')[0]; }
 function lastMonthRange(){
@@ -291,7 +289,7 @@ function applyCustom(){
 document.addEventListener('click',e=>{ if(!$('dpw').contains(e.target)){ $('dpdd').classList.remove('open'); } });
 function updateSub(){ $('psub').textContent=fmtPeriod(dateFrom,dateTo); }
 
-// ── HELPERS ─────────────────────────────────────────────────────────────────
+// ── HELPERS ──────────────────────────────────────────────────────────────────
 const $   = id => document.getElementById(id);
 const esc = s  => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const pct = v  => (v==null||isNaN(v)) ? '—' : parseFloat(v).toFixed(1)+'%';
@@ -302,9 +300,9 @@ function conn(st,lbl){ $('sdot').className='sdot'+(st==='ld'?' ld':st==='er'?' e
 function showErr(m){ const b=$('ebar'); b.style.display=m?'block':'none'; b.textContent=m||''; }
 function kpi(id,v,n){ $(id).innerHTML=`<div class="kval">${v}</div>`; const x=$(id+'-n'); if(x) x.innerHTML=n||''; }
 function badge(s){ const m={0:['ba','Koncept'],1:['bb','Příprava'],2:['bb','Odesílá'],3:['bg','Odesláno'],4:['br','Chyba'],7:['ba','Naplán.']}; const [c,l]=m[s]||['',''+s]; return`<span class="badge ${c}">${l}</span>`; }
-function setProgress(pct,lbl){ $('prog-wrap').style.display=pct<100?'block':'none'; $('prog-fill').style.width=pct+'%'; if(lbl) $('prog-lbl').textContent=lbl; }
+function setProgress(v,lbl){ $('prog-wrap').style.display=v<100?'block':'none'; $('prog-fill').style.width=v+'%'; if(lbl) $('prog-lbl').textContent=lbl; }
 
-// ── ROUTING ─────────────────────────────────────────────────────────────────
+// ── ROUTING ──────────────────────────────────────────────────────────────────
 const PAGES={overview:['Přehled',''],campaigns:['Kampaně','Detail odeslaných kampaní za zvolené období'],automations:['Automatizace','Statistiky automatizačních sekvencí']};
 function goView(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
@@ -314,70 +312,51 @@ function goView(v){
   $('psub').textContent = v==='overview' ? fmtPeriod(dateFrom,dateTo) : PAGES[v][1];
 }
 
-// ── API ──────────────────────────────────────────────────────────────────────
+// ── API ───────────────────────────────────────────────────────────────────────
 async function api(path){
   const r=await fetch(PROXY+'?path='+encodeURIComponent(path));
   if(!r.ok) throw new Error('HTTP '+r.status+' — '+path);
   return r.json();
 }
 
-// ── DIAGNOSTIKA ─────────────────────────────────────────────────────────────
-let diagLog = [];
-function dlog(...args){ diagLog.push(args.map(a=>typeof a==='object'?JSON.stringify(a,null,2):String(a)).join(' ')); }
-function flushDiag(){ const el=$('diag-out'); if(el) el.textContent=diagLog.join('\n'); }
+// POST to pipeline stats-detail with from_date + to_date in body
+// Returns aggregate stats filtered to the period via conversions counting
+async function fetchAutoStats(pipelineId, from, to){
+  // The aggregate stats endpoint doesn't support date filtering.
+  // But stats-detail with from_date gives us sends in the period.
+  // We use stats-detail to count sends/opens/clicks in period,
+  // and for conversions we use the aggregate stats (Ecomail's own attribution).
+  const agg = await api(`/pipelines/${pipelineId}/stats`).then(r=>r.stats||{}).catch(()=>({}));
 
-// Fetch ALL pages of transactions — first try with SHOP, then without if empty
-async function fetchAllTransactions(from, to){
-  const perPage = 500;
-  // Try with shop param first
-  let res1 = await api(`/tracker/transaction?shop=${SHOP}&date_from=${from}&date_to=${to}&per_page=5&page=1`);
-  dlog(`TX test (shop=${SHOP}): total=${res1.total}, first email=${(res1.data||[])[0]?.email||'—'}`);
-
-  // If 0 results with shop, try without shop param
-  if(!res1.total){
-    let res0 = await api(`/tracker/transaction?date_from=${from}&date_to=${to}&per_page=5&page=1`);
-    dlog(`TX test (no shop): total=${res0.total}, first email=${(res0.data||[])[0]?.email||'—'}, first shop=${(res0.data||[])[0]?.shop||'—'}`);
-  }
-
-  // Fetch all pages using best approach
-  let useShop = !!res1.total;
-  let page=1, all=[], total=null;
-  do {
-    const path = useShop
-      ? `/tracker/transaction?shop=${SHOP}&date_from=${from}&date_to=${to}&per_page=${perPage}&page=${page}`
-      : `/tracker/transaction?date_from=${from}&date_to=${to}&per_page=${perPage}&page=${page}`;
-    const res = await api(path);
-    const data = res.data || [];
-    if(total===null) total=res.total||0;
-    all.push(...data);
-    setProgress(Math.min(95, Math.round(all.length/Math.max(total,1)*100)), `Načítám transakce… ${all.length} / ${total}`);
-    page++;
-    if(data.length < perPage) break;
-  } while(all.length < total);
-
-  dlog(`TX celkem načteno: ${all.length}, total API: ${total}`);
-  if(all.length>0){
-    dlog(`Vzorky TX emails: ${all.slice(0,5).map(t=>t.email).join(', ')}`);
-    dlog(`Vzorky TX amounts: ${all.slice(0,5).map(t=>t.amount).join(', ')}`);
-  }
-  return all;
-}
-
-// Fetch emails from automation stats-detail with from_date
-async function fetchAutoEmails(pipelineId, from){
-  const perPage = 5000;
-  let page=1, emails=new Set(), total=null;
-  do {
-    const res = await api(`/pipelines/${pipelineId}/stats-detail?per_page=${perPage}&page=${page}&from_date=${from}`);
+  // Count sends, opens, clicks specifically in period using stats-detail
+  let sends=0, opens=0, clicks=0, unsubs=0;
+  let page=1;
+  const perPage=5000;
+  while(true){
+    const res = await api(`/pipelines/${pipelineId}/stats-detail?per_page=${perPage}&page=${page}&from_date=${from}`).catch(()=>null);
+    if(!res) break;
     const subs = res.subscribers || {};
-    if(total===null) total=res.total||0;
-    Object.entries(subs).forEach(([email, stats])=>{
-      if((stats.send||0)>0) emails.add(email.toLowerCase().trim());
-    });
-    page++;
+    const entries = Object.values(subs);
+    entries.forEach(s=>{ sends+=s.send||0; opens+=s.open||0; clicks+=s.click||0; unsubs+=s.unsub||0; });
     if(Object.keys(subs).length < perPage) break;
-  } while(emails.size < total);
-  return emails;
+    page++;
+    if(page > 20) break; // safety
+  }
+
+  return {
+    // Period-specific engagement from stats-detail
+    send_period: sends,
+    open_period: opens,
+    click_period: clicks,
+    open_rate_period: sends>0 ? (opens/sends*100) : 0,
+    click_rate_period: sends>0 ? (clicks/sends*100) : 0,
+    unsub_period: unsubs,
+    // Lifetime aggregate from stats endpoint (Ecomail's own conversions tracking)
+    ...agg,
+    // Keep lifetime counts for reference
+    send_lifetime: agg.send,
+    open_rate_lifetime: agg.open_rate,
+  };
 }
 
 // ── LOAD ALL ─────────────────────────────────────────────────────────────────
@@ -385,12 +364,9 @@ async function loadAll(){
   $('rbtn').classList.add('sp');
   conn('ld','Načítám data…');
   showErr('');
-  diagLog = [];
   setProgress(5,'Načítám kampaně a automatizace…');
 
   try {
-    dlog(`=== LOAD START === period: ${dateFrom} → ${dateTo}`);
-
     const [rawC, rawA, rawL] = await Promise.all([
       api(`/campaigns?filters[date_from]=${dateFrom}&filters[date_to]=${dateTo}&filters[status]=3&per_page=50`),
       api('/pipelines'),
@@ -399,59 +375,20 @@ async function loadAll(){
     const camps = Array.isArray(rawC) ? rawC : [];
     const autos = Array.isArray(rawA) ? rawA : [];
     const lists = Array.isArray(rawL) ? rawL : [];
-    dlog(`Kampaně: ${camps.length}, Automatizace: ${autos.length}, Listy: ${lists.length}`);
-    dlog(`Automatizace IDs: ${autos.map(a=>a.id+' ('+( a.name||a.title||'?')+')').join(' | ')}`);
 
-    setProgress(15,'Načítám statistiky kampaní…');
+    setProgress(20,'Načítám statistiky kampaní…');
     const sm={};
     await Promise.all(camps.slice(0,15).map(c=>
       api('/campaigns/'+c.id+'/stats').then(s=>{sm[c.id]=s.stats||{};}).catch(()=>{sm[c.id]={};})
     ));
 
-    setProgress(30,'Načítám transakce za období…');
-    const transactions = await fetchAllTransactions(dateFrom, dateTo);
-
-    // email → {amount, count}
-    const txByEmail = {};
-    transactions.forEach(tx=>{
-      const em=(tx.email||'').toLowerCase().trim();
-      if(!em) return;
-      if(!txByEmail[em]) txByEmail[em]={amount:0,count:0};
-      txByEmail[em].amount += parseFloat(tx.amount||0);
-      txByEmail[em].count++;
-    });
-    dlog(`Unikátní TX emails: ${Object.keys(txByEmail).length}`);
-    dlog(`Vzorky TX emails z lookup: ${Object.keys(txByEmail).slice(0,5).join(', ')}`);
-
-    setProgress(50,'Načítám statistiky automatizací…');
-    const am={}, amPeriodRev={}, amPeriodOrd={};
-
-    // Process automations SEQUENTIALLY to avoid overwhelming the API
-    for(let i=0; i<Math.min(autos.length,15); i++){
+    setProgress(40,'Načítám statistiky automatizací…');
+    // Process sequentially - stats-detail can be large
+    const am={};
+    for(let i=0; i<Math.min(autos.length,20); i++){
       const a = autos[i];
-      const agg = await api('/pipelines/'+a.id+'/stats').then(s=>s.stats||{}).catch(()=>({}));
-      am[a.id] = agg;
-
-      const emailsInPeriod = await fetchAutoEmails(a.id, dateFrom).catch(()=>new Set());
-      dlog(`Auto #${a.id} (${a.name||'?'}): emails v období=${emailsInPeriod.size}`);
-
-      // Sample first 3 emails to check format
-      const sample = [...emailsInPeriod].slice(0,3);
-      dlog(`  Vzorky emails z auto: ${sample.join(', ')}`);
-      dlog(`  Tyto emails v TX?: ${sample.map(e=>e+':'+(txByEmail[e]?txByEmail[e].amount+'Kč':'NENALEZEN')).join(', ')}`);
-
-      let rev=0, orders=0;
-      emailsInPeriod.forEach(em=>{
-        if(txByEmail[em]){
-          rev += txByEmail[em].amount;
-          orders += txByEmail[em].count;
-        }
-      });
-      amPeriodRev[a.id] = rev;
-      amPeriodOrd[a.id] = orders;
-      dlog(`  → Rev: ${rev} Kč, Orders: ${orders}`);
-
-      setProgress(50+Math.round((i+1)/Math.min(autos.length,15)*40), `Zpracovávám automatizaci ${i+1}/${Math.min(autos.length,15)}…`);
+      am[a.id] = await fetchAutoStats(a.id, dateFrom, dateTo);
+      setProgress(40+Math.round((i+1)/Math.min(autos.length,20)*50), `Automatizace ${i+1}/${Math.min(autos.length,20)}…`);
     }
 
     setProgress(95,'Načítám detail kontaktů…');
@@ -460,10 +397,7 @@ async function loadAll(){
     if(zakazList) zakazDetail=await api('/lists/'+zakazList.id).catch(()=>null);
 
     setProgress(100);
-    dlog(`=== LOAD COMPLETE ===`);
-    flushDiag();
-
-    render(camps, sm, autos, am, amPeriodRev, amPeriodOrd, transactions, zakazDetail);
+    render(camps, sm, autos, am, zakazDetail);
     conn('','Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
     updateSub();
   } catch(e){
@@ -476,22 +410,22 @@ async function loadAll(){
   }
 }
 
-// ── RENDER ───────────────────────────────────────────────────────────────────
-function render(camps, sm, autos, am, amPeriodRev, amPeriodOrd, transactions, zakazDetail){
-  renderKPIs(camps, sm, autos, amPeriodRev, amPeriodOrd, transactions, zakazDetail);
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function render(camps, sm, autos, am, zakazDetail){
+  renderKPIs(camps, sm, autos, am, zakazDetail);
   renderOvTbl(camps, sm);
   renderCmpTbl(camps, sm);
-  renderAutos(autos, am, amPeriodRev, amPeriodOrd);
+  renderAutos(autos, am);
 }
 
-function renderKPIs(camps, sm, autos, amPeriodRev, amPeriodOrd, transactions, zakazDetail){
-  // Campaigns revenue (from campaign stats, date-filtered via campaign list)
+function renderKPIs(camps, sm, autos, am, zakazDetail){
   let revCamps=0, ordersCamps=0;
   camps.forEach(c=>{ const s=sm[c.id]||{}; revCamps+=parseFloat(s.conversions_value||0); ordersCamps+=parseInt(s.conversions||0); });
 
-  // Automations revenue (period-matched via transactions)
+  // Automation conversions: use Ecomail's own conversions_value from stats endpoint
+  // This is what Ecomail itself shows in its UI — the correct attribution
   let revAutos=0, ordersAutos=0;
-  autos.forEach(a=>{ revAutos+=amPeriodRev[a.id]||0; ordersAutos+=amPeriodOrd[a.id]||0; });
+  autos.forEach(a=>{ const s=am[a.id]||{}; revAutos+=parseFloat(s.conversions_value||0); ordersAutos+=parseInt(s.conversions||0); });
 
   const revTotal=revCamps+revAutos;
   const ordersTotal=ordersCamps+ordersAutos;
@@ -545,37 +479,42 @@ function renderCmpTbl(camps, sm){
   }</tbody></table>`;
 }
 
-function renderAutos(autos, am, amPeriodRev, amPeriodOrd){
-  let orS=0,ctrS=0,revS=0,n=0;
+function renderAutos(autos, am){
+  let orS=0,ctrS=0,revS=0,ordS=0,n=0;
   autos.forEach(a=>{
     const s=am[a.id]||{};
-    if(s.open_rate!=null){orS+=parseFloat(s.open_rate||0);n++;}
-    ctrS+=parseFloat(s.click_rate||0);
-    revS+=amPeriodRev[a.id]||0;
+    // Use period open/click rates from stats-detail
+    const or=parseFloat(s.open_rate_period||s.open_rate||0);
+    const cr=parseFloat(s.click_rate_period||s.click_rate||0);
+    if(or>0||cr>0){orS+=or;ctrS+=cr;n++;}
+    revS+=parseFloat(s.conversions_value||0);
+    ordS+=parseInt(s.conversions||0);
   });
   kpi('k-ac',autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
-  kpi('k-arev', czk(revS), `<span class="nu">za zvolené období</span>`);
+  kpi('k-arev', czk(revS), `<span class="nu">${ordS} objednávek dle Ecomailu</span>`);
   $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
   $('k-actr').innerHTML=`<div class="kval">${pct(n?ctrS/n:0)}</div>`;
 
   const w=$('auto-tbl');
   if(!autos.length){w.innerHTML='<div class="empty">Žádné automatizace nenalezeny</div>';return;}
 
-  const sorted=[...autos].sort((a,b)=>(amPeriodRev[b.id]||0)-(amPeriodRev[a.id]||0));
+  const sorted=[...autos].sort((a,b)=>parseFloat((am[b.id]||{}).conversions_value||0)-parseFloat((am[a.id]||{}).conversions_value||0));
   w.innerHTML=`<table><thead><tr>
-    <th>Automatizace</th><th class="r">Spuštěno</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby v období</th><th class="r">Bounce</th>
+    <th>Automatizace</th><th class="r">Odesláno v obd.</th><th class="r">OR v obd.</th><th class="r">CTR v obd.</th><th class="r">Odhlásilo v obd.</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th>
   </tr></thead><tbody>${
     sorted.map(a=>{const s=am[a.id]||{};return`<tr>
       <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
-      <td class="r">${num(s.triggered)}</td><td class="r">${num(s.send)}</td>
-      <td class="r">${pct(s.open_rate)}</td><td class="r">${pct(s.click_rate)}</td>
-      <td class="r">${num(amPeriodOrd[a.id])}</td>
-      <td class="r" style="color:var(--green);font-weight:500">${czk(amPeriodRev[a.id])}</td>
+      <td class="r">${num(s.send_period)}</td>
+      <td class="r">${pct(s.open_rate_period)}</td>
+      <td class="r">${pct(s.click_rate_period)}</td>
+      <td class="r">${num(s.unsub_period)}</td>
+      <td class="r">${num(s.conversions)}</td>
+      <td class="r" style="color:var(--green);font-weight:500">${czk(s.conversions_value)}</td>
       <td class="r">${pct(s.bounce_rate)}</td></tr>`;}).join('')
   }</tbody></table>`;
 }
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
+// ── INIT ──────────────────────────────────────────────────────────────────────
 initDates();
 updateSub();
 loadAll();
