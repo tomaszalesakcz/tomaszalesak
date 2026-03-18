@@ -245,10 +245,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 <script>
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
 
-// Okna pro atribuci (dny)
-const WIN_OPEN  = 7;
-const WIN_CLICK = 30;
-
 // ── DATE STATE ───────────────────────────────────────────────────────────────
 let dateFrom = '', dateTo = '';
 function todayStr(){ return new Date().toISOString().split('T')[0]; }
@@ -337,121 +333,77 @@ async function fetchTransactions(from, to){
   return all;
 }
 
-// ── ATTRIBUTION ENGINE (ROBUSTNÍ VERZE) ──────────────────────────────────────
-async function fetchAutoSubscribers(pipelineId, from){
-  const perPage=5000;
-  let page=1;
-  const map=new Map();
-  while(true){
-    const res = await api(`/pipelines/${pipelineId}/stats-detail?per_page=${perPage}&page=${page}&from_date=${from}`).catch(()=>null);
-    if(!res) break;
-    
-    // Zajištění kompatibility s různými formáty Ecomail API odpovědí
-    let subs = res.subscribers || res.data || res;
-    let count = 0;
-    
-    if (Array.isArray(subs)) {
-        for (const item of subs) {
-            const email = (item.email || '').toLowerCase().trim();
-            if (email) {
-                map.set(email, {
-                    open: item.open || item.opened || 0,
-                    click: item.click || item.clicked || 0,
-                    send: item.send || item.sent || item.inject || item.emails_sent || 1
-                });
-                count++;
-            }
-        }
-    } else if (typeof subs === 'object') {
-        for (const [email, stats] of Object.entries(subs)) {
-            if (typeof stats === 'object') {
-                map.set(email.toLowerCase().trim(), {
-                    open: stats.open || stats.opened || 0,
-                    click: stats.click || stats.clicked || 0,
-                    send: stats.send || stats.sent || stats.inject || stats.emails_sent || 1
-                });
-                count++;
-            }
-        }
-    }
-    
-    if(count === 0 || count < perPage) break;
-    page++;
-    if(page>10) break; // pojistka proti zacyklení
-  }
-  return map;
-}
-
+// ── ATTRIBUTION ENGINE (ROBUSTNÍ VERZE + DEBUG) ──────────────────────────────
 async function computeAutoAttribution(autos, txAll, dateFrom, dateTo){
-  const txByEmail = new Map();
-  for(const tx of txAll){
-    const em=(tx.email||'').toLowerCase().trim();
-    if(!em) continue;
-    if(!txByEmail.has(em)) txByEmail.set(em,[]);
-    txByEmail.get(em).push({
-      ts: new Date(tx.timestamp).getTime(),
-      amount: parseFloat(tx.amount||0),
-      order_id: tx.order_id||tx.id,
-      matched: false
-    });
-  }
-
   const result={};
   const fromTs = new Date(dateFrom+'T00:00:00Z').getTime();
   const toTs   = new Date(dateTo+'T23:59:59Z').getTime();
 
   for(const auto of autos){
     result[auto.id] = { rev: 0, orders: 0, sends: 0 };
-    
-    // 1. FÁZE: Přímá shoda přes ID nebo UTM (Nejvyšší priorita)
-    for(const tx of txAll){
-        if(tx.ts < fromTs || tx.ts > toTs) continue;
-        if(tx.matched) continue;
-        
-        let match = false;
-        let directId = tx.pipeline_id || tx.automation_id || (tx.source === 'automation' ? tx.source_id : null);
-        if(directId == auto.id) match = true;
-        
-        if(!match && tx.utm_campaign) {
-             const utm = tx.utm_campaign.toLowerCase();
-             if(utm.includes(String(auto.id))) match = true;
-             else if(auto.name) {
-                 const slug = auto.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, '');
-                 if(slug.length > 3 && utm.replace(/[^a-z0-9]/g, '').includes(slug)) match = true;
-             }
-        }
-        
-        if(match){
-            result[auto.id].rev += parseFloat(tx.amount||0);
-            result[auto.id].orders++;
-            tx.matched = true;
-        }
-    }
-
-    // 2. FÁZE: E-mailová atribuce a časové okno (Fallback)
-    const lookbackFrom = addDaysStr(dateFrom, -WIN_CLICK);
-    const subsMap = await fetchAutoSubscribers(auto.id, lookbackFrom);
-
-    for(const [email, stats] of subsMap){
-      result[auto.id].sends += stats.send; // Nasbíráme počty odeslání pro fallback zobrazení
-      const txList = txByEmail.get(email);
-      if(!txList) continue;
-
-      const winDays = stats.click > 0 ? WIN_CLICK : (stats.open > 0 ? WIN_OPEN : 1);
-      const winMs = winDays * 86400000;
-      const lookbackTs = new Date(lookbackFrom+'T00:00:00Z').getTime();
-
-      for(const tx of txList){
-        if(tx.ts < fromTs || tx.ts > toTs) continue;
-        if(tx.ts - lookbackTs > winMs) continue;
-        if(tx.matched) continue;
-
-        tx.matched = true;
-        result[auto.id].rev += tx.amount;
-        result[auto.id].orders++;
-      }
-    }
   }
+  
+  const attributedOrders = new Set();
+  let debugLog = `Celkem staženo ${txAll.length} transakcí v období. Zde je vzorek (prvních 10) pro zjištění formátu zdrojů:\n`;
+  let debugCount = 0;
+
+  for(const tx of txAll){
+      const ts = new Date(tx.timestamp).getTime();
+      if(ts < fromTs || ts > toTs) continue; // Pouze vybrané období
+      
+      const oid = tx.order_id || tx.id;
+      if(attributedOrders.has(oid)) continue; // Nezapočítávat stejnou objednávku vícekrát
+
+      // --- DEBUG VÝPIS ---
+      if (debugCount < 10) {
+          debugLog += `\nObjednávka: ${oid} | Částka: ${tx.amount} | E-mail: ${tx.email}\n`;
+          const sources = {};
+          ['source', 'source_id', 'pipeline_id', 'automation_id', 'campaign_id', 'utm_source', 'utm_campaign', 'utm_medium', 'action_id'].forEach(k => {
+              if (tx[k] !== undefined) sources[k] = tx[k];
+          });
+          debugLog += `   Zdroje: ${JSON.stringify(sources)}\n`;
+          debugCount++;
+      }
+      // -------------------
+
+      let matchedAutoId = null;
+
+      // 1. Zjevné parametry
+      if (tx.pipeline_id) matchedAutoId = tx.pipeline_id;
+      else if (tx.automation_id) matchedAutoId = tx.automation_id;
+      else if (tx.source === 'automation' && tx.source_id) matchedAutoId = tx.source_id;
+      else if (tx.source === 'pipeline' && tx.source_id) matchedAutoId = tx.source_id;
+      
+      // 2. Skryté ve stringu utm_campaign
+      else if (tx.utm_campaign) {
+          const utm = String(tx.utm_campaign).toLowerCase();
+          for (const auto of autos) {
+              const slug = auto.name ? auto.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, '') : '';
+              if (slug.length > 3 && utm.replace(/[^a-z0-9]/g, '').includes(slug)) {
+                  matchedAutoId = auto.id;
+                  break;
+              }
+              if (utm.includes(String(auto.id))) {
+                  matchedAutoId = auto.id;
+                  break;
+              }
+          }
+      }
+
+      if (matchedAutoId && result[matchedAutoId]) {
+          result[matchedAutoId].rev += parseFloat(tx.amount || 0);
+          result[matchedAutoId].orders++;
+          attributedOrders.add(oid);
+          tx.matched = true;
+      }
+  }
+
+  // Zápis debug logu po chvíli do DOMu
+  setTimeout(() => {
+      const diagOut = document.getElementById('diag-out');
+      if(diagOut) diagOut.textContent = debugLog;
+  }, 500);
+
   return result;
 }
 
@@ -478,10 +430,9 @@ async function loadAll(){
       api('/campaigns/'+c.id+'/stats').then(s=>{sm[c.id]=s.stats||{};}).catch(()=>{sm[c.id]={};})
     ));
 
-    // Stáhneme transakce s přesahem dozadu o WIN_CLICK pro správnou e-mailovou atribuci
-    const txFrom = addDaysStr(dateFrom, -WIN_CLICK);
-    setProgress(30,`Načítám transakce (${txFrom} – ${dateTo})…`);
-    const txAll = await fetchTransactions(txFrom, dateTo);
+    setProgress(30,`Načítám transakce (${dateFrom} – ${dateTo})…`);
+    // Bereme jen transakce pro dané období bez offsetu okna, abychom zkusili přímé ID tagy (a pro debug)
+    const txAll = await fetchTransactions(dateFrom, dateTo);
     setProgress(45,`Načteno ${txAll.length} transakcí, připravuji kalkulace…`);
 
     const autoAttr={};
@@ -604,7 +555,6 @@ function renderAutos(autos, autoAgg, autoAttr){
   </tr></thead><tbody>${
     sorted.map(a=>{
       const r=autoAttr[a.id]||{}, s=autoAgg[a.id]||{};
-      // Bezpečné načtení dat z různých verzí API struktury s fallbackem na odeslání vypočítané z atribučního okna
       const sent = s.sent || s.emails_sent || s.inject || s.delivered || r.sends || 0;
       return`<tr>
         <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
