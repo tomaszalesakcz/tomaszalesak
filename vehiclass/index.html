@@ -387,31 +387,43 @@ async function loadAll(){
     const transactions=await fetchTransactions(dateFrom, dateTo);
     setProgress(50,`${transactions.length} transakcí načteno`);
 
-    // Index transakcí: email → součet amount v období
+    // Index transakcí: email → [{oid, amount}]
     const txByEmail=new Map();
     for(const tx of transactions){
       const em=(tx.email||'').toLowerCase().trim();
       if(!em) continue;
-      const prev=txByEmail.get(em)||{rev:0,cnt:0};
-      prev.rev+=parseFloat(tx.amount||0);
-      prev.cnt++;
-      txByEmail.set(em,prev);
+      if(!txByEmail.has(em)) txByEmail.set(em,{list:[]});
+      txByEmail.get(em).list.push({
+        oid: String(tx.order_id||tx.id),
+        amount: parseFloat(tx.amount||0)
+      });
     }
 
     // Pro každou automatizaci: subscribers kteří dostali send od dateFrom
     // → průnik s transakcemi = konverze v období
-    const apr={}; // automation period revenue
-    await Promise.all(autos.map(async(a,i)=>{
+    // DŮLEŽITÉ: každá objednávka se počítá jen jednou napříč všemi automatizacemi
+    const apr={};
+    const globalUsedOids = new Set(); // globální deduplikace
+
+    // Sekvenčně, seřazeno podle počtu triggered (nejdůležitější auto má prioritu)
+    for(let i=0; i<autos.length; i++){
+      const a=autos[i];
       const senders=await fetchAutoSendersInPeriod(a.id, dateFrom);
-      let rev=0, cnt=0;
+      let rev=0, orders=0;
       for(const em of senders){
-        const tx=txByEmail.get(em);
-        if(tx){ rev+=tx.rev; cnt+=tx.cnt; }
+        const txData=txByEmail.get(em);
+        if(!txData) continue;
+        for(const tx of txData.list){
+          if(globalUsedOids.has(tx.oid)) continue; // už přiřazeno jiné automatizaci
+          globalUsedOids.add(tx.oid);
+          rev+=tx.amount;
+          orders++;
+        }
       }
-      apr[a.id]={rev, orders:cnt, senders:senders.size};
+      apr[a.id]={rev, orders, senders:senders.size};
       setProgress(50+Math.round((i+1)/autos.length*40),
-        `Auto ${i+1}/${autos.length}: ${senders.size} příjemců → ${cnt} nákupů`);
-    }));
+        `Auto ${i+1}/${autos.length}: ${senders.size} příjemců → ${orders} nákupů`);
+    }
 
     setProgress(92,'Načítám kontakty…');
     const zakazList=lists.find(l=>{const n=(l.name||'').toLowerCase();return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers');});
