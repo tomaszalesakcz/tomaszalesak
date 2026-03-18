@@ -235,12 +235,13 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
       <div class="tcard" id="auto-tbl"><div class="empty">Načítám…</div></div>
     </div>
     <div class="sec" style="margin-top:8px">
-      <details>
-        <summary style="cursor:pointer;font-size:12px;color:var(--text-faint);padding:8px 0;user-select:none">🔍 Diagnostika párování transakcí</summary>
-        <div style="margin-top:8px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--rs);padding:14px;font-family:'DM Mono',monospace;font-size:11.5px;line-height:1.8;overflow-x:auto;max-height:400px;overflow-y:auto">
-          <pre id="diag-out" style="white-space:pre-wrap;word-break:break-all;margin:0">Načítám…</pre>
-        </div>
-      </details>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:13px;font-weight:600">&#128269; Diagnostika API</span>
+        <button class="ibtn" onclick="runDiag()" id="diag-btn">Spustit diagnostiku</button>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border2);border-radius:var(--rs);padding:14px;font-family:'DM Mono',monospace;font-size:11.5px;line-height:1.8;overflow-x:auto;max-height:600px;overflow-y:auto">
+        <pre id="diag-out" style="white-space:pre-wrap;word-break:break-all;margin:0">Klikni na "Spustit diagnostiku"</pre>
+      </div>
     </div>
   </div>
 
@@ -607,6 +608,69 @@ function renderAutos(autos, autoAgg, autoAttr){
         <td class="r">${pct(s.bounce_rate)}</td></tr>`;
     }).join('')
   }</tbody></table>`;
+}
+
+
+// ── DIAGNOSTIKA ──────────────────────────────────────────────────────────────
+async function runDiag(){
+  const el = $('diag-out');
+  const btn = $('diag-btn');
+  btn.textContent = 'Nacitam...';
+  btn.disabled = true;
+  el.textContent = 'Spoustim diagnostiku...\n\n';
+
+  const log = (...args) => {
+    el.textContent += args.join(' ') + '\n';
+  };
+
+  try {
+    // 1. Prvni 3 transakce — kompletni raw JSON
+    log('=== KROK 1: Raw transakce ===');
+    const txRes = await apiGet(`/tracker/transaction?per_page=3&page=1&date_from=${dateFrom}&date_to=${dateTo}`);
+    log(`Celkem transakcí v období: ${txRes.total}`);
+    if(txRes.data && txRes.data.length > 0){
+      log('\nPrvni transakce (vsechna pole):');
+      log(JSON.stringify(txRes.data[0], null, 2));
+      if(txRes.data[1]) {
+        log('\nDruha transakce:');
+        log(JSON.stringify(txRes.data[1], null, 2));
+      }
+    } else {
+      log('ZADNE transakce v tomto obdobi!');
+      log('Zkus zmenit obdobi nebo over SHOP parametr.');
+      btn.textContent = 'Spustit diagnostiku';
+      btn.disabled = false;
+      return;
+    }
+
+    // 2. Test POST na automatizaci 8948 (Zadost o recenzi) s emailem z prvni transakce
+    const testEmail = (txRes.data[0].email || '').toLowerCase().trim();
+    const testPipelineId = 8948;
+    const lookback = subDays(dateFrom, WIN_CLICK);
+
+    log(`\n=== KROK 2: POST /pipelines/${testPipelineId}/stats-detail ===`);
+    log(`Email z 1. transakce: ${testEmail}`);
+    log(`from_date (lookback ${WIN_CLICK}d): ${lookback}`);
+
+    const postRes = await apiPost(
+      `/pipelines/${testPipelineId}/stats-detail?per_page=100&page=1&from_date=${lookback}`,
+      { emails: [testEmail] }
+    );
+    log('\nOdpoved POST:');
+    log(JSON.stringify(postRes, null, 2));
+
+    // 3. Test GET stats-detail (bez POST body) pro srovnani
+    log(`\n=== KROK 3: GET stats-detail (bez emails filtru) — prvnich 3 ===`);
+    const getRes = await apiGet(`/pipelines/${testPipelineId}/stats-detail?per_page=3&page=1&from_date=${lookback}`);
+    log(JSON.stringify(getRes, null, 2));
+
+    log('\n=== DIAGNOSTIKA DOKONCENA ===');
+  } catch(e) {
+    log('CHYBA: ' + e.message);
+  }
+
+  btn.textContent = 'Spustit diagnostiku';
+  btn.disabled = false;
 }
 
 initDates();
