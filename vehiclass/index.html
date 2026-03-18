@@ -369,72 +369,79 @@ async function fetchTransactions(from, to){
 // zavoláme POST jen jednou pro každou automatizaci s batch emailů.
 // Per-automatizaci batch = max 200 emailů (API limit ~5000, ale šetříme počty volání).
 
-async function computeAttribution(autos, transactions, dateFrom, dateTo){
+// ── ATTRIBUTION ──────────────────────────────────────────────────────────────
+// Logika:
+//   1. Pro každou automatizaci: jeden GET stats-detail?from_date=lookback
+//      → vrátí VŠECHNY subscribers kteří dostali e-mail od lookback data
+//   2. Lokálně spárujeme s transakcemi podle emailu
+//   3. Aplikujeme atribuční okno: click→30d, open→7d od lookbackTs
+//
+// Tím místo stovek POST volání děláme jen N GET volání (N = počet automatizací)
+
+async function computeAttribution(autos, transactions, dateFrom, dateTo, onProgress){
   const result = {};
   for(const a of autos) result[a.id] = { rev:0, orders:0 };
   if(!transactions.length) return result;
 
-  // Index: email → [{ts_ms, amount, oid}]
+  // Index transakcí: email → [{ts_ms, amount, oid}]
   const txByEmail = new Map();
   for(const tx of transactions){
     const em = (tx.email||'').toLowerCase().trim();
     if(!em) continue;
     if(!txByEmail.has(em)) txByEmail.set(em, []);
     txByEmail.get(em).push({
-      ts:     new Date(tx.timestamp.replace(' ','T')+'Z').getTime(),
+      ts:     new Date((tx.timestamp||'').replace(' ','T')+'Z').getTime(),
       amount: parseFloat(tx.amount||0),
       oid:    String(tx.order_id||tx.id),
     });
   }
 
-  const allEmails = [...txByEmail.keys()];
-  const BATCH = 200;
-  // lookback: nejstarsi mozny cas kdy byl email doruCen = datum nejstarsi transakce - WIN_CLICK dni
-  const lookback = subDays(dateFrom, WIN_CLICK);
-  const lookbackTs = new Date(lookback+'T00:00:00Z').getTime();
+  const periodFromTs = new Date(dateFrom+'T00:00:00Z').getTime();
+  const periodToTs   = new Date(dateTo+'T23:59:59Z').getTime();
+  // lookback = nejstarší možný čas doručení e-mailu z automatizace
+  const lookback     = subDays(dateFrom, WIN_CLICK);
+  const lookbackTs   = new Date(lookback+'T00:00:00Z').getTime();
 
   for(let ai=0; ai<autos.length; ai++){
     const auto = autos[ai];
     const usedOids = new Set();
     let rev=0, orders=0;
 
-    for(let i=0; i<allEmails.length; i+=BATCH){
-      const batch = allEmails.slice(i, i+BATCH);
-
-      // POST: zjisti engagement techto emailu od lookback data
+    // Načti VŠECHNY subscribers automatizace od lookback (stránkovaně)
+    let page=1, hasMore=true;
+    while(hasMore){
       let subs = {};
       try {
-        const res = await apiPost(
-          `/pipelines/${auto.id}/stats-detail?per_page=5000&page=1&from_date=${lookback}`,
-          { emails: batch }
+        const res = await apiGet(
+          `/pipelines/${auto.id}/stats-detail?per_page=5000&page=${page}&from_date=${lookback}`
         );
-        // API muze vratit pole [] nebo objekt {} — osetrit oba pripady
         const raw = res.subscribers;
+        // API vrací objekt {} nebo prázdné pole []
         if(raw && !Array.isArray(raw)) subs = raw;
-      } catch(e){ continue; }
+        hasMore = !!res.next_page_url;
+        page++;
+      } catch(e){ hasMore=false; break; }
 
+      // Spáruj s transakcemi
       for(const [email, stats] of Object.entries(subs)){
         const em = email.toLowerCase().trim();
         const txList = txByEmail.get(em);
         if(!txList) continue;
 
-        // Hodnoty mohou byt string nebo number — prevest
+        // parseInt — API vrací stringy ("1") i čísla (1)
         const hadClick = parseInt(stats.click||0) > 0;
         const hadOpen  = parseInt(stats.open||0)  > 0;
         if(!hadClick && !hadOpen) continue;
 
-        // Atribucni okno: pokud klikl → 30 dni, jen otevrel → 7 dni
-        // Okno pocitame od lookbackTs (nejdriv mozny cas doruceni)
+        // Atribuční okno od lookbackTs
         const winMs = (hadClick ? WIN_CLICK : WIN_OPEN) * 86400000;
 
         for(const tx of txList){
           if(usedOids.has(tx.oid)) continue;
-          // Transakce musi byt ve zvolenem obdobi
-          const periodFrom = new Date(dateFrom+'T00:00:00Z').getTime();
-          const periodTo   = new Date(dateTo+'T23:59:59Z').getTime();
-          if(tx.ts < periodFrom || tx.ts > periodTo) continue;
-          // A zaroven do WIN dni od lookbackTs (cas mozneho doruceni emailu)
-          if(tx.ts - lookbackTs > winMs + 86400000) continue; // +1 den tolerance
+          // Musí být ve zvoleném období
+          if(tx.ts < periodFromTs || tx.ts > periodToTs) continue;
+          // A do WIN dní od lookbackTs
+          if(tx.ts - lookbackTs > winMs) continue;
           usedOids.add(tx.oid);
           rev += tx.amount;
           orders++;
@@ -444,12 +451,12 @@ async function computeAttribution(autos, transactions, dateFrom, dateTo){
 
     result[auto.id] = { rev, orders };
     setProgress(
-      50 + Math.round((ai+1)/autos.length * 45),
-      `Atribuuji ${ai+1}/${autos.length}: ${auto.name||'Auto #'+auto.id} → ${orders} obj.`
+      50 + Math.round((ai+1)/autos.length*45),
+      `Automatizace ${ai+1}/${autos.length}: ${auto.name||'#'+auto.id} → ${orders} obj.`
     );
+    if(onProgress) onProgress(result);
   }
   return result;
-}
 }
 
 // ── LOAD ALL ─────────────────────────────────────────────────────────────────
@@ -485,8 +492,15 @@ async function loadAll(){
     const transactions = await fetchTransactions(dateFrom, dateTo);
     setProgress(50,`${transactions.length} transakcí načteno, spouštím atribuci…`);
 
-    // Attribution: POST per pipeline per email batch
-    const autoAttr = await computeAttribution(autos.slice(0,20), transactions, dateFrom, dateTo);
+    // Attribution: GET per pipeline, render progressively as each auto completes
+    let autoAttrPartial = {};
+    for(const a of autos) autoAttrPartial[a.id] = {rev:0, orders:0};
+    const autoAttr = await computeAttribution(autos, transactions, dateFrom, dateTo, (partial) => {
+      Object.assign(autoAttrPartial, partial);
+      // Re-render autos table with partial results so user sees progress
+      renderAutos(autos, autoAgg, autoAttrPartial);
+      renderKPIs(camps, sm, autos, autoAttrPartial, null);
+    });
 
     setProgress(96,'Načítám kontakty…');
     const zakazList=lists.find(l=>{const n=(l.name||'').toLowerCase(); return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers');});
