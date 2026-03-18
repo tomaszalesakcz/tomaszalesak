@@ -249,16 +249,24 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 <script>
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
 
+// Attribution windows (days)
+const WIN_OPEN  = 7;   // open but no click → 7 days
+const WIN_CLICK = 30;  // clicked → 30 days
+
 // ── DATE STATE ───────────────────────────────────────────────────────────────
 let dateFrom = '', dateTo = '';
 function todayStr(){ return new Date().toISOString().split('T')[0]; }
 function daysAgoStr(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().split('T')[0]; }
+function addDaysStr(dateStr, n){
+  const d=new Date(dateStr+'T00:00:00Z'); d.setUTCDate(d.getUTCDate()+n);
+  return d.toISOString().split('T')[0];
+}
 function lastMonthRange(){
   const now=new Date(), y=now.getFullYear(), m=now.getMonth();
   return { from: new Date(y,m-1,1).toISOString().split('T')[0], to: new Date(y,m,0).toISOString().split('T')[0] };
 }
 function fmtPeriod(f,t){
-  const fmt=s=>new Date(s).toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'});
+  const fmt=s=>new Date(s+'T12:00:00').toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'});
   return fmt(f)+' – '+fmt(t);
 }
 function initDates(){ dateTo=todayStr(); dateFrom=daysAgoStr(30); }
@@ -295,7 +303,7 @@ const esc = s  => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').repla
 const pct = v  => (v==null||isNaN(v)) ? '—' : parseFloat(v).toFixed(1)+'%';
 const num = v  => (v==null||v===''||isNaN(+v)) ? '—' : Math.round(+v).toLocaleString('cs-CZ');
 const czk = v  => (!v||isNaN(+v)||+v===0) ? '—' : Math.round(+v).toLocaleString('cs-CZ')+' Kč';
-const dt  = s  => s ? new Date(s).toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'}) : '—';
+const dt  = s  => s ? new Date(s+'T12:00:00').toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'}) : '—';
 function conn(st,lbl){ $('sdot').className='sdot'+(st==='ld'?' ld':st==='er'?' er':''); $('slbl').textContent=lbl; }
 function showErr(m){ const b=$('ebar'); b.style.display=m?'block':'none'; b.textContent=m||''; }
 function kpi(id,v,n){ $(id).innerHTML=`<div class="kval">${v}</div>`; const x=$(id+'-n'); if(x) x.innerHTML=n||''; }
@@ -319,44 +327,133 @@ async function api(path){
   return r.json();
 }
 
-// POST to pipeline stats-detail with from_date + to_date in body
-// Returns aggregate stats filtered to the period via conversions counting
-async function fetchAutoStats(pipelineId, from, to){
-  // The aggregate stats endpoint doesn't support date filtering.
-  // But stats-detail with from_date gives us sends in the period.
-  // We use stats-detail to count sends/opens/clicks in period,
-  // and for conversions we use the aggregate stats (Ecomail's own attribution).
-  const agg = await api(`/pipelines/${pipelineId}/stats`).then(r=>r.stats||{}).catch(()=>({}));
+// Fetch all pages of transactions in a date range, return flat array
+async function fetchTransactions(from, to){
+  const perPage=500;
+  let page=1, all=[], total=null;
+  do {
+    const res = await api(`/tracker/transaction?date_from=${from}&date_to=${to}&per_page=${perPage}&page=${page}`);
+    const data = res.data || [];
+    if(total===null) total = res.total||0;
+    all.push(...data);
+    if(data.length < perPage) break;
+    page++;
+  } while(all.length < total);
+  return all;
+}
 
-  // Count sends, opens, clicks specifically in period using stats-detail
-  let sends=0, opens=0, clicks=0, unsubs=0;
-  let page=1;
+// Fetch all subscribers who had a send event from_date onwards
+// Returns Map: email → { open, click, send }
+async function fetchAutoSubscribers(pipelineId, from){
   const perPage=5000;
+  let page=1;
+  const map=new Map();
   while(true){
     const res = await api(`/pipelines/${pipelineId}/stats-detail?per_page=${perPage}&page=${page}&from_date=${from}`).catch(()=>null);
     if(!res) break;
-    const subs = res.subscribers || {};
-    const entries = Object.values(subs);
-    entries.forEach(s=>{ sends+=s.send||0; opens+=s.open||0; clicks+=s.click||0; unsubs+=s.unsub||0; });
+    const subs = res.subscribers||{};
+    for(const [email, stats] of Object.entries(subs)){
+      if((stats.send||0)>0){
+        map.set(email.toLowerCase().trim(), {
+          open:  stats.open||0,
+          click: stats.click||0,
+          send:  stats.send||0
+        });
+      }
+    }
     if(Object.keys(subs).length < perPage) break;
     page++;
-    if(page > 20) break; // safety
+    if(page>20) break;
+  }
+  return map;
+}
+
+// ── ATTRIBUTION ENGINE ───────────────────────────────────────────────────────
+//
+// Strategy:
+//   1. Load ALL transactions in window [dateFrom - WIN_CLICK days, dateTo]
+//      (we go back WIN_CLICK days before dateFrom to catch emails sent before
+//       the period whose attribution window overlaps into the period)
+//   2. For each automation, load subscribers who had a send in
+//      [dateFrom - WIN_CLICK days, dateTo] via stats-detail from_date
+//   3. For each subscriber in the automation:
+//      - If click > 0: attribute transactions that fall within [dateFrom, dateTo]
+//        AND whose timestamp is within WIN_CLICK days AFTER the subscriber
+//        entered the automation window
+//      - If open > 0 but click = 0: same but WIN_OPEN days window
+//   4. A transaction is only attributed once per automation (deduplicate by order_id)
+//
+// IMPORTANT CAVEAT: stats-detail doesn't give us the exact send timestamp per
+// subscriber — only that they had a send since from_date. So we use from_date
+// as the "earliest possible send" and apply the attribution window forward from
+// there. This matches the Ecomail tracker's own approach (last-touch within window).
+
+async function computeAutoAttribution(autos, txAll, dateFrom, dateTo){
+  // txAll already filtered to [dateFrom - WIN_CLICK, dateTo] by the caller
+  // Build index: email → list of transactions (sorted by timestamp)
+  const txByEmail = new Map();
+  for(const tx of txAll){
+    const em=(tx.email||'').toLowerCase().trim();
+    if(!em) continue;
+    if(!txByEmail.has(em)) txByEmail.set(em,[]);
+    txByEmail.get(em).push({
+      ts: new Date(tx.timestamp).getTime(),
+      amount: parseFloat(tx.amount||0),
+      order_id: tx.order_id||tx.id
+    });
   }
 
-  return {
-    // Period-specific engagement from stats-detail
-    send_period: sends,
-    open_period: opens,
-    click_period: clicks,
-    open_rate_period: sends>0 ? (opens/sends*100) : 0,
-    click_rate_period: sends>0 ? (clicks/sends*100) : 0,
-    unsub_period: unsubs,
-    // Lifetime aggregate from stats endpoint (Ecomail's own conversions tracking)
-    ...agg,
-    // Keep lifetime counts for reference
-    send_lifetime: agg.send,
-    open_rate_lifetime: agg.open_rate,
-  };
+  const result={};
+  const fromTs = new Date(dateFrom+'T00:00:00Z').getTime();
+  const toTs   = new Date(dateTo+'T23:59:59Z').getTime();
+
+  for(const auto of autos){
+    // Load subscribers who had a send starting WIN_CLICK days before dateFrom
+    // so we don't miss people who clicked just before the period started
+    const lookbackFrom = addDaysStr(dateFrom, -WIN_CLICK);
+    const subsMap = await fetchAutoSubscribers(auto.id, lookbackFrom);
+
+    let rev=0, orders=0, sends=0, opens=0, clicks=0, unsubs=0;
+    const attributedOrders = new Set(); // deduplicate
+
+    for(const [email, stats] of subsMap){
+      sends  += stats.send;
+      opens  += stats.open;
+      clicks += stats.click;
+
+      const txList = txByEmail.get(email);
+      if(!txList) continue;
+
+      // Attribution window length for this subscriber
+      const winDays = stats.click > 0 ? WIN_CLICK : (stats.open > 0 ? WIN_OPEN : 0);
+      if(winDays===0) continue;
+
+      // We don't know exact send time, so we use lookbackFrom as earliest bound.
+      // The transaction must:
+      //   a) Fall within the selected period [dateFrom, dateTo]
+      //   b) Not be attributed to another automation already (we skip cross-auto dedup for simplicity)
+      const winMs = winDays * 86400000;
+      const lookbackTs = new Date(lookbackFrom+'T00:00:00Z').getTime();
+
+      for(const tx of txList){
+        // Must be within the reporting period
+        if(tx.ts < fromTs || tx.ts > toTs) continue;
+        // Must be within attribution window from lookback start
+        if(tx.ts - lookbackTs > winMs) continue;
+        // Deduplicate order
+        if(attributedOrders.has(tx.order_id)) continue;
+        attributedOrders.add(tx.order_id);
+        rev += tx.amount;
+        orders++;
+      }
+    }
+
+    result[auto.id] = { rev, orders, sends, opens, clicks,
+      open_rate:  sends>0 ? (opens/sends*100)  : 0,
+      click_rate: sends>0 ? (clicks/sends*100) : 0,
+    };
+  }
+  return result;
 }
 
 // ── LOAD ALL ─────────────────────────────────────────────────────────────────
@@ -376,20 +473,34 @@ async function loadAll(){
     const autos = Array.isArray(rawA) ? rawA : [];
     const lists = Array.isArray(rawL) ? rawL : [];
 
-    setProgress(20,'Načítám statistiky kampaní…');
+    setProgress(15,'Načítám statistiky kampaní…');
     const sm={};
     await Promise.all(camps.slice(0,15).map(c=>
       api('/campaigns/'+c.id+'/stats').then(s=>{sm[c.id]=s.stats||{};}).catch(()=>{sm[c.id]={};})
     ));
 
-    setProgress(40,'Načítám statistiky automatizací…');
-    // Process sequentially - stats-detail can be large
-    const am={};
+    // Fetch transactions for attribution window
+    // Go back WIN_CLICK days before dateFrom to capture late attributions
+    const txFrom = addDaysStr(dateFrom, -WIN_CLICK);
+    setProgress(30,`Načítám transakce (${txFrom} – ${dateTo})…`);
+    const txAll = await fetchTransactions(txFrom, dateTo);
+    setProgress(45,`Načteno ${txAll.length} transakcí, počítám atribuci…`);
+
+    // Compute attribution for all automations (sequential to avoid API flood)
+    const autoAttr={};
+    const autoAgg={};
     for(let i=0; i<Math.min(autos.length,20); i++){
-      const a = autos[i];
-      am[a.id] = await fetchAutoStats(a.id, dateFrom, dateTo);
-      setProgress(40+Math.round((i+1)/Math.min(autos.length,20)*50), `Automatizace ${i+1}/${Math.min(autos.length,20)}…`);
+      const a=autos[i];
+      // Aggregate lifetime stats for open/bounce rates display
+      const agg=await api('/pipelines/'+a.id+'/stats').then(r=>r.stats||{}).catch(()=>({}));
+      autoAgg[a.id]=agg;
+      setProgress(45+Math.round((i+1)/Math.min(autos.length,20)*45), `Atribuuji automatizaci ${i+1}/${Math.min(autos.length,20)}…`);
     }
+
+    // Run attribution engine
+    setProgress(90,'Počítám atribuci transakcí…');
+    const attrResult = await computeAutoAttribution(autos.slice(0,20), txAll, dateFrom, dateTo);
+    Object.assign(autoAttr, attrResult);
 
     setProgress(95,'Načítám detail kontaktů…');
     const zakazList=lists.find(l=>{const n=(l.name||'').toLowerCase(); return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers');});
@@ -397,7 +508,7 @@ async function loadAll(){
     if(zakazList) zakazDetail=await api('/lists/'+zakazList.id).catch(()=>null);
 
     setProgress(100);
-    render(camps, sm, autos, am, zakazDetail);
+    render(camps, sm, autos, autoAgg, autoAttr, zakazDetail);
     conn('','Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
     updateSub();
   } catch(e){
@@ -411,29 +522,25 @@ async function loadAll(){
 }
 
 // ── RENDER ────────────────────────────────────────────────────────────────────
-function render(camps, sm, autos, am, zakazDetail){
-  renderKPIs(camps, sm, autos, am, zakazDetail);
+function render(camps, sm, autos, autoAgg, autoAttr, zakazDetail){
+  renderKPIs(camps, sm, autos, autoAttr, zakazDetail);
   renderOvTbl(camps, sm);
   renderCmpTbl(camps, sm);
-  renderAutos(autos, am);
+  renderAutos(autos, autoAgg, autoAttr);
 }
 
-function renderKPIs(camps, sm, autos, am, zakazDetail){
+function renderKPIs(camps, sm, autos, autoAttr, zakazDetail){
   let revCamps=0, ordersCamps=0;
   camps.forEach(c=>{ const s=sm[c.id]||{}; revCamps+=parseFloat(s.conversions_value||0); ordersCamps+=parseInt(s.conversions||0); });
 
-  // Automation conversions: use Ecomail's own conversions_value from stats endpoint
-  // This is what Ecomail itself shows in its UI — the correct attribution
   let revAutos=0, ordersAutos=0;
-  autos.forEach(a=>{ const s=am[a.id]||{}; revAutos+=parseFloat(s.conversions_value||0); ordersAutos+=parseInt(s.conversions||0); });
+  autos.forEach(a=>{ const r=autoAttr[a.id]||{}; revAutos+=r.rev||0; ordersAutos+=r.orders||0; });
 
-  const revTotal=revCamps+revAutos;
-  const ordersTotal=ordersCamps+ordersAutos;
-
-  kpi('k-rev-total', czk(revTotal), `<span class="nu">kampaně ${czk(revCamps)} + automatizace ${czk(revAutos)}</span>`);
-  kpi('k-rev-camps', czk(revCamps), `<span class="nu">${ordersCamps} objednávek z kampaní</span>`);
-  kpi('k-rev-autos', czk(revAutos), `<span class="nu">${ordersAutos} objednávek z automatizací</span>`);
-  kpi('k-conv', num(ordersTotal), `<span class="nu">${ordersCamps} kampaně + ${ordersAutos} automatizace</span>`);
+  const revTotal=revCamps+revAutos, ordersTotal=ordersCamps+ordersAutos;
+  kpi('k-rev-total', czk(revTotal),  `<span class="nu">kampaně ${czk(revCamps)} + automatizace ${czk(revAutos)}</span>`);
+  kpi('k-rev-camps', czk(revCamps),  `<span class="nu">${ordersCamps} objednávek z kampaní</span>`);
+  kpi('k-rev-autos', czk(revAutos),  `<span class="nu">${ordersAutos} objednávek | okno ${WIN_OPEN}/${WIN_CLICK} dní</span>`);
+  kpi('k-conv',      num(ordersTotal),`<span class="nu">${ordersCamps} kampaně + ${ordersAutos} automatizace</span>`);
 
   if(zakazDetail){
     const inf=(zakazDetail.list)||{}, sb=(zakazDetail.subscribers)||{};
@@ -479,38 +586,36 @@ function renderCmpTbl(camps, sm){
   }</tbody></table>`;
 }
 
-function renderAutos(autos, am){
-  let orS=0,ctrS=0,revS=0,ordS=0,n=0;
+function renderAutos(autos, autoAgg, autoAttr){
+  let revS=0, ordS=0, orS=0, ctrS=0, n=0;
   autos.forEach(a=>{
-    const s=am[a.id]||{};
-    // Use period open/click rates from stats-detail
-    const or=parseFloat(s.open_rate_period||s.open_rate||0);
-    const cr=parseFloat(s.click_rate_period||s.click_rate||0);
-    if(or>0||cr>0){orS+=or;ctrS+=cr;n++;}
-    revS+=parseFloat(s.conversions_value||0);
-    ordS+=parseInt(s.conversions||0);
+    const r=autoAttr[a.id]||{}, s=autoAgg[a.id]||{};
+    revS+=r.rev||0; ordS+=r.orders||0;
+    if((r.sends||0)>0){ orS+=r.open_rate||0; ctrS+=r.click_rate||0; n++; }
   });
   kpi('k-ac',autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
-  kpi('k-arev', czk(revS), `<span class="nu">${ordS} objednávek dle Ecomailu</span>`);
+  kpi('k-arev', czk(revS), `<span class="nu">${ordS} objednávek | okno ${WIN_OPEN}d open / ${WIN_CLICK}d click</span>`);
   $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
   $('k-actr').innerHTML=`<div class="kval">${pct(n?ctrS/n:0)}</div>`;
 
   const w=$('auto-tbl');
   if(!autos.length){w.innerHTML='<div class="empty">Žádné automatizace nenalezeny</div>';return;}
 
-  const sorted=[...autos].sort((a,b)=>parseFloat((am[b.id]||{}).conversions_value||0)-parseFloat((am[a.id]||{}).conversions_value||0));
+  const sorted=[...autos].sort((a,b)=>(autoAttr[b.id]?.rev||0)-(autoAttr[a.id]?.rev||0));
   w.innerHTML=`<table><thead><tr>
-    <th>Automatizace</th><th class="r">Odesláno v obd.</th><th class="r">OR v obd.</th><th class="r">CTR v obd.</th><th class="r">Odhlásilo v obd.</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th>
+    <th>Automatizace</th><th class="r">Odesláno v obd.</th><th class="r">OR v obd.</th><th class="r">CTR v obd.</th><th class="r">Objednávky</th><th class="r">Tržby v období</th><th class="r">Bounce (celk.)</th>
   </tr></thead><tbody>${
-    sorted.map(a=>{const s=am[a.id]||{};return`<tr>
-      <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
-      <td class="r">${num(s.send_period)}</td>
-      <td class="r">${pct(s.open_rate_period)}</td>
-      <td class="r">${pct(s.click_rate_period)}</td>
-      <td class="r">${num(s.unsub_period)}</td>
-      <td class="r">${num(s.conversions)}</td>
-      <td class="r" style="color:var(--green);font-weight:500">${czk(s.conversions_value)}</td>
-      <td class="r">${pct(s.bounce_rate)}</td></tr>`;}).join('')
+    sorted.map(a=>{
+      const r=autoAttr[a.id]||{}, s=autoAgg[a.id]||{};
+      return`<tr>
+        <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
+        <td class="r">${num(r.sends)}</td>
+        <td class="r">${pct(r.open_rate)}</td>
+        <td class="r">${pct(r.click_rate)}</td>
+        <td class="r">${num(r.orders)}</td>
+        <td class="r" style="color:var(--green);font-weight:500">${czk(r.rev)}</td>
+        <td class="r">${pct(s.bounce_rate)}</td></tr>`;
+    }).join('')
   }</tbody></table>`;
 }
 
