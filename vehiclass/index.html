@@ -115,7 +115,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 .view { display:none; }
 .view.on { display:block; }
 
-/* progress bar for slow loading */
 .prog-wrap { background:var(--bg); border:1px solid var(--border); border-radius:var(--rs); padding:12px 16px; margin-bottom:18px; display:none; }
 .prog-lbl { font-size:12px; color:var(--text-muted); margin-bottom:8px; }
 .prog-bar { height:4px; background:var(--border2); border-radius:2px; overflow:hidden; }
@@ -191,13 +190,11 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
-  <!-- progress -->
   <div class="prog-wrap" id="prog-wrap">
     <div class="prog-lbl" id="prog-lbl">Načítám transakce…</div>
     <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
   </div>
 
-  <!-- OVERVIEW -->
   <div class="view on" id="vw-overview">
     <div class="krow k3">
       <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-rev-total"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-total-n">&nbsp;</div><div class="kblob" style="background:#16a34a"></div></div>
@@ -214,7 +211,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
-  <!-- CAMPAIGNS -->
   <div class="view" id="vw-campaigns">
     <div class="sec">
       <div class="shead"><span class="stitle" id="cmp-head">Kampaně</span></div>
@@ -222,7 +218,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
-  <!-- AUTOMATIONS -->
   <div class="view" id="vw-automations">
     <div class="krow k4" style="margin-bottom:22px">
       <div class="kcard"><div class="klbl">Automatizace</div><div id="k-ac"><div class="shim" style="height:34px;width:50px"></div></div><div class="knote" id="k-ac-n">&nbsp;</div></div>
@@ -249,7 +244,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 <script>
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
 
-// ── DATE STATE ───────────────────────────────────────────────────────────────
 let dateFrom = '', dateTo = '';
 function todayStr(){ return new Date().toISOString().split('T')[0]; }
 function daysAgoStr(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().split('T')[0]; }
@@ -288,7 +282,6 @@ function applyCustom(){
 document.addEventListener('click',e=>{ if(!$('dpw').contains(e.target)){ $('dpdd').classList.remove('open'); } });
 function updateSub(){ $('psub').textContent=fmtPeriod(dateFrom,dateTo); }
 
-// ── HELPERS ──────────────────────────────────────────────────────────────────
 const $   = id => document.getElementById(id);
 const esc = s  => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const pct = v  => (v==null||isNaN(v)) ? '—' : parseFloat(v).toFixed(1)+'%';
@@ -301,7 +294,6 @@ function kpi(id,v,n){ $(id).innerHTML=`<div class="kval">${v}</div>`; const x=$(
 function badge(s){ const m={0:['ba','Koncept'],1:['bb','Příprava'],2:['bb','Odesílá'],3:['bg','Odesláno'],4:['br','Chyba'],7:['ba','Naplán.']}; const [c,l]=m[s]||['',''+s]; return`<span class="badge ${c}">${l}</span>`; }
 function setProgress(v,lbl){ $('prog-wrap').style.display=v<100?'block':'none'; $('prog-fill').style.width=v+'%'; if(lbl) $('prog-lbl').textContent=lbl; }
 
-// ── ROUTING ──────────────────────────────────────────────────────────────────
 const PAGES={overview:['Přehled',''],campaigns:['Kampaně','Detail odeslaných kampaní za zvolené období'],automations:['Automatizace','Statistiky automatizačních sekvencí']};
 function goView(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
@@ -311,21 +303,12 @@ function goView(v){
   $('psub').textContent = v==='overview' ? fmtPeriod(dateFrom,dateTo) : PAGES[v][1];
 }
 
-// ── API ───────────────────────────────────────────────────────────────────────
 async function apiGet(path){
   const r=await fetch(PROXY+'?path='+encodeURIComponent(path));
   if(!r.ok) throw new Error('HTTP '+r.status);
   return r.json();
 }
-async function apiPost(path, body){
-  const r=await fetch(PROXY+'?path='+encodeURIComponent(path), {
-    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
-  });
-  if(!r.ok) throw new Error('HTTP '+r.status);
-  return r.json();
-}
 
-// Načte všechny transakce za období
 async function fetchTransactions(from, to){
   let page=1, all=[], total=null;
   do {
@@ -339,31 +322,26 @@ async function fetchTransactions(from, to){
   return all;
 }
 
-// Pro automatizaci: POST seznam emailů, vrátí Set emailů které mají send>=1
-// Zpracovává batche po 500 (API max)
-async function getEmailsInAuto(pipelineId, emails){
-  const matched=new Set();
-  const BATCH=500;
-  for(let i=0; i<emails.length; i+=BATCH){
-    const batch=emails.slice(i,i+BATCH);
+// Opravená funkce: Stahuje účastníky automatizace (paginovaný GET)
+async function getEmailsInAuto(automationId) {
+  const matchedEmails = new Set();
+  let page = 1;
+  let hasNext = true;
+  while (hasNext) {
     try {
-      const res=await apiPost(
-        `/pipelines/${pipelineId}/stats-detail?per_page=${BATCH}&page=1`,
-        {emails: batch}
-      );
-      const subs=res.subscribers||{};
-      // subscribers může být [] (prázdné pole) nebo {} (objekt)
-      if(!Array.isArray(subs)){
-        for(const [email,stats] of Object.entries(subs)){
-          if(parseInt(stats.send||0)>=1) matched.add(email.toLowerCase().trim());
-        }
+      const res = await apiGet(`/automations/${automationId}/stats-detail?per_page=1000&page=${page}`);
+      const participants = res.data || [];
+      if (participants.length === 0) { hasNext = false; break; }
+      for (const entry of participants) {
+        if (entry.email) matchedEmails.add(entry.email.toLowerCase().trim());
       }
-    } catch(e){ /* tiše přeskočit batch */ }
+      if (participants.length < 1000) hasNext = false; else page++;
+      if (page > 20) hasNext = false; // Horní limit 20k účastníků pro stabilitu
+    } catch (e) { hasNext = false; }
   }
-  return matched;
+  return matchedEmails;
 }
 
-// ── LOAD ─────────────────────────────────────────────────────────────────────
 async function loadAll(){
   $('rbtn').classList.add('sp');
   conn('ld','Načítám data…');
@@ -373,7 +351,7 @@ async function loadAll(){
   try {
     const [rawC,rawA,rawL]=await Promise.all([
       apiGet(`/campaigns?filters[date_from]=${dateFrom}&filters[date_to]=${dateTo}&filters[status]=3&per_page=50`),
-      apiGet('/pipelines'),
+      apiGet('/automations'),
       apiGet('/lists'),
     ]);
     const camps=Array.isArray(rawC)?rawC:[];
@@ -383,46 +361,40 @@ async function loadAll(){
     setProgress(15,'Statistiky kampaní a automatizací…');
     const sm={}, am={};
     await Promise.all([
-      ...camps.slice(0,15).map(c=>apiGet('/campaigns/'+c.id+'/stats').then(r=>{sm[c.id]=r.stats||{};}).catch(()=>{sm[c.id]={};})),
-      ...autos.map(a=>apiGet('/pipelines/'+a.id+'/stats').then(r=>{am[a.id]=r.stats||{};}).catch(()=>{am[a.id]={};})  ),
+      ...camps.slice(0,20).map(c=>apiGet('/campaigns/'+c.id+'/stats').then(r=>{sm[c.id]=r.stats||{};}).catch(()=>{sm[c.id]={};})),
+      ...autos.map(a=>apiGet('/automations/'+a.id+'/stats').then(r=>{am[a.id]=r.stats||{};}).catch(()=>{am[a.id]={};})),
     ]);
 
     setProgress(30,'Načítám transakce…');
     const transactions=await fetchTransactions(dateFrom,dateTo);
-    setProgress(45,`${transactions.length} transakcí načteno`);
-
-    // Unikátní emaily z transakcí + lookup: email→{rev,cnt}
-    const txEmails=[];
-    const txByEmail=new Map();
+    
+    const txByEmail = new Map();
     for(const tx of transactions){
-      const em=(tx.email||'').toLowerCase().trim();
+      const em = (tx.email||'').toLowerCase().trim();
       if(!em) continue;
-      if(!txByEmail.has(em)){
-        txEmails.push(em);
-        txByEmail.set(em,{rev:0,cnt:0});
-      }
+      if(!txByEmail.has(em)) txByEmail.set(em,{rev:0,cnt:0});
       const e=txByEmail.get(em);
       e.rev+=parseFloat(tx.amount||0);
       e.cnt++;
     }
 
-    // Pro každou automatizaci: POST s emaily zákazníků → kdo dostal e-mail?
     const apr={};
     for(let i=0;i<autos.length;i++){
       const a=autos[i];
-      setProgress(45+Math.round((i+1)/autos.length*45),`Auto ${i+1}/${autos.length}: ${a.name||'#'+a.id}…`);
-
-      const matched=await getEmailsInAuto(a.id, txEmails);
-
-      let rev=0,cnt=0;
-      for(const em of matched){
-        const tx=txByEmail.get(em);
-        if(tx){rev+=tx.rev;cnt+=tx.cnt;}
+      setProgress(40+Math.round((i+1)/autos.length*50),`Auto ${i+1}/${autos.length}: ${a.name||'#'+a.id}…`);
+      const autoEmails = await getEmailsInAuto(a.id);
+      let rev=0, ord=0, matches=0;
+      for (const [email, stats] of txByEmail.entries()) {
+        if (autoEmails.has(email)) {
+          rev += stats.rev;
+          ord += stats.cnt;
+          matches++;
+        }
       }
-      apr[a.id]={rev,orders:cnt,matched:matched.size};
+      apr[a.id]={rev,orders:ord,matched:matches};
     }
 
-    setProgress(92,'Kontakty…');
+    setProgress(95,'Kontakty…');
     const zakazList=lists.find(l=>{const n=(l.name||'').toLowerCase();return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers');});
     let zakazDetail=null;
     if(zakazList) zakazDetail=await apiGet('/lists/'+zakazList.id).catch(()=>null);
@@ -431,17 +403,6 @@ async function loadAll(){
     render(camps,sm,autos,am,apr,zakazDetail);
     conn('','Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
     updateSub();
-
-    // Diagnostika
-    const diagEl=$('diag-out');
-    if(diagEl){
-      const lines=[`Transakce: ${transactions.length} | Unikátní emaily: ${txEmails.length}`,``];
-      autos.forEach(a=>{
-        const r=apr[a.id]||{};
-        lines.push(`${a.name||'#'+a.id}: ${r.matched||0} shod, ${r.orders||0} nákupů, ${czk(r.rev||0)}`);
-      });
-      diagEl.textContent=lines.join('\n');
-    }
 
   } catch(e){
     conn('er','Chyba');
@@ -452,7 +413,6 @@ async function loadAll(){
   }
 }
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
 function render(camps,sm,autos,am,apr,zakazDetail){
   renderKPIs(camps,sm,autos,am,apr,zakazDetail);
   renderOvTbl(camps,sm);
@@ -543,10 +503,12 @@ async function runDiag(){
     const tx=await apiGet(`/tracker/transaction?per_page=3&page=1&date_from=${dateFrom}&date_to=${dateTo}`);
     log(`Celkem: ${tx.total}`);
     if(tx.data?.[0]) log(JSON.stringify(tx.data[0],null,2));
-    log('\n=== POST stats-detail pipeline 8948 s prvním emailem z transakcí ===');
-    if(tx.data?.[0]?.email){
-      const res=await apiPost(`/pipelines/8948/stats-detail?per_page=10&page=1`,{emails:[tx.data[0].email]});
-      log(JSON.stringify(res,null,2));
+    log('\n=== Test načtení stats-detail první automatizace ===');
+    const autos = await apiGet('/automations');
+    if(autos[0]) {
+      const res = await apiGet(`/automations/${autos[0].id}/stats-detail?per_page=3&page=1`);
+      log(`Auto: ${autos[0].name} (ID ${autos[0].id})`);
+      log(JSON.stringify(res.data?.[0] || res, null, 2));
     }
   } catch(e){log('CHYBA: '+e.message);}
   btn.textContent='Spustit diagnostiku'; btn.disabled=false;
