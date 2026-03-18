@@ -371,66 +371,70 @@ async function fetchTransactions(from, to){
 
 async function computeAttribution(autos, transactions, dateFrom, dateTo){
   const result = {};
-  for(const a of autos) result[a.id] = { rev:0, orders:0, sends:0 };
-
+  for(const a of autos) result[a.id] = { rev:0, orders:0 };
   if(!transactions.length) return result;
 
-  // Index: email → list of {ts (ms), amount, oid}
+  // Index: email → [{ts_ms, amount, oid}]
   const txByEmail = new Map();
   for(const tx of transactions){
-    const em=(tx.email||'').toLowerCase().trim();
+    const em = (tx.email||'').toLowerCase().trim();
     if(!em) continue;
-    const ts=new Date(tx.timestamp).getTime();
-    if(!txByEmail.has(em)) txByEmail.set(em,[]);
-    txByEmail.get(em).push({ ts, amount:parseFloat(tx.amount||0), oid:String(tx.order_id||tx.id) });
+    if(!txByEmail.has(em)) txByEmail.set(em, []);
+    txByEmail.get(em).push({
+      ts:     new Date(tx.timestamp.replace(' ','T')+'Z').getTime(),
+      amount: parseFloat(tx.amount||0),
+      oid:    String(tx.order_id||tx.id),
+    });
   }
 
   const allEmails = [...txByEmail.keys()];
-  const BATCH = 200; // emails per POST call
+  const BATCH = 200;
+  // lookback: nejstarsi mozny cas kdy byl email doruCen = datum nejstarsi transakce - WIN_CLICK dni
+  const lookback = subDays(dateFrom, WIN_CLICK);
+  const lookbackTs = new Date(lookback+'T00:00:00Z').getTime();
 
   for(let ai=0; ai<autos.length; ai++){
     const auto = autos[ai];
     const usedOids = new Set();
-    let rev=0, orders=0, sends=0;
+    let rev=0, orders=0;
 
-    // Process emails in batches
     for(let i=0; i<allEmails.length; i+=BATCH){
       const batch = allEmails.slice(i, i+BATCH);
 
-      // from_date = earliest tx timestamp in this batch - WIN_CLICK days
-      // We use the global dateFrom - WIN_CLICK to cover all transactions
-      const lookback = subDays(dateFrom, WIN_CLICK);
-
-      // POST stats-detail: get engagement for these emails since lookback
+      // POST: zjisti engagement techto emailu od lookback data
       let subs = {};
       try {
         const res = await apiPost(
           `/pipelines/${auto.id}/stats-detail?per_page=5000&page=1&from_date=${lookback}`,
           { emails: batch }
         );
-        subs = res.subscribers || {};
+        // API muze vratit pole [] nebo objekt {} — osetrit oba pripady
+        const raw = res.subscribers;
+        if(raw && !Array.isArray(raw)) subs = raw;
       } catch(e){ continue; }
 
-      // For each email in this batch that had engagement
       for(const [email, stats] of Object.entries(subs)){
         const em = email.toLowerCase().trim();
         const txList = txByEmail.get(em);
         if(!txList) continue;
 
-        sends += stats.send||0;
-
-        const hadClick = (stats.click||0) > 0;
-        const hadOpen  = (stats.open||0)  > 0;
+        // Hodnoty mohou byt string nebo number — prevest
+        const hadClick = parseInt(stats.click||0) > 0;
+        const hadOpen  = parseInt(stats.open||0)  > 0;
         if(!hadClick && !hadOpen) continue;
 
-        // Applicable attribution window in ms
+        // Atribucni okno: pokud klikl → 30 dni, jen otevrel → 7 dni
+        // Okno pocitame od lookbackTs (nejdriv mozny cas doruceni)
         const winMs = (hadClick ? WIN_CLICK : WIN_OPEN) * 86400000;
-        const lookbackTs = new Date(lookback+'T00:00:00Z').getTime();
 
         for(const tx of txList){
           if(usedOids.has(tx.oid)) continue;
-          // Transaction must be within the attribution window from lookback
-          if(tx.ts - lookbackTs > winMs) continue;
+          // Transakce musi byt ve zvolenem obdobi
+          const periodFrom = new Date(dateFrom+'T00:00:00Z').getTime();
+          const periodTo   = new Date(dateTo+'T23:59:59Z').getTime();
+          if(tx.ts < periodFrom || tx.ts > periodTo) continue;
+          // A zaroven do WIN dni od lookbackTs (cas mozneho doruceni emailu)
+          if(tx.ts - lookbackTs > winMs + 86400000) continue; // +1 den tolerance
           usedOids.add(tx.oid);
           rev += tx.amount;
           orders++;
@@ -438,14 +442,14 @@ async function computeAttribution(autos, transactions, dateFrom, dateTo){
       }
     }
 
-    result[auto.id] = { rev, orders, sends };
+    result[auto.id] = { rev, orders };
     setProgress(
       50 + Math.round((ai+1)/autos.length * 45),
       `Atribuuji ${ai+1}/${autos.length}: ${auto.name||'Auto #'+auto.id} → ${orders} obj.`
     );
   }
-
   return result;
+}
 }
 
 // ── LOAD ALL ─────────────────────────────────────────────────────────────────
