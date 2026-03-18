@@ -22,7 +22,6 @@
 body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; font-size:14px; line-height:1.5; }
 .shell { display:flex; min-height:100vh; }
 
-/* ── Sidebar ── */
 .sidebar { width:224px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; position:fixed; top:0; left:0; height:100vh; z-index:10; }
 .logo { padding:22px 20px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:11px; }
 .logo-mark { width:34px; height:34px; background:var(--accent); border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
@@ -42,58 +41,44 @@ nav { padding:14px 10px; flex:1; }
 .sdot.er { background:var(--red); }
 @keyframes blink { 0%,100%{opacity:1}50%{opacity:.35} }
 
-/* ── Main ── */
 .main { flex:1; margin-left:224px; padding:30px 36px 60px; min-width:0; }
 .topbar { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:30px; gap:16px; flex-wrap:wrap; }
 .ptitle { font-size:21px; font-weight:600; letter-spacing:-.45px; }
 .psub { font-size:13px; color:var(--text-muted); margin-top:3px; }
 .tctrl { display:flex; align-items:center; gap:10px; flex-shrink:0; flex-wrap:wrap; }
 
-/* ── Period controls ── */
 .seg { display:flex; background:var(--surface); border:1px solid var(--border); border-radius:var(--rs); overflow:hidden; }
 .seg-btn { padding:7px 13px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:none; background:none; cursor:pointer; color:var(--text-muted); border-right:1px solid var(--border); transition:all .15s; white-space:nowrap; }
 .seg-btn:last-child { border-right:none; }
 .seg-btn:hover { background:var(--bg); color:var(--text); }
 .seg-btn.on { background:var(--accent); color:#fff; }
 
-/* ── Date picker ── */
-.datepicker-wrap { position:relative; }
-.datepicker-btn { display:flex; align-items:center; gap:6px; padding:7px 13px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:1px solid var(--border); background:var(--surface); border-radius:var(--rs); cursor:pointer; color:var(--text-muted); transition:all .15s; white-space:nowrap; }
-.datepicker-btn:hover { background:var(--bg); color:var(--text); }
-.datepicker-btn.on { border-color:var(--accent); color:var(--accent); background:var(--accent-bg); }
-.datepicker-btn svg { width:14px; height:14px; flex-shrink:0; }
-.datepicker-dropdown {
-  display:none; position:absolute; top:calc(100% + 6px); right:0; z-index:100;
-  background:var(--surface); border:1px solid var(--border2); border-radius:var(--r);
-  padding:16px; min-width:300px;
-  box-shadow:0 8px 24px rgba(0,0,0,0.10);
-}
-.datepicker-dropdown.open { display:block; }
+.dp-wrap { position:relative; }
+.dp-btn { display:flex; align-items:center; gap:6px; padding:7px 13px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:1px solid var(--border); background:var(--surface); border-radius:var(--rs); cursor:pointer; color:var(--text-muted); transition:all .15s; white-space:nowrap; }
+.dp-btn:hover { background:var(--bg); color:var(--text); }
+.dp-btn.on { border-color:var(--accent); color:var(--accent); background:var(--accent-bg); }
+.dp-btn svg { width:14px; height:14px; flex-shrink:0; }
+.dp-dd { display:none; position:absolute; top:calc(100% + 6px); right:0; z-index:200; background:var(--surface); border:1px solid var(--border2); border-radius:var(--r); padding:16px; min-width:310px; box-shadow:0 8px 24px rgba(0,0,0,0.10); }
+.dp-dd.open { display:block; }
 .dp-row { display:flex; gap:10px; align-items:flex-end; }
-.dp-field { display:flex; flex-direction:column; gap:5px; flex:1; }
-.dp-label { font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:.06em; }
-.dp-input { width:100%; padding:7px 10px; font-size:13px; font-family:'DM Sans',sans-serif; border:1px solid var(--border2); border-radius:var(--rs); background:var(--bg); color:var(--text); outline:none; }
-.dp-input:focus { border-color:var(--accent); background:#fff; }
-.dp-apply { padding:7px 16px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; background:var(--accent); color:#fff; border:none; border-radius:var(--rs); cursor:pointer; white-space:nowrap; }
-.dp-apply:hover { background:var(--accent); opacity:.9; }
+.dp-f { display:flex; flex-direction:column; gap:5px; flex:1; }
+.dp-lbl { font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:.06em; }
+.dp-inp { width:100%; padding:7px 10px; font-size:13px; font-family:'DM Sans',sans-serif; border:1px solid var(--border2); border-radius:var(--rs); background:var(--bg); color:var(--text); outline:none; }
+.dp-inp:focus { border-color:var(--accent); background:#fff; }
+.dp-ok { padding:7px 16px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; background:var(--accent); color:#fff; border:none; border-radius:var(--rs); cursor:pointer; }
 
-/* ── Refresh btn ── */
 .ibtn { display:flex; align-items:center; gap:6px; padding:7px 13px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:1px solid var(--border); background:var(--surface); border-radius:var(--rs); cursor:pointer; color:var(--text-muted); transition:all .15s; }
 .ibtn:hover { background:var(--bg); }
 .ibtn svg { width:14px; height:14px; }
 .ibtn.sp svg { animation:spin 1s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
-/* ── Period label ── */
-.period-label { font-size:12px; color:var(--text-faint); background:var(--bg); border:1px solid var(--border); border-radius:var(--rs); padding:7px 12px; white-space:nowrap; }
-
-/* ── Error ── */
 .ebar { display:none; background:var(--red-bg); border:1px solid var(--red-b); border-radius:var(--rs); padding:12px 16px; color:var(--red); font-size:13px; margin-bottom:22px; line-height:1.5; }
 
-/* ── KPI cards ── */
 .krow { display:grid; gap:14px; margin-bottom:22px; }
 .k4 { grid-template-columns:repeat(4,1fr); }
 .k3 { grid-template-columns:repeat(3,1fr); }
+.k2 { grid-template-columns:repeat(2,1fr); }
 .kcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; position:relative; overflow:hidden; }
 .klbl { font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:.07em; margin-bottom:9px; }
 .kval { font-size:30px; font-weight:600; letter-spacing:-1.2px; line-height:1; margin-bottom:7px; font-family:'DM Mono',monospace; }
@@ -103,7 +88,6 @@ nav { padding:14px 10px; flex:1; }
 .shim { background:linear-gradient(90deg,var(--surface2) 25%,#eae9e3 50%,var(--surface2) 75%); background-size:200%; animation:sh 1.6s infinite; border-radius:5px; }
 @keyframes sh { to { background-position:-200% 0; } }
 
-/* ── Section / Table ── */
 .sec { margin-bottom:24px; }
 .shead { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
 .stitle { font-size:15px; font-weight:600; letter-spacing:-.2px; }
@@ -117,7 +101,7 @@ tbody tr:last-child { border-bottom:none; }
 tbody tr:hover { background:var(--bg); }
 td { padding:11px 16px; font-size:13px; }
 td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; color:var(--text-muted); }
-.tn { font-weight:500; font-size:13px; max-width:240px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.tn { font-weight:500; font-size:13px; max-width:260px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .ts { font-size:11.5px; color:var(--text-faint); margin-top:2px; }
 .badge { display:inline-flex; align-items:center; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500; white-space:nowrap; }
 .bg { background:var(--green-bg); color:var(--green); }
@@ -131,11 +115,14 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 .view { display:none; }
 .view.on { display:block; }
 
-/* ── Note box ── */
-.note-box { background:var(--amber-bg); border:1px solid var(--amber-b); border-radius:var(--rs); padding:10px 14px; font-size:12px; color:var(--amber); margin-bottom:18px; }
+/* progress bar for slow loading */
+.prog-wrap { background:var(--bg); border:1px solid var(--border); border-radius:var(--rs); padding:12px 16px; margin-bottom:18px; display:none; }
+.prog-lbl { font-size:12px; color:var(--text-muted); margin-bottom:8px; }
+.prog-bar { height:4px; background:var(--border2); border-radius:2px; overflow:hidden; }
+.prog-fill { height:100%; background:var(--accent); border-radius:2px; transition:width .4s; }
 
 @media(max-width:960px){ .k4{grid-template-columns:repeat(2,1fr)} .k3{grid-template-columns:repeat(2,1fr)} }
-@media(max-width:720px){ .sidebar{display:none} .main{margin-left:0;padding:20px} }
+@media(max-width:720px){ .sidebar{display:none} .main{margin-left:0;padding:20px} .k2{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -174,38 +161,29 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
   <div class="topbar">
     <div>
       <div class="ptitle" id="ptitle">Přehled</div>
-      <div class="psub" id="psub">Celkové metriky e-mail marketingu</div>
+      <div class="psub" id="psub">Načítám…</div>
     </div>
     <div class="tctrl">
-      <!-- Quick period buttons -->
       <div class="seg">
-        <button class="seg-btn" data-preset="7"    onclick="setPreset('7')">7 dní</button>
-        <button class="seg-btn on" data-preset="30"  onclick="setPreset('30')">30 dní</button>
-        <button class="seg-btn" data-preset="90"   onclick="setPreset('90')">3 měs.</button>
-        <button class="seg-btn" data-preset="365"  onclick="setPreset('365')">Rok</button>
-        <button class="seg-btn" data-preset="lm"   onclick="setPreset('lm')">Minulý měsíc</button>
+        <button class="seg-btn" data-p="7"   onclick="setPreset('7')">7 dní</button>
+        <button class="seg-btn on" data-p="30" onclick="setPreset('30')">30 dní</button>
+        <button class="seg-btn" data-p="90"  onclick="setPreset('90')">3 měs.</button>
+        <button class="seg-btn" data-p="365" onclick="setPreset('365')">Rok</button>
+        <button class="seg-btn" data-p="lm"  onclick="setPreset('lm')">Minulý měsíc</button>
       </div>
-      <!-- Custom date picker -->
-      <div class="datepicker-wrap" id="dp-wrap">
-        <button class="datepicker-btn" id="dp-btn" onclick="toggleDp()">
+      <div class="dp-wrap" id="dpw">
+        <button class="dp-btn" id="dpbtn" onclick="toggleDp()">
           <svg viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 5h12M4 1v2M10 1v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          <span id="dp-label">Vlastní rozsah</span>
+          <span id="dp-lbl-txt">Vlastní rozsah</span>
         </button>
-        <div class="datepicker-dropdown" id="dp-dropdown">
+        <div class="dp-dd" id="dpdd">
           <div class="dp-row">
-            <div class="dp-field">
-              <span class="dp-label">Od</span>
-              <input class="dp-input" type="date" id="dp-from">
-            </div>
-            <div class="dp-field">
-              <span class="dp-label">Do</span>
-              <input class="dp-input" type="date" id="dp-to">
-            </div>
-            <button class="dp-apply" onclick="applyCustom()">Použít</button>
+            <div class="dp-f"><span class="dp-lbl">Od</span><input class="dp-inp" type="date" id="dp-from"></div>
+            <div class="dp-f"><span class="dp-lbl">Do</span><input class="dp-inp" type="date" id="dp-to"></div>
+            <button class="dp-ok" onclick="applyCustom()">Použít</button>
           </div>
         </div>
       </div>
-      <!-- Refresh -->
       <button class="ibtn" id="rbtn" onclick="loadAll()">
         <svg viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 112 7M12 7V4M12 7h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         Obnovit
@@ -213,27 +191,30 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
-  <!-- ── OVERVIEW ──────────────────────────────────── -->
+  <!-- progress -->
+  <div class="prog-wrap" id="prog-wrap">
+    <div class="prog-lbl" id="prog-lbl">Načítám transakce…</div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+
+  <!-- OVERVIEW -->
   <div class="view on" id="vw-overview">
-    <!-- Revenue row -->
     <div class="krow k3">
       <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-rev-total"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-total-n">&nbsp;</div><div class="kblob" style="background:#16a34a"></div></div>
       <div class="kcard"><div class="klbl">Tržby z kampaní</div><div id="k-rev-camps"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-camps-n">&nbsp;</div><div class="kblob" style="background:#3b82f6"></div></div>
       <div class="kcard"><div class="klbl">Tržby z automatizací</div><div id="k-rev-autos"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-autos-n">&nbsp;</div><div class="kblob" style="background:#8b5cf6"></div></div>
     </div>
-    <!-- Orders + Contacts row -->
-    <div class="krow" style="grid-template-columns:repeat(2,1fr)">
+    <div class="krow k2">
       <div class="kcard"><div class="klbl">Objednávky</div><div id="k-conv"><div class="shim" style="height:34px;width:56px"></div></div><div class="knote" id="k-conv-n">&nbsp;</div><div class="kblob" style="background:#f59e0b"></div></div>
       <div class="kcard"><div class="klbl">Kontakty — seznam Zákazníci</div><div id="k-contacts"><div class="shim" style="height:34px;width:80px"></div></div><div class="knote" id="k-contacts-n">&nbsp;</div><div class="kblob" style="background:#14b8a6"></div></div>
     </div>
-    <!-- Campaigns table -->
     <div class="sec">
       <div class="shead"><span class="stitle">Poslední kampaně</span><span class="smeta" id="ov-meta"></span></div>
       <div class="tcard" id="ov-tbl"><div class="empty">Načítám…</div></div>
     </div>
   </div>
 
-  <!-- ── CAMPAIGNS ─────────────────────────────────── -->
+  <!-- CAMPAIGNS -->
   <div class="view" id="vw-campaigns">
     <div class="sec">
       <div class="shead"><span class="stitle" id="cmp-head">Kampaně</span></div>
@@ -241,144 +222,141 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
-  <!-- ── AUTOMATIONS ───────────────────────────────── -->
+  <!-- AUTOMATIONS -->
   <div class="view" id="vw-automations">
-    <div class="note-box" id="auto-note" style="display:none">
-      ⚠ Tržby automatizací jsou celkové (API nepodporuje filtraci podle data). Kampaně jsou filtrovány podle zvoleného období.
-    </div>
     <div class="krow k4" style="margin-bottom:22px">
       <div class="kcard"><div class="klbl">Automatizace</div><div id="k-ac"><div class="shim" style="height:34px;width:50px"></div></div><div class="knote" id="k-ac-n">&nbsp;</div></div>
-      <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-arev"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-arev-n">&nbsp;</div><div class="kblob" style="background:#16a34a"></div></div>
+      <div class="kcard"><div class="klbl">Tržby v období</div><div id="k-arev"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-arev-n">&nbsp;</div><div class="kblob" style="background:#16a34a"></div></div>
       <div class="kcard"><div class="klbl">Prům. Open Rate</div><div id="k-aor"><div class="shim" style="height:34px;width:72px"></div></div><div class="knote">&nbsp;</div></div>
       <div class="kcard"><div class="klbl">Prům. CTR</div><div id="k-actr"><div class="shim" style="height:34px;width:72px"></div></div><div class="knote">&nbsp;</div></div>
     </div>
     <div class="sec">
-      <div class="shead"><span class="stitle">Přehled automatizací</span><span class="smeta">seřazeno podle tržeb</span></div>
+      <div class="shead"><span class="stitle">Přehled automatizací</span><span class="smeta">seřazeno podle tržeb v období</span></div>
       <div class="tcard" id="auto-tbl"><div class="empty">Načítám…</div></div>
     </div>
   </div>
 
 </main>
 </div>
-
 <script>
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
+const SHOP  = 'vehiclass'; // shop name in Ecomail tracker
 
-// ─── DATE STATE ──────────────────────────────────────────────────────────────
-// dateFrom / dateTo are always ISO strings YYYY-MM-DD
-let dateFrom = '';
-let dateTo   = '';
-let activePreset = '30';
+// ── DATE STATE ──────────────────────────────────────────────────────────────
+let dateFrom = '', dateTo = '';
 
 function todayStr(){ return new Date().toISOString().split('T')[0]; }
 function daysAgoStr(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().split('T')[0]; }
-
 function lastMonthRange(){
-  const now = new Date();
-  const y = now.getFullYear(), m = now.getMonth(); // 0-indexed current month
-  const first = new Date(y, m-1, 1);
-  const last  = new Date(y, m, 0); // day 0 of current month = last day of prev month
-  return { from: first.toISOString().split('T')[0], to: last.toISOString().split('T')[0] };
+  const now=new Date(), y=now.getFullYear(), m=now.getMonth();
+  return { from: new Date(y,m-1,1).toISOString().split('T')[0], to: new Date(y,m,0).toISOString().split('T')[0] };
 }
-
-function initDates(){
-  dateTo   = todayStr();
-  dateFrom = daysAgoStr(30);
+function fmtPeriod(f,t){
+  const fmt=s=>new Date(s).toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'});
+  return fmt(f)+' – '+fmt(t);
 }
+function initDates(){ dateTo=todayStr(); dateFrom=daysAgoStr(30); }
 
-function setPreset(preset){
-  activePreset = preset;
-  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('on', b.dataset.preset===preset));
-  // turn off custom date picker highlight
-  $('dp-btn').classList.remove('on');
-  $('dp-dropdown').classList.remove('open');
-
-  if(preset==='lm'){
-    const r=lastMonthRange(); dateFrom=r.from; dateTo=r.to;
-  } else {
-    dateTo   = todayStr();
-    dateFrom = daysAgoStr(+preset);
-  }
-  updatePeriodSub();
-  loadAll();
+function setPreset(p){
+  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  $('dpbtn').classList.remove('on'); $('dpdd').classList.remove('open');
+  if(p==='lm'){ const r=lastMonthRange(); dateFrom=r.from; dateTo=r.to; }
+  else { dateTo=todayStr(); dateFrom=daysAgoStr(+p); }
+  updateSub(); loadAll();
 }
-
 function toggleDp(){
-  const dd=$('dp-dropdown');
-  const isOpen=dd.classList.contains('open');
-  dd.classList.toggle('open');
-  $('dp-btn').classList.toggle('on', !isOpen);
-  if(!isOpen){
-    $('dp-from').value = dateFrom;
-    $('dp-to').value   = dateTo;
-  }
+  const open=!$('dpdd').classList.contains('open');
+  $('dpdd').classList.toggle('open',open);
+  $('dpbtn').classList.toggle('on',open);
+  if(open){ $('dp-from').value=dateFrom; $('dp-to').value=dateTo; }
 }
-
 function applyCustom(){
   const f=$('dp-from').value, t=$('dp-to').value;
-  if(!f||!t){ alert('Vyplň obě data.'); return; }
-  if(f>t){ alert('Datum "Od" musí být před datem "Do".'); return; }
+  if(!f||!t||f>t){ alert('Zkontroluj data.'); return; }
   dateFrom=f; dateTo=t;
-  activePreset='custom';
   document.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('on'));
-  $('dp-btn').classList.add('on');
-  const fmt=s=>new Date(s).toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'});
-  $('dp-label').textContent=fmt(f)+' – '+fmt(t);
-  $('dp-dropdown').classList.remove('open');
-  updatePeriodSub();
-  loadAll();
+  $('dpbtn').classList.add('on');
+  $('dp-lbl-txt').textContent=fmtPeriod(f,t);
+  $('dpdd').classList.remove('open');
+  updateSub(); loadAll();
 }
+document.addEventListener('click',e=>{ if(!$('dpw').contains(e.target)){ $('dpdd').classList.remove('open'); } });
+function updateSub(){ $('psub').textContent=fmtPeriod(dateFrom,dateTo); }
 
-// Close dropdown on outside click
-document.addEventListener('click', e=>{
-  if(!$('dp-wrap').contains(e.target)) $('dp-dropdown').classList.remove('open');
-});
-
-function updatePeriodSub(){
-  const fmt=s=>new Date(s).toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'});
-  $('psub').textContent=fmt(dateFrom)+' – '+fmt(dateTo);
-}
-
-// ─── HELPERS ────────────────────────────────────────────────────────────────
+// ── HELPERS ─────────────────────────────────────────────────────────────────
 const $   = id => document.getElementById(id);
 const esc = s  => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const pct = v  => (v==null||isNaN(v)) ? '—' : parseFloat(v).toFixed(1)+'%';
 const num = v  => (v==null||v===''||isNaN(+v)) ? '—' : Math.round(+v).toLocaleString('cs-CZ');
-const czk = v  => (v==null||isNaN(+v)||+v===0) ? '—' : Math.round(+v).toLocaleString('cs-CZ')+' Kč';
+const czk = v  => (!v||isNaN(+v)||+v===0) ? '—' : Math.round(+v).toLocaleString('cs-CZ')+' Kč';
 const dt  = s  => s ? new Date(s).toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'}) : '—';
 function conn(st,lbl){ $('sdot').className='sdot'+(st==='ld'?' ld':st==='er'?' er':''); $('slbl').textContent=lbl; }
-function err(m){ const b=$('ebar'); b.style.display=m?'block':'none'; b.textContent=m||''; }
+function showErr(m){ const b=$('ebar'); b.style.display=m?'block':'none'; b.textContent=m||''; }
 function kpi(id,v,n){ $(id).innerHTML=`<div class="kval">${v}</div>`; const x=$(id+'-n'); if(x) x.innerHTML=n||''; }
 function badge(s){ const m={0:['ba','Koncept'],1:['bb','Příprava'],2:['bb','Odesílá'],3:['bg','Odesláno'],4:['br','Chyba'],7:['ba','Naplán.']}; const [c,l]=m[s]||['',''+s]; return`<span class="badge ${c}">${l}</span>`; }
+function setProgress(pct,lbl){ $('prog-wrap').style.display=pct<100?'block':'none'; $('prog-fill').style.width=pct+'%'; if(lbl) $('prog-lbl').textContent=lbl; }
 
-// ─── ROUTING ────────────────────────────────────────────────────────────────
-const PAGES = {
-  overview:    ['Přehled',      ''],
-  campaigns:   ['Kampaně',      'Detail odeslaných kampaní za zvolené období'],
-  automations: ['Automatizace', 'Statistiky automatizačních sekvencí'],
-};
+// ── ROUTING ─────────────────────────────────────────────────────────────────
+const PAGES={overview:['Přehled',''],campaigns:['Kampaně','Detail odeslaných kampaní za zvolené období'],automations:['Automatizace','Statistiky automatizačních sekvencí']};
 function goView(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
   $('vw-'+v).classList.add('on');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',(n.getAttribute('onclick')||'').includes("'"+v+"'")));
   $('ptitle').textContent=PAGES[v][0];
-  if(v==='overview') updatePeriodSub(); else $('psub').textContent=PAGES[v][1];
+  $('psub').textContent = v==='overview' ? fmtPeriod(dateFrom,dateTo) : PAGES[v][1];
 }
 
-// ─── API ─────────────────────────────────────────────────────────────────────
+// ── API ──────────────────────────────────────────────────────────────────────
 async function api(path){
-  const r = await fetch(PROXY+'?path='+encodeURIComponent(path));
+  const r=await fetch(PROXY+'?path='+encodeURIComponent(path));
   if(!r.ok) throw new Error('HTTP '+r.status+' — '+path);
   return r.json();
 }
 
-// ─── LOAD ────────────────────────────────────────────────────────────────────
+// Fetch ALL pages of transactions in date range, return as flat array
+async function fetchAllTransactions(from, to){
+  const perPage=500;
+  let page=1, all=[], total=null;
+  do {
+    const res = await api(`/tracker/transaction?shop=${SHOP}&date_from=${from}&date_to=${to}&per_page=${perPage}&page=${page}`);
+    const data = res.data || [];
+    if(total===null) total=res.total||0;
+    all.push(...data);
+    setProgress(Math.min(95, Math.round(all.length/Math.max(total,1)*100)), `Načítám transakce… ${all.length} / ${total}`);
+    page++;
+    if(data.length < perPage) break;
+  } while(all.length < total);
+  return all;
+}
+
+// Fetch all pages of automation stats-detail, return Set of emails that had a 'send' event
+async function fetchAutoEmails(pipelineId, from){
+  const perPage=5000;
+  let page=1, emails=new Set(), total=null;
+  do {
+    const res = await api(`/pipelines/${pipelineId}/stats-detail?per_page=${perPage}&page=${page}&from_date=${from}`);
+    const subs = res.subscribers || {};
+    if(total===null) total=res.total||0;
+    Object.entries(subs).forEach(([email, stats])=>{
+      // Only count subscribers that actually received a send in the period
+      if((stats.send||0)>0) emails.add(email.toLowerCase());
+    });
+    page++;
+    const fetched = Object.keys(subs).length;
+    if(fetched < perPage) break;
+  } while(emails.size < total);
+  return emails;
+}
+
+// ── LOAD ALL ─────────────────────────────────────────────────────────────────
 async function loadAll(){
   $('rbtn').classList.add('sp');
   conn('ld','Načítám data…');
-  err('');
+  showErr('');
+  setProgress(5,'Načítám kampaně a automatizace…');
+
   try {
-    // Campaigns filtered by chosen date range
+    // 1. Parallel: campaigns, automations, lists
     const [rawC, rawA, rawL] = await Promise.all([
       api(`/campaigns?filters[date_from]=${dateFrom}&filters[date_to]=${dateTo}&filters[status]=3&per_page=50`),
       api('/pipelines'),
@@ -388,81 +366,107 @@ async function loadAll(){
     const autos = Array.isArray(rawA) ? rawA : [];
     const lists = Array.isArray(rawL) ? rawL : [];
 
-    // Campaign stats (filtered by date via campaign list above)
-    const sm = {};
+    setProgress(15,'Načítám statistiky kampaní…');
+
+    // 2. Campaign stats (date-filtered via campaign list)
+    const sm={};
     await Promise.all(camps.slice(0,15).map(c=>
       api('/campaigns/'+c.id+'/stats').then(s=>{sm[c.id]=s.stats||{};}).catch(()=>{sm[c.id]={};})
     ));
 
-    // Automation stats — use stats-detail with from_date to get period-filtered data
-    // stats-detail gives per-subscriber open/click/send counts, but NOT conversions_value
-    // So we fetch aggregate stats AND stats-detail for order counts filtered by from_date
-    const am = {};       // aggregate stats (lifetime) — for open/click rates
-    const amPeriod = {}; // period-filtered: only conversions, conversions_value from campaigns in period
-    await Promise.all(autos.slice(0,12).map(async a=>{
-      const [agg] = await Promise.all([
-        api('/pipelines/'+a.id+'/stats').then(s=>s.stats||{}).catch(()=>({})),
-      ]);
+    setProgress(30,'Načítám transakce za období…');
+
+    // 3. ALL transactions in the period (paginated)
+    const transactions = await fetchAllTransactions(dateFrom, dateTo);
+
+    // Build lookup: email → total amount in period
+    // (a single customer can have multiple orders)
+    const txByEmail = {};
+    transactions.forEach(tx=>{
+      const em=(tx.email||'').toLowerCase();
+      if(!em) return;
+      if(!txByEmail[em]) txByEmail[em]=0;
+      txByEmail[em] += parseFloat(tx.amount||0);
+    });
+
+    setProgress(50,'Načítám statistiky automatizací…');
+
+    // 4. For each automation: fetch aggregate stats AND emails of subscribers who got a send in the period
+    const am={};          // aggregate lifetime stats (open/click rates)
+    const amPeriodRev={}; // period revenue: sum of transactions for emails that got a send
+    const amPeriodOrd={}; // period orders count
+
+    await Promise.all(autos.slice(0,15).map(async (a,i)=>{
+      // Aggregate stats (lifetime) — for open/click rates
+      const agg = await api('/pipelines/'+a.id+'/stats').then(s=>s.stats||{}).catch(()=>({}));
       am[a.id] = agg;
-      // We'll compute period revenue from stats-detail filtered by from_date
-      // stats-detail doesn't have conversions_value, so we note the limitation
-      amPeriod[a.id] = agg; // same as lifetime — API limitation
+
+      // Emails who received this automation in the period (from_date filter)
+      const emailsInPeriod = await fetchAutoEmails(a.id, dateFrom).catch(()=>new Set());
+
+      // Sum transactions for those emails
+      let rev=0, orders=0;
+      emailsInPeriod.forEach(em=>{
+        if(txByEmail[em]){
+          rev += txByEmail[em];
+          orders++;
+        }
+      });
+      amPeriodRev[a.id] = rev;
+      amPeriodOrd[a.id] = orders;
+
+      setProgress(50+Math.round((i+1)/Math.min(autos.length,15)*40), `Zpracovávám automatizaci ${i+1}/${Math.min(autos.length,15)}…`);
     }));
 
-    // Zákazníci list detail
-    const zakazList = lists.find(l=>{
-      const n=(l.name||'').toLowerCase();
-      return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers')||n.includes('zákaznik');
-    });
-    let zakazDetail = null;
-    if(zakazList) zakazDetail = await api('/lists/'+zakazList.id).catch(()=>null);
+    setProgress(95,'Načítám detail kontaktů…');
 
-    render(camps, sm, autos, am, zakazDetail);
-    conn('', 'Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
-    updatePeriodSub();
+    // 5. Zákazníci list
+    const zakazList=lists.find(l=>{const n=(l.name||'').toLowerCase(); return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers');});
+    let zakazDetail=null;
+    if(zakazList) zakazDetail=await api('/lists/'+zakazList.id).catch(()=>null);
+
+    setProgress(100);
+
+    render(camps, sm, autos, am, amPeriodRev, amPeriodOrd, transactions, zakazDetail);
+    conn('','Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
+    updateSub();
   } catch(e){
     conn('er','Chyba připojení');
-    err('Nepodařilo se načíst data: '+e.message);
+    showErr('Nepodařilo se načíst data: '+e.message);
     console.error(e);
-  } finally { $('rbtn').classList.remove('sp'); }
+  } finally {
+    $('rbtn').classList.remove('sp');
+    setProgress(100);
+  }
 }
 
-// ─── RENDER ──────────────────────────────────────────────────────────────────
-function render(camps, sm, autos, am, zakazDetail){
-  renderKPIs(camps, sm, autos, am, zakazDetail);
+// ── RENDER ───────────────────────────────────────────────────────────────────
+function render(camps, sm, autos, am, amPeriodRev, amPeriodOrd, transactions, zakazDetail){
+  renderKPIs(camps, sm, autos, amPeriodRev, amPeriodOrd, transactions, zakazDetail);
   renderOvTbl(camps, sm);
   renderCmpTbl(camps, sm);
-  renderAutos(autos, am);
+  renderAutos(autos, am, amPeriodRev, amPeriodOrd);
 }
 
-function renderKPIs(camps, sm, autos, am, zakazDetail){
-  // Campaign revenue — from campaigns in selected period
-  let revCamps=0, orders=0;
-  camps.forEach(c=>{
-    const s=sm[c.id]||{};
-    revCamps += parseFloat(s.conversions_value||0);
-    orders   += parseInt(s.conversions||0);
-  });
+function renderKPIs(camps, sm, autos, amPeriodRev, amPeriodOrd, transactions, zakazDetail){
+  // Campaigns revenue (from campaign stats, date-filtered via campaign list)
+  let revCamps=0, ordersCamps=0;
+  camps.forEach(c=>{ const s=sm[c.id]||{}; revCamps+=parseFloat(s.conversions_value||0); ordersCamps+=parseInt(s.conversions||0); });
 
-  // Automation revenue — lifetime (API limitation, noted in UI)
-  let revAutos=0, ordersAuto=0;
-  autos.forEach(a=>{
-    const s=am[a.id]||{};
-    revAutos   += parseFloat(s.conversions_value||0);
-    ordersAuto += parseInt(s.conversions||0);
-  });
+  // Automations revenue (period-matched via transactions)
+  let revAutos=0, ordersAutos=0;
+  autos.forEach(a=>{ revAutos+=amPeriodRev[a.id]||0; ordersAutos+=amPeriodOrd[a.id]||0; });
 
-  const revTotal = revCamps + revAutos;
-  const ordersTotal = orders + ordersAuto;
+  const revTotal=revCamps+revAutos;
+  const ordersTotal=ordersCamps+ordersAutos;
 
-  kpi('k-rev-total', czk(revTotal), `<span class="nu">kampaně (${czk(revCamps)}) + automatizace (${czk(revAutos)})</span>`);
-  kpi('k-rev-camps', czk(revCamps), `<span class="nu">z kampaní v období</span>`);
-  kpi('k-rev-autos', czk(revAutos), `<span class="nu">celková životnost automatizací ⚠</span>`);
-  kpi('k-conv', num(ordersTotal), `<span class="nu">${num(orders)} kampaně + ${num(ordersAuto)} automatizace</span>`);
+  kpi('k-rev-total', czk(revTotal), `<span class="nu">kampaně ${czk(revCamps)} + automatizace ${czk(revAutos)}</span>`);
+  kpi('k-rev-camps', czk(revCamps), `<span class="nu">${ordersCamps} objednávek z kampaní</span>`);
+  kpi('k-rev-autos', czk(revAutos), `<span class="nu">${ordersAutos} objednávek z automatizací</span>`);
+  kpi('k-conv', num(ordersTotal), `<span class="nu">${ordersCamps} kampaně + ${ordersAutos} automatizace</span>`);
 
   if(zakazDetail){
-    const inf=(zakazDetail.list)||{};
-    const sb=(zakazDetail.subscribers)||{};
+    const inf=(zakazDetail.list)||{}, sb=(zakazDetail.subscribers)||{};
     const active=parseInt(inf.active_subscribers||sb.subscribed||0);
     const total=active+parseInt(sb.unsubscribed||0)+parseInt(sb.soft_bounced||0)+parseInt(sb.hard_bounced||0)+parseInt(sb.unconfirmed||0);
     kpi('k-contacts', num(active), `<span class="nu">${num(total)} celkem ve všech stavech</span>`);
@@ -472,9 +476,9 @@ function renderKPIs(camps, sm, autos, am, zakazDetail){
 }
 
 function renderOvTbl(camps, sm){
-  $('ov-meta').textContent = camps.length+' kampaní v období';
-  const w = $('ov-tbl');
-  if(!camps.length){ w.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>'; return; }
+  $('ov-meta').textContent=camps.length+' kampaní v období';
+  const w=$('ov-tbl');
+  if(!camps.length){w.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>';return;}
   w.innerHTML=`<table><thead><tr>
     <th>Kampaň</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Status</th>
   </tr></thead><tbody>${
@@ -483,8 +487,7 @@ function renderOvTbl(camps, sm){
       <td class="r">${num(s.inject)}</td>
       <td class="r"><div class="mw"><div class="mb"><div class="mf" style="width:${Math.min(or,100)}%"></div></div>${pct(or)}</div></td>
       <td class="r">${pct(s.click_rate)}</td>
-      <td class="r">${num(s.conversions)}</td>
-      <td class="r">${czk(s.conversions_value)}</td>
+      <td class="r">${num(s.conversions)}</td><td class="r">${czk(s.conversions_value)}</td>
       <td class="r"><span class="${parseFloat(s.bounce_rate||0)>5?'badge br':''}">${pct(s.bounce_rate)}</span></td>
       <td class="r">${badge(c.status)}</td></tr>`;}).join('')
   }</tbody></table>`;
@@ -493,7 +496,7 @@ function renderOvTbl(camps, sm){
 function renderCmpTbl(camps, sm){
   $('cmp-head').textContent='Kampaně — '+camps.length+' výsledků';
   const w=$('cmp-tbl');
-  if(!camps.length){ w.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>'; return; }
+  if(!camps.length){w.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>';return;}
   w.innerHTML=`<table><thead><tr>
     <th>Kampaň</th><th class="r">Příjemci</th><th class="r">Doručeno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Spam</th><th class="r">Odhlásilo</th>
   </tr></thead><tbody>${
@@ -506,40 +509,39 @@ function renderCmpTbl(camps, sm){
   }</tbody></table>`;
 }
 
-function renderAutos(autos, am){
+function renderAutos(autos, am, amPeriodRev, amPeriodOrd){
   let orS=0,ctrS=0,revS=0,n=0;
   autos.forEach(a=>{
     const s=am[a.id]||{};
     if(s.open_rate!=null){orS+=parseFloat(s.open_rate||0);n++;}
     ctrS+=parseFloat(s.click_rate||0);
-    revS+=parseFloat(s.conversions_value||0);
+    revS+=amPeriodRev[a.id]||0;
   });
-  kpi('k-ac', autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
-  kpi('k-arev', czk(revS), `<span class="nu">celkem (životnost automatizací)</span>`);
+  kpi('k-ac',autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
+  kpi('k-arev', czk(revS), `<span class="nu">za zvolené období</span>`);
   $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
   $('k-actr').innerHTML=`<div class="kval">${pct(n?ctrS/n:0)}</div>`;
 
-  // Show warning note about lifetime stats
-  $('auto-note').style.display = 'block';
-
   const w=$('auto-tbl');
-  if(!autos.length){ w.innerHTML='<div class="empty">Žádné automatizace nenalezeny</div>'; return; }
-  const sorted=[...autos].sort((a,b)=>parseFloat((am[b.id]||{}).conversions_value||0)-parseFloat((am[a.id]||{}).conversions_value||0));
+  if(!autos.length){w.innerHTML='<div class="empty">Žádné automatizace nenalezeny</div>';return;}
+
+  const sorted=[...autos].sort((a,b)=>(amPeriodRev[b.id]||0)-(amPeriodRev[a.id]||0));
   w.innerHTML=`<table><thead><tr>
-    <th>Automatizace</th><th class="r">Spuštěno</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Odhlásilo</th>
+    <th>Automatizace</th><th class="r">Spuštěno</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby v období</th><th class="r">Bounce</th>
   </tr></thead><tbody>${
-    sorted.slice(0,20).map(a=>{const s=am[a.id]||{};return`<tr>
+    sorted.map(a=>{const s=am[a.id]||{};return`<tr>
       <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
       <td class="r">${num(s.triggered)}</td><td class="r">${num(s.send)}</td>
       <td class="r">${pct(s.open_rate)}</td><td class="r">${pct(s.click_rate)}</td>
-      <td class="r">${num(s.conversions)}</td><td class="r">${czk(s.conversions_value)}</td>
-      <td class="r">${pct(s.bounce_rate)}</td><td class="r">${num(s.unsub)}</td></tr>`;}).join('')
+      <td class="r">${num(amPeriodOrd[a.id])}</td>
+      <td class="r" style="color:var(--green);font-weight:500">${czk(amPeriodRev[a.id])}</td>
+      <td class="r">${pct(s.bounce_rate)}</td></tr>`;}).join('')
   }</tbody></table>`;
 }
 
-// ─── INIT ────────────────────────────────────────────────────────────────────
+// ── INIT ─────────────────────────────────────────────────────────────────────
 initDates();
-updatePeriodSub();
+updateSub();
 loadAll();
 </script>
 </body>
