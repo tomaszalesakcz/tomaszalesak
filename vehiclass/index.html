@@ -191,11 +191,13 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
+  <!-- progress -->
   <div class="prog-wrap" id="prog-wrap">
     <div class="prog-lbl" id="prog-lbl">Načítám transakce…</div>
     <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
   </div>
 
+  <!-- OVERVIEW -->
   <div class="view on" id="vw-overview">
     <div class="krow k3">
       <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-rev-total"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-total-n">&nbsp;</div><div class="kblob" style="background:#16a34a"></div></div>
@@ -212,6 +214,7 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
+  <!-- CAMPAIGNS -->
   <div class="view" id="vw-campaigns">
     <div class="sec">
       <div class="shead"><span class="stitle" id="cmp-head">Kampaně</span></div>
@@ -219,6 +222,7 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
+  <!-- AUTOMATIONS -->
   <div class="view" id="vw-automations">
     <div class="krow k4" style="margin-bottom:22px">
       <div class="kcard"><div class="klbl">Automatizace</div><div id="k-ac"><div class="shim" style="height:34px;width:50px"></div></div><div class="knote" id="k-ac-n">&nbsp;</div></div>
@@ -234,7 +238,7 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
       <details>
         <summary style="cursor:pointer;font-size:12px;color:var(--text-faint);padding:8px 0;user-select:none">🔍 Diagnostika párování transakcí</summary>
         <div style="margin-top:8px;background:var(--bg);border:1px solid var(--border2);border-radius:var(--rs);padding:14px;font-family:'DM Mono',monospace;font-size:11.5px;line-height:1.8;overflow-x:auto;max-height:400px;overflow-y:auto">
-          <pre id="diag-out" style="white-space:pre-wrap;word-break:break-all;margin:0">Diagnostika na pozadí...</pre>
+          <pre id="diag-out" style="white-space:pre-wrap;word-break:break-all;margin:0">Načítám…</pre>
         </div>
       </details>
     </div>
@@ -249,10 +253,6 @@ const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
 let dateFrom = '', dateTo = '';
 function todayStr(){ return new Date().toISOString().split('T')[0]; }
 function daysAgoStr(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().split('T')[0]; }
-function addDaysStr(dateStr, n){
-  const d=new Date(dateStr+'T00:00:00Z'); d.setUTCDate(d.getUTCDate()+n);
-  return d.toISOString().split('T')[0];
-}
 function lastMonthRange(){
   const now=new Date(), y=now.getFullYear(), m=now.getMonth();
   return { from: new Date(y,m-1,1).toISOString().split('T')[0], to: new Date(y,m,0).toISOString().split('T')[0] };
@@ -313,19 +313,23 @@ function goView(v){
 }
 
 // ── API ───────────────────────────────────────────────────────────────────────
-async function api(path){
-  const r=await fetch(PROXY+'?path='+encodeURIComponent(path));
+async function api(path, opts){
+  const url = PROXY+'?path='+encodeURIComponent(path);
+  const r = opts
+    ? await fetch(url, opts)
+    : await fetch(url);
   if(!r.ok) throw new Error('HTTP '+r.status+' — '+path);
   return r.json();
 }
 
+// Načte všechny transakce za období (stránkovaně)
 async function fetchTransactions(from, to){
   const perPage=500;
   let page=1, all=[], total=null;
   do {
     const res = await api(`/tracker/transaction?date_from=${from}&date_to=${to}&per_page=${perPage}&page=${page}`);
-    const data = res.data || [];
-    if(total===null) total = res.total||0;
+    const data = res.data||[];
+    if(total===null) total=res.total||0;
     all.push(...data);
     if(data.length < perPage) break;
     page++;
@@ -333,77 +337,26 @@ async function fetchTransactions(from, to){
   return all;
 }
 
-// ── ATTRIBUTION ENGINE (ROBUSTNÍ VERZE + DEBUG) ──────────────────────────────
-async function computeAutoAttribution(autos, txAll, dateFrom, dateTo){
-  const result={};
-  const fromTs = new Date(dateFrom+'T00:00:00Z').getTime();
-  const toTs   = new Date(dateTo+'T23:59:59Z').getTime();
-
-  for(const auto of autos){
-    result[auto.id] = { rev: 0, orders: 0, sends: 0 };
+// Pro danou automatizaci: dotáže se na stats pro seznam emailů (POST)
+// Vrátí Set emailů, které mají send > 0 (tj. dostaly e-mail z automatizace)
+async function getAutoEmailsForList(pipelineId, emails){
+  // API limit: max 5000 emailů najednou → děláme batche
+  const BATCH = 500;
+  const result = new Set();
+  for(let i=0; i<emails.length; i+=BATCH){
+    const batch = emails.slice(i, i+BATCH);
+    try {
+      // Tento endpoint je POST — proxy worker ale aktuálně podporuje jen GET.
+      // Použijeme GET stats-detail s from_date a filtrujeme emaily lokálně.
+      // To je pomalejší ale funguje bez úpravy workeru.
+      const res = await api(`/pipelines/${pipelineId}/stats-detail?per_page=5000&page=1&from_date=${dateFrom}`);
+      const subs = res.subscribers||{};
+      for(const [email, stats] of Object.entries(subs)){
+        if((stats.send||0)>0) result.add(email.toLowerCase().trim());
+      }
+      break; // stačí jedna stránka — filtrujeme lokálně níže
+    } catch(e){ break; }
   }
-  
-  const attributedOrders = new Set();
-  let debugLog = `Celkem staženo ${txAll.length} transakcí v období. Zde je vzorek (prvních 10) pro zjištění formátu zdrojů:\n`;
-  let debugCount = 0;
-
-  for(const tx of txAll){
-      const ts = new Date(tx.timestamp).getTime();
-      if(ts < fromTs || ts > toTs) continue; // Pouze vybrané období
-      
-      const oid = tx.order_id || tx.id;
-      if(attributedOrders.has(oid)) continue; // Nezapočítávat stejnou objednávku vícekrát
-
-      // --- DEBUG VÝPIS ---
-      if (debugCount < 10) {
-          debugLog += `\nObjednávka: ${oid} | Částka: ${tx.amount} | E-mail: ${tx.email}\n`;
-          const sources = {};
-          ['source', 'source_id', 'pipeline_id', 'automation_id', 'campaign_id', 'utm_source', 'utm_campaign', 'utm_medium', 'action_id'].forEach(k => {
-              if (tx[k] !== undefined) sources[k] = tx[k];
-          });
-          debugLog += `   Zdroje: ${JSON.stringify(sources)}\n`;
-          debugCount++;
-      }
-      // -------------------
-
-      let matchedAutoId = null;
-
-      // 1. Zjevné parametry
-      if (tx.pipeline_id) matchedAutoId = tx.pipeline_id;
-      else if (tx.automation_id) matchedAutoId = tx.automation_id;
-      else if (tx.source === 'automation' && tx.source_id) matchedAutoId = tx.source_id;
-      else if (tx.source === 'pipeline' && tx.source_id) matchedAutoId = tx.source_id;
-      
-      // 2. Skryté ve stringu utm_campaign
-      else if (tx.utm_campaign) {
-          const utm = String(tx.utm_campaign).toLowerCase();
-          for (const auto of autos) {
-              const slug = auto.name ? auto.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, '') : '';
-              if (slug.length > 3 && utm.replace(/[^a-z0-9]/g, '').includes(slug)) {
-                  matchedAutoId = auto.id;
-                  break;
-              }
-              if (utm.includes(String(auto.id))) {
-                  matchedAutoId = auto.id;
-                  break;
-              }
-          }
-      }
-
-      if (matchedAutoId && result[matchedAutoId]) {
-          result[matchedAutoId].rev += parseFloat(tx.amount || 0);
-          result[matchedAutoId].orders++;
-          attributedOrders.add(oid);
-          tx.matched = true;
-      }
-  }
-
-  // Zápis debug logu po chvíli do DOMu
-  setTimeout(() => {
-      const diagOut = document.getElementById('diag-out');
-      if(diagOut) diagOut.textContent = debugLog;
-  }, 500);
-
   return result;
 }
 
@@ -430,25 +383,64 @@ async function loadAll(){
       api('/campaigns/'+c.id+'/stats').then(s=>{sm[c.id]=s.stats||{};}).catch(()=>{sm[c.id]={};})
     ));
 
-    setProgress(30,`Načítám transakce (${dateFrom} – ${dateTo})…`);
-    // Bereme jen transakce pro dané období bez offsetu okna, abychom zkusili přímé ID tagy (a pro debug)
+    // Transakce za PŘESNÉ zvolené období
+    setProgress(28,`Načítám transakce za ${dateFrom} – ${dateTo}…`);
     const txAll = await fetchTransactions(dateFrom, dateTo);
-    setProgress(45,`Načteno ${txAll.length} transakcí, připravuji kalkulace…`);
+    setProgress(42,`Načteno ${txAll.length} transakcí`);
 
-    const autoAttr={};
-    const autoAgg={};
+    // Index: email (lowercase) → [{amount, order_id}]
+    const txByEmail = new Map();
+    for(const tx of txAll){
+      const em = (tx.email||'').toLowerCase().trim();
+      if(!em) continue;
+      if(!txByEmail.has(em)) txByEmail.set(em,[]);
+      txByEmail.get(em).push({ amount: parseFloat(tx.amount||0), oid: String(tx.order_id||tx.id) });
+    }
+    // Všechny unikátní emaily ze transakcí
+    const allTxEmails = [...txByEmail.keys()];
+
+    // Pro každou automatizaci: zjisti kteří zákazníci z transakcí dostali e-mail
+    // a sečti jejich transakce z období (deduplikace přes order_id)
+    const autoAttr = {};
+    const autoAgg  = {};
+
     for(let i=0; i<Math.min(autos.length,20); i++){
-      const a=autos[i];
-      const agg=await api('/pipelines/'+a.id+'/stats').then(r=>r.stats||{}).catch(()=>({}));
-      autoAgg[a.id]=agg;
-      setProgress(45+Math.round((i+1)/Math.min(autos.length,20)*45), `Analyzuji automatizaci ${i+1}/${Math.min(autos.length,20)}…`);
+      const a = autos[i];
+
+      // Lifetime aggregate stats (OR, CTR, bounce)
+      const agg = await api('/pipelines/'+a.id+'/stats').then(r=>r.stats||{}).catch(()=>({}));
+      autoAgg[a.id] = agg;
+
+      // Zákazníci automatizace v období: GET stats-detail?from_date
+      // Vrátí subscribers kteří dostali send od dateFrom
+      const res = await api(`/pipelines/${a.id}/stats-detail?per_page=5000&page=1&from_date=${dateFrom}`).catch(()=>null);
+      const subs = res ? (res.subscribers||{}) : {};
+
+      // Set emailů z automatizace (které mají send>=1 od dateFrom)
+      const autoEmails = new Set();
+      for(const [email, stats] of Object.entries(subs)){
+        if((stats.send||0)>0) autoEmails.add(email.toLowerCase().trim());
+      }
+
+      // Průnik: emaily z automatizace ∩ emaily z transakcí
+      let rev=0, orders=0;
+      const usedOids = new Set();
+      for(const em of autoEmails){
+        const txList = txByEmail.get(em);
+        if(!txList) continue;
+        for(const tx of txList){
+          if(usedOids.has(tx.oid)) continue;
+          usedOids.add(tx.oid);
+          rev   += tx.amount;
+          orders++;
+        }
+      }
+
+      autoAttr[a.id] = { rev, orders, emailsInPeriod: autoEmails.size };
+      setProgress(42+Math.round((i+1)/Math.min(autos.length,20)*48), `Automatizace ${i+1}/${Math.min(autos.length,20)}: ${autoEmails.size} příjemců, ${orders} nákupů`);
     }
 
-    setProgress(90,'Aplikuji atribuční modely tržeb…');
-    const attrResult = await computeAutoAttribution(autos.slice(0,20), txAll, dateFrom, dateTo);
-    Object.assign(autoAttr, attrResult);
-
-    setProgress(95,'Načítám detail kontaktů…');
+    setProgress(95,'Načítám kontakty…');
     const zakazList=lists.find(l=>{const n=(l.name||'').toLowerCase(); return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers');});
     let zakazDetail=null;
     if(zakazList) zakazDetail=await api('/lists/'+zakazList.id).catch(()=>null);
@@ -457,6 +449,18 @@ async function loadAll(){
     render(camps, sm, autos, autoAgg, autoAttr, zakazDetail);
     conn('','Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
     updateSub();
+
+    // Diagnostika
+    const diagEl = $('diag-out');
+    if(diagEl){
+      const lines = [`Transakce za období: ${txAll.length}`, `Unikátní emaily v transakcích: ${allTxEmails.length}`, ``];
+      autos.forEach(a=>{
+        const r=autoAttr[a.id]||{};
+        lines.push(`${a.name||'Auto #'+a.id}: ${r.emailsInPeriod||0} příjemců od ${dateFrom}, ${r.orders||0} objednávek, ${r.rev||0} Kč`);
+      });
+      diagEl.textContent = lines.join('\n');
+    }
+
   } catch(e){
     conn('er','Chyba připojení');
     showErr('Nepodařilo se načíst data: '+e.message);
@@ -476,17 +480,15 @@ function render(camps, sm, autos, autoAgg, autoAttr, zakazDetail){
 }
 
 function renderKPIs(camps, sm, autos, autoAttr, zakazDetail){
-  let revCamps=0, ordersCamps=0;
-  camps.forEach(c=>{ const s=sm[c.id]||{}; revCamps+=parseFloat(s.conversions_value||0); ordersCamps+=parseInt(s.conversions||0); });
+  let revC=0, ordC=0;
+  camps.forEach(c=>{ const s=sm[c.id]||{}; revC+=parseFloat(s.conversions_value||0); ordC+=parseInt(s.conversions||0); });
+  let revA=0, ordA=0;
+  autos.forEach(a=>{ const r=autoAttr[a.id]||{}; revA+=r.rev||0; ordA+=r.orders||0; });
 
-  let revAutos=0, ordersAutos=0;
-  autos.forEach(a=>{ const r=autoAttr[a.id]||{}; revAutos+=r.rev||0; ordersAutos+=r.orders||0; });
-
-  const revTotal=revCamps+revAutos, ordersTotal=ordersCamps+ordersAutos;
-  kpi('k-rev-total', czk(revTotal),  `<span class="nu">kampaně ${czk(revCamps)} + automatizace ${czk(revAutos)}</span>`);
-  kpi('k-rev-camps', czk(revCamps),  `<span class="nu">${ordersCamps} objednávek z kampaní</span>`);
-  kpi('k-rev-autos', czk(revAutos),  `<span class="nu">${ordersAutos} objednávek z automatizací</span>`);
-  kpi('k-conv',      num(ordersTotal),`<span class="nu">${ordersCamps} kampaně + ${ordersAutos} automatizace</span>`);
+  kpi('k-rev-total', czk(revC+revA),  `<span class="nu">kampaně ${czk(revC)} + automatizace ${czk(revA)}</span>`);
+  kpi('k-rev-camps', czk(revC),        `<span class="nu">${ordC} objednávek z kampaní</span>`);
+  kpi('k-rev-autos', czk(revA),        `<span class="nu">${ordA} objednávek z automatizací</span>`);
+  kpi('k-conv',      num(ordC+ordA),   `<span class="nu">${ordC} kampaně + ${ordA} automatizace</span>`);
 
   if(zakazDetail){
     const inf=(zakazDetail.list)||{}, sb=(zakazDetail.subscribers)||{};
@@ -533,14 +535,12 @@ function renderCmpTbl(camps, sm){
 }
 
 function renderAutos(autos, autoAgg, autoAttr){
-  let revS=0, ordS=0, orS=0, ctrS=0, n=0;
+  let revS=0,ordS=0,orS=0,ctrS=0,n=0;
   autos.forEach(a=>{
     const r=autoAttr[a.id]||{}, s=autoAgg[a.id]||{};
     revS+=r.rev||0; ordS+=r.orders||0;
-    const sent = s.sent || s.emails_sent || s.inject || s.delivered || r.sends || 0;
-    if(sent > 0){ orS+=parseFloat(s.open_rate||0); ctrS+=parseFloat(s.click_rate||0); n++; }
+    if(parseFloat(s.open_rate||0)>0){ orS+=parseFloat(s.open_rate||0); ctrS+=parseFloat(s.click_rate||0); n++; }
   });
-  
   kpi('k-ac',autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
   kpi('k-arev', czk(revS), `<span class="nu">${ordS} objednávek v období</span>`);
   $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
@@ -551,14 +551,13 @@ function renderAutos(autos, autoAgg, autoAttr){
 
   const sorted=[...autos].sort((a,b)=>(autoAttr[b.id]?.rev||0)-(autoAttr[a.id]?.rev||0));
   w.innerHTML=`<table><thead><tr>
-    <th>Automatizace</th><th class="r">Odesláno (celk.)</th><th class="r">OR (celk.)</th><th class="r">CTR (celk.)</th><th class="r">Objednávky v obd.</th><th class="r">Tržby v období</th><th class="r">Bounce (celk.)</th>
+    <th>Automatizace</th><th class="r">Příjemci v obd.</th><th class="r">OR (celk.)</th><th class="r">CTR (celk.)</th><th class="r">Objednávky v obd.</th><th class="r">Tržby v období</th><th class="r">Bounce</th>
   </tr></thead><tbody>${
     sorted.map(a=>{
       const r=autoAttr[a.id]||{}, s=autoAgg[a.id]||{};
-      const sent = s.sent || s.emails_sent || s.inject || s.delivered || r.sends || 0;
       return`<tr>
         <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
-        <td class="r">${num(sent)}</td>
+        <td class="r">${num(r.emailsInPeriod)}</td>
         <td class="r">${pct(s.open_rate)}</td>
         <td class="r">${pct(s.click_rate)}</td>
         <td class="r">${num(r.orders)}</td>
@@ -568,7 +567,6 @@ function renderAutos(autos, autoAgg, autoAttr){
   }</tbody></table>`;
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
 initDates();
 updateSub();
 loadAll();
