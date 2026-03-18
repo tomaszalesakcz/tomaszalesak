@@ -121,7 +121,7 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     <div class="logo-mark">
       <svg viewBox="0 0 19 19" fill="none"><rect x="2" y="2.5" width="15" height="10" rx="2.5" stroke="white" stroke-width="1.6"/><path d="M2 7l7.5 4.5L17 7" stroke="white" stroke-width="1.6"/><path d="M5 16h9M7 16v-3.5M12 16v-3.5" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
     </div>
-    <div><div class="logo-name">Ecomail</div><div class="logo-sub">Analytics Dashboard</div></div>
+    <div><div class="logo-name">Vehiclass</div><div class="logo-sub">Email Analytics</div></div>
   </div>
   <nav>
     <span class="nav-lbl">Navigace</span>
@@ -136,10 +136,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     <button class="nav-item" onclick="goView('automations')">
       <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       Automatizace
-    </button>
-    <button class="nav-item" onclick="goView('database')">
-      <svg viewBox="0 0 16 16" fill="none"><ellipse cx="8" cy="5" rx="6" ry="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 5v6c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5V5" stroke="currentColor" stroke-width="1.5"/></svg>
-      Databáze
     </button>
   </nav>
   <div class="sfooter">
@@ -166,11 +162,19 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
   </div>
 
   <div class="view on" id="vw-overview">
-    <div class="krow k4">
+    <div class="krow" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-rev-total"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-total-n">&nbsp;</div><div class="kblob" style="background:#16a34a"></div></div>
+      <div class="kcard"><div class="klbl">Tržby z kampaní</div><div id="k-rev-camps"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-camps-n">&nbsp;</div><div class="kblob" style="background:#3b82f6"></div></div>
+      <div class="kcard"><div class="klbl">Tržby z automatizací</div><div id="k-rev-autos"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-autos-n">&nbsp;</div><div class="kblob" style="background:#8b5cf6"></div></div>
+    </div>
+    <div class="krow" style="grid-template-columns:repeat(4,1fr)">
       <div class="kcard"><div class="klbl">Kampaně (období)</div><div id="k-cnt"><div class="shim" style="height:34px;width:56px"></div></div><div class="knote" id="k-cnt-n">&nbsp;</div><div class="kblob" style="background:#3b82f6"></div></div>
       <div class="kcard"><div class="klbl">Průměrný Open Rate</div><div id="k-or"><div class="shim" style="height:34px;width:72px"></div></div><div class="knote" id="k-or-n">&nbsp;</div><div class="kblob" style="background:#14b8a6"></div></div>
       <div class="kcard"><div class="klbl">Průměrný CTR</div><div id="k-ctr"><div class="shim" style="height:34px;width:72px"></div></div><div class="knote" id="k-ctr-n">&nbsp;</div><div class="kblob" style="background:#8b5cf6"></div></div>
-      <div class="kcard"><div class="klbl">Konverze celkem</div><div id="k-conv"><div class="shim" style="height:34px;width:56px"></div></div><div class="knote" id="k-conv-n">&nbsp;</div><div class="kblob" style="background:#f59e0b"></div></div>
+      <div class="kcard"><div class="klbl">Objednávky</div><div id="k-conv"><div class="shim" style="height:34px;width:56px"></div></div><div class="knote" id="k-conv-n">&nbsp;</div><div class="kblob" style="background:#f59e0b"></div></div>
+    </div>
+    <div class="krow" style="grid-template-columns:1fr">
+      <div class="kcard" style="padding:16px 20px"><div class="klbl">Kontakty — seznam Zákazníci</div><div id="k-contacts"><div class="shim" style="height:34px;width:80px"></div></div><div class="knote" id="k-contacts-n">&nbsp;</div><div class="kblob" style="background:#14b8a6"></div></div>
     </div>
     <div class="crow">
       <div class="ccard">
@@ -198,8 +202,9 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
   </div>
 
   <div class="view" id="vw-automations">
-    <div class="krow k3" style="margin-bottom:22px">
+    <div class="krow k4" style="margin-bottom:22px">
       <div class="kcard"><div class="klbl">Automatizace</div><div id="k-ac"><div class="shim" style="height:34px;width:50px"></div></div><div class="knote" id="k-ac-n">&nbsp;</div></div>
+      <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-arev"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-arev-n">&nbsp;</div><div class="kblob" style="background:#16a34a"></div></div>
       <div class="kcard"><div class="klbl">Prům. Open Rate</div><div id="k-aor"><div class="shim" style="height:34px;width:72px"></div></div><div class="knote">&nbsp;</div></div>
       <div class="kcard"><div class="klbl">Prům. CTR</div><div id="k-actr"><div class="shim" style="height:34px;width:72px"></div></div><div class="knote">&nbsp;</div></div>
     </div>
@@ -209,12 +214,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
-  <div class="view" id="vw-database">
-    <div class="sec">
-      <div class="shead"><span class="stitle">Odběratelské listy</span><span class="smeta" id="db-ts"></span></div>
-      <div class="dbwrap" id="db-wrap"><div class="empty">Načítám…</div></div>
-    </div>
-  </div>
 </main>
 </div>
 
@@ -245,7 +244,6 @@ const PAGES = {
   overview:    ['Přehled',           'Celkové metriky e-mail marketingu'],
   campaigns:   ['Kampaně',           'Detail odeslaných kampaní za zvolené období'],
   automations: ['Automatizace',      'Statistiky automatizačních sekvencí'],
-  database:    ['Databáze kontaktů', 'Aktuální stav odběratelských listů'],
 };
 function goView(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
@@ -284,10 +282,14 @@ async function loadAll(){
     const am={};
     await Promise.all(autos.slice(0,12).map(a=>api('/pipelines/'+a.id+'/stats').then(s=>{am[a.id]=s.stats||{};}).catch(()=>{am[a.id]={};}) ));
 
-    const lm={};
-    await Promise.all(lists.slice(0,8).map(l=>api('/lists/'+l.id).then(d=>{lm[l.id]=d;}).catch(()=>{lm[l.id]=null;}) ));
+    // Find list named "Zákazníci" and fetch its detail
+    const zakazList = lists.find(l=>(l.name||'').toLowerCase().includes('zákazníci') || (l.name||'').toLowerCase().includes('zakaznici'));
+    let zakazDetail = null;
+    if(zakazList) {
+      zakazDetail = await api('/lists/'+zakazList.id).catch(()=>null);
+    }
 
-    render(camps,sm,autos,am,lists,lm);
+    render(camps,sm,autos,am,zakazDetail);
     conn('','Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
   } catch(e){
     conn('er','Chyba připojení');
@@ -297,20 +299,43 @@ async function loadAll(){
 }
 
 // ─── RENDER ──────────────────────────────────────────────────────────────────
-function render(camps,sm,autos,am,lists,lm){
-  renderKPIs(camps,sm); renderTrend(camps,sm); renderDel(camps,sm);
+function render(camps,sm,autos,am,zakazDetail){
+  renderKPIs(camps,sm,autos,am,zakazDetail); renderTrend(camps,sm); renderDel(camps,sm);
   renderOvTbl(camps,sm); renderCmpTbl(camps,sm);
-  renderAutos(autos,am); renderDB(lists,lm);
+  renderAutos(autos,am);
 }
 
-function renderKPIs(camps,sm){
+const czk = v => (v==null||isNaN(+v)||+v===0) ? '—' : Math.round(+v).toLocaleString('cs-CZ')+' Kč';
+
+function renderKPIs(camps,sm,autos,am,zakazDetail){
+  // Revenue from campaigns
+  let revCamps=0; camps.forEach(c=>{revCamps+=parseFloat((sm[c.id]||{}).conversions_value||0);});
+  // Revenue from automations
+  let revAutos=0; autos.forEach(a=>{revAutos+=parseFloat((am[a.id]||{}).conversions_value||0);});
+  const revTotal=revCamps+revAutos;
+
+  kpi('k-rev-total', czk(revTotal), `<span class="nu">kampaně + automatizace</span>`);
+  kpi('k-rev-camps', czk(revCamps), `<span class="nu">z kampaní v období</span>`);
+  kpi('k-rev-autos', czk(revAutos), `<span class="nu">z automatizací</span>`);
+
   let orS=0,ctrS=0,conv=0,n=0;
   camps.forEach(c=>{ const s=sm[c.id]||{}; if(s.open_rate!=null){orS+=parseFloat(s.open_rate||0);n++;} ctrS+=parseFloat(s.click_rate||0); conv+=parseInt(s.conversions||0); });
   const or=n?orS/n:0, ctr=n?ctrS/n:0;
   kpi('k-cnt', camps.length, `<span class="nu">za posledních ${period} dní</span>`);
   kpi('k-or',  pct(or),  `<span class="${or>=20?'up':or>=10?'nu':'dn'}">${or>=20?'↑ Nadprůměrné':or>=10?'→ Průměrné':'↓ Podprůměrné'}</span>`);
   kpi('k-ctr', pct(ctr), `<span class="${ctr>=2.5?'up':'nu'}">${ctr>=2.5?'↑ Nadprůměrné':'→ Průměrné'}</span>`);
-  kpi('k-conv',num(conv),`<span class="nu">konverzí v období</span>`);
+  kpi('k-conv',num(conv),`<span class="nu">objednávek v období</span>`);
+
+  // Contacts from list "Zákazníci"
+  if(zakazDetail){
+    const inf=(zakazDetail.list)||{};
+    const sb=(zakazDetail.subscribers)||{};
+    const active=parseInt(inf.active_subscribers||sb.subscribed||0);
+    const total=active+parseInt(sb.unsubscribed||0)+parseInt(sb.soft_bounced||0)+parseInt(sb.hard_bounced||0)+parseInt(sb.unconfirmed||0);
+    kpi('k-contacts', num(active), `<span class="nu">${num(total)} celkem ve všech stavech</span>`);
+  } else {
+    kpi('k-contacts','—',`<span class="nu">seznam "Zákazníci" nenalezen</span>`);
+  }
 }
 
 function renderTrend(camps,sm){
@@ -347,7 +372,7 @@ function renderOvTbl(camps,sm){
   $('ov-meta').textContent=camps.length+' kampaní v období';
   const w=$('ov-tbl');
   if(!camps.length){w.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>';return;}
-  w.innerHTML=`<table><thead><tr><th>Kampaň</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Konverze</th><th class="r">Bounce</th><th class="r">Status</th></tr></thead><tbody>${
+  w.innerHTML=`<table><thead><tr><th>Kampaň</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Bounce</th><th class="r">Status</th></tr></thead><tbody>${
     camps.slice(0,8).map(c=>{const s=sm[c.id]||{};const or=parseFloat(s.open_rate||0);return`<tr>
       <td><div class="tn">${esc(c.title||c.subject||'—')}</div><div class="ts">${dt(c.sent_at)}</div></td>
       <td class="r">${num(s.inject)}</td>
@@ -362,55 +387,34 @@ function renderCmpTbl(camps,sm){
   $('cmp-head').textContent='Kampaně — '+camps.length+' výsledků';
   const w=$('cmp-tbl');
   if(!camps.length){w.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>';return;}
-  w.innerHTML=`<table><thead><tr><th>Kampaň</th><th class="r">Příjemci</th><th class="r">Doručeno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Konverze</th><th class="r">Hodnota</th><th class="r">Bounce</th><th class="r">Spam</th><th class="r">Odhlásilo</th></tr></thead><tbody>${
+  w.innerHTML=`<table><thead><tr><th>Kampaň</th><th class="r">Příjemci</th><th class="r">Doručeno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Spam</th><th class="r">Odhlásilo</th></tr></thead><tbody>${
     camps.map(c=>{const s=sm[c.id]||{};return`<tr>
       <td><div class="tn" style="max-width:180px">${esc(c.title||c.subject||'—')}</div><div class="ts">${dt(c.sent_at)}</div></td>
       <td class="r">${num(s.inject)}</td><td class="r">${pct(s.delivery_rate)}</td>
       <td class="r">${pct(s.open_rate)}</td><td class="r">${pct(s.click_rate)}</td>
-      <td class="r">${num(s.conversions)}</td><td class="r">${s.conversions_value?num(s.conversions_value)+' Kč':'—'}</td>
+      <td class="r">${num(s.conversions)}</td><td class="r">${czk(s.conversions_value)}</td>
       <td class="r">${pct(s.bounce_rate)}</td><td class="r">${pct(s.spam_rate)}</td><td class="r">${pct(s.unsub_rate)}</td></tr>`;}).join('')
   }</tbody></table>`;
 }
 
 function renderAutos(autos,am){
-  let orS=0,ctrS=0,n=0;
-  autos.forEach(a=>{const s=am[a.id]||{};if(s.open_rate!=null){orS+=parseFloat(s.open_rate||0);n++;}ctrS+=parseFloat(s.click_rate||0);});
+  let orS=0,ctrS=0,revS=0,n=0;
+  autos.forEach(a=>{const s=am[a.id]||{};if(s.open_rate!=null){orS+=parseFloat(s.open_rate||0);n++;}ctrS+=parseFloat(s.click_rate||0);revS+=parseFloat(s.conversions_value||0);});
   kpi('k-ac',autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
+  kpi('k-arev', czk(revS), `<span class="nu">celkem z automatizací</span>`);
   $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
   $('k-actr').innerHTML=`<div class="kval">${pct(n?ctrS/n:0)}</div>`;
   const w=$('auto-tbl');
   if(!autos.length){w.innerHTML='<div class="empty">Žádné automatizace nenalezeny</div>';return;}
-  w.innerHTML=`<table><thead><tr><th>Automatizace</th><th class="r">Spuštěno</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Konverze</th><th class="r">Bounce</th><th class="r">Odhlásilo</th></tr></thead><tbody>${
-    autos.slice(0,20).map(a=>{const s=am[a.id]||{};return`<tr>
+  const sorted=[...autos].sort((a,b)=>parseFloat((am[b.id]||{}).conversions_value||0)-parseFloat((am[a.id]||{}).conversions_value||0));
+  w.innerHTML=`<table><thead><tr><th>Automatizace</th><th class="r">Spuštěno</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Odhlásilo</th></tr></thead><tbody>${
+    sorted.slice(0,20).map(a=>{const s=am[a.id]||{};return`<tr>
       <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
       <td class="r">${num(s.triggered)}</td><td class="r">${num(s.send)}</td>
       <td class="r">${pct(s.open_rate)}</td><td class="r">${pct(s.click_rate)}</td>
-      <td class="r">${num(s.conversions)}</td><td class="r">${pct(s.bounce_rate)}</td><td class="r">${num(s.unsub)}</td></tr>`;}).join('')
+      <td class="r">${num(s.conversions)}</td><td class="r">${czk(s.conversions_value)}</td>
+      <td class="r">${pct(s.bounce_rate)}</td><td class="r">${num(s.unsub)}</td></tr>`;}).join('')
   }</tbody></table>`;
-}
-
-function renderDB(lists,lm){
-  $('db-ts').textContent='Aktualizováno: '+new Date().toLocaleTimeString('cs-CZ');
-  const w=$('db-wrap');
-  if(!lists.length){w.innerHTML='<div class="empty">Žádné listy nenalezeny</div>';return;}
-  w.innerHTML=lists.map(l=>{
-    const d=lm[l.id],sb=(d&&d.subscribers)||{},inf=(d&&d.list)||{};
-    const act=parseInt(inf.active_subscribers||sb.subscribed||0);
-    const uns=parseInt(sb.unsubscribed||0);
-    const bou=parseInt(sb.soft_bounced||0)+parseInt(sb.hard_bounced||0);
-    const tot=act+uns+bou+parseInt(sb.unconfirmed||0);
-    return`<div>
-      <div class="dbh">
-        <div><div class="dbn">${esc(l.name)}</div><div class="dbe">${esc(l.from_email||'')} · ID ${l.id}</div></div>
-        <div class="dbt">${num(tot)}<span> kontaktů</span></div>
-      </div>
-      <div class="dbg">
-        <div class="dbs" style="background:var(--green-bg);border:1px solid var(--green-b)"><div class="dbsl" style="color:var(--green)">Aktivní</div><div class="dbsv" style="color:var(--green)">${num(act)}</div><div class="dbsn" style="color:var(--green)">${tot?(act/tot*100).toFixed(1)+'% z celku':'—'}</div></div>
-        <div class="dbs" style="background:var(--amber-bg);border:1px solid var(--amber-b)"><div class="dbsl" style="color:var(--amber)">Odhláseno</div><div class="dbsv" style="color:var(--amber)">${num(uns)}</div><div class="dbsn" style="color:var(--amber)">${tot?(uns/tot*100).toFixed(1)+'% z celku':'—'}</div></div>
-        <div class="dbs" style="background:var(--red-bg);border:1px solid var(--red-b)"><div class="dbsl" style="color:var(--red)">Bounce</div><div class="dbsv" style="color:var(--red)">${num(bou)}</div><div class="dbsn" style="color:var(--red)">${parseInt(sb.soft_bounced||0)} soft + ${parseInt(sb.hard_bounced||0)} hard</div></div>
-      </div>
-    </div>`;
-  }).join('');
 }
 
 loadAll();
