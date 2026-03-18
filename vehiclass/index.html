@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ecomail Dashboard</title>
+<title>Vehiclass Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -11,21 +11,23 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --bg: #f7f7f5; --surface: #ffffff; --surface2: #f0efeb;
-  --border: rgba(0,0,0,0.07); --text: #1a1a18;
-  --text-muted: #6b6b67; --text-faint: #9e9e9a;
+  --border: rgba(0,0,0,0.07); --border2: rgba(0,0,0,0.12);
+  --text: #1a1a18; --text-muted: #6b6b67; --text-faint: #9e9e9a;
   --accent: #1a6eff; --accent-bg: #eef3ff;
   --green: #16a34a; --green-bg: #f0fdf4; --green-b: rgba(22,163,74,.15);
-  --red: #dc2626;   --red-bg: #fef2f2;   --red-b: rgba(220,38,38,.15);
+  --red: #dc2626; --red-bg: #fef2f2; --red-b: rgba(220,38,38,.15);
   --amber: #d97706; --amber-bg: #fffbeb; --amber-b: rgba(217,119,6,.15);
   --r: 12px; --rs: 8px;
 }
 body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; font-size:14px; line-height:1.5; }
 .shell { display:flex; min-height:100vh; }
+
+/* ── Sidebar ── */
 .sidebar { width:224px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; position:fixed; top:0; left:0; height:100vh; z-index:10; }
 .logo { padding:22px 20px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:11px; }
 .logo-mark { width:34px; height:34px; background:var(--accent); border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .logo-name { font-weight:600; font-size:15px; letter-spacing:-.3px; }
-.logo-sub  { font-size:11px; color:var(--text-faint); }
+.logo-sub { font-size:11px; color:var(--text-faint); }
 nav { padding:14px 10px; flex:1; }
 .nav-lbl { font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); padding:0 10px; margin-bottom:4px; display:block; }
 .nav-item { display:flex; align-items:center; gap:9px; padding:8px 10px; border-radius:var(--rs); cursor:pointer; color:var(--text-muted); font-size:13.5px; border:none; background:none; width:100%; text-align:left; transition:all .15s; font-family:'DM Sans',sans-serif; }
@@ -39,22 +41,56 @@ nav { padding:14px 10px; flex:1; }
 .sdot.ld { background:var(--amber); animation:blink 1.2s ease-in-out infinite; }
 .sdot.er { background:var(--red); }
 @keyframes blink { 0%,100%{opacity:1}50%{opacity:.35} }
+
+/* ── Main ── */
 .main { flex:1; margin-left:224px; padding:30px 36px 60px; min-width:0; }
 .topbar { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:30px; gap:16px; flex-wrap:wrap; }
 .ptitle { font-size:21px; font-weight:600; letter-spacing:-.45px; }
-.psub   { font-size:13px; color:var(--text-muted); margin-top:3px; }
-.tctrl  { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+.psub { font-size:13px; color:var(--text-muted); margin-top:3px; }
+.tctrl { display:flex; align-items:center; gap:10px; flex-shrink:0; flex-wrap:wrap; }
+
+/* ── Period controls ── */
 .seg { display:flex; background:var(--surface); border:1px solid var(--border); border-radius:var(--rs); overflow:hidden; }
-.seg-btn { padding:7px 15px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:none; background:none; cursor:pointer; color:var(--text-muted); border-right:1px solid var(--border); transition:all .15s; }
+.seg-btn { padding:7px 13px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:none; background:none; cursor:pointer; color:var(--text-muted); border-right:1px solid var(--border); transition:all .15s; white-space:nowrap; }
 .seg-btn:last-child { border-right:none; }
 .seg-btn:hover { background:var(--bg); color:var(--text); }
 .seg-btn.on { background:var(--accent); color:#fff; }
-.ibtn { display:flex; align-items:center; gap:6px; padding:7px 14px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:1px solid var(--border); background:var(--surface); border-radius:var(--rs); cursor:pointer; color:var(--text-muted); transition:all .15s; }
+
+/* ── Date picker ── */
+.datepicker-wrap { position:relative; }
+.datepicker-btn { display:flex; align-items:center; gap:6px; padding:7px 13px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:1px solid var(--border); background:var(--surface); border-radius:var(--rs); cursor:pointer; color:var(--text-muted); transition:all .15s; white-space:nowrap; }
+.datepicker-btn:hover { background:var(--bg); color:var(--text); }
+.datepicker-btn.on { border-color:var(--accent); color:var(--accent); background:var(--accent-bg); }
+.datepicker-btn svg { width:14px; height:14px; flex-shrink:0; }
+.datepicker-dropdown {
+  display:none; position:absolute; top:calc(100% + 6px); right:0; z-index:100;
+  background:var(--surface); border:1px solid var(--border2); border-radius:var(--r);
+  padding:16px; min-width:300px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.10);
+}
+.datepicker-dropdown.open { display:block; }
+.dp-row { display:flex; gap:10px; align-items:flex-end; }
+.dp-field { display:flex; flex-direction:column; gap:5px; flex:1; }
+.dp-label { font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:.06em; }
+.dp-input { width:100%; padding:7px 10px; font-size:13px; font-family:'DM Sans',sans-serif; border:1px solid var(--border2); border-radius:var(--rs); background:var(--bg); color:var(--text); outline:none; }
+.dp-input:focus { border-color:var(--accent); background:#fff; }
+.dp-apply { padding:7px 16px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; background:var(--accent); color:#fff; border:none; border-radius:var(--rs); cursor:pointer; white-space:nowrap; }
+.dp-apply:hover { background:var(--accent); opacity:.9; }
+
+/* ── Refresh btn ── */
+.ibtn { display:flex; align-items:center; gap:6px; padding:7px 13px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:1px solid var(--border); background:var(--surface); border-radius:var(--rs); cursor:pointer; color:var(--text-muted); transition:all .15s; }
 .ibtn:hover { background:var(--bg); }
 .ibtn svg { width:14px; height:14px; }
 .ibtn.sp svg { animation:spin 1s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── Period label ── */
+.period-label { font-size:12px; color:var(--text-faint); background:var(--bg); border:1px solid var(--border); border-radius:var(--rs); padding:7px 12px; white-space:nowrap; }
+
+/* ── Error ── */
 .ebar { display:none; background:var(--red-bg); border:1px solid var(--red-b); border-radius:var(--rs); padding:12px 16px; color:var(--red); font-size:13px; margin-bottom:22px; line-height:1.5; }
+
+/* ── KPI cards ── */
 .krow { display:grid; gap:14px; margin-bottom:22px; }
 .k4 { grid-template-columns:repeat(4,1fr); }
 .k3 { grid-template-columns:repeat(3,1fr); }
@@ -66,16 +102,12 @@ nav { padding:14px 10px; flex:1; }
 .kblob { position:absolute; bottom:-18px; right:-18px; width:90px; height:90px; border-radius:50%; opacity:.055; pointer-events:none; }
 .shim { background:linear-gradient(90deg,var(--surface2) 25%,#eae9e3 50%,var(--surface2) 75%); background-size:200%; animation:sh 1.6s infinite; border-radius:5px; }
 @keyframes sh { to { background-position:-200% 0; } }
+
+/* ── Section / Table ── */
 .sec { margin-bottom:24px; }
 .shead { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
 .stitle { font-size:15px; font-weight:600; letter-spacing:-.2px; }
-.smeta  { font-size:12px; color:var(--text-faint); }
-.crow { display:grid; grid-template-columns:1.55fr 1fr; gap:14px; margin-bottom:22px; }
-.ccard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px 20px 16px; }
-.clbl { font-size:13px; font-weight:500; color:var(--text-muted); margin-bottom:14px; }
-.cleg { display:flex; flex-wrap:wrap; gap:14px; margin-bottom:12px; font-size:12px; color:var(--text-muted); }
-.ci { display:flex; align-items:center; gap:5px; }
-.cd { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
+.smeta { font-size:12px; color:var(--text-faint); }
 .tcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
 table { width:100%; border-collapse:collapse; }
 thead th { padding:10px 16px; text-align:left; font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--text-faint); background:var(--bg); border-bottom:1px solid var(--border); white-space:nowrap; }
@@ -95,21 +127,14 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 .mw { display:flex; align-items:center; gap:7px; justify-content:flex-end; }
 .mb { width:48px; height:4px; background:rgba(0,0,0,.08); border-radius:2px; overflow:hidden; }
 .mf { height:100%; border-radius:2px; background:#3b82f6; }
-.dbwrap > div { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); margin-bottom:14px; overflow:hidden; }
-.dbh { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
-.dbn { font-weight:600; font-size:14px; }
-.dbe { font-size:12px; color:var(--text-faint); margin-top:2px; }
-.dbt { font-family:'DM Mono',monospace; font-size:22px; font-weight:600; }
-.dbt span { font-size:12px; color:var(--text-faint); font-family:'DM Sans',sans-serif; font-weight:400; }
-.dbg { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:14px 16px; }
-.dbs { border-radius:var(--rs); padding:13px 15px; }
-.dbsl { font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; margin-bottom:6px; opacity:.75; }
-.dbsv { font-size:21px; font-weight:600; letter-spacing:-.5px; font-family:'DM Mono',monospace; }
-.dbsn { font-size:11.5px; margin-top:3px; opacity:.65; }
 .empty { padding:44px 20px; text-align:center; color:var(--text-faint); font-size:13px; }
 .view { display:none; }
 .view.on { display:block; }
-@media(max-width:960px){ .k4{grid-template-columns:repeat(2,1fr)} .crow{grid-template-columns:1fr} }
+
+/* ── Note box ── */
+.note-box { background:var(--amber-bg); border:1px solid var(--amber-b); border-radius:var(--rs); padding:10px 14px; font-size:12px; color:var(--amber); margin-bottom:18px; }
+
+@media(max-width:960px){ .k4{grid-template-columns:repeat(2,1fr)} .k3{grid-template-columns:repeat(2,1fr)} }
 @media(max-width:720px){ .sidebar{display:none} .main{margin-left:0;padding:20px} }
 </style>
 </head>
@@ -145,15 +170,42 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 
 <main class="main">
   <div class="ebar" id="ebar"></div>
+
   <div class="topbar">
-    <div><div class="ptitle" id="ptitle">Přehled</div><div class="psub" id="psub">Celkové metriky e-mail marketingu</div></div>
+    <div>
+      <div class="ptitle" id="ptitle">Přehled</div>
+      <div class="psub" id="psub">Celkové metriky e-mail marketingu</div>
+    </div>
     <div class="tctrl">
+      <!-- Quick period buttons -->
       <div class="seg">
-        <button class="seg-btn" data-d="7"   onclick="setPeriod(7)">7 dní</button>
-        <button class="seg-btn on" data-d="30" onclick="setPeriod(30)">30 dní</button>
-        <button class="seg-btn" data-d="90"  onclick="setPeriod(90)">3 měs.</button>
-        <button class="seg-btn" data-d="365" onclick="setPeriod(365)">Rok</button>
+        <button class="seg-btn" data-preset="7"    onclick="setPreset('7')">7 dní</button>
+        <button class="seg-btn on" data-preset="30"  onclick="setPreset('30')">30 dní</button>
+        <button class="seg-btn" data-preset="90"   onclick="setPreset('90')">3 měs.</button>
+        <button class="seg-btn" data-preset="365"  onclick="setPreset('365')">Rok</button>
+        <button class="seg-btn" data-preset="lm"   onclick="setPreset('lm')">Minulý měsíc</button>
       </div>
+      <!-- Custom date picker -->
+      <div class="datepicker-wrap" id="dp-wrap">
+        <button class="datepicker-btn" id="dp-btn" onclick="toggleDp()">
+          <svg viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 5h12M4 1v2M10 1v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <span id="dp-label">Vlastní rozsah</span>
+        </button>
+        <div class="datepicker-dropdown" id="dp-dropdown">
+          <div class="dp-row">
+            <div class="dp-field">
+              <span class="dp-label">Od</span>
+              <input class="dp-input" type="date" id="dp-from">
+            </div>
+            <div class="dp-field">
+              <span class="dp-label">Do</span>
+              <input class="dp-input" type="date" id="dp-to">
+            </div>
+            <button class="dp-apply" onclick="applyCustom()">Použít</button>
+          </div>
+        </div>
+      </div>
+      <!-- Refresh -->
       <button class="ibtn" id="rbtn" onclick="loadAll()">
         <svg viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 112 7M12 7V4M12 7h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         Obnovit
@@ -161,39 +213,27 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
+  <!-- ── OVERVIEW ──────────────────────────────────── -->
   <div class="view on" id="vw-overview">
-    <div class="krow" style="grid-template-columns:repeat(3,1fr)">
+    <!-- Revenue row -->
+    <div class="krow k3">
       <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-rev-total"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-total-n">&nbsp;</div><div class="kblob" style="background:#16a34a"></div></div>
       <div class="kcard"><div class="klbl">Tržby z kampaní</div><div id="k-rev-camps"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-camps-n">&nbsp;</div><div class="kblob" style="background:#3b82f6"></div></div>
       <div class="kcard"><div class="klbl">Tržby z automatizací</div><div id="k-rev-autos"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-autos-n">&nbsp;</div><div class="kblob" style="background:#8b5cf6"></div></div>
     </div>
-    <div class="krow" style="grid-template-columns:repeat(4,1fr)">
-      <div class="kcard"><div class="klbl">Kampaně (období)</div><div id="k-cnt"><div class="shim" style="height:34px;width:56px"></div></div><div class="knote" id="k-cnt-n">&nbsp;</div><div class="kblob" style="background:#3b82f6"></div></div>
-      <div class="kcard"><div class="klbl">Průměrný Open Rate</div><div id="k-or"><div class="shim" style="height:34px;width:72px"></div></div><div class="knote" id="k-or-n">&nbsp;</div><div class="kblob" style="background:#14b8a6"></div></div>
-      <div class="kcard"><div class="klbl">Průměrný CTR</div><div id="k-ctr"><div class="shim" style="height:34px;width:72px"></div></div><div class="knote" id="k-ctr-n">&nbsp;</div><div class="kblob" style="background:#8b5cf6"></div></div>
+    <!-- Orders + Contacts row -->
+    <div class="krow" style="grid-template-columns:repeat(2,1fr)">
       <div class="kcard"><div class="klbl">Objednávky</div><div id="k-conv"><div class="shim" style="height:34px;width:56px"></div></div><div class="knote" id="k-conv-n">&nbsp;</div><div class="kblob" style="background:#f59e0b"></div></div>
+      <div class="kcard"><div class="klbl">Kontakty — seznam Zákazníci</div><div id="k-contacts"><div class="shim" style="height:34px;width:80px"></div></div><div class="knote" id="k-contacts-n">&nbsp;</div><div class="kblob" style="background:#14b8a6"></div></div>
     </div>
-    <div class="krow" style="grid-template-columns:1fr">
-      <div class="kcard" style="padding:16px 20px"><div class="klbl">Kontakty — seznam Zákazníci</div><div id="k-contacts"><div class="shim" style="height:34px;width:80px"></div></div><div class="knote" id="k-contacts-n">&nbsp;</div><div class="kblob" style="background:#14b8a6"></div></div>
-    </div>
-    <div class="crow">
-      <div class="ccard">
-        <div class="clbl">OR a CTR kampaní v čase</div>
-        <div class="cleg"><span class="ci"><span class="cd" style="background:#3b82f6"></span>Open Rate</span><span class="ci"><span class="cd" style="background:#14b8a6"></span>CTR</span></div>
-        <div style="position:relative;height:210px"><canvas id="cTrend"></canvas></div>
-      </div>
-      <div class="ccard">
-        <div class="clbl">Výsledky doručení</div>
-        <div style="position:relative;height:200px"><canvas id="cDel"></canvas></div>
-        <div id="del-leg" class="cleg" style="margin-top:10px;margin-bottom:0;justify-content:center;font-size:11px"></div>
-      </div>
-    </div>
+    <!-- Campaigns table -->
     <div class="sec">
       <div class="shead"><span class="stitle">Poslední kampaně</span><span class="smeta" id="ov-meta"></span></div>
       <div class="tcard" id="ov-tbl"><div class="empty">Načítám…</div></div>
     </div>
   </div>
 
+  <!-- ── CAMPAIGNS ─────────────────────────────────── -->
   <div class="view" id="vw-campaigns">
     <div class="sec">
       <div class="shead"><span class="stitle" id="cmp-head">Kampaně</span></div>
@@ -201,7 +241,11 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
+  <!-- ── AUTOMATIONS ───────────────────────────────── -->
   <div class="view" id="vw-automations">
+    <div class="note-box" id="auto-note" style="display:none">
+      ⚠ Tržby automatizací jsou celkové (API nepodporuje filtraci podle data). Kampaně jsou filtrovány podle zvoleného období.
+    </div>
     <div class="krow k4" style="margin-bottom:22px">
       <div class="kcard"><div class="klbl">Automatizace</div><div id="k-ac"><div class="shim" style="height:34px;width:50px"></div></div><div class="knote" id="k-ac-n">&nbsp;</div></div>
       <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-arev"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-arev-n">&nbsp;</div><div class="kblob" style="background:#16a34a"></div></div>
@@ -209,7 +253,7 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
       <div class="kcard"><div class="klbl">Prům. CTR</div><div id="k-actr"><div class="shim" style="height:34px;width:72px"></div></div><div class="knote">&nbsp;</div></div>
     </div>
     <div class="sec">
-      <div class="shead"><span class="stitle">Přehled automatizací</span></div>
+      <div class="shead"><span class="stitle">Přehled automatizací</span><span class="smeta">seřazeno podle tržeb</span></div>
       <div class="tcard" id="auto-tbl"><div class="empty">Načítám…</div></div>
     </div>
   </div>
@@ -218,22 +262,90 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 </div>
 
 <script>
-// ─── PROXY URL – Cloudflare Worker ──────────────────────────────────────────
-// Worker byl nasazen jako: vehiclass.jsem-72e.workers.dev
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
 
-// ─── STATE ──────────────────────────────────────────────────────────────────
-let period = 30;
-let chartT = null, chartD = null;
+// ─── DATE STATE ──────────────────────────────────────────────────────────────
+// dateFrom / dateTo are always ISO strings YYYY-MM-DD
+let dateFrom = '';
+let dateTo   = '';
+let activePreset = '30';
+
+function todayStr(){ return new Date().toISOString().split('T')[0]; }
+function daysAgoStr(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().split('T')[0]; }
+
+function lastMonthRange(){
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth(); // 0-indexed current month
+  const first = new Date(y, m-1, 1);
+  const last  = new Date(y, m, 0); // day 0 of current month = last day of prev month
+  return { from: first.toISOString().split('T')[0], to: last.toISOString().split('T')[0] };
+}
+
+function initDates(){
+  dateTo   = todayStr();
+  dateFrom = daysAgoStr(30);
+}
+
+function setPreset(preset){
+  activePreset = preset;
+  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('on', b.dataset.preset===preset));
+  // turn off custom date picker highlight
+  $('dp-btn').classList.remove('on');
+  $('dp-dropdown').classList.remove('open');
+
+  if(preset==='lm'){
+    const r=lastMonthRange(); dateFrom=r.from; dateTo=r.to;
+  } else {
+    dateTo   = todayStr();
+    dateFrom = daysAgoStr(+preset);
+  }
+  updatePeriodSub();
+  loadAll();
+}
+
+function toggleDp(){
+  const dd=$('dp-dropdown');
+  const isOpen=dd.classList.contains('open');
+  dd.classList.toggle('open');
+  $('dp-btn').classList.toggle('on', !isOpen);
+  if(!isOpen){
+    $('dp-from').value = dateFrom;
+    $('dp-to').value   = dateTo;
+  }
+}
+
+function applyCustom(){
+  const f=$('dp-from').value, t=$('dp-to').value;
+  if(!f||!t){ alert('Vyplň obě data.'); return; }
+  if(f>t){ alert('Datum "Od" musí být před datem "Do".'); return; }
+  dateFrom=f; dateTo=t;
+  activePreset='custom';
+  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('on'));
+  $('dp-btn').classList.add('on');
+  const fmt=s=>new Date(s).toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'});
+  $('dp-label').textContent=fmt(f)+' – '+fmt(t);
+  $('dp-dropdown').classList.remove('open');
+  updatePeriodSub();
+  loadAll();
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', e=>{
+  if(!$('dp-wrap').contains(e.target)) $('dp-dropdown').classList.remove('open');
+});
+
+function updatePeriodSub(){
+  const fmt=s=>new Date(s).toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'});
+  $('psub').textContent=fmt(dateFrom)+' – '+fmt(dateTo);
+}
 
 // ─── HELPERS ────────────────────────────────────────────────────────────────
 const $   = id => document.getElementById(id);
 const esc = s  => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const pct = v  => (v==null||isNaN(v)) ? '—' : parseFloat(v).toFixed(1)+'%';
 const num = v  => (v==null||v===''||isNaN(+v)) ? '—' : Math.round(+v).toLocaleString('cs-CZ');
+const czk = v  => (v==null||isNaN(+v)||+v===0) ? '—' : Math.round(+v).toLocaleString('cs-CZ')+' Kč';
 const dt  = s  => s ? new Date(s).toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'}) : '—';
-const dFrom = d => { const x=new Date(); x.setDate(x.getDate()-d); return x.toISOString().split('T')[0]; };
-
 function conn(st,lbl){ $('sdot').className='sdot'+(st==='ld'?' ld':st==='er'?' er':''); $('slbl').textContent=lbl; }
 function err(m){ const b=$('ebar'); b.style.display=m?'block':'none'; b.textContent=m||''; }
 function kpi(id,v,n){ $(id).innerHTML=`<div class="kval">${v}</div>`; const x=$(id+'-n'); if(x) x.innerHTML=n||''; }
@@ -241,21 +353,21 @@ function badge(s){ const m={0:['ba','Koncept'],1:['bb','Příprava'],2:['bb','Od
 
 // ─── ROUTING ────────────────────────────────────────────────────────────────
 const PAGES = {
-  overview:    ['Přehled',           'Celkové metriky e-mail marketingu'],
-  campaigns:   ['Kampaně',           'Detail odeslaných kampaní za zvolené období'],
-  automations: ['Automatizace',      'Statistiky automatizačních sekvencí'],
+  overview:    ['Přehled',      ''],
+  campaigns:   ['Kampaně',      'Detail odeslaných kampaní za zvolené období'],
+  automations: ['Automatizace', 'Statistiky automatizačních sekvencí'],
 };
 function goView(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
   $('vw-'+v).classList.add('on');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',(n.getAttribute('onclick')||'').includes("'"+v+"'")));
-  $('ptitle').textContent=PAGES[v][0]; $('psub').textContent=PAGES[v][1];
+  $('ptitle').textContent=PAGES[v][0];
+  if(v==='overview') updatePeriodSub(); else $('psub').textContent=PAGES[v][1];
 }
-function setPeriod(d){ period=d; document.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('on',+b.dataset.d===d)); loadAll(); }
 
-// ─── API – volá Cloudflare Worker proxy ─────────────────────────────────────
+// ─── API ─────────────────────────────────────────────────────────────────────
 async function api(path){
-  const r = await fetch(PROXY + '?path=' + encodeURIComponent(path));
+  const r = await fetch(PROXY+'?path='+encodeURIComponent(path));
   if(!r.ok) throw new Error('HTTP '+r.status+' — '+path);
   return r.json();
 }
@@ -266,31 +378,48 @@ async function loadAll(){
   conn('ld','Načítám data…');
   err('');
   try {
-    const from=dFrom(period), to=new Date().toISOString().split('T')[0];
-    const [rawC,rawA,rawL] = await Promise.all([
-      api(`/campaigns?filters[date_from]=${from}&filters[date_to]=${to}&filters[status]=3&per_page=50`),
+    // Campaigns filtered by chosen date range
+    const [rawC, rawA, rawL] = await Promise.all([
+      api(`/campaigns?filters[date_from]=${dateFrom}&filters[date_to]=${dateTo}&filters[status]=3&per_page=50`),
       api('/pipelines'),
       api('/lists'),
     ]);
-    const camps=[...(Array.isArray(rawC)?rawC:[])];
-    const autos=[...(Array.isArray(rawA)?rawA:[])];
-    const lists=[...(Array.isArray(rawL)?rawL:[])];
+    const camps = Array.isArray(rawC) ? rawC : [];
+    const autos = Array.isArray(rawA) ? rawA : [];
+    const lists = Array.isArray(rawL) ? rawL : [];
 
-    const sm={};
-    await Promise.all(camps.slice(0,15).map(c=>api('/campaigns/'+c.id+'/stats').then(s=>{sm[c.id]=s.stats||{};}).catch(()=>{sm[c.id]={};}) ));
+    // Campaign stats (filtered by date via campaign list above)
+    const sm = {};
+    await Promise.all(camps.slice(0,15).map(c=>
+      api('/campaigns/'+c.id+'/stats').then(s=>{sm[c.id]=s.stats||{};}).catch(()=>{sm[c.id]={};})
+    ));
 
-    const am={};
-    await Promise.all(autos.slice(0,12).map(a=>api('/pipelines/'+a.id+'/stats').then(s=>{am[a.id]=s.stats||{};}).catch(()=>{am[a.id]={};}) ));
+    // Automation stats — use stats-detail with from_date to get period-filtered data
+    // stats-detail gives per-subscriber open/click/send counts, but NOT conversions_value
+    // So we fetch aggregate stats AND stats-detail for order counts filtered by from_date
+    const am = {};       // aggregate stats (lifetime) — for open/click rates
+    const amPeriod = {}; // period-filtered: only conversions, conversions_value from campaigns in period
+    await Promise.all(autos.slice(0,12).map(async a=>{
+      const [agg] = await Promise.all([
+        api('/pipelines/'+a.id+'/stats').then(s=>s.stats||{}).catch(()=>({})),
+      ]);
+      am[a.id] = agg;
+      // We'll compute period revenue from stats-detail filtered by from_date
+      // stats-detail doesn't have conversions_value, so we note the limitation
+      amPeriod[a.id] = agg; // same as lifetime — API limitation
+    }));
 
-    // Find list named "Zákazníci" and fetch its detail
-    const zakazList = lists.find(l=>(l.name||'').toLowerCase().includes('zákazníci') || (l.name||'').toLowerCase().includes('zakaznici'));
+    // Zákazníci list detail
+    const zakazList = lists.find(l=>{
+      const n=(l.name||'').toLowerCase();
+      return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers')||n.includes('zákaznik');
+    });
     let zakazDetail = null;
-    if(zakazList) {
-      zakazDetail = await api('/lists/'+zakazList.id).catch(()=>null);
-    }
+    if(zakazList) zakazDetail = await api('/lists/'+zakazList.id).catch(()=>null);
 
-    render(camps,sm,autos,am,zakazDetail);
-    conn('','Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
+    render(camps, sm, autos, am, zakazDetail);
+    conn('', 'Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
+    updatePeriodSub();
   } catch(e){
     conn('er','Chyba připojení');
     err('Nepodařilo se načíst data: '+e.message);
@@ -299,34 +428,38 @@ async function loadAll(){
 }
 
 // ─── RENDER ──────────────────────────────────────────────────────────────────
-function render(camps,sm,autos,am,zakazDetail){
-  renderKPIs(camps,sm,autos,am,zakazDetail); renderTrend(camps,sm); renderDel(camps,sm);
-  renderOvTbl(camps,sm); renderCmpTbl(camps,sm);
-  renderAutos(autos,am);
+function render(camps, sm, autos, am, zakazDetail){
+  renderKPIs(camps, sm, autos, am, zakazDetail);
+  renderOvTbl(camps, sm);
+  renderCmpTbl(camps, sm);
+  renderAutos(autos, am);
 }
 
-const czk = v => (v==null||isNaN(+v)||+v===0) ? '—' : Math.round(+v).toLocaleString('cs-CZ')+' Kč';
+function renderKPIs(camps, sm, autos, am, zakazDetail){
+  // Campaign revenue — from campaigns in selected period
+  let revCamps=0, orders=0;
+  camps.forEach(c=>{
+    const s=sm[c.id]||{};
+    revCamps += parseFloat(s.conversions_value||0);
+    orders   += parseInt(s.conversions||0);
+  });
 
-function renderKPIs(camps,sm,autos,am,zakazDetail){
-  // Revenue from campaigns
-  let revCamps=0; camps.forEach(c=>{revCamps+=parseFloat((sm[c.id]||{}).conversions_value||0);});
-  // Revenue from automations
-  let revAutos=0; autos.forEach(a=>{revAutos+=parseFloat((am[a.id]||{}).conversions_value||0);});
-  const revTotal=revCamps+revAutos;
+  // Automation revenue — lifetime (API limitation, noted in UI)
+  let revAutos=0, ordersAuto=0;
+  autos.forEach(a=>{
+    const s=am[a.id]||{};
+    revAutos   += parseFloat(s.conversions_value||0);
+    ordersAuto += parseInt(s.conversions||0);
+  });
 
-  kpi('k-rev-total', czk(revTotal), `<span class="nu">kampaně + automatizace</span>`);
+  const revTotal = revCamps + revAutos;
+  const ordersTotal = orders + ordersAuto;
+
+  kpi('k-rev-total', czk(revTotal), `<span class="nu">kampaně (${czk(revCamps)}) + automatizace (${czk(revAutos)})</span>`);
   kpi('k-rev-camps', czk(revCamps), `<span class="nu">z kampaní v období</span>`);
-  kpi('k-rev-autos', czk(revAutos), `<span class="nu">z automatizací</span>`);
+  kpi('k-rev-autos', czk(revAutos), `<span class="nu">celková životnost automatizací ⚠</span>`);
+  kpi('k-conv', num(ordersTotal), `<span class="nu">${num(orders)} kampaně + ${num(ordersAuto)} automatizace</span>`);
 
-  let orS=0,ctrS=0,conv=0,n=0;
-  camps.forEach(c=>{ const s=sm[c.id]||{}; if(s.open_rate!=null){orS+=parseFloat(s.open_rate||0);n++;} ctrS+=parseFloat(s.click_rate||0); conv+=parseInt(s.conversions||0); });
-  const or=n?orS/n:0, ctr=n?ctrS/n:0;
-  kpi('k-cnt', camps.length, `<span class="nu">za posledních ${period} dní</span>`);
-  kpi('k-or',  pct(or),  `<span class="${or>=20?'up':or>=10?'nu':'dn'}">${or>=20?'↑ Nadprůměrné':or>=10?'→ Průměrné':'↓ Podprůměrné'}</span>`);
-  kpi('k-ctr', pct(ctr), `<span class="${ctr>=2.5?'up':'nu'}">${ctr>=2.5?'↑ Nadprůměrné':'→ Průměrné'}</span>`);
-  kpi('k-conv',num(conv),`<span class="nu">objednávek v období</span>`);
-
-  // Contacts from list "Zákazníci"
   if(zakazDetail){
     const inf=(zakazDetail.list)||{};
     const sb=(zakazDetail.subscribers)||{};
@@ -338,56 +471,32 @@ function renderKPIs(camps,sm,autos,am,zakazDetail){
   }
 }
 
-function renderTrend(camps,sm){
-  const s=[...camps].sort((a,b)=>new Date(a.sent_at)-new Date(b.sent_at)).slice(-14);
-  const labels=s.map(c=>new Date(c.sent_at).toLocaleDateString('cs-CZ',{day:'numeric',month:'short'}));
-  if(chartT) chartT.destroy();
-  chartT=new Chart($('cTrend').getContext('2d'),{ type:'line',
-    data:{labels,datasets:[
-      {label:'Open Rate',data:s.map(c=>parseFloat((sm[c.id]||{}).open_rate||0)),borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.09)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#3b82f6',tension:.35,fill:true},
-      {label:'CTR',data:s.map(c=>parseFloat((sm[c.id]||{}).click_rate||0)),borderColor:'#14b8a6',backgroundColor:'rgba(20,184,166,.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#14b8a6',tension:.35,fill:true}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+'%'}}},
-      scales:{x:{grid:{display:false},ticks:{font:{size:11,family:'DM Sans'},color:'#9e9e9a',maxRotation:45,autoSkip:true,maxTicksLimit:8},border:{display:false}},
-              y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11,family:'DM Mono'},color:'#9e9e9a',callback:v=>v+'%'},border:{display:false}}}}
-  });
-}
-
-function renderDel(camps,sm){
-  let dl=0,bo=0,sp=0,un=0;
-  camps.forEach(c=>{const s=sm[c.id]||{};dl+=parseInt(s.delivery||0);bo+=parseInt(s.bounce||0);sp+=parseInt(s.spam||0);un+=parseInt(s.unsub||0);});
-  const tot=dl+bo+sp+un;
-  if(chartD) chartD.destroy();
-  chartD=new Chart($('cDel').getContext('2d'),{ type:'doughnut',
-    data:{labels:['Doručeno','Bounce','Spam','Odhlásilo se'],datasets:[{data:[dl,bo,sp,un],backgroundColor:['#3b82f6','#f59e0b','#ef4444','#8b5cf6'],borderWidth:0,hoverOffset:4}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'68%',
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+c.parsed.toLocaleString('cs-CZ')+(tot?' ('+( c.parsed/tot*100).toFixed(1)+'%)':'')}}}}
-  });
-  const cols=['#3b82f6','#f59e0b','#ef4444','#8b5cf6'],nms=['Doručeno','Bounce','Spam','Odhlásilo'];
-  $('del-leg').innerHTML=[dl,bo,sp,un].map((v,i)=>`<span class="ci"><span class="cd" style="background:${cols[i]}"></span>${nms[i]}: ${v.toLocaleString('cs-CZ')}</span>`).join('');
-}
-
-function renderOvTbl(camps,sm){
-  $('ov-meta').textContent=camps.length+' kampaní v období';
-  const w=$('ov-tbl');
-  if(!camps.length){w.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>';return;}
-  w.innerHTML=`<table><thead><tr><th>Kampaň</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Bounce</th><th class="r">Status</th></tr></thead><tbody>${
+function renderOvTbl(camps, sm){
+  $('ov-meta').textContent = camps.length+' kampaní v období';
+  const w = $('ov-tbl');
+  if(!camps.length){ w.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>'; return; }
+  w.innerHTML=`<table><thead><tr>
+    <th>Kampaň</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Status</th>
+  </tr></thead><tbody>${
     camps.slice(0,8).map(c=>{const s=sm[c.id]||{};const or=parseFloat(s.open_rate||0);return`<tr>
       <td><div class="tn">${esc(c.title||c.subject||'—')}</div><div class="ts">${dt(c.sent_at)}</div></td>
       <td class="r">${num(s.inject)}</td>
       <td class="r"><div class="mw"><div class="mb"><div class="mf" style="width:${Math.min(or,100)}%"></div></div>${pct(or)}</div></td>
-      <td class="r">${pct(s.click_rate)}</td><td class="r">${num(s.conversions)}</td>
+      <td class="r">${pct(s.click_rate)}</td>
+      <td class="r">${num(s.conversions)}</td>
+      <td class="r">${czk(s.conversions_value)}</td>
       <td class="r"><span class="${parseFloat(s.bounce_rate||0)>5?'badge br':''}">${pct(s.bounce_rate)}</span></td>
       <td class="r">${badge(c.status)}</td></tr>`;}).join('')
   }</tbody></table>`;
 }
 
-function renderCmpTbl(camps,sm){
+function renderCmpTbl(camps, sm){
   $('cmp-head').textContent='Kampaně — '+camps.length+' výsledků';
   const w=$('cmp-tbl');
-  if(!camps.length){w.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>';return;}
-  w.innerHTML=`<table><thead><tr><th>Kampaň</th><th class="r">Příjemci</th><th class="r">Doručeno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Spam</th><th class="r">Odhlásilo</th></tr></thead><tbody>${
+  if(!camps.length){ w.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>'; return; }
+  w.innerHTML=`<table><thead><tr>
+    <th>Kampaň</th><th class="r">Příjemci</th><th class="r">Doručeno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Spam</th><th class="r">Odhlásilo</th>
+  </tr></thead><tbody>${
     camps.map(c=>{const s=sm[c.id]||{};return`<tr>
       <td><div class="tn" style="max-width:180px">${esc(c.title||c.subject||'—')}</div><div class="ts">${dt(c.sent_at)}</div></td>
       <td class="r">${num(s.inject)}</td><td class="r">${pct(s.delivery_rate)}</td>
@@ -397,17 +506,28 @@ function renderCmpTbl(camps,sm){
   }</tbody></table>`;
 }
 
-function renderAutos(autos,am){
+function renderAutos(autos, am){
   let orS=0,ctrS=0,revS=0,n=0;
-  autos.forEach(a=>{const s=am[a.id]||{};if(s.open_rate!=null){orS+=parseFloat(s.open_rate||0);n++;}ctrS+=parseFloat(s.click_rate||0);revS+=parseFloat(s.conversions_value||0);});
-  kpi('k-ac',autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
-  kpi('k-arev', czk(revS), `<span class="nu">celkem z automatizací</span>`);
+  autos.forEach(a=>{
+    const s=am[a.id]||{};
+    if(s.open_rate!=null){orS+=parseFloat(s.open_rate||0);n++;}
+    ctrS+=parseFloat(s.click_rate||0);
+    revS+=parseFloat(s.conversions_value||0);
+  });
+  kpi('k-ac', autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
+  kpi('k-arev', czk(revS), `<span class="nu">celkem (životnost automatizací)</span>`);
   $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
   $('k-actr').innerHTML=`<div class="kval">${pct(n?ctrS/n:0)}</div>`;
+
+  // Show warning note about lifetime stats
+  $('auto-note').style.display = 'block';
+
   const w=$('auto-tbl');
-  if(!autos.length){w.innerHTML='<div class="empty">Žádné automatizace nenalezeny</div>';return;}
+  if(!autos.length){ w.innerHTML='<div class="empty">Žádné automatizace nenalezeny</div>'; return; }
   const sorted=[...autos].sort((a,b)=>parseFloat((am[b.id]||{}).conversions_value||0)-parseFloat((am[a.id]||{}).conversions_value||0));
-  w.innerHTML=`<table><thead><tr><th>Automatizace</th><th class="r">Spuštěno</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Odhlásilo</th></tr></thead><tbody>${
+  w.innerHTML=`<table><thead><tr>
+    <th>Automatizace</th><th class="r">Spuštěno</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Odhlásilo</th>
+  </tr></thead><tbody>${
     sorted.slice(0,20).map(a=>{const s=am[a.id]||{};return`<tr>
       <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
       <td class="r">${num(s.triggered)}</td><td class="r">${num(s.send)}</td>
@@ -417,6 +537,9 @@ function renderAutos(autos,am){
   }</tbody></table>`;
 }
 
+// ─── INIT ────────────────────────────────────────────────────────────────────
+initDates();
+updatePeriodSub();
 loadAll();
 </script>
 </body>
