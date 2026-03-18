@@ -392,16 +392,12 @@ async function computeAttribution(autos, transactions, dateFrom, dateTo){
 
   const periodFrom = new Date(dateFrom+'T00:00:00Z').getTime();
   const periodTo   = new Date(dateTo+'T23:59:59Z').getTime();
-  const lookback   = subDays(dateFrom, WIN_CLICK);
-  const lookbackTs = new Date(lookback+'T00:00:00Z').getTime();
 
-  // Paralelně — všechny automatizace najednou
+  // Parallel - one GET per automation, no pagination
   await Promise.all(autos.map(async (auto) => {
     let subs = {};
     try {
-      const res = await apiGet(
-        `/pipelines/${auto.id}/stats-detail?per_page=5000&page=1&from_date=${lookback}`
-      );
+      const res = await apiGet(`/pipelines/${auto.id}/stats-detail?per_page=5000&page=1`);
       const raw = res.subscribers;
       if(raw && !Array.isArray(raw)) subs = raw;
     } catch(e){ return; }
@@ -414,16 +410,12 @@ async function computeAttribution(autos, transactions, dateFrom, dateTo){
       const txList = txMap.get(em);
       if(!txList) continue;
 
-      const hadClick = parseInt(stats.click||0) > 0;
-      const hadOpen  = parseInt(stats.open||0)  > 0;
-      if(!hadClick && !hadOpen) continue;
-
-      const winMs = (hadClick ? WIN_CLICK : WIN_OPEN) * 86400000;
+      // Must have received at least one send from this automation
+      if(parseInt(stats.send||0) < 1) continue;
 
       for(const tx of txList){
         if(usedOids.has(tx.oid)) continue;
         if(tx.ts < periodFrom || tx.ts > periodTo) continue;
-        if(tx.ts - lookbackTs > winMs) continue;
         usedOids.add(tx.oid);
         rev += tx.amount;
         orders++;
