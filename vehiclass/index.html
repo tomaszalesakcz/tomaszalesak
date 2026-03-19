@@ -518,16 +518,20 @@ async function runDiag(){
     const sub1 = Object.entries(det1.subscribers||{})[0];
     if(sub1) log(JSON.stringify({[sub1[0]]: sub1[1]}, null, 2));
 
-    // 3. Stats-detail S from_date — první subscriber
-    log('\n=== 3) stats-detail S from_date=' + dateFrom + ' — první subscriber ===');
-    const det2 = await apiGet('/pipelines/8948/stats-detail?per_page=1&page=1&from_date=' + dateFrom);
-    log('total subscribers od from_date: ' + det2.total);
-    const sub2 = Object.entries(det2.subscribers||{})[0];
-    if(sub2) log(JSON.stringify({[sub2[0]]: sub2[1]}, null, 2));
-    else log('(žádní subscribers)');
+    // 3. /pipelines/8948/stats S from_date — vrátí filtrované konverze?
+    log('\n=== 3) /pipelines/8948/stats?from_date=' + dateFrom + ' ===');
+    const agg2 = await apiGet('/pipelines/8948/stats?from_date=' + dateFrom);
+    log(JSON.stringify(agg2, null, 2));
 
-    log('\n>>> Zkontroluj zda jsou pole "conversions" nebo "conversions_value" u subscriberů v bodech 2 a 3.');
-    log('>>> Pokud ANO a liší se hodnoty v bodě 1 vs součet bodů 2/3 = from_date funguje na konverze.');
+    // 4. /pipelines/8948/stats s from_date + to_date
+    log('\n=== 4) /pipelines/8948/stats?from_date=' + dateFrom + '&to_date=' + dateTo + ' ===');
+    const agg3 = await apiGet('/pipelines/8948/stats?from_date=' + dateFrom + '&to_date=' + dateTo);
+    log(JSON.stringify(agg3, null, 2));
+
+    // 5. stats-detail — raw kompletní response (ne jen první subscriber)
+    log('\n=== 5) stats-detail?from_date=' + dateFrom + ' — kompletní response struktura ===');
+    const det3 = await apiGet('/pipelines/8948/stats-detail?per_page=1&page=1&from_date=' + dateFrom);
+    log(JSON.stringify(det3, null, 2));
 
   }catch(e){log('CHYBA: '+e.message);}
   btn.textContent='Spustit diagnostiku'; btn.disabled=false;
