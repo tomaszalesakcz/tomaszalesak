@@ -380,37 +380,20 @@ async function loadAll(){
       ...autos.map(a=>apiGet('/pipelines/'+a.id+'/stats').then(r=>{am[a.id]=r.stats||{};}).catch(()=>{am[a.id]={};}) ),
     ]);
 
-    setProgress(30,'Načítám transakce za období…');
-    const transactions=await fetchTransactions(dateFrom,dateTo);
-    setProgress(48,`${transactions.length} transakcí načteno`);
-
-    // Index: email → {rev, cnt}
-    const txByEmail=new Map();
-    const txEmails=[];
-    for(const tx of transactions){
-      const em=(tx.email||'').toLowerCase().trim();
-      if(!em) continue;
-      if(!txByEmail.has(em)){txEmails.push(em);txByEmail.set(em,{rev:0,cnt:0});}
-      const e=txByEmail.get(em);
-      e.rev+=parseFloat(tx.amount||0);
-      e.cnt++;
-    }
-
-    // Pro každou automatizaci: POST s emaily kupujících → kdo dostal e-mail?
+    // Tržby automatizací: přímo z Ecomail stats (jejich vlastní atribuce)
+    // API neposkytuje konverze filtrované podle data — zobrazujeme lifetime hodnoty
     const apr={};
-    for(let i=0;i<autos.length;i++){
-      const a=autos[i];
-      setProgress(48+Math.round((i+1)/autos.length*44),`Auto ${i+1}/${autos.length}: ${a.name||'#'+a.id}`);
-      const matched=await getMatchedEmails(a.id,txEmails);
-      let rev=0,cnt=0;
-      for(const em of matched){
-        const tx=txByEmail.get(em);
-        if(tx){rev+=tx.rev;cnt+=tx.cnt;}
-      }
-      apr[a.id]={rev,orders:cnt,matched:matched.size};
-    }
+    autos.forEach(a=>{
+      const s=am[a.id]||{};
+      apr[a.id]={
+        rev: parseFloat(s.conversions_value||0),
+        orders: parseInt(s.conversions||0),
+        matched: 0
+      };
+    });
+    setProgress(90,'Načítám kontakty…');
 
-    setProgress(94,'Načítám kontakty…');
+
     const zakazList=lists.find(l=>{const n=(l.name||'').toLowerCase();return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers');});
     let zakazDetail=null;
     if(zakazList) zakazDetail=await apiGet('/lists/'+zakazList.id).catch(()=>null);
@@ -449,7 +432,7 @@ function render(camps,sm,autos,am,apr,zakazDetail){
   autos.forEach(a=>{const r=apr[a.id]||{};revA+=r.rev||0;ordA+=r.orders||0;});
   kpi('k-rev-total',czk(revC+revA),`<span class="nu">kampaně ${czk(revC)} + automatizace ${czk(revA)}</span>`);
   kpi('k-rev-camps',czk(revC),`<span class="nu">${ordC} objednávek z kampaní</span>`);
-  kpi('k-rev-autos',czk(revA),`<span class="nu">${ordA} objednávek z automatizací v období</span>`);
+  kpi('k-rev-autos',czk(revA),`<span class="nu">${ordA} objednávek (dle Ecomailu)</span>`);
   kpi('k-conv',num(ordC+ordA),`<span class="nu">${ordC} kampaně + ${ordA} automatizace</span>`);
 
   if(zakazDetail){
@@ -497,7 +480,7 @@ function render(camps,sm,autos,am,apr,zakazDetail){
   let orS=0,ctrS=0,n=0;
   autos.forEach(a=>{const s=am[a.id]||{};if(parseFloat(s.open_rate||0)>0){orS+=parseFloat(s.open_rate||0);ctrS+=parseFloat(s.click_rate||0);n++;}});
   kpi('k-ac',autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
-  kpi('k-arev',czk(revA),`<span class="nu">${ordA} objednávek v období</span>`);
+  kpi('k-arev',czk(revA),`<span class="nu">${ordA} objednávek (dle Ecomailu)</span>`);
   $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
   $('k-actr').innerHTML=`<div class="kval">${pct(n?ctrS/n:0)}</div>`;
 
