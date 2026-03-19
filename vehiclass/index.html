@@ -518,20 +518,22 @@ async function runDiag(){
     const sub1 = Object.entries(det1.subscribers||{})[0];
     if(sub1) log(JSON.stringify({[sub1[0]]: sub1[1]}, null, 2));
 
-    // 3. /pipelines/8948/stats S from_date — vrátí filtrované konverze?
-    log('\n=== 3) /pipelines/8948/stats?from_date=' + dateFrom + ' ===');
-    const agg2 = await apiGet('/pipelines/8948/stats?from_date=' + dateFrom);
-    log(JSON.stringify(agg2, null, 2));
+    // 3. Součet open+click subscribers od from_date vs lifetime — ověření že from_date filtruje
+    log('\n=== 3) Počty subscribers: lifetime vs od from_date ===');
+    const detLife = await apiGet('/pipelines/8948/stats-detail?per_page=1&page=1');
+    const detFrom = await apiGet('/pipelines/8948/stats-detail?per_page=1&page=1&from_date=' + dateFrom);
+    log('Lifetime total subscribers: ' + detLife.total);
+    log('Od ' + dateFrom + ' total subscribers: ' + detFrom.total);
 
-    // 4. /pipelines/8948/stats s from_date + to_date
-    log('\n=== 4) /pipelines/8948/stats?from_date=' + dateFrom + '&to_date=' + dateTo + ' ===');
-    const agg3 = await apiGet('/pipelines/8948/stats?from_date=' + dateFrom + '&to_date=' + dateTo);
-    log(JSON.stringify(agg3, null, 2));
+    // 4. Zkus GET /pipelines/8948/stats-detail s event=conversion
+    log('\n=== 4) stats-detail?event=conversion&from_date=' + dateFrom + ' ===');
+    const detConv = await apiGet('/pipelines/8948/stats-detail?per_page=10&page=1&from_date=' + dateFrom + '&event=conversion');
+    log(JSON.stringify(detConv, null, 2));
 
-    // 5. stats-detail — raw kompletní response (ne jen první subscriber)
-    log('\n=== 5) stats-detail?from_date=' + dateFrom + ' — kompletní response struktura ===');
-    const det3 = await apiGet('/pipelines/8948/stats-detail?per_page=1&page=1&from_date=' + dateFrom);
-    log(JSON.stringify(det3, null, 2));
+    // 5. Zkus /tracker/transaction s pipeline_id filtrem
+    log('\n=== 5) /tracker/transaction?pipeline_id=8948&date_from=' + dateFrom + ' ===');
+    const txPipe = await apiGet('/tracker/transaction?pipeline_id=8948&date_from=' + dateFrom + '&date_to=' + dateTo + '&per_page=5');
+    log(JSON.stringify(txPipe, null, 2));
 
   }catch(e){log('CHYBA: '+e.message);}
   btn.textContent='Spustit diagnostiku'; btn.disabled=false;
