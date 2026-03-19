@@ -317,45 +317,24 @@ async function apiGet(path){
   if(!r.ok) throw new Error('HTTP '+r.status+' — '+path);
   return r.json();
 }
-async function apiPost(path,body){
-  const r=await fetch(PROXY+'?path='+encodeURIComponent(path),{
-    method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)
-  });
-  if(!r.ok) throw new Error('HTTP '+r.status+' — '+path);
-  return r.json();
-}
 
-async function fetchTransactions(from,to){
-  let page=1,all=[],total=null;
-  do{
-    const res=await apiGet(`/tracker/transaction?date_from=${from}&date_to=${to}&per_page=500&page=${page}`);
-    const data=res.data||[];
-    if(total===null) total=res.total||0;
-    all.push(...data);
-    if(data.length<500) break;
+// Načte transakce pro konkrétní pipeline za období (Ecomail vlastní atribuce)
+async function fetchPipelineTransactions(pipelineId, from, to){
+  let page=1, rev=0, orders=0, total=null;
+  do {
+    const res = await apiGet(
+      `/tracker/transaction?pipeline_id=${pipelineId}&date_from=${from}&date_to=${to}&per_page=500&page=${page}`
+    );
+    const data = res.data||[];
+    if(total===null) total = res.total||0;
+    for(const tx of data){
+      rev += parseFloat(tx.amount||0);
+      orders++;
+    }
+    if(data.length < 500) break;
     page++;
-  }while(all.length<total);
-  return all;
-}
-
-// POST /pipelines/{id}/stats-detail s listem emailů
-// Vrátí Set emailů které mají send>=1 v dané automatizaci
-async function getMatchedEmails(pipelineId, emailList){
-  const matched=new Set();
-  const BATCH=500;
-  for(let i=0;i<emailList.length;i+=BATCH){
-    const batch=emailList.slice(i,i+BATCH);
-    try{
-      const res=await apiPost(`/pipelines/${pipelineId}/stats-detail?per_page=${BATCH}&page=1`,{emails:batch});
-      const subs=res.subscribers||{};
-      if(!Array.isArray(subs)){
-        for(const[email,stats]of Object.entries(subs)){
-          if(parseInt(stats.send||0)>=1) matched.add(email.toLowerCase().trim());
-        }
-      }
-    }catch(e){/* ticho */}
-  }
-  return matched;
+  } while(orders < total);
+  return { rev, orders };
 }
 
 async function loadAll(){
@@ -374,26 +353,22 @@ async function loadAll(){
     const lists=Array.isArray(rawL)?rawL:[];
 
     setProgress(15,'Statistiky kampaní a automatizací…');
-    const sm={},am={};
+    const sm={}, am={};
     await Promise.all([
       ...camps.slice(0,15).map(c=>apiGet('/campaigns/'+c.id+'/stats').then(r=>{sm[c.id]=r.stats||{};}).catch(()=>{sm[c.id]={};})),
       ...autos.map(a=>apiGet('/pipelines/'+a.id+'/stats').then(r=>{am[a.id]=r.stats||{};}).catch(()=>{am[a.id]={};}) ),
     ]);
 
-    // Tržby automatizací: přímo z Ecomail stats (jejich vlastní atribuce)
-    // API neposkytuje konverze filtrované podle data — zobrazujeme lifetime hodnoty
+    // Tržby automatizací: /tracker/transaction?pipeline_id=X&date_from&date_to
+    // Ecomail vlastní atribuce filtrovaná přesně podle zvoleného období
+    setProgress(35,'Načítám tržby automatizací za období…');
     const apr={};
-    autos.forEach(a=>{
-      const s=am[a.id]||{};
-      apr[a.id]={
-        rev: parseFloat(s.conversions_value||0),
-        orders: parseInt(s.conversions||0),
-        matched: 0
-      };
-    });
-    setProgress(90,'Načítám kontakty…');
+    await Promise.all(autos.map(async(a,i)=>{
+      const result = await fetchPipelineTransactions(a.id, dateFrom, dateTo).catch(()=>({rev:0,orders:0}));
+      apr[a.id] = result;
+    }));
 
-
+    setProgress(80,'Načítám kontakty…');
     const zakazList=lists.find(l=>{const n=(l.name||'').toLowerCase();return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers');});
     let zakazDetail=null;
     if(zakazList) zakazDetail=await apiGet('/lists/'+zakazList.id).catch(()=>null);
@@ -402,17 +377,6 @@ async function loadAll(){
     render(camps,sm,autos,am,apr,zakazDetail);
     conn('','Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
     updateSub();
-
-    // Diagnostický výpis
-    const diagEl=$('diag-out');
-    if(diagEl){
-      const lines=[`Automatizace: ${autos.length}`,``];
-      autos.forEach(a=>{
-        const r=apr[a.id]||{};
-        lines.push(`${a.name||'#'+a.id}: ${r.matched||0} shod → ${r.orders||0} obj → ${czk(r.rev||0)}`);
-      });
-      diagEl.textContent=lines.join('\n');
-    }
 
   }catch(e){
     conn('er','Chyba');
@@ -425,14 +389,14 @@ async function loadAll(){
 }
 
 function render(camps,sm,autos,am,apr,zakazDetail){
-  // KPIs přehled
   let revC=0,ordC=0;
   camps.forEach(c=>{const s=sm[c.id]||{};revC+=parseFloat(s.conversions_value||0);ordC+=parseInt(s.conversions||0);});
   let revA=0,ordA=0;
   autos.forEach(a=>{const r=apr[a.id]||{};revA+=r.rev||0;ordA+=r.orders||0;});
+
   kpi('k-rev-total',czk(revC+revA),`<span class="nu">kampaně ${czk(revC)} + automatizace ${czk(revA)}</span>`);
   kpi('k-rev-camps',czk(revC),`<span class="nu">${ordC} objednávek z kampaní</span>`);
-  kpi('k-rev-autos',czk(revA),`<span class="nu">${ordA} objednávek (dle Ecomailu)</span>`);
+  kpi('k-rev-autos',czk(revA),`<span class="nu">${ordA} objednávek z automatizací v období</span>`);
   kpi('k-conv',num(ordC+ordA),`<span class="nu">${ordC} kampaně + ${ordA} automatizace</span>`);
 
   if(zakazDetail){
@@ -476,28 +440,25 @@ function render(camps,sm,autos,am,apr,zakazDetail){
     }</tbody></table>`;
   }
 
-  // Automatizace — KPIs
+  // Automatizace KPIs
   let orS=0,ctrS=0,n=0;
   autos.forEach(a=>{const s=am[a.id]||{};if(parseFloat(s.open_rate||0)>0){orS+=parseFloat(s.open_rate||0);ctrS+=parseFloat(s.click_rate||0);n++;}});
   kpi('k-ac',autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
-  kpi('k-arev',czk(revA),`<span class="nu">${ordA} objednávek (dle Ecomailu)</span>`);
+  kpi('k-arev',czk(revA),`<span class="nu">${ordA} objednávek v období</span>`);
   $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
   $('k-actr').innerHTML=`<div class="kval">${pct(n?ctrS/n:0)}</div>`;
 
-  // Automatizace — tabulka
+  // Automatizace tabulka
   const wauto=$('auto-tbl');
-  if(!autos.length){wauto.innerHTML='<div class="empty">Žádné automatizace</div>';}
-  else{
-    const sorted=[...autos].sort((a,b)=>(apr[b.id]?.rev||0)-(apr[a.id]?.rev||0));
-    wauto.innerHTML=`<table><thead><tr><th>Automatizace</th><th class="r">OR (celk.)</th><th class="r">CTR (celk.)</th><th class="r">Objednávky v obd.</th><th class="r">Tržby v období</th><th class="r">Bounce</th></tr></thead><tbody>${
-      sorted.map(a=>{const r=apr[a.id]||{},s=am[a.id]||{};return`<tr>
-        <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
-        <td class="r">${pct(s.open_rate)}</td><td class="r">${pct(s.click_rate)}</td>
-        <td class="r">${num(r.orders)}</td>
-        <td class="r" style="color:var(--green);font-weight:500">${czk(r.rev)}</td>
-        <td class="r">${pct(s.bounce_rate)}</td></tr>`;}).join('')
-    }</tbody></table>`;
-  }
+  const sorted=[...autos].sort((a,b)=>(apr[b.id]?.rev||0)-(apr[a.id]?.rev||0));
+  wauto.innerHTML=`<table><thead><tr><th>Automatizace</th><th class="r">OR (celk.)</th><th class="r">CTR (celk.)</th><th class="r">Objednávky v obd.</th><th class="r">Tržby v období</th><th class="r">Bounce</th></tr></thead><tbody>${
+    sorted.map(a=>{const r=apr[a.id]||{},s=am[a.id]||{};return`<tr>
+      <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
+      <td class="r">${pct(s.open_rate)}</td><td class="r">${pct(s.click_rate)}</td>
+      <td class="r">${num(r.orders)}</td>
+      <td class="r" style="color:var(--green);font-weight:500">${czk(r.rev)}</td>
+      <td class="r">${pct(s.bounce_rate)}</td></tr>`;}).join('')
+  }</tbody></table>`;
 }
 
 async function runDiag(){
@@ -506,35 +467,11 @@ async function runDiag(){
   el.textContent='';
   const log=(...a)=>{el.textContent+=a.join(' ')+'\n';};
   try{
-    // 1. Lifetime stats pro srovnání
-    log('=== 1) Lifetime stats (bez from_date) ===');
-    const agg = await apiGet('/pipelines/8948/stats');
-    log('conversions: ' + agg.stats?.conversions);
-    log('conversions_value: ' + agg.stats?.conversions_value);
-
-    // 2. Stats-detail BEZ from_date — první subscriber
-    log('\n=== 2) stats-detail BEZ from_date — první subscriber ===');
-    const det1 = await apiGet('/pipelines/8948/stats-detail?per_page=1&page=1');
-    const sub1 = Object.entries(det1.subscribers||{})[0];
-    if(sub1) log(JSON.stringify({[sub1[0]]: sub1[1]}, null, 2));
-
-    // 3. Součet open+click subscribers od from_date vs lifetime — ověření že from_date filtruje
-    log('\n=== 3) Počty subscribers: lifetime vs od from_date ===');
-    const detLife = await apiGet('/pipelines/8948/stats-detail?per_page=1&page=1');
-    const detFrom = await apiGet('/pipelines/8948/stats-detail?per_page=1&page=1&from_date=' + dateFrom);
-    log('Lifetime total subscribers: ' + detLife.total);
-    log('Od ' + dateFrom + ' total subscribers: ' + detFrom.total);
-
-    // 4. Zkus GET /pipelines/8948/stats-detail s event=conversion
-    log('\n=== 4) stats-detail?event=conversion&from_date=' + dateFrom + ' ===');
-    const detConv = await apiGet('/pipelines/8948/stats-detail?per_page=10&page=1&from_date=' + dateFrom + '&event=conversion');
-    log(JSON.stringify(detConv, null, 2));
-
-    // 5. Zkus /tracker/transaction s pipeline_id filtrem
-    log('\n=== 5) /tracker/transaction?pipeline_id=8948&date_from=' + dateFrom + ' ===');
-    const txPipe = await apiGet('/tracker/transaction?pipeline_id=8948&date_from=' + dateFrom + '&date_to=' + dateTo + '&per_page=5');
-    log(JSON.stringify(txPipe, null, 2));
-
+    log('=== /tracker/transaction?pipeline_id=8948 za období ===');
+    const res = await apiGet(`/tracker/transaction?pipeline_id=8948&date_from=${dateFrom}&date_to=${dateTo}&per_page=5`);
+    log(`Celkem transakcí: ${res.total}`);
+    log(`Součet amount prvních 5: ${(res.data||[]).reduce((s,t)=>s+parseFloat(t.amount||0),0)} Kč`);
+    if(res.data?.[0]) log('\nPrvní transakce:\n'+JSON.stringify(res.data[0],null,2));
   }catch(e){log('CHYBA: '+e.message);}
   btn.textContent='Spustit diagnostiku'; btn.disabled=false;
 }
