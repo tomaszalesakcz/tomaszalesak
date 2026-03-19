@@ -406,7 +406,7 @@ async function loadAll(){
     // Diagnostický výpis
     const diagEl=$('diag-out');
     if(diagEl){
-      const lines=[`Transakce: ${transactions.length} | Unikátní emaily: ${txEmails.length}`,``];
+      const lines=[`Automatizace: ${autos.length}`,``];
       autos.forEach(a=>{
         const r=apr[a.id]||{};
         lines.push(`${a.name||'#'+a.id}: ${r.matched||0} shod → ${r.orders||0} obj → ${czk(r.rev||0)}`);
