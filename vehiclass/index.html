@@ -20,7 +20,6 @@
 body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; font-size:14px; }
 .shell { display:flex; min-height:100vh; }
 
-/* Sidebar */
 .sidebar { width:224px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); position:fixed; height:100vh; z-index:1000; }
 .logo { padding:22px 20px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:11px; }
 .logo-mark { width:34px; height:34px; background:var(--accent); border-radius:9px; display:flex; align-items:center; justify-content:center; }
@@ -29,36 +28,33 @@ nav { padding:14px 10px; }
 .nav-item:hover { background:var(--bg); color:var(--text); }
 .nav-item.active { background:var(--accent-bg); color:var(--accent); font-weight:500; }
 
-/* Main Content */
 .main { flex:1; margin-left:224px; padding:30px 40px; min-width:0; }
 .topbar { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px; }
 .ptitle { font-size:22px; font-weight:600; letter-spacing:-0.5px; }
 .psub { font-size:13px; color:var(--text-muted); margin-top:4px; }
 
 .seg { display:flex; background:var(--surface); border:1px solid var(--border); border-radius:var(--rs); overflow:hidden; }
-.seg-btn { padding:7px 14px; font-size:12.5px; border:none; background:none; cursor:pointer; border-right:1px solid var(--border); }
+.seg-btn { padding:7px 14px; font-size:12.5px; border:none; background:none; cursor:pointer; border-right:1px solid var(--border); color:var(--text-muted); }
 .seg-btn.on { background:var(--accent); color:#fff; }
 
-/* KPI */
 .krow { display:grid; gap:16px; margin-bottom:24px; grid-template-columns:repeat(3,1fr); }
 .kcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px; }
 .klbl { font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; margin-bottom:8px; }
 .kval { font-size:28px; font-weight:600; font-family:'DM Mono',monospace; }
 .knote { font-size:12px; color:var(--text-muted); margin-top:4px; }
 
-/* Tables */
 .view-section { display:none; }
 .view-section.active { display:block; }
 .tcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
 table { width:100%; border-collapse:collapse; text-align:left; }
-thead th { padding:12px 16px; font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; background:var(--bg); border-bottom:1px solid var(--border); }
+thead th { padding:12px 16px; font-size:10px; font-weight:600; color:var(--text-faint); text-transform:uppercase; background:var(--bg); border-bottom:1px solid var(--border); }
 td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px; }
 .r { text-align:right; }
 .rev-val { color:var(--green); font-weight:600; font-family:'DM Mono'; }
 
 #loader-wrap { position:fixed; top:0; left:0; width:100%; height:3px; z-index:2000; display:none; }
 #loader-bar { height:100%; background:var(--accent); width:0%; transition:width 0.3s; }
-.ebar { background:var(--red-bg); color:var(--red); padding:12px; border-radius:8px; margin-bottom:20px; display:none; font-size:13px; }
+.ebar { background:var(--red-bg); color:var(--red); padding:12px; border-radius:8px; margin-bottom:20px; display:none; font-size:13px; border:1px solid rgba(220,38,38,0.2); }
 </style>
 </head>
 <body>
@@ -83,7 +79,7 @@ td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px;
   <div class="topbar">
     <div>
       <div class="ptitle" id="ptitle">Přehled</div>
-      <div class="psub" id="psub">Načítám...</div>
+      <div class="psub" id="psub">Načítám období...</div>
     </div>
     <div class="tctrl">
       <div class="seg">
@@ -103,7 +99,7 @@ td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px;
     </div>
     <div class="tcard">
       <table>
-        <thead><tr><th>Poslední Kampaně</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">Tržby</th></tr></thead>
+        <thead><tr><th>Poslední kampaně</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">Tržby</th></tr></thead>
         <tbody id="ov-table-body"></tbody>
       </table>
     </div>
@@ -121,7 +117,7 @@ td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px;
   <div id="view-automations" class="view-section">
     <div class="tcard">
       <table>
-        <thead><tr><th>Název automatizace</th><th class="r">Lidí v období</th><th class="r">OR (celk)</th><th class="r">Nákupů v období</th><th class="r">Tržby v období</th></tr></thead>
+        <thead><tr><th>Název automatizace</th><th class="r">Aktivních lidí</th><th class="r">OR (celk)</th><th class="r">Nákupů v období</th><th class="r">Tržby v období</th></tr></thead>
         <tbody id="auto-table-body"></tbody>
       </table>
     </div>
@@ -168,6 +164,35 @@ async function api(path) {
     return data;
 }
 
+// --- ZÍSKÁNÍ VŠECH ÚČASTNÍKŮ AUTOMATIZACE (Paginace) ---
+async function getAllAutoParticipants(pipelineId, fromDate) {
+    let all = [];
+    let page = 1;
+    let hasMore = true;
+    
+    while (hasMore) {
+        try {
+            // Správný endpoint je stats-detail se spojovníkem
+            const res = await api(`/pipelines/${pipelineId}/stats-detail?per_page=500&page=${page}`);
+            const data = res.data || [];
+            
+            if (data.length === 0) { hasMore = false; break; }
+            
+            all.push(...data);
+            
+            // Optimalizace: Pokud je poslední záznam na stránce starší než naše období, končíme
+            const lastDate = new Date(data[data.length - 1].sent_at);
+            if (lastDate < fromDate) { hasMore = false; break; }
+
+            if (data.length < 500) hasMore = false;
+            else page++;
+            
+            if (page > 10) hasMore = false; // Horní limit 5000 lidí pro rychlost
+        } catch (e) { hasMore = false; }
+    }
+    return all;
+}
+
 async function loadData() {
     const loader = document.getElementById('loader-wrap');
     const lbar = document.getElementById('loader-bar');
@@ -186,16 +211,16 @@ async function loadData() {
         const dfStr = dFrom.toISOString().split('T')[0];
         const dtStr = dTo.toISOString().split('T')[0];
 
-        // 1. Základní načtení
+        // 1. Načtení základních dat
         const [campaigns, pipelines, transactions] = await Promise.all([
             api(`/campaigns?filters[date_from]=${dfStr}&filters[date_to]=${dtStr}&filters[status]=3`),
             api('/pipelines'),
-            api(`/tracker/transaction?date_from=${dfStr}&date_to=${dtStr}&per_page=2000`)
+            api(`/tracker/transaction?date_from=${dfStr}&date_to=${dtStr}&per_page=500`)
         ]);
 
         lbar.style.width = '40%';
 
-        // Mapa transakcí (Kdo nakoupil v období)
+        // Mapa nákupů
         const txMap = new Map();
         if (transactions.data) {
             transactions.data.forEach(t => {
@@ -221,35 +246,31 @@ async function loadData() {
 
         lbar.style.width = '70%';
 
-        // 3. AUTOMATIZACE (Párování nákupů s odesláním v období)
+        // 3. AUTOMATIZACE (Hloubková analýza)
         for (const p of (pipelines || [])) {
-            const detail = await api(`/pipelines/${p.id}/stats/detail?per_page=2000`);
+            const participants = await getAllAutoParticipants(p.id, dFrom);
             const stats = await api(`/pipelines/${p.id}/stats`);
             const s = stats.stats || {};
             
             let pRev = 0, pOrd = 0, pCount = 0;
-            if (detail.data) {
-                detail.data.forEach(sub => {
-                    const email = sub.email.toLowerCase().trim();
-                    const sentAt = new Date(sub.sent_at);
-                    
-                    // Počítáme lidi, kteří dostali e-mail v tomto období
-                    if (sentAt >= dFrom && sentAt <= dTo) {
-                        pCount++;
-                        // Pokud tento člověk ZÁROVEŇ nakoupil v našem období
-                        if (txMap.has(email)) {
-                            const purchases = txMap.get(email);
-                            purchases.forEach(px => {
-                                // Nákup musí proběhnout PO odeslání e-mailu (nebo ve stejný den)
-                                if (px.date >= sentAt) {
-                                    pRev += px.amount;
-                                    pOrd++;
-                                }
-                            });
-                        }
+            participants.forEach(sub => {
+                const email = sub.email.toLowerCase().trim();
+                const sentAt = new Date(sub.sent_at);
+                
+                // Započítáme jen lidi, co dostali e-mail v tomto období
+                if (sentAt >= dFrom && sentAt <= dTo) {
+                    pCount++;
+                    if (txMap.has(email)) {
+                        txMap.get(email).forEach(purchase => {
+                            // Nákup musel být po odeslání mailu (atribuce)
+                            if (purchase.date >= sentAt) {
+                                pRev += purchase.amount;
+                                pOrd++;
+                            }
+                        });
                     }
-                });
-            }
+                }
+            });
 
             aRev += pRev; aOrd += pOrd;
             if (pCount > 0 || pRev > 0) {
@@ -257,7 +278,7 @@ async function loadData() {
             }
         }
 
-        // 4. Vykreslení KPI
+        // 4. Update UI
         document.getElementById('k-total-rev').innerText = czk(cRev + aRev);
         document.getElementById('k-camp-rev').innerText = czk(cRev);
         document.getElementById('k-camp-note').innerText = `${cOrd} objednávek`;
@@ -266,12 +287,11 @@ async function loadData() {
 
         document.getElementById('ov-table-body').innerHTML = ovTable || '<tr><td colspan="4">Žádná data</td></tr>';
         document.getElementById('camp-table-body').innerHTML = cTable || '<tr><td colspan="6">Žádná data</td></tr>';
-        document.getElementById('auto-table-body').innerHTML = aTable || '<tr><td colspan="5">Žádné konverze v období</td></tr>';
+        document.getElementById('auto-table-body').innerHTML = aTable || '<tr><td colspan="5">Žádné konverze</td></tr>';
 
     } catch (e) {
         ebar.innerText = "Chyba: " + e.message;
         ebar.style.display = 'block';
-        console.error(e);
     } finally {
         lbar.style.width = '100%';
         setTimeout(() => { loader.style.display = 'none'; lbar.style.width = '0%'; }, 500);
