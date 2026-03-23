@@ -176,7 +176,7 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
       <div class="kcard"><div class="klbl">Prům. CTR</div><div id="k-actr" class="kval">—</div></div>
     </div>
     <div class="sec">
-      <div class="shead"><span class="stitle">Přehled automatizací</span><span class="smeta">Tržby počítány průnikem účastníků a nákupů ve zvoleném období</span></div>
+      <div class="shead"><span class="stitle">Přehled automatizací</span><span class="smeta">Tržby z transakcí ve zvoleném období</span></div>
       <div class="tcard" id="auto-tbl"><div class="empty">Zatím žádná data</div></div>
     </div>
   </div>
@@ -191,14 +191,20 @@ let daysSelected = 30;
 let dateFrom = '', dateTo = '';
 
 function initDates() {
-    const dTo = new Date();
-    const dFrom = new Date();
-    dFrom.setDate(dFrom.getDate() - daysSelected);
+    const today = new Date();
     
-    dateTo = dTo.toISOString().split('T')[0];
-    dateFrom = dFrom.toISOString().split('T')[0];
+    // Klíčová oprava: Přidáme 1 den k "date_to", aby API zahrnulo všechny nákupy z dneška až do půlnoci
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
     
-    document.getElementById('psub').textContent = `${new Date(dateFrom).toLocaleDateString('cs-CZ')} – ${new Date(dateTo).toLocaleDateString('cs-CZ')}`;
+    const past = new Date(today);
+    past.setDate(past.getDate() - daysSelected);
+    
+    dateTo = tomorrow.toISOString().split('T')[0];
+    dateFrom = past.toISOString().split('T')[0];
+    
+    // Uživateli ukazujeme reálné aktuální datum
+    document.getElementById('psub').textContent = `${past.toLocaleDateString('cs-CZ')} – ${today.toLocaleDateString('cs-CZ')}`;
 }
 
 function setPreset(days) {
@@ -265,33 +271,42 @@ async function apiPost(path, body) {
     return res.json();
 }
 
-// --- JÁDRO: HROMADNÝ POST PRO ZJIŠTĚNÍ ÚČASTNÍKŮ V AUTOMATIZACI ---
+// Klíčová oprava: Precizní stránkování u POST dotazu, aby nám nikdo neutekl
 async function getEmailsInAuto(pipelineId, emails) {
     const matched = new Set();
-    const BATCH = 500;
+    const BATCH = 200; 
     
     for (let i = 0; i < emails.length; i += BATCH) {
         const batch = emails.slice(i, i + BATCH);
-        try {
-            const res = await apiPost(`/pipelines/${pipelineId}/stats-detail?per_page=${BATCH}&page=1`, { emails: batch });
-            
-            // Ecomail může u tohoto endpointu vrátit data různě (záleží na verzi API v pozadí)
-            // Stahujeme cokoliv, co API vrátí a obsahuje e-mail.
-            const items = res.data || res.subscribers || [];
-            
-            if (Array.isArray(items)) {
-                // Novější formát - pole objektů
+        let page = 1;
+        let hasMore = true;
+        
+        while (hasMore) {
+            try {
+                const res = await apiPost(`/pipelines/${pipelineId}/stats-detail?per_page=1000&page=${page}`, { emails: batch });
+                
+                let items = res.data || res.subscribers || [];
+                if (!Array.isArray(items) && typeof items === 'object') {
+                    items = Object.keys(items).map(k => ({ email: k }));
+                }
+                
+                if (items.length === 0) {
+                    hasMore = false;
+                    break;
+                }
+                
                 for (const item of items) {
                     if (item.email) matched.add(item.email.toLowerCase().trim());
                 }
-            } else {
-                // Starší formát - objekt klíčů (e-mailů)
-                for (const email of Object.keys(items)) {
-                    matched.add(email.toLowerCase().trim());
-                }
+                
+                if (items.length < 1000) hasMore = false;
+                else page++;
+                
+                if (page > 20) hasMore = false; // Pojistka proti nekonečné smyčce
+            } catch (e) {
+                console.error(`Chyba API u auto ${pipelineId}:`, e);
+                hasMore = false;
             }
-        } catch (e) {
-            console.error(`Dávka pro auto ${pipelineId} selhala:`, e);
         }
     }
     return matched;
@@ -349,20 +364,19 @@ async function loadAll() {
         const txMap = new Map();
         const txEmails = [];
         
-        // Vytvoříme seznam unikátních kupujících za období
         for (let tx of transactions) {
             if (!tx.email) continue;
             const email = tx.email.toLowerCase().trim();
             if (!txMap.has(email)) {
                 txMap.set(email, { rev: 0, ord: 0 });
-                txEmails.push(email); // Přidáme e-mail do seznamu pro POST ověření
+                txEmails.push(email); 
             }
             let userStats = txMap.get(email);
             userStats.rev += parseFloat(tx.amount || 0);
             userStats.ord += 1;
         }
 
-        progress(60, 'Křížím transakce s automatizacemi (POST)...');
+        progress(60, 'Křížím data z automatizací...');
 
         let revAuto = 0, ordAuto = 0;
         let autosData = [];
@@ -383,7 +397,6 @@ async function loadAll() {
                 }
             } catch(e) {}
 
-            // ZDE JE TO KOUZLO: Pošleme pole unikátních kupujících a Ecomail nám vyfiltruje jen ty, kteří prošli daným automatem
             const matchedEmails = await getEmailsInAuto(p.id, txEmails);
             
             let pRevPeriod = 0, pOrdPeriod = 0;
@@ -411,7 +424,6 @@ async function loadAll() {
         }
 
         // --- DOM VYKRESLENÍ ---
-
         document.getElementById('k-rev-total').textContent = czk(revCamp + revAuto);
         document.getElementById('k-rev-camps').textContent = czk(revCamp);
         document.getElementById('k-rev-autos').textContent = czk(revAuto);
