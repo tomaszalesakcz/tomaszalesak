@@ -440,15 +440,15 @@ async function runDiag(){
     const email = txRes.data?.[0]?.email || '';
     log('Testovací email (nakoupil v období): ' + email);
 
-    // 1. Email log subscribera
-    log('\n=== GET /subscribers/{email}/email-log ===');
-    const log1 = await apiGet(`/subscribers/${encodeURIComponent(email)}/email-log`);
-    log(JSON.stringify(log1, null, 2));
-
-    // 2. Tracker events pro subscribera
+    // 1. Tracker events pro subscribera
     log('\n=== GET /tracker/events?subscriber=' + email + ' ===');
-    const log2 = await apiGet(`/tracker/events?subscriber=${encodeURIComponent(email)}`);
-    log(JSON.stringify(log2, null, 2));
+    const evRes = await apiGet(`/tracker/events?subscriber=${encodeURIComponent(email)}`).catch(e=>({error:e.message}));
+    log(JSON.stringify(evRes, null, 2));
+
+    // 2. Pipeline actions (struktura automatizace)
+    log('\n=== GET /pipelines/8948/actions ===');
+    const actRes = await apiGet('/pipelines/8948/actions').catch(e=>({error:e.message}));
+    log(JSON.stringify(actRes, null, 2));
 
   }catch(e){log('CHYBA: '+e.message);}
   btn.textContent='Spustit diagnostiku'; btn.disabled=false;
