@@ -40,4 +40,314 @@ nav { padding:14px 10px; }
 
 .krow { display:grid; gap:16px; margin-bottom:24px; grid-template-columns:repeat(3,1fr); }
 .kcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px; }
-.klbl { font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; margin-bottom:8px;
+.klbl { font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; margin-bottom:8px; }
+.kval { font-size:28px; font-weight:600; font-family:'DM Mono',monospace; }
+.knote { font-size:12px; color:var(--text-muted); margin-top:4px; }
+
+.view-section { display:none; }
+.view-section.active { display:block; }
+.tcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
+table { width:100%; border-collapse:collapse; text-align:left; }
+thead th { padding:12px 16px; font-size:10px; font-weight:600; color:var(--text-faint); text-transform:uppercase; background:var(--bg); border-bottom:1px solid var(--border); }
+td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px; }
+.r { text-align:right; }
+.rev-val { color:var(--green); font-weight:600; font-family:'DM Mono'; }
+
+#loader-wrap { position:fixed; top:0; left:0; width:100%; height:3px; z-index:2000; display:none; }
+#loader-bar { height:100%; background:var(--accent); width:0%; transition:width 0.3s; }
+.ebar { background:var(--red-bg); color:var(--red); padding:12px; border-radius:8px; margin-bottom:20px; display:none; font-size:13px; border:1px solid rgba(220,38,38,0.2); }
+</style>
+</head>
+<body>
+
+<div id="loader-wrap"><div id="loader-bar"></div></div>
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M21 21H3V3h18v18zM8 15h2v-2H8v2zm0-4h2V9H8v2zm4 4h2v-2h-2v2zm0-4h2V9h-2v2zm4 4h2v-2h-2v2zm0-4h2V9h-2v2z"/></svg></div>
+    <div style="font-weight:600; margin-left:10px; font-size:15px;">Vehiclass</div>
+  </div>
+  <nav>
+    <button class="nav-item active" data-view="overview">Přehled</button>
+    <button class="nav-item" data-view="campaigns">Kampaně</button>
+    <button class="nav-item" data-view="automations">Automatizace</button>
+  </nav>
+</aside>
+
+<main class="main">
+  <div id="error-bar" class="ebar"></div>
+
+  <div class="topbar">
+    <div>
+      <div class="ptitle" id="ptitle">Přehled</div>
+      <div class="psub" id="psub">Načítám období...</div>
+    </div>
+    <div class="tctrl">
+      <div class="seg">
+        <button class="seg-btn" data-d="7">7 dní</button>
+        <button class="seg-btn on" data-d="30">30 dní</button>
+        <button class="seg-btn" data-d="90">3 měs.</button>
+      </div>
+      <button id="refresh-btn" style="margin-left:10px; padding:7px 12px; cursor:pointer; background:white; border:1px solid var(--border); border-radius:8px; font-size:12px; font-weight:500;">Obnovit</button>
+    </div>
+  </div>
+
+  <div id="view-overview" class="view-section active">
+    <div class="krow">
+      <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-total-rev" class="kval">—</div><div class="knote">Kampaně + Automaty v období</div></div>
+      <div class="kcard"><div class="klbl">Tržby z kampaní</div><div id="k-camp-rev" class="kval">—</div><div id="k-camp-note" class="knote">&nbsp;</div></div>
+      <div class="kcard"><div class="klbl">Tržby z automatizací</div><div id="k-auto-rev" class="kval">—</div><div id="k-auto-note" class="knote">&nbsp;</div></div>
+    </div>
+    <div class="tcard">
+      <table>
+        <thead><tr><th>Poslední Kampaně</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">Tržby</th></tr></thead>
+        <tbody id="ov-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="view-campaigns" class="view-section">
+    <div class="tcard">
+      <table>
+        <thead><tr><th>Název kampaně</th><th class="r">Datum</th><th class="r">Příjemci</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Tržby</th></tr></thead>
+        <tbody id="camp-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="view-automations" class="view-section">
+    <div class="krow">
+      <div class="kcard"><div class="klbl">Aktivní automatizace</div><div id="k-ac" class="kval">—</div><div class="knote">&nbsp;</div></div>
+      <div class="kcard"><div class="klbl">Prům. Open Rate</div><div id="k-aor" class="kval">—</div><div class="knote">&nbsp;</div></div>
+      <div class="kcard"><div class="klbl">Prům. CTR</div><div id="k-actr" class="kval">—</div><div class="knote">&nbsp;</div></div>
+    </div>
+    <div class="tcard">
+      <table>
+        <thead><tr><th>Název automatizace</th><th class="r">Aktivních lidí</th><th class="r">OR (celk)</th><th class="r">Obj. v období</th><th class="r">Tržby v období</th></tr></thead>
+        <tbody id="auto-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script>
+const WORKER = 'https://vehiclass.jsem-72e.workers.dev';
+let days = 30;
+
+// --- NAVIGACE ---
+function initNav() {
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.onclick = () => {
+            const view = item.getAttribute('data-view');
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.getElementById('view-' + view).classList.add('active');
+            item.classList.add('active');
+            const titles = { 'overview': 'Přehled', 'campaigns': 'Detail kampaní', 'automations': 'Statistiky automatizací v období' };
+            document.getElementById('ptitle').innerText = titles[view] || 'Přehled';
+        };
+    });
+
+    document.querySelectorAll('.seg-btn').forEach(btn => {
+        btn.onclick = () => {
+            document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('on'));
+            btn.classList.add('on');
+            days = parseInt(btn.getAttribute('data-d'));
+            loadData();
+        };
+    });
+
+    document.getElementById('refresh-btn').onclick = () => loadData();
+}
+
+const czk = v => Math.round(v || 0).toLocaleString('cs-CZ') + ' Kč';
+const pct = v => (v || 0).toFixed(1) + '%';
+const num = v => Math.round(v || 0).toLocaleString('cs-CZ');
+const dt = s => s ? new Date(s).toLocaleDateString('cs-CZ') : '—';
+
+async function apiGet(path) {
+    const r = await fetch(`${WORKER}?path=${encodeURIComponent(path)}`);
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.message || `Chyba API ${r.status}`);
+    return data;
+}
+
+// Používáme bezpečný POST (ne 422), kterým ověřujeme přesně a jen nákupčí z období
+async function apiPost(path, body) {
+    const r = await fetch(`${WORKER}?path=${encodeURIComponent(path)}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.message || `Chyba API ${r.status}`);
+    return data;
+}
+
+async function getEmailsInAuto(pipelineId, emails) {
+    const matched = new Set();
+    const BATCH = 500;
+    
+    for (let i = 0; i < emails.length; i += BATCH) {
+        const batch = emails.slice(i, i + BATCH);
+        try {
+            const res = await apiPost(`/pipelines/${pipelineId}/stats-detail?per_page=${BATCH}&page=1`, { emails: batch });
+            let items = res.data || res.subscribers || {};
+            
+            // KLÍČOVÁ OPRAVA: Počítáme jen ty lidi, kterým Ecomail skutečně připsal 'konverzi' (conversions >= 1)
+            // Tvůj původní kód tu měl 'send >= 1', což započítalo i organické nákupy.
+            if (Array.isArray(items)) {
+                for (const item of items) {
+                    if (item.email && parseInt(item.conversions || 0) >= 1) {
+                        matched.add(item.email.toLowerCase().trim());
+                    }
+                }
+            } else {
+                for (const [email, stats] of Object.entries(items)) {
+                    if (parseInt(stats.conversions || 0) >= 1) {
+                        matched.add(email.toLowerCase().trim());
+                    }
+                }
+            }
+        } catch (e) {
+            console.error(`Chyba API u auto ${pipelineId}:`, e);
+        }
+    }
+    return matched;
+}
+
+async function fetchTransactions(dfStr, dtStr) {
+    let page = 1, all = [], total = null;
+    do {
+        const res = await apiGet(`/tracker/transaction?date_from=${dfStr}&date_to=${dtStr}&per_page=500&page=${page}`);
+        if(total === null) total = res.total || 0;
+        if(res.data) all.push(...res.data);
+        if(!res.data || res.data.length < 500) break;
+        page++;
+    } while (all.length < total);
+    return all;
+}
+
+async function loadData() {
+    const loader = document.getElementById('loader-wrap');
+    const lbar = document.getElementById('loader-bar');
+    const ebar = document.getElementById('error-bar');
+    
+    loader.style.display = 'block';
+    lbar.style.width = '10%';
+    ebar.style.display = 'none';
+
+    const dTo = new Date(); dTo.setHours(23,59,59);
+    const dFrom = new Date(); dFrom.setDate(dFrom.getDate() - days); dFrom.setHours(0,0,0);
+    
+    const dfStr = dFrom.toISOString().split('T')[0];
+    const dtStr = dTo.toISOString().split('T')[0];
+    document.getElementById('psub').innerText = `Data za období: ${dFrom.toLocaleDateString('cs-CZ')} – ${new Date().toLocaleDateString('cs-CZ')}`;
+
+    try {
+        const [campaigns, pipelines] = await Promise.all([
+            apiGet(`/campaigns?filters[date_from]=${dfStr}&filters[date_to]=${dtStr}&filters[status]=3`),
+            apiGet('/pipelines')
+        ]);
+
+        lbar.style.width = '30%';
+
+        // Vytáhneme všechny nákupy v období a unikátní emaily
+        const transactions = await fetchTransactions(dfStr, dtStr);
+        const txMap = new Map();
+        const txEmails = [];
+        
+        for (let tx of transactions) {
+            if (!tx.email) continue;
+            const email = tx.email.toLowerCase().trim();
+            if (!txMap.has(email)) {
+                txMap.set(email, { rev: 0, ord: 0 });
+                txEmails.push(email);
+            }
+            let userStats = txMap.get(email);
+            userStats.rev += parseFloat(tx.amount || 0);
+            userStats.ord += 1;
+        }
+
+        lbar.style.width = '50%';
+
+        let cRev = 0, cOrd = 0, aRev = 0, aOrd = 0;
+        let cTable = '', ovTable = '', aTable = '';
+
+        // KAMPANĚ
+        for (const c of (campaigns || [])) {
+            const stats = await apiGet(`/campaigns/${c.id}/stats`);
+            const s = stats.stats || {};
+            const rev = parseFloat(s.conversions_value || 0);
+            cRev += rev; cOrd += parseInt(s.conversions || 0);
+            
+            cTable += `<tr><td><strong>${c.title}</strong></td><td class="r">${c.sent_at.split(' ')[0]}</td><td class="r">${num(s.send)}</td><td class="r">${pct(s.open_rate)}</td><td class="r">${pct(s.click_rate)}</td><td class="r rev-val">${czk(rev)}</td></tr>`;
+            ovTable += `<tr><td>${c.title}</td><td class="r">${num(s.send)}</td><td class="r">${pct(s.open_rate)}</td><td class="r rev-val">${czk(rev)}</td></tr>`;
+        }
+
+        lbar.style.width = '70%';
+
+        // AUTOMATIZACE
+        let totalOr = 0, totalCtr = 0, activeAutos = 0;
+        
+        for (const p of (pipelines || [])) {
+            let pStats = {};
+            try {
+                const psRes = await apiGet(`/pipelines/${p.id}/stats`);
+                pStats = psRes.stats || {};
+                if(parseFloat(pStats.open_rate) > 0) {
+                    totalOr += parseFloat(pStats.open_rate);
+                    totalCtr += parseFloat(pStats.click_rate || 0);
+                    activeAutos++;
+                }
+            } catch(e) {}
+
+            // Proženeme emaily kupujících automatizací (safe POST dotaz)
+            const matchedEmails = txEmails.length > 0 ? await getEmailsInAuto(p.id, txEmails) : new Set();
+            
+            let pRevPeriod = 0, pOrdPeriod = 0;
+            matchedEmails.forEach(email => {
+                if (txMap.has(email)) {
+                    pRevPeriod += txMap.get(email).rev;
+                    pOrdPeriod += txMap.get(email).ord;
+                }
+            });
+
+            aRev += pRevPeriod;
+            aOrd += pOrdPeriod;
+
+            if (pRevPeriod > 0 || pOrdPeriod > 0 || parseFloat(pStats.open_rate) > 0) {
+                aTable += `<tr><td><strong>${p.name}</strong></td><td class="r">${num(pStats.total)}</td><td class="r">${pct(pStats.open_rate)}</td><td class="r">${pOrdPeriod}</td><td class="r rev-val">${czk(pRevPeriod)}</td></tr>`;
+            }
+        }
+
+        // VYKRESLENÍ
+        document.getElementById('k-total-rev').innerText = czk(cRev + aRev);
+        document.getElementById('k-camp-rev').innerText = czk(cRev);
+        document.getElementById('k-camp-note').innerText = `${cOrd} objednávek`;
+        document.getElementById('k-auto-rev').innerText = czk(aRev);
+        document.getElementById('k-auto-note').innerText = `${aOrd} objednávek v období`;
+
+        document.getElementById('k-ac').innerText = activeAutos;
+        document.getElementById('k-aor').innerText = activeAutos > 0 ? pct(totalOr / activeAutos) : '0%';
+        document.getElementById('k-actr').innerText = activeAutos > 0 ? pct(totalCtr / activeAutos) : '0%';
+
+        document.getElementById('ov-table-body').innerHTML = ovTable || '<tr><td colspan="4">Zatím žádná data</td></tr>';
+        document.getElementById('camp-table-body').innerHTML = cTable || '<tr><td colspan="6">Zatím žádná data</td></tr>';
+        document.getElementById('auto-table-body').innerHTML = aTable || '<tr><td colspan="5">Žádné automatizace neměly konverzi</td></tr>';
+
+    } catch (e) {
+        ebar.innerText = "Chyba API komunikace: " + e.message;
+        ebar.style.display = 'block';
+        console.error(e);
+    } finally {
+        lbar.style.width = '100%';
+        setTimeout(() => { loader.style.display = 'none'; lbar.style.width = '0%'; }, 500);
+    }
+}
+
+initNav();
+loadData();
+</script>
+</body>
+</html>
