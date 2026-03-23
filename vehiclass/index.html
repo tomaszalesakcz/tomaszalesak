@@ -27,12 +27,9 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 .logo-name { font-weight:600; font-size:15px; letter-spacing:-.3px; }
 .logo-sub { font-size:11px; color:var(--text-faint); }
 nav { padding:14px 10px; flex:1; }
-.nav-lbl { font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); padding:0 10px; margin-bottom:4px; display:block; }
 .nav-item { display:flex; align-items:center; gap:9px; padding:8px 10px; border-radius:var(--rs); cursor:pointer; color:var(--text-muted); font-size:13.5px; border:none; background:none; width:100%; text-align:left; transition:all .15s; font-family:'DM Sans',sans-serif; }
 .nav-item:hover { background:var(--bg); color:var(--text); }
 .nav-item.active { background:var(--accent-bg); color:var(--accent); font-weight:500; }
-.nav-item svg { width:16px; height:16px; flex-shrink:0; opacity:.7; }
-.nav-item.active svg { opacity:1; }
 .sfooter { padding:16px; border-top:1px solid var(--border); }
 .spill { background:var(--bg); border-radius:var(--rs); padding:9px 12px; font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:7px; }
 .sdot { width:7px; height:7px; border-radius:50%; flex-shrink:0; background:var(--green); }
@@ -48,7 +45,6 @@ nav { padding:14px 10px; flex:1; }
 
 .seg { display:flex; background:var(--surface); border:1px solid var(--border); border-radius:var(--rs); overflow:hidden; }
 .seg-btn { padding:7px 13px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:none; background:none; cursor:pointer; color:var(--text-muted); border-right:1px solid var(--border); transition:all .15s; white-space:nowrap; }
-.seg-btn:last-child { border-right:none; }
 .seg-btn:hover { background:var(--bg); color:var(--text); }
 .seg-btn.on { background:var(--accent); color:#fff; }
 
@@ -76,19 +72,16 @@ nav { padding:14px 10px; flex:1; }
 table { width:100%; border-collapse:collapse; }
 thead th { padding:10px 16px; text-align:left; font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--text-faint); background:var(--bg); border-bottom:1px solid var(--border); white-space:nowrap; }
 thead th.r { text-align:right; }
-tbody tr { border-bottom:1px solid var(--border); transition:background .1s; }
+tbody tr { border-bottom:1px solid var(--border); }
 tbody tr:last-child { border-bottom:none; }
 tbody tr:hover { background:var(--bg); }
 td { padding:11px 16px; font-size:13px; }
 td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; color:var(--text-muted); }
 .tn { font-weight:500; font-size:13px; max-width:260px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .ts { font-size:11.5px; color:var(--text-faint); margin-top:2px; }
-
 .badge { display:inline-flex; align-items:center; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500; white-space:nowrap; }
 .bg { background:var(--green-bg); color:var(--green); }
 .ba { background:var(--amber-bg); color:var(--amber); }
-.bb { background:var(--accent-bg); color:var(--accent); }
-.br { background:var(--red-bg); color:var(--red); }
 
 .empty { padding:44px 20px; text-align:center; color:var(--text-faint); font-size:13px; }
 .view { display:none; } 
@@ -110,10 +103,9 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     <div><div class="logo-name">Vehiclass</div><div class="logo-sub">Email Analytics</div></div>
   </div>
   <nav>
-    <span class="nav-lbl">Navigace</span>
     <button class="nav-item active" id="nav-overview" onclick="goView('overview')">Přehled</button>
     <button class="nav-item" id="nav-campaigns" onclick="goView('campaigns')">Kampaně</button>
-    <button class="nav-item" id="nav-automations" onclick="goView('automations')">Automatizace</button>
+    <button class="nav-item" id="nav-automations" onclick="goView('automations')">Automatizace (Lifetime)</button>
   </nav>
   <div class="sfooter">
     <div class="spill"><div class="sdot ld" id="sdot"></div><span id="slbl">Čekám...</span></div>
@@ -128,7 +120,7 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
       <div class="ptitle" id="ptitle">Přehled</div>
       <div class="psub" id="psub"></div>
     </div>
-    <div class="tctrl">
+    <div class="tctrl" id="time-controls">
       <div class="seg">
         <button class="seg-btn" id="btn-7" onclick="setPreset(7)">7 dní</button>
         <button class="seg-btn on" id="btn-30" onclick="setPreset(30)">30 dní</button>
@@ -147,17 +139,12 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
   </div>
 
   <div class="view" id="vw-overview" style="display:block;">
-    <div class="krow k3">
-      <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-rev-total" class="kval">—</div><div class="knote" id="k-rev-total-n">&nbsp;</div></div>
-      <div class="kcard"><div class="klbl">Tržby z kampaní</div><div id="k-rev-camps" class="kval">—</div><div class="knote" id="k-rev-camps-n">&nbsp;</div></div>
-      <div class="kcard"><div class="klbl">Tržby z automatizací</div><div id="k-rev-autos" class="kval">—</div><div class="knote" id="k-rev-autos-n">&nbsp;</div></div>
-    </div>
     <div class="krow k2">
-      <div class="kcard"><div class="klbl">Objednávky (kampaně + auto)</div><div id="k-conv" class="kval">—</div><div class="knote" id="k-conv-n">&nbsp;</div></div>
-      <div class="kcard"><div class="klbl">Kontakty — seznam Zákazníci</div><div id="k-contacts" class="kval">—</div><div class="knote" id="k-contacts-n">&nbsp;</div></div>
+      <div class="kcard"><div class="klbl">Tržby z kampaní (vybrané období)</div><div id="k-rev-camps" class="kval">—</div><div class="knote" id="k-rev-camps-n">&nbsp;</div></div>
+      <div class="kcard" style="background:var(--surface2);"><div class="klbl">Tržby z automatizací (celoživotní)</div><div id="k-rev-autos" class="kval">—</div><div class="knote" id="k-rev-autos-n">API Ecomailu neumožňuje filtraci podle data</div></div>
     </div>
     <div class="sec">
-      <div class="shead"><span class="stitle">Přehled kampaní</span><span class="smeta" id="ov-meta"></span></div>
+      <div class="shead"><span class="stitle">Kampaně v období</span><span class="smeta" id="ov-meta"></span></div>
       <div class="tcard" id="ov-tbl"><div class="empty">Zatím žádná data</div></div>
     </div>
   </div>
@@ -176,7 +163,7 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
       <div class="kcard"><div class="klbl">Prům. CTR</div><div id="k-actr" class="kval">—</div></div>
     </div>
     <div class="sec">
-      <div class="shead"><span class="stitle">Přehled automatizací</span><span class="smeta">Tržby z transakcí ve zvoleném období</span></div>
+      <div class="shead"><span class="stitle">Celkové statistiky automatizací</span><span class="smeta" style="color:var(--red);">Zobrazeny lifetime tržby od spuštění automatu</span></div>
       <div class="tcard" id="auto-tbl"><div class="empty">Zatím žádná data</div></div>
     </div>
   </div>
@@ -192,8 +179,6 @@ let dateFrom = '', dateTo = '';
 
 function initDates() {
     const today = new Date();
-    
-    // Klíčová oprava: Přidáme 1 den k "date_to", aby API zahrnulo všechny nákupy z dneška až do půlnoci
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     
@@ -203,8 +188,7 @@ function initDates() {
     dateTo = tomorrow.toISOString().split('T')[0];
     dateFrom = past.toISOString().split('T')[0];
     
-    // Uživateli ukazujeme reálné aktuální datum
-    document.getElementById('psub').textContent = `${past.toLocaleDateString('cs-CZ')} – ${today.toLocaleDateString('cs-CZ')}`;
+    document.getElementById('psub').textContent = `Filtrování kampaní: ${past.toLocaleDateString('cs-CZ')} – ${today.toLocaleDateString('cs-CZ')}`;
 }
 
 function setPreset(days) {
@@ -227,7 +211,10 @@ function goView(viewId) {
     document.getElementById('nav-automations').classList.remove('active');
     document.getElementById('nav-' + viewId).classList.add('active');
     
-    const titles = { 'overview': 'Přehled', 'campaigns': 'Detailní statistiky kampaní', 'automations': 'Statistiky automatizací' };
+    // Skryjeme filtr data pro automatizace (protože tam nefunguje)
+    document.getElementById('time-controls').style.visibility = viewId === 'automations' ? 'hidden' : 'visible';
+    
+    const titles = { 'overview': 'Přehled', 'campaigns': 'Detailní statistiky kampaní', 'automations': 'Celoživotní statistiky automatizací' };
     document.getElementById('ptitle').textContent = titles[viewId];
 }
 
@@ -249,7 +236,7 @@ function progress(pct, msg) {
     if(msg) document.getElementById('prog-lbl').textContent = msg;
 }
 function badge(s) {
-    const map = {3: ['bg','Odesláno'], 2: ['bb','Odesílá'], 4: ['br','Chyba']};
+    const map = {3: ['bg','Odesláno'], 2: ['bb','Odesílá']};
     const [c, l] = map[s] || ['ba', 'Zpracovává se'];
     return `<span class="badge ${c}">${l}</span>`;
 }
@@ -261,88 +248,23 @@ async function apiGet(path) {
     return res.json();
 }
 
-async function apiPost(path, body) {
-    const res = await fetch(PROXY + '?path=' + encodeURIComponent(path), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return res.json();
-}
-
-// Klíčová oprava: Precizní stránkování u POST dotazu, aby nám nikdo neutekl
-async function getEmailsInAuto(pipelineId, emails) {
-    const matched = new Set();
-    const BATCH = 200; 
-    
-    for (let i = 0; i < emails.length; i += BATCH) {
-        const batch = emails.slice(i, i + BATCH);
-        let page = 1;
-        let hasMore = true;
-        
-        while (hasMore) {
-            try {
-                const res = await apiPost(`/pipelines/${pipelineId}/stats-detail?per_page=1000&page=${page}`, { emails: batch });
-                
-                let items = res.data || res.subscribers || [];
-                if (!Array.isArray(items) && typeof items === 'object') {
-                    items = Object.keys(items).map(k => ({ email: k }));
-                }
-                
-                if (items.length === 0) {
-                    hasMore = false;
-                    break;
-                }
-                
-                for (const item of items) {
-                    if (item.email) matched.add(item.email.toLowerCase().trim());
-                }
-                
-                if (items.length < 1000) hasMore = false;
-                else page++;
-                
-                if (page > 20) hasMore = false; // Pojistka proti nekonečné smyčce
-            } catch (e) {
-                console.error(`Chyba API u auto ${pipelineId}:`, e);
-                hasMore = false;
-            }
-        }
-    }
-    return matched;
-}
-
-async function fetchTransactions() {
-    let page = 1, all = [], total = null;
-    do {
-        const res = await apiGet(`/tracker/transaction?date_from=${dateFrom}&date_to=${dateTo}&per_page=500&page=${page}`);
-        if(total === null) total = res.total || 0;
-        if(res.data) all.push(...res.data);
-        if(!res.data || res.data.length < 500) break;
-        page++;
-    } while (all.length < total);
-    return all;
-}
-
 // --- HLAVNÍ LOGIKA ---
 async function loadAll() {
     document.getElementById('rbtn').classList.add('sp');
     document.getElementById('ebar').style.display = 'none';
     status('ld', 'Připojuji se...');
-    progress(5, 'Načítám základní data...');
+    progress(10, 'Stahuji základní data...');
 
     try {
-        const [campsRes, pipeRes, listsRes] = await Promise.all([
+        const [campsRes, pipeRes] = await Promise.all([
             apiGet(`/campaigns?filters[date_from]=${dateFrom}&filters[date_to]=${dateTo}&filters[status]=3`),
-            apiGet(`/pipelines`),
-            apiGet(`/lists`)
+            apiGet(`/pipelines`)
         ]);
 
         const camps = Array.isArray(campsRes) ? campsRes : [];
         const pipelines = Array.isArray(pipeRes) ? pipeRes : [];
-        const lists = Array.isArray(listsRes) ? listsRes : [];
 
-        progress(20, 'Stahuji statistiky kampaní...');
+        progress(40, 'Stahuji statistiky kampaní...');
         
         let revCamp = 0, ordCamp = 0;
         let campsData = [];
@@ -358,78 +280,43 @@ async function loadAll() {
             } catch(e) {}
         }
 
-        progress(40, 'Načítám transakce z Trackeru...');
+        progress(70, 'Stahuji lifetime statistiky automatizací...');
 
-        const transactions = await fetchTransactions();
-        const txMap = new Map();
-        const txEmails = [];
-        
-        for (let tx of transactions) {
-            if (!tx.email) continue;
-            const email = tx.email.toLowerCase().trim();
-            if (!txMap.has(email)) {
-                txMap.set(email, { rev: 0, ord: 0 });
-                txEmails.push(email); 
-            }
-            let userStats = txMap.get(email);
-            userStats.rev += parseFloat(tx.amount || 0);
-            userStats.ord += 1;
-        }
-
-        progress(60, 'Křížím data z automatizací...');
-
+        // Tady už žádné křižování. Prostě vezmeme to, co dává API = realitu.
         let revAuto = 0, ordAuto = 0;
         let autosData = [];
         let totalOr = 0, totalCtr = 0, activeAutos = 0;
 
         for (let i = 0; i < pipelines.length; i++) {
             const p = pipelines[i];
-            progress(60 + Math.round((i / pipelines.length) * 30), `Hledám nákupy v auto: ${p.name}`);
-            
-            let pStats = {};
             try {
                 const psRes = await apiGet(`/pipelines/${p.id}/stats`);
-                pStats = psRes.stats || {};
+                const pStats = psRes.stats || {};
+                
+                const pRev = parseFloat(pStats.conversions_value || 0);
+                const pOrd = parseInt(pStats.conversions || 0);
+                
+                revAuto += pRev;
+                ordAuto += pOrd;
+                
                 if(parseFloat(pStats.open_rate) > 0) {
                     totalOr += parseFloat(pStats.open_rate);
                     totalCtr += parseFloat(pStats.click_rate || 0);
                     activeAutos++;
                 }
+                
+                autosData.push({ ...p, stats: pStats, rev: pRev, ord: pOrd });
             } catch(e) {}
-
-            const matchedEmails = await getEmailsInAuto(p.id, txEmails);
-            
-            let pRevPeriod = 0, pOrdPeriod = 0;
-            matchedEmails.forEach(email => {
-                if (txMap.has(email)) {
-                    pRevPeriod += txMap.get(email).rev;
-                    pOrdPeriod += txMap.get(email).ord;
-                }
-            });
-
-            revAuto += pRevPeriod;
-            ordAuto += pOrdPeriod;
-            autosData.push({ ...p, stats: pStats, rev: pRevPeriod, ord: pOrdPeriod });
         }
 
         progress(95, 'Finalizuji...');
 
-        let contactsCount = '—';
-        const customersList = lists.find(l => (l.name || '').toLowerCase().includes('zákazníci'));
-        if (customersList) {
-            try {
-                const listDetail = await apiGet(`/lists/${customersList.id}`);
-                contactsCount = num(listDetail.list?.active_subscribers || listDetail.subscribers?.subscribed || 0);
-            } catch(e) {}
-        }
-
         // --- DOM VYKRESLENÍ ---
-        document.getElementById('k-rev-total').textContent = czk(revCamp + revAuto);
         document.getElementById('k-rev-camps').textContent = czk(revCamp);
+        document.getElementById('k-rev-camps-n').innerHTML = `${ordCamp} objednávek`;
+        
         document.getElementById('k-rev-autos').textContent = czk(revAuto);
-        document.getElementById('k-conv').textContent = num(ordCamp + ordAuto);
-        document.getElementById('k-contacts').textContent = contactsCount;
-
+        
         document.getElementById('k-ac').textContent = pipelines.length;
         document.getElementById('k-aor').textContent = activeAutos > 0 ? pct(totalOr / activeAutos) : '0%';
         document.getElementById('k-actr').textContent = activeAutos > 0 ? pct(totalCtr / activeAutos) : '0%';
@@ -477,7 +364,7 @@ async function loadAll() {
                     <td class="r" style="color:var(--green); font-weight:500;">${czk(a.rev)}</td>
                 </tr>`;
             });
-            document.getElementById('auto-tbl').innerHTML = `<table><thead><tr><th>Automatizace</th><th class="r">Celkem prošlo</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Nákupů (období)</th><th class="r">Tržby (období)</th></tr></thead><tbody>${autoTbody}</tbody></table>`;
+            document.getElementById('auto-tbl').innerHTML = `<table><thead><tr><th>Automatizace</th><th class="r">Celkem prošlo</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Celoživotní nákupy</th><th class="r">Celoživotní tržby</th></tr></thead><tbody>${autoTbody}</tbody></table>`;
         }
 
         progress(100);
