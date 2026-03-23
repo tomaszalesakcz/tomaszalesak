@@ -24,13 +24,12 @@ body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text)
 .sidebar { width:224px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); position:fixed; height:100vh; z-index:1000; }
 .logo { padding:22px 20px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:11px; }
 .logo-mark { width:34px; height:34px; background:var(--accent); border-radius:9px; display:flex; align-items:center; justify-content:center; }
-.logo-name { font-weight:600; font-size:15px; }
 nav { padding:14px 10px; }
 .nav-item { display:flex; align-items:center; gap:9px; padding:10px; border-radius:var(--rs); cursor:pointer; color:var(--text-muted); border:none; background:none; width:100%; text-align:left; font-family:inherit; margin-bottom:4px; transition: 0.2s; }
 .nav-item:hover { background:var(--bg); color:var(--text); }
 .nav-item.active { background:var(--accent-bg); color:var(--accent); font-weight:500; }
 
-/* Content */
+/* Main Content */
 .main { flex:1; margin-left:224px; padding:30px 40px; min-width:0; }
 .topbar { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px; }
 .ptitle { font-size:22px; font-weight:600; letter-spacing:-0.5px; }
@@ -57,7 +56,6 @@ td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px;
 .r { text-align:right; }
 .rev-val { color:var(--green); font-weight:600; font-family:'DM Mono'; }
 
-/* Loader */
 #loader-wrap { position:fixed; top:0; left:0; width:100%; height:3px; z-index:2000; display:none; }
 #loader-bar { height:100%; background:var(--accent); width:0%; transition:width 0.3s; }
 .ebar { background:var(--red-bg); color:var(--red); padding:12px; border-radius:8px; margin-bottom:20px; display:none; font-size:13px; }
@@ -67,11 +65,10 @@ td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px;
 
 <div id="loader-wrap"><div id="loader-bar"></div></div>
 
-<div class="shell">
 <aside class="sidebar">
   <div class="logo">
     <div class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M21 21H3V3h18v18zM8 15h2v-2H8v2zm0-4h2V9H8v2zm4 4h2v-2h-2v2zm0-4h2V9h-2v2zm4 4h2v-2h-2v2zm0-4h2V9h-2v2z"/></svg></div>
-    <div><div class="logo-name">Vehiclass</div></div>
+    <div style="font-weight:600; margin-left:10px">Vehiclass</div>
   </div>
   <nav>
     <button class="nav-item active" data-view="overview">Přehled</button>
@@ -86,7 +83,7 @@ td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px;
   <div class="topbar">
     <div>
       <div class="ptitle" id="ptitle">Přehled</div>
-      <div class="psub" id="psub">Načítám období...</div>
+      <div class="psub" id="psub">Načítám...</div>
     </div>
     <div class="tctrl">
       <div class="seg">
@@ -94,7 +91,7 @@ td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px;
         <button class="seg-btn on" data-d="30">30 dní</button>
         <button class="seg-btn" data-d="90">3 měs.</button>
       </div>
-      <button class="ibtn" id="refresh-btn" style="margin-left:10px; padding:7px; cursor:pointer; background:white; border:1px solid var(--border); border-radius:8px;">Obnovit</button>
+      <button id="refresh-btn" style="margin-left:10px; padding:7px 12px; cursor:pointer; background:white; border:1px solid var(--border); border-radius:8px; font-size:12px">Obnovit</button>
     </div>
   </div>
 
@@ -124,53 +121,53 @@ td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px;
   <div id="view-automations" class="view-section">
     <div class="tcard">
       <table>
-        <thead><tr><th>Název automatizace</th><th class="r">Aktivních lidí</th><th class="r">OR (celk)</th><th class="r">Objednávky (období)</th><th class="r">Tržby (období)</th></tr></thead>
+        <thead><tr><th>Název automatizace</th><th class="r">Lidí v období</th><th class="r">OR (celk)</th><th class="r">Nákupů v období</th><th class="r">Tržby v období</th></tr></thead>
         <tbody id="auto-table-body"></tbody>
       </table>
     </div>
   </div>
 </main>
-</div>
 
 <script>
 const WORKER = 'https://vehiclass.jsem-72e.workers.dev';
 let days = 30;
 
-// --- ROBUSTNÍ NAVIGACE ---
-document.querySelectorAll('.nav-item').forEach(item => {
-    item.onclick = () => {
-        const view = item.getAttribute('data-view');
-        document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        document.getElementById('view-' + view).classList.add('active');
-        item.classList.add('active');
-        document.getElementById('ptitle').innerText = item.innerText;
-    };
-});
+// --- NAVIGACE ---
+function initNav() {
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.onclick = () => {
+            const view = item.getAttribute('data-view');
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.getElementById('view-' + view).classList.add('active');
+            item.classList.add('active');
+            document.getElementById('ptitle').innerText = item.innerText;
+        };
+    });
 
-document.querySelectorAll('.seg-btn').forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('on'));
-        btn.classList.add('on');
-        days = parseInt(btn.getAttribute('data-d'));
-        loadData();
-    };
-});
+    document.querySelectorAll('.seg-btn').forEach(btn => {
+        btn.onclick = () => {
+            document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('on'));
+            btn.classList.add('on');
+            days = parseInt(btn.getAttribute('data-d'));
+            loadData();
+        };
+    });
 
-document.getElementById('refresh-btn').onclick = () => loadData();
+    document.getElementById('refresh-btn').onclick = () => loadData();
+}
 
-// --- POMOCNÍCI ---
 const czk = v => Math.round(v || 0).toLocaleString('cs-CZ') + ' Kč';
 const pct = v => (v || 0).toFixed(1) + '%';
 const num = v => Math.round(v || 0).toLocaleString('cs-CZ');
 
 async function api(path) {
     const r = await fetch(`${WORKER}?path=${encodeURIComponent(path)}`);
-    if (!r.ok) throw new Error(`API Error ${r.status}`);
-    return r.json();
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.message || `Chyba API ${r.status}`);
+    return data;
 }
 
-// --- LOGIKA DAT ---
 async function loadData() {
     const loader = document.getElementById('loader-wrap');
     const lbar = document.getElementById('loader-bar');
@@ -180,17 +177,16 @@ async function loadData() {
     lbar.style.width = '10%';
     ebar.style.display = 'none';
 
-    const dateTo = new Date();
-    dateTo.setDate(dateTo.getDate() + 1); // Zachytit i dnešek
-    const dateFrom = new Date();
-    dateFrom.setDate(dateFrom.getDate() - days);
+    const dTo = new Date(); dTo.setHours(23,59,59);
+    const dFrom = new Date(); dFrom.setDate(dFrom.getDate() - days); dFrom.setHours(0,0,0);
     
-    const dfStr = dateFrom.toISOString().split('T')[0];
-    const dtStr = dateTo.toISOString().split('T')[0];
-    document.getElementById('psub').innerText = `Období: ${dateFrom.toLocaleDateString('cs-CZ')} – ${new Date().toLocaleDateString('cs-CZ')}`;
+    document.getElementById('psub').innerText = `Období: ${dFrom.toLocaleDateString('cs-CZ')} – ${new Date().toLocaleDateString('cs-CZ')}`;
 
     try {
-        // 1. Kampaně a Seznam automatizací
+        const dfStr = dFrom.toISOString().split('T')[0];
+        const dtStr = dTo.toISOString().split('T')[0];
+
+        // 1. Základní načtení
         const [campaigns, pipelines, transactions] = await Promise.all([
             api(`/campaigns?filters[date_from]=${dfStr}&filters[date_to]=${dtStr}&filters[status]=3`),
             api('/pipelines'),
@@ -199,71 +195,78 @@ async function loadData() {
 
         lbar.style.width = '40%';
 
-        // Mapa transakcí pro bleskové párování
+        // Mapa transakcí (Kdo nakoupil v období)
         const txMap = new Map();
         if (transactions.data) {
             transactions.data.forEach(t => {
                 const email = t.email.toLowerCase().trim();
-                txMap.set(email, (txMap.get(email) || 0) + parseFloat(t.amount || 0));
+                if(!txMap.has(email)) txMap.set(email, []);
+                txMap.get(email).push({ amount: parseFloat(t.amount || 0), date: new Date(t.created_at || t.date) });
             });
         }
 
         let cRev = 0, cOrd = 0, aRev = 0, aOrd = 0;
         let cTable = '', ovTable = '', aTable = '';
 
-        // 2. STATISTIKY KAMPANÍ
+        // 2. KAMPANĚ
         for (const c of (campaigns || [])) {
             const stats = await api(`/campaigns/${c.id}/stats`);
             const s = stats.stats || {};
             const rev = parseFloat(s.conversions_value || 0);
-            cRev += rev;
-            cOrd += parseInt(s.conversions || 0);
+            cRev += rev; cOrd += parseInt(s.conversions || 0);
             
-            const row = `<tr><td><strong>${c.title}</strong></td><td class="r">${c.sent_at.split(' ')[0]}</td><td class="r">${num(s.send)}</td><td class="r">${pct(s.open_rate)}</td><td class="r">${pct(s.click_rate)}</td><td class="r rev-val">${czk(rev)}</td></tr>`;
-            cTable += row;
+            cTable += `<tr><td><strong>${c.title}</strong></td><td class="r">${c.sent_at.split(' ')[0]}</td><td class="r">${num(s.send)}</td><td class="r">${pct(s.open_rate)}</td><td class="r">${pct(s.click_rate)}</td><td class="r rev-val">${czk(rev)}</td></tr>`;
             ovTable += `<tr><td>${c.title}</td><td class="r">${num(s.send)}</td><td class="r">${pct(s.open_rate)}</td><td class="r rev-val">${czk(rev)}</td></tr>`;
         }
 
         lbar.style.width = '70%';
 
-        // 3. STATISTIKY AUTOMATIZACÍ (Párování s sent_at)
+        // 3. AUTOMATIZACE (Párování nákupů s odesláním v období)
         for (const p of (pipelines || [])) {
             const detail = await api(`/pipelines/${p.id}/stats/detail?per_page=2000`);
             const stats = await api(`/pipelines/${p.id}/stats`);
             const s = stats.stats || {};
             
-            let pRev = 0, pOrd = 0;
+            let pRev = 0, pOrd = 0, pCount = 0;
             if (detail.data) {
                 detail.data.forEach(sub => {
                     const email = sub.email.toLowerCase().trim();
                     const sentAt = new Date(sub.sent_at);
                     
-                    // KLÍČOVÉ: Započítáme jen pokud mu e-mail přišel v našem období
-                    if (sentAt >= dateFrom && sentAt <= dateTo && txMap.has(email)) {
-                        pRev += txMap.get(email);
-                        pOrd++;
+                    // Počítáme lidi, kteří dostali e-mail v tomto období
+                    if (sentAt >= dFrom && sentAt <= dTo) {
+                        pCount++;
+                        // Pokud tento člověk ZÁROVEŇ nakoupil v našem období
+                        if (txMap.has(email)) {
+                            const purchases = txMap.get(email);
+                            purchases.forEach(px => {
+                                // Nákup musí proběhnout PO odeslání e-mailu (nebo ve stejný den)
+                                if (px.date >= sentAt) {
+                                    pRev += px.amount;
+                                    pOrd++;
+                                }
+                            });
+                        }
                     }
                 });
             }
 
-            aRev += pRev;
-            aOrd += pOrd;
-
-            if (pRev > 0 || pOrd > 0) {
-                aTable += `<tr><td><strong>${p.name}</strong></td><td class="r">${num(s.total)}</td><td class="r">${pct(s.open_rate)}</td><td class="r">${pOrd}</td><td class="r rev-val">${czk(pRev)}</td></tr>`;
+            aRev += pRev; aOrd += pOrd;
+            if (pCount > 0 || pRev > 0) {
+                aTable += `<tr><td><strong>${p.name}</strong></td><td class="r">${num(pCount)}</td><td class="r">${pct(s.open_rate)}</td><td class="r">${pOrd}</td><td class="r rev-val">${czk(pRev)}</td></tr>`;
             }
         }
 
-        // 4. VYKRESLENÍ
+        // 4. Vykreslení KPI
         document.getElementById('k-total-rev').innerText = czk(cRev + aRev);
         document.getElementById('k-camp-rev').innerText = czk(cRev);
-        document.getElementById('k-camp-note').innerText = `${cOrd} objednávek v období`;
+        document.getElementById('k-camp-note').innerText = `${cOrd} objednávek`;
         document.getElementById('k-auto-rev').innerText = czk(aRev);
         document.getElementById('k-auto-note').innerText = `${aOrd} objednávek v období`;
 
         document.getElementById('ov-table-body').innerHTML = ovTable || '<tr><td colspan="4">Žádná data</td></tr>';
         document.getElementById('camp-table-body').innerHTML = cTable || '<tr><td colspan="6">Žádná data</td></tr>';
-        document.getElementById('auto-table-body').innerHTML = aTable || '<tr><td colspan="5">Žádné automatizace neměly v období konverzi</td></tr>';
+        document.getElementById('auto-table-body').innerHTML = aTable || '<tr><td colspan="5">Žádné konverze v období</td></tr>';
 
     } catch (e) {
         ebar.innerText = "Chyba: " + e.message;
@@ -275,7 +278,7 @@ async function loadData() {
     }
 }
 
-// Start
+initNav();
 loadData();
 </script>
 </body>
