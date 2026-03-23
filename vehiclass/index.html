@@ -15,129 +15,268 @@
   --accent: #1a6eff; --accent-bg: #eef3ff;
   --green: #16a34a; --green-bg: #f0fdf4;
   --red: #dc2626; --red-bg: #fef2f2;
-  --amber: #d97706; --amber-bg: #fffbeb;
   --r: 12px; --rs: 8px;
 }
-body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; font-size:14px; line-height:1.5; }
+body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; font-size:14px; }
 .shell { display:flex; min-height:100vh; }
 
-.sidebar { width:224px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); display:flex; flex-direction:column; position:fixed; top:0; left:0; height:100vh; z-index:100; }
+/* Sidebar */
+.sidebar { width:224px; flex-shrink:0; background:var(--surface); border-right:1px solid var(--border); position:fixed; height:100vh; z-index:1000; }
 .logo { padding:22px 20px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:11px; }
-.logo-mark { width:34px; height:34px; background:var(--accent); border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.logo-name { font-weight:600; font-size:15px; letter-spacing:-.3px; }
-.logo-sub { font-size:11px; color:var(--text-faint); }
-nav { padding:14px 10px; flex:1; }
-.nav-item { display:flex; align-items:center; gap:9px; padding:8px 10px; border-radius:var(--rs); cursor:pointer; color:var(--text-muted); font-size:13.5px; border:none; background:none; width:100%; text-align:left; transition:all .15s; font-family:'DM Sans',sans-serif; }
+.logo-mark { width:34px; height:34px; background:var(--accent); border-radius:9px; display:flex; align-items:center; justify-content:center; }
+.logo-name { font-weight:600; font-size:15px; }
+nav { padding:14px 10px; }
+.nav-item { display:flex; align-items:center; gap:9px; padding:10px; border-radius:var(--rs); cursor:pointer; color:var(--text-muted); border:none; background:none; width:100%; text-align:left; font-family:inherit; margin-bottom:4px; transition: 0.2s; }
 .nav-item:hover { background:var(--bg); color:var(--text); }
 .nav-item.active { background:var(--accent-bg); color:var(--accent); font-weight:500; }
-.sfooter { padding:16px; border-top:1px solid var(--border); }
-.spill { background:var(--bg); border-radius:var(--rs); padding:9px 12px; font-size:12px; color:var(--text-muted); display:flex; align-items:center; gap:7px; }
-.sdot { width:7px; height:7px; border-radius:50%; flex-shrink:0; background:var(--green); }
-.sdot.ld { background:var(--amber); animation:blink 1.2s ease-in-out infinite; }
-.sdot.er { background:var(--red); }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
 
-.main { flex:1; margin-left:224px; padding:30px 36px 60px; min-width:0; }
-.topbar { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:30px; gap:16px; flex-wrap:wrap; }
-.ptitle { font-size:21px; font-weight:600; letter-spacing:-.45px; }
-.psub { font-size:13px; color:var(--text-muted); margin-top:3px; }
-.tctrl { display:flex; align-items:center; gap:10px; flex-shrink:0; flex-wrap:wrap; }
+/* Content */
+.main { flex:1; margin-left:224px; padding:30px 40px; min-width:0; }
+.topbar { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px; }
+.ptitle { font-size:22px; font-weight:600; letter-spacing:-0.5px; }
+.psub { font-size:13px; color:var(--text-muted); margin-top:4px; }
 
 .seg { display:flex; background:var(--surface); border:1px solid var(--border); border-radius:var(--rs); overflow:hidden; }
-.seg-btn { padding:7px 13px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:none; background:none; cursor:pointer; color:var(--text-muted); border-right:1px solid var(--border); transition:all .15s; white-space:nowrap; }
-.seg-btn:hover { background:var(--bg); color:var(--text); }
+.seg-btn { padding:7px 14px; font-size:12.5px; border:none; background:none; cursor:pointer; border-right:1px solid var(--border); }
 .seg-btn.on { background:var(--accent); color:#fff; }
 
-.ibtn { display:flex; align-items:center; gap:6px; padding:7px 13px; font-size:12.5px; font-family:'DM Sans',sans-serif; font-weight:500; border:1px solid var(--border); background:var(--surface); border-radius:var(--rs); cursor:pointer; color:var(--text-muted); transition:all .15s; }
-.ibtn:hover { background:var(--bg); }
-.ibtn svg { width:14px; height:14px; }
-.ibtn.sp svg { animation:spin 1s linear infinite; }
-@keyframes spin { to { transform:rotate(360deg); } }
+/* KPI */
+.krow { display:grid; gap:16px; margin-bottom:24px; grid-template-columns:repeat(3,1fr); }
+.kcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:20px; }
+.klbl { font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; margin-bottom:8px; }
+.kval { font-size:28px; font-weight:600; font-family:'DM Mono',monospace; }
+.knote { font-size:12px; color:var(--text-muted); margin-top:4px; }
 
-.ebar { display:none; background:var(--red-bg); border:1px solid var(--red); border-radius:var(--rs); padding:12px 16px; color:var(--red); font-size:13px; margin-bottom:22px; line-height:1.5; }
-
-.krow { display:grid; gap:14px; margin-bottom:22px; }
-.k3 { grid-template-columns:repeat(3,1fr); }
-.kcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 20px; position:relative; overflow:hidden; }
-.klbl { font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; letter-spacing:.07em; margin-bottom:9px; }
-.kval { font-size:30px; font-weight:600; letter-spacing:-1.2px; line-height:1; margin-bottom:7px; font-family:'DM Mono',monospace; }
-.knote { font-size:12px; color:var(--text-muted); min-height:18px; }
-
-.sec { margin-bottom:24px; }
-.shead { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-.stitle { font-size:15px; font-weight:600; letter-spacing:-.2px; }
-.smeta { font-size:12px; color:var(--text-faint); }
+/* Tables */
+.view-section { display:none; }
+.view-section.active { display:block; }
 .tcard { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
-table { width:100%; border-collapse:collapse; }
-thead th { padding:10px 16px; text-align:left; font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.07em; color:var(--text-faint); background:var(--bg); border-bottom:1px solid var(--border); white-space:nowrap; }
-thead th.r { text-align:right; }
-tbody tr { border-bottom:1px solid var(--border); }
-tbody tr:last-child { border-bottom:none; }
-tbody tr:hover { background:var(--bg); }
-td { padding:11px 16px; font-size:13px; }
-td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; color:var(--text-muted); }
-.tn { font-weight:500; font-size:13px; max-width:260px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.ts { font-size:11.5px; color:var(--text-faint); margin-top:2px; }
-.badge { display:inline-flex; align-items:center; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500; white-space:nowrap; }
-.bg { background:var(--green-bg); color:var(--green); }
-.ba { background:var(--amber-bg); color:var(--amber); }
+table { width:100%; border-collapse:collapse; text-align:left; }
+thead th { padding:12px 16px; font-size:11px; font-weight:600; color:var(--text-faint); text-transform:uppercase; background:var(--bg); border-bottom:1px solid var(--border); }
+td { padding:14px 16px; border-bottom:1px solid var(--border); font-size:13.5px; }
+.r { text-align:right; }
+.rev-val { color:var(--green); font-weight:600; font-family:'DM Mono'; }
 
-.empty { padding:44px 20px; text-align:center; color:var(--text-faint); font-size:13px; }
-.view { display:none; } 
-
-.prog-wrap { background:var(--bg); border:1px solid var(--border); border-radius:var(--rs); padding:12px 16px; margin-bottom:18px; display:none; }
-.prog-lbl { font-size:12px; color:var(--text-muted); margin-bottom:8px; }
-.prog-bar { height:4px; background:var(--border2); border-radius:2px; overflow:hidden; }
-.prog-fill { height:100%; background:var(--accent); border-radius:2px; transition:width .4s; }
+/* Loader */
+#loader-wrap { position:fixed; top:0; left:0; width:100%; height:3px; z-index:2000; display:none; }
+#loader-bar { height:100%; background:var(--accent); width:0%; transition:width 0.3s; }
+.ebar { background:var(--red-bg); color:var(--red); padding:12px; border-radius:8px; margin-bottom:20px; display:none; font-size:13px; }
 </style>
 </head>
 <body>
-<div class="shell">
 
+<div id="loader-wrap"><div id="loader-bar"></div></div>
+
+<div class="shell">
 <aside class="sidebar">
   <div class="logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 19 19" fill="none"><rect x="2" y="2.5" width="15" height="10" rx="2.5" stroke="white" stroke-width="1.6"/><path d="M2 7l7.5 4.5L17 7" stroke="white" stroke-width="1.6"/><path d="M5 16h9M7 16v-3.5M12 16v-3.5" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>
-    </div>
-    <div><div class="logo-name">Vehiclass</div><div class="logo-sub">Email Analytics</div></div>
+    <div class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M21 21H3V3h18v18zM8 15h2v-2H8v2zm0-4h2V9H8v2zm4 4h2v-2h-2v2zm0-4h2V9h-2v2zm4 4h2v-2h-2v2zm0-4h2V9h-2v2z"/></svg></div>
+    <div><div class="logo-name">Vehiclass</div></div>
   </div>
   <nav>
-    <button class="nav-item active" id="nav-overview" onclick="goView('overview')">Přehled</button>
-    <button class="nav-item" id="nav-campaigns" onclick="goView('campaigns')">Kampaně</button>
-    <button class="nav-item" id="nav-automations" onclick="goView('automations')">Automatizace</button>
+    <button class="nav-item active" data-view="overview">Přehled</button>
+    <button class="nav-item" data-view="campaigns">Kampaně</button>
+    <button class="nav-item" data-view="automations">Automatizace</button>
   </nav>
-  <div class="sfooter">
-    <div class="spill"><div class="sdot ld" id="sdot"></div><span id="slbl">Čekám...</span></div>
-  </div>
 </aside>
 
 <main class="main">
-  <div class="ebar" id="ebar"></div>
+  <div id="error-bar" class="ebar"></div>
 
   <div class="topbar">
     <div>
       <div class="ptitle" id="ptitle">Přehled</div>
-      <div class="psub" id="psub"></div>
+      <div class="psub" id="psub">Načítám období...</div>
     </div>
-    <div class="tctrl" id="time-controls">
+    <div class="tctrl">
       <div class="seg">
-        <button class="seg-btn" id="btn-7" onclick="setPreset(7)">7 dní</button>
-        <button class="seg-btn on" id="btn-30" onclick="setPreset(30)">30 dní</button>
-        <button class="seg-btn" id="btn-90" onclick="setPreset(90)">3 měs.</button>
+        <button class="seg-btn" data-d="7">7 dní</button>
+        <button class="seg-btn on" data-d="30">30 dní</button>
+        <button class="seg-btn" data-d="90">3 měs.</button>
       </div>
-      <button class="ibtn" id="rbtn" onclick="loadAll()">
-        <svg viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 112 7M12 7V4M12 7h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Obnovit
-      </button>
+      <button class="ibtn" id="refresh-btn" style="margin-left:10px; padding:7px; cursor:pointer; background:white; border:1px solid var(--border); border-radius:8px;">Obnovit</button>
     </div>
   </div>
 
-  <div class="prog-wrap" id="prog-wrap">
-    <div class="prog-lbl" id="prog-lbl">Načítám data…</div>
-    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  <div id="view-overview" class="view-section active">
+    <div class="krow">
+      <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-total-rev" class="kval">—</div><div class="knote">Kampaně + Automaty</div></div>
+      <div class="kcard"><div class="klbl">Tržby z kampaní</div><div id="k-camp-rev" class="kval">—</div><div id="k-camp-note" class="knote">&nbsp;</div></div>
+      <div class="kcard"><div class="klbl">Tržby z automatizací</div><div id="k-auto-rev" class="kval">—</div><div id="k-auto-note" class="knote">&nbsp;</div></div>
+    </div>
+    <div class="tcard">
+      <table>
+        <thead><tr><th>Poslední Kampaně</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">Tržby</th></tr></thead>
+        <tbody id="ov-table-body"></tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="view" id="vw-overview" style="display:block;">
-    <div class="krow k3">
-      <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-rev-total" class="kval">—</div><div class="knote" id="k-rev-total-n">Za vybrané období</div></div>
-      <div class="kcard"><div
+  <div id="view-campaigns" class="view-section">
+    <div class="tcard">
+      <table>
+        <thead><tr><th>Název kampaně</th><th class="r">Datum</th><th class="r">Příjemci</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Tržby</th></tr></thead>
+        <tbody id="camp-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="view-automations" class="view-section">
+    <div class="tcard">
+      <table>
+        <thead><tr><th>Název automatizace</th><th class="r">Aktivních lidí</th><th class="r">OR (celk)</th><th class="r">Objednávky (období)</th><th class="r">Tržby (období)</th></tr></thead>
+        <tbody id="auto-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+</div>
+
+<script>
+const WORKER = 'https://vehiclass.jsem-72e.workers.dev';
+let days = 30;
+
+// --- ROBUSTNÍ NAVIGACE ---
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.onclick = () => {
+        const view = item.getAttribute('data-view');
+        document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.getElementById('view-' + view).classList.add('active');
+        item.classList.add('active');
+        document.getElementById('ptitle').innerText = item.innerText;
+    };
+});
+
+document.querySelectorAll('.seg-btn').forEach(btn => {
+    btn.onclick = () => {
+        document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        days = parseInt(btn.getAttribute('data-d'));
+        loadData();
+    };
+});
+
+document.getElementById('refresh-btn').onclick = () => loadData();
+
+// --- POMOCNÍCI ---
+const czk = v => Math.round(v || 0).toLocaleString('cs-CZ') + ' Kč';
+const pct = v => (v || 0).toFixed(1) + '%';
+const num = v => Math.round(v || 0).toLocaleString('cs-CZ');
+
+async function api(path) {
+    const r = await fetch(`${WORKER}?path=${encodeURIComponent(path)}`);
+    if (!r.ok) throw new Error(`API Error ${r.status}`);
+    return r.json();
+}
+
+// --- LOGIKA DAT ---
+async function loadData() {
+    const loader = document.getElementById('loader-wrap');
+    const lbar = document.getElementById('loader-bar');
+    const ebar = document.getElementById('error-bar');
+    
+    loader.style.display = 'block';
+    lbar.style.width = '10%';
+    ebar.style.display = 'none';
+
+    const dateTo = new Date();
+    dateTo.setDate(dateTo.getDate() + 1); // Zachytit i dnešek
+    const dateFrom = new Date();
+    dateFrom.setDate(dateFrom.getDate() - days);
+    
+    const dfStr = dateFrom.toISOString().split('T')[0];
+    const dtStr = dateTo.toISOString().split('T')[0];
+    document.getElementById('psub').innerText = `Období: ${dateFrom.toLocaleDateString('cs-CZ')} – ${new Date().toLocaleDateString('cs-CZ')}`;
+
+    try {
+        // 1. Kampaně a Seznam automatizací
+        const [campaigns, pipelines, transactions] = await Promise.all([
+            api(`/campaigns?filters[date_from]=${dfStr}&filters[date_to]=${dtStr}&filters[status]=3`),
+            api('/pipelines'),
+            api(`/tracker/transaction?date_from=${dfStr}&date_to=${dtStr}&per_page=2000`)
+        ]);
+
+        lbar.style.width = '40%';
+
+        // Mapa transakcí pro bleskové párování
+        const txMap = new Map();
+        if (transactions.data) {
+            transactions.data.forEach(t => {
+                const email = t.email.toLowerCase().trim();
+                txMap.set(email, (txMap.get(email) || 0) + parseFloat(t.amount || 0));
+            });
+        }
+
+        let cRev = 0, cOrd = 0, aRev = 0, aOrd = 0;
+        let cTable = '', ovTable = '', aTable = '';
+
+        // 2. STATISTIKY KAMPANÍ
+        for (const c of (campaigns || [])) {
+            const stats = await api(`/campaigns/${c.id}/stats`);
+            const s = stats.stats || {};
+            const rev = parseFloat(s.conversions_value || 0);
+            cRev += rev;
+            cOrd += parseInt(s.conversions || 0);
+            
+            const row = `<tr><td><strong>${c.title}</strong></td><td class="r">${c.sent_at.split(' ')[0]}</td><td class="r">${num(s.send)}</td><td class="r">${pct(s.open_rate)}</td><td class="r">${pct(s.click_rate)}</td><td class="r rev-val">${czk(rev)}</td></tr>`;
+            cTable += row;
+            ovTable += `<tr><td>${c.title}</td><td class="r">${num(s.send)}</td><td class="r">${pct(s.open_rate)}</td><td class="r rev-val">${czk(rev)}</td></tr>`;
+        }
+
+        lbar.style.width = '70%';
+
+        // 3. STATISTIKY AUTOMATIZACÍ (Párování s sent_at)
+        for (const p of (pipelines || [])) {
+            const detail = await api(`/pipelines/${p.id}/stats/detail?per_page=2000`);
+            const stats = await api(`/pipelines/${p.id}/stats`);
+            const s = stats.stats || {};
+            
+            let pRev = 0, pOrd = 0;
+            if (detail.data) {
+                detail.data.forEach(sub => {
+                    const email = sub.email.toLowerCase().trim();
+                    const sentAt = new Date(sub.sent_at);
+                    
+                    // KLÍČOVÉ: Započítáme jen pokud mu e-mail přišel v našem období
+                    if (sentAt >= dateFrom && sentAt <= dateTo && txMap.has(email)) {
+                        pRev += txMap.get(email);
+                        pOrd++;
+                    }
+                });
+            }
+
+            aRev += pRev;
+            aOrd += pOrd;
+
+            if (pRev > 0 || pOrd > 0) {
+                aTable += `<tr><td><strong>${p.name}</strong></td><td class="r">${num(s.total)}</td><td class="r">${pct(s.open_rate)}</td><td class="r">${pOrd}</td><td class="r rev-val">${czk(pRev)}</td></tr>`;
+            }
+        }
+
+        // 4. VYKRESLENÍ
+        document.getElementById('k-total-rev').innerText = czk(cRev + aRev);
+        document.getElementById('k-camp-rev').innerText = czk(cRev);
+        document.getElementById('k-camp-note').innerText = `${cOrd} objednávek v období`;
+        document.getElementById('k-auto-rev').innerText = czk(aRev);
+        document.getElementById('k-auto-note').innerText = `${aOrd} objednávek v období`;
+
+        document.getElementById('ov-table-body').innerHTML = ovTable || '<tr><td colspan="4">Žádná data</td></tr>';
+        document.getElementById('camp-table-body').innerHTML = cTable || '<tr><td colspan="6">Žádná data</td></tr>';
+        document.getElementById('auto-table-body').innerHTML = aTable || '<tr><td colspan="5">Žádné automatizace neměly v období konverzi</td></tr>';
+
+    } catch (e) {
+        ebar.innerText = "Chyba: " + e.message;
+        ebar.style.display = 'block';
+        console.error(e);
+    } finally {
+        lbar.style.width = '100%';
+        setTimeout(() => { loader.style.display = 'none'; lbar.style.width = '0%'; }, 500);
+    }
+}
+
+// Start
+loadData();
+</script>
+</body>
+</html>
