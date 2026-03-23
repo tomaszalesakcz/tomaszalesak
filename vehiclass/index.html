@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehiclass Analytics</title>
+    <title>Vehiclass Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,16 +12,16 @@
             --radius: 12px;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; }
         
         /* Sidebar */
-        .sidebar { width: 240px; background: white; border-right: 1px solid var(--border); position: fixed; height: 100vh; padding: 24px; z-index: 100; }
-        .logo { font-weight: 600; font-size: 20px; margin-bottom: 40px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+        .sidebar { width: 240px; background: white; border-right: 1px solid var(--border); position: fixed; height: 100vh; padding: 24px; z-index: 1000; }
+        .logo { font-weight: 600; font-size: 20px; margin-bottom: 40px; color: var(--accent); display: flex; align-items: center; gap: 10px; }
         .nav-item { padding: 12px 16px; margin-bottom: 8px; cursor: pointer; border-radius: 8px; color: var(--muted); transition: 0.2s; font-weight: 500; }
         .nav-item:hover { background: #f0f4ff; color: var(--accent); }
         .nav-item.active { background: var(--accent); color: white; }
         
-        /* Main */
+        /* Main Section */
         .main { margin-left: 240px; flex: 1; padding: 40px; width: calc(100% - 240px); }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
         .controls { display: flex; gap: 8px; background: white; padding: 4px; border-radius: 10px; border: 1px solid var(--border); }
@@ -30,22 +30,23 @@
 
         /* KPI Cards */
         .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 32px; }
-        .card { background: white; padding: 24px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .card { background: white; padding: 24px; border-radius: var(--radius); border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .card .lbl { font-size: 11px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px; }
         .card .val { font-size: 28px; font-weight: 600; font-family: 'DM Mono', monospace; letter-spacing: -1px; }
 
-        /* Tables */
+        /* View Content */
         .view { display: none; }
         .view.active { display: block; }
         .table-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); overflow-x: auto; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        th { background: #fcfcfd; padding: 16px; font-size: 11px; color: var(--muted); text-transform: uppercase; border-bottom: 1px solid var(--border); text-align: left; letter-spacing: 0.5px; }
+        th { background: #fcfcfd; padding: 16px; font-size: 11px; color: var(--muted); text-transform: uppercase; border-bottom: 1px solid var(--border); text-align: left; }
         td { padding: 16px; border-bottom: 1px solid var(--border); font-size: 14px; color: #333; }
         tr:hover td { background: #fcfcfd; }
         .rev-val { font-weight: 600; color: var(--green); font-family: 'DM Mono', monospace; }
 
-        /* Loader */
-        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: transparent; z-index: 1000; }
+        /* Progress Bar */
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: transparent; z-index: 2000; }
         #loader-bar { height: 100%; width: 0%; background: var(--accent); transition: width 0.3s ease; }
     </style>
 </head>
@@ -58,16 +59,16 @@
         <div style="width:24px; height:24px; background:var(--accent); border-radius:6px;"></div>
         Vehiclass
     </div>
-    <div class="nav-item active" onclick="goView('overview', this)">Přehled</div>
-    <div class="nav-item" onclick="goView('campaigns', this)">Kampaně</div>
-    <div class="nav-item" onclick="goView('automations', this)">Automatizace</div>
+    <div class="nav-item active" id="nav-overview" onclick="goView('overview')">Přehled</div>
+    <div class="nav-item" id="nav-campaigns" onclick="goView('campaigns')">Kampaně</div>
+    <div class="nav-item" id="nav-automations" onclick="goView('automations')">Automatizace</div>
 </aside>
 
 <main class="main">
     <header class="header">
         <div>
-            <h1 id="page-title" style="font-size: 24px; letter-spacing: -0.5px;">Dashboard</h1>
-            <p id="date-label" style="color: var(--muted); font-size: 13px; margin-top: 4px;">Načítám období...</p>
+            <h1 id="page-title">Dashboard</h1>
+            <p id="date-label" style="color: var(--muted); font-size: 13px; margin-top: 4px;">Načítám data...</p>
         </div>
         <div class="controls">
             <button class="btn-p" onclick="updateDate(7, this)">7 dní</button>
@@ -78,14 +79,23 @@
 
     <div id="vw-overview" class="view active">
         <div class="kpi-grid">
-            <div class="card"><div class="lbl">Tržby celkem</div><div class="val" id="total-revenue">0 Kč</div></div>
-            <div class="card"><div class="lbl">Tržby z automatizací</div><div class="val" id="auto-revenue">0 Kč</div></div>
-            <div class="card"><div class="lbl">Objednávky</div><div class="val" id="total-orders">0</div></div>
+            <div class="card" onclick="goView('overview')">
+                <div class="lbl">Tržby celkem</div>
+                <div class="val" id="total-revenue">0 Kč</div>
+            </div>
+            <div class="card" onclick="goView('campaigns')">
+                <div class="lbl">Tržby z kampaní</div>
+                <div class="val" id="camp-revenue-kpi">0 Kč</div>
+            </div>
+            <div class="card" onclick="goView('automations')">
+                <div class="lbl">Tržby z automatizací</div>
+                <div class="val" id="auto-revenue">0 Kč</div>
+            </div>
         </div>
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr><th>Zdroj</th><th>Typ</th><th>Odesláno</th><th>Open Rate</th><th>Tržby</th></tr>
+                    <tr><th>Zdroj</th><th>Typ</th><th>Příjemci</th><th>Open Rate</th><th>Tržby</th></tr>
                 </thead>
                 <tbody id="overview-body"></tbody>
             </table>
@@ -119,14 +129,91 @@
     const WORKER_URL = 'https://vehiclass.jsem-72e.workers.dev'; 
     let days = 30;
 
-    function goView(viewId, btn) {
+    // Funkce pro přepínání pohledů (Views)
+    function goView(viewId) {
+        // Skrýt všechny pohledy
         document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        // Deaktivovat všechny položky v navigaci
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        document.getElementById('vw-' + viewId).classList.add('active');
-        btn.classList.add('active');
-        document.getElementById('page-title').innerText = btn.innerText;
+        
+        // Aktivovat vybraný pohled
+        const targetView = document.getElementById('vw-' + viewId);
+        const targetNav = document.getElementById('nav-' + viewId);
+        const title = document.getElementById('page-title');
+
+        if (targetView) targetView.classList.add('active');
+        if (targetNav) targetNav.classList.add('active');
+        
+        const titles = { overview: 'Celkový přehled', campaigns: 'Detail kampaní', automations: 'Detail automatizací' };
+        title.innerText = titles[viewId] || 'Dashboard';
     }
 
     async function apiFetch(path) {
-        const res = await fetch(`${WORKER_URL}?path=${encodeURIComponent(path)}`);
-        const
+        try {
+            const res = await fetch(`${WORKER_URL}?path=${encodeURIComponent(path)}`);
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || data.error || 'Chyba API');
+            return data;
+        } catch (e) {
+            console.error("Fetch error:", e);
+            throw e;
+        }
+    }
+
+    function updateDate(d, btn) {
+        days = d;
+        document.querySelectorAll('.btn-p').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        loadAll();
+    }
+
+    async function loadAll() {
+        const loader = document.getElementById('loader-bar');
+        const title = document.getElementById('page-title');
+        loader.style.width = '20%';
+        title.style.color = 'black';
+        
+        const dateTo = new Date().toISOString().split('T')[0];
+        const dateFrom = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+        document.getElementById('date-label').innerText = `Období: ${dateFrom} až ${dateTo}`;
+
+        try {
+            const [campaigns, pipelines, transactions] = await Promise.all([
+                apiFetch(`/campaigns?filters[date_from]=${dateFrom}&filters[date_to]=${dateTo}&filters[status]=3`),
+                apiFetch('/pipelines'),
+                apiFetch(`/tracker/transaction?date_from=${dateFrom}&date_to=${dateTo}&per_page=2000`)
+            ]);
+
+            loader.style.width = '50%';
+
+            // Mapa nákupů pro párování
+            const txMap = new Map();
+            if (transactions.data) {
+                transactions.data.forEach(t => {
+                    const email = (t.email || '').toLowerCase().trim();
+                    if (email) txMap.set(email, (txMap.get(email) || 0) + parseFloat(t.amount || 0));
+                });
+            }
+
+            let totalRev = 0;
+            let campRevTotal = 0;
+            let autoRevTotal = 0;
+            let campHtml = '', autoHtml = '', ovHtml = '';
+
+            // Zpracování kampaní
+            for (const camp of (campaigns || [])) {
+                const sRes = await apiFetch(`/campaigns/${camp.id}/stats`);
+                const s = sRes.stats;
+                const rev = parseFloat(s.conversions_value || 0);
+                campRevTotal += rev;
+                totalRev += rev;
+                
+                const row = `<tr><td><strong>${camp.title}</strong></td><td>${camp.sent_at.split(' ')[0]}</td><td>${s.send}</td><td>${s.open_rate}%</td><td>${s.click_rate}%</td><td class="rev-val">${Math.round(rev).toLocaleString()} Kč</td></tr>`;
+                campHtml += row;
+                ovHtml += `<tr><td>${camp.title}</td><td>Kampaň</td><td>${s.send}</td><td>${s.open_rate}%</td><td class="rev-val">${Math.round(rev).toLocaleString()} Kč</td></tr>`;
+            }
+
+            loader.style.width = '80%';
+
+            // Zpracování automatizací
+            for (const pipe of (pipelines || [])) {
