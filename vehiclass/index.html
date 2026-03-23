@@ -1,90 +1,132 @@
-async function apiFetch(path) {
-    const res = await fetch(`${WORKER_URL}?path=${encodeURIComponent(path)}`);
-    const data = await res.json();
-    
-    if (!res.ok) {
-        // Pokud nastane chyba, vypíšeme ji podrobně
-        console.error("Ecomail API Error:", data);
-        const errorMsg = data.message || data.error || `HTTP ${res.status}`;
-        throw new Error(`API Chyba: ${errorMsg}`);
-    }
-    return data;
-}
-
-async function loadAll() {
-    const loader = document.getElementById('loader-bar');
-    loader.style.width = '30%';
-    
-    // Vyčistíme staré chyby
-    document.getElementById('page-title').style.color = 'black';
-
-    const dateTo = new Date().toISOString().split('T')[0];
-    const dateFrom = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-
-    try {
-        // Zkusíme nejprve jednoduchý dotaz na kampaně
-        const campaigns = await apiFetch(`/campaigns?filters[date_from]=${dateFrom}&filters[date_to]=${dateTo}&filters[status]=3`);
-        loader.style.width = '50%';
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehiclass Analytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f9fa; --surface: #ffffff; --text: #1a1a18; --muted: #6b6b67;
+            --accent: #1a6eff; --border: rgba(0,0,0,0.08); --green: #10b981;
+            --radius: 12px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
         
-        const pipelines = await apiFetch('/pipelines');
-        const transactions = await apiFetch(`/tracker/transaction?date_from=${dateFrom}&date_to=${dateTo}&per_page=1000`);
-
-        // ... zbytek kódu pro zpracování dat zůstává stejný ...
-        // (Vložte sem zbytek logiky z předchozího kódu od "const txMap = new Map()...")
+        /* Sidebar */
+        .sidebar { width: 240px; background: white; border-right: 1px solid var(--border); position: fixed; height: 100vh; padding: 24px; z-index: 100; }
+        .logo { font-weight: 600; font-size: 20px; margin-bottom: 40px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+        .nav-item { padding: 12px 16px; margin-bottom: 8px; cursor: pointer; border-radius: 8px; color: var(--muted); transition: 0.2s; font-weight: 500; }
+        .nav-item:hover { background: #f0f4ff; color: var(--accent); }
+        .nav-item.active { background: var(--accent); color: white; }
         
-        // --- ZDE POKRAČUJE LOGIKA ZPRACOVÁNÍ ---
-        const txMap = new Map();
-        let totalOrders = transactions.data ? transactions.data.length : 0;
-        if (transactions.data) {
-            transactions.data.forEach(t => {
-                const email = t.email.toLowerCase();
-                txMap.set(email, (txMap.get(email) || 0) + parseFloat(t.amount));
-            });
-        }
+        /* Main */
+        .main { margin-left: 240px; flex: 1; padding: 40px; width: calc(100% - 240px); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+        .controls { display: flex; gap: 8px; background: white; padding: 4px; border-radius: 10px; border: 1px solid var(--border); }
+        .btn-p { padding: 8px 16px; border: none; background: none; cursor: pointer; border-radius: 6px; font-size: 13px; font-weight: 500; color: var(--muted); }
+        .btn-p.active { background: #f0f4ff; color: var(--accent); }
 
-        let totalRev = 0;
-        let autoRevTotal = 0;
-        let campHtml = '', autoHtml = '', ovHtml = '';
+        /* KPI Cards */
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 32px; }
+        .card { background: white; padding: 24px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .card .lbl { font-size: 11px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .card .val { font-size: 28px; font-weight: 600; font-family: 'DM Mono', monospace; letter-spacing: -1px; }
 
-        for (const camp of (campaigns || [])) {
-            const statsRes = await apiFetch(`/campaigns/${camp.id}/stats`);
-            const s = statsRes.stats;
-            const rev = parseFloat(s.conversions_value || 0);
-            totalRev += rev;
-            campHtml += `<tr><td>${camp.title}</td><td>${camp.sent_at}</td><td>${s.send}</td><td>${s.open_rate}%</td><td>${s.click_rate}%</td><td class="rev-val">${Math.round(rev)} Kč</td></tr>`;
-            ovHtml += `<tr><td>${camp.title}</td><td>Kampaň</td><td>${s.send}</td><td>${s.open_rate}%</td><td class="rev-val">${Math.round(rev)} Kč</td></tr>`;
-        }
+        /* Tables */
+        .view { display: none; }
+        .view.active { display: block; }
+        .table-wrap { background: white; border-radius: var(--radius); border: 1px solid var(--border); overflow-x: auto; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th { background: #fcfcfd; padding: 16px; font-size: 11px; color: var(--muted); text-transform: uppercase; border-bottom: 1px solid var(--border); text-align: left; letter-spacing: 0.5px; }
+        td { padding: 16px; border-bottom: 1px solid var(--border); font-size: 14px; color: #333; }
+        tr:hover td { background: #fcfcfd; }
+        .rev-val { font-weight: 600; color: var(--green); font-family: 'DM Mono', monospace; }
 
-        for (const pipe of (pipelines || [])) {
-            const statsRes = await apiFetch(`/pipelines/${pipe.id}/stats`);
-            const detailRes = await apiFetch(`/pipelines/${pipe.id}/stats/detail?per_page=1000`);
-            const s = statsRes.stats;
-            let pipeRev = 0;
-            if (detailRes.data) {
-                detailRes.data.forEach(sub => {
-                    const email = sub.email.toLowerCase();
-                    if (txMap.has(email)) pipeRev += txMap.get(email);
-                });
-            }
-            autoRevTotal += pipeRev;
-            totalRev += pipeRev;
-            autoHtml += `<tr><td>${pipe.name}</td><td>${s.total}</td><td>${s.open_rate}%</td><td>${s.click_rate}%</td><td class="rev-val">${Math.round(pipeRev)} Kč</td></tr>`;
-            ovHtml += `<tr><td>${pipe.name}</td><td>Auto</td><td>-</td><td>${s.open_rate}%</td><td class="rev-val">${Math.round(pipeRev)} Kč</td></tr>`;
-        }
+        /* Loader */
+        #loader { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: transparent; z-index: 1000; }
+        #loader-bar { height: 100%; width: 0%; background: var(--accent); transition: width 0.3s ease; }
+    </style>
+</head>
+<body>
 
-        document.getElementById('total-revenue').innerText = `${Math.round(totalRev).toLocaleString()} Kč`;
-        document.getElementById('auto-revenue').innerText = `${Math.round(autoRevTotal).toLocaleString()} Kč`;
-        document.getElementById('total-orders').innerText = totalOrders;
-        document.getElementById('overview-body').innerHTML = ovHtml;
-        document.getElementById('campaigns-body').innerHTML = campHtml;
-        document.getElementById('automations-body').innerHTML = autoHtml;
+<div id="loader"><div id="loader-bar"></div></div>
 
-    } catch (e) {
-        console.error("Detail chyby:", e);
-        document.getElementById('page-title').innerText = "Chyba: " + e.message;
-        document.getElementById('page-title').style.color = 'red';
+<aside class="sidebar">
+    <div class="logo">
+        <div style="width:24px; height:24px; background:var(--accent); border-radius:6px;"></div>
+        Vehiclass
+    </div>
+    <div class="nav-item active" onclick="goView('overview', this)">Přehled</div>
+    <div class="nav-item" onclick="goView('campaigns', this)">Kampaně</div>
+    <div class="nav-item" onclick="goView('automations', this)">Automatizace</div>
+</aside>
+
+<main class="main">
+    <header class="header">
+        <div>
+            <h1 id="page-title" style="font-size: 24px; letter-spacing: -0.5px;">Dashboard</h1>
+            <p id="date-label" style="color: var(--muted); font-size: 13px; margin-top: 4px;">Načítám období...</p>
+        </div>
+        <div class="controls">
+            <button class="btn-p" onclick="updateDate(7, this)">7 dní</button>
+            <button class="btn-p active" onclick="updateDate(30, this)">30 dní</button>
+            <button class="btn-p" onclick="updateDate(90, this)">3 měsíce</button>
+        </div>
+    </header>
+
+    <div id="vw-overview" class="view active">
+        <div class="kpi-grid">
+            <div class="card"><div class="lbl">Tržby celkem</div><div class="val" id="total-revenue">0 Kč</div></div>
+            <div class="card"><div class="lbl">Tržby z automatizací</div><div class="val" id="auto-revenue">0 Kč</div></div>
+            <div class="card"><div class="lbl">Objednávky</div><div class="val" id="total-orders">0</div></div>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Zdroj</th><th>Typ</th><th>Odesláno</th><th>Open Rate</th><th>Tržby</th></tr>
+                </thead>
+                <tbody id="overview-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="vw-campaigns" class="view">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Název kampaně</th><th>Datum</th><th>Příjemci</th><th>Open Rate</th><th>CTR</th><th>Tržby</th></tr>
+                </thead>
+                <tbody id="campaigns-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="vw-automations" class="view">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Název automatizace</th><th>Celkem lidí</th><th>Open Rate</th><th>CTR</th><th>Tržby v období</th></tr>
+                </thead>
+                <tbody id="automations-body"></tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<script>
+    const WORKER_URL = 'https://vehiclass.jsem-72e.workers.dev'; 
+    let days = 30;
+
+    function goView(viewId, btn) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.getElementById('vw-' + viewId).classList.add('active');
+        btn.classList.add('active');
+        document.getElementById('page-title').innerText = btn.innerText;
     }
-    
-    loader.style.width = '100%';
-    setTimeout(() => loader.style.width = '0%', 400);
-}
+
+    async function apiFetch(path) {
+        const res = await fetch(`${WORKER_URL}?path=${encodeURIComponent(path)}`);
+        const
