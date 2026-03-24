@@ -440,25 +440,35 @@ async function runDiag(){
     const email = txRes.data?.[0]?.email || '';
     log('Testovací email (nakoupil v období): ' + email);
 
-    // Porovnej stats BEZ a S from_date — per-action konverze
-    log('\n=== /pipelines/8948/stats BEZ from_date ===');
-    const s1 = await apiGet('/pipelines/8948/stats');
-    const st1 = s1.stats || {};
-    // Vypiš jen klíče s "conversion"
-    const conv1 = Object.fromEntries(Object.entries(st1).filter(([k])=>k.includes('conversion')||k.includes('Conversion')));
-    log(JSON.stringify(conv1, null, 2));
+    // Načti subscribers z automatizace 8948 od dateFrom
+    log('Načítám subscribers z auto 8948 od ' + dateFrom + '...');
+    const detRes = await apiGet('/pipelines/8948/stats-detail?per_page=5000&page=1&from_date=' + dateFrom);
+    const subs = detRes.subscribers || {};
+    const autoEmails = new Set(Object.keys(subs).map(e=>e.toLowerCase().trim()));
+    log('Subscribers od ' + dateFrom + ': ' + autoEmails.size);
 
-    log('\n=== /pipelines/8948/stats?from_date=' + dateFrom + ' ===');
-    const s2 = await apiGet('/pipelines/8948/stats?from_date=' + dateFrom);
-    const st2 = s2.stats || {};
-    const conv2 = Object.fromEntries(Object.entries(st2).filter(([k])=>k.includes('conversion')||k.includes('Conversion')));
-    log(JSON.stringify(conv2, null, 2));
+    // Načti transakce za dateFrom až dateTo
+    log('Načítám transakce za ' + dateFrom + ' – ' + dateTo + '...');
+    const txRes = await apiGet(`/tracker/transaction?date_from=${dateFrom}&date_to=${dateTo}&per_page=500&page=1`);
+    log('Transakcí celkem: ' + txRes.total);
 
-    log('\n=== Porovnání ===');
-    for(const [k,v] of Object.entries(conv2)){
-      const old = conv1[k];
-      log(`${k}: lifetime=${old} → od ${dateFrom}: ${v} ${old!=v?'✓ LIŠÍ SE':'= stejné'}`);
+    // Průnik
+    let matches = 0, rev = 0;
+    const matchedEmails = [];
+    for(const tx of txRes.data || []){
+      const em = (tx.email||'').toLowerCase().trim();
+      if(autoEmails.has(em)){
+        matches++;
+        rev += parseFloat(tx.amount||0);
+        matchedEmails.push({email: em, amount: tx.amount, date: tx.timestamp});
+      }
     }
+    log('\n=== Výsledek průniku ===');
+    log('Shod: ' + matches + ' transakcí');
+    log('Tržby: ' + Math.round(rev) + ' Kč');
+    log('\nEcomail UI ukazuje za toto období: 3 objednávky, ~2226 Kč');
+    log('\nShodné transakce:');
+    matchedEmails.forEach(m => log(' ' + m.email + ' | ' + m.amount + ' Kč | ' + m.date));
 
   }catch(e){log('CHYBA: '+e.message);}
   btn.textContent='Spustit diagnostiku'; btn.disabled=false;
