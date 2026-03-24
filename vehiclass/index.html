@@ -232,20 +232,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 <script>
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
 
-// ── HISTORICKÁ DATA TRŽEB AUTOMATIZACÍ ───────────────────────────────────────
-// Klíč: 'YYYY-MM', hodnota: {nazev_automatizace: tržby v Kč za daný měsíc}
-// Speciální klíč 'before' = tržby před srpnem 2025 (vypočítáno jako lifetime - součet měsíců)
-const AUTO_REVENUE_HISTORY = {
-  '2025-08': { 'Pop-up': 12195 },
-  '2025-09': { 'Pop-up': 2626, 'Uvítání': 2969, 'Svátek': 1849 },
-  '2025-10': { 'Pop-up': 4291 },
-  '2025-11': { 'Pop-up': 1088, 'Uvítání': 1461, 'Opuštěný košík': 3664, 'Reaktivace': 1803 },
-  '2025-12': { 'Pop-up': 3871, 'Uvítání': 3111, 'Reaktivace': 1803 },
-  '2026-01': { 'Pop-up': 8872, 'Uvítání': 6860, 'Opuštěný košík': 616, 'Reaktivace': 1803 },
-  '2026-02': { 'Pop-up': 66882, 'Uvítání': 19708, 'Opuštěný košík': 1143, 'Svátek': 3281, 'Žádost o recenzi': 3603 },
-  // Březen 2026 — data k 23. 3. (zbytek měsíce bude dopočítán po jeho skončení)
-  '2026-03': { 'Pop-up': 170032, 'Uvítání': 57032, 'Svátek': 1809, 'Žádost o recenzi': 2226, 'Opuštěný košík': 534 },
-};
 <script>
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
 
