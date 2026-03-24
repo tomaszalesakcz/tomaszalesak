@@ -121,6 +121,15 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 .prog-bar { height:4px; background:var(--border2); border-radius:2px; overflow:hidden; }
 .prog-fill { height:100%; background:var(--accent); border-radius:2px; transition:width .4s; }
 
+/* Ratio Bar */
+.ratio-wrap { display:flex; flex-direction:column; justify-content:center; height:100%; margin-top: 5px; }
+.ratio-bar { display:flex; width:100%; height:8px; border-radius:4px; overflow:hidden; background:var(--border2); margin-bottom:8px; }
+.ratio-fill-camps { background:#3b82f6; transition:width .3s ease; }
+.ratio-fill-autos { background:#8b5cf6; transition:width .3s ease; }
+.ratio-labels { display:flex; justify-content:space-between; font-size:12px; font-weight:500; }
+.ratio-label-camps { color:#3b82f6; }
+.ratio-label-autos { color:#8b5cf6; }
+
 @media(max-width:960px){ .k4{grid-template-columns:repeat(2,1fr)} .k3{grid-template-columns:repeat(2,1fr)} }
 @media(max-width:720px){ .sidebar{display:none} .main{margin-left:0;padding:20px} .k2{grid-template-columns:1fr} }
 </style>
@@ -186,7 +195,12 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
       <div class="kcard"><div class="klbl">Tržby z automatizací</div><div id="k-rev-autos"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-autos-n">&nbsp;</div><div class="kblob" style="background:#8b5cf6"></div></div>
     </div>
     <div class="krow k2">
-      <div class="kcard"><div class="klbl">Objednávky</div><div id="k-conv"><div class="shim" style="height:34px;width:56px"></div></div><div class="knote" id="k-conv-n">&nbsp;</div><div class="kblob" style="background:#f59e0b"></div></div>
+      <div class="kcard">
+        <div class="klbl">Poměr tržeb (Kampaně vs. Automaty)</div>
+        <div id="k-ratio">
+          <div class="shim" style="height:34px;width:100%"></div>
+        </div>
+      </div>
       <div class="kcard"><div class="klbl">Kontakty — seznam Zákazníci</div><div id="k-contacts"><div class="shim" style="height:34px;width:80px"></div></div><div class="knote" id="k-contacts-n">&nbsp;</div><div class="kblob" style="background:#14b8a6"></div></div>
     </div>
     <div class="sec">
@@ -213,15 +227,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
       <div class="shead"><span class="stitle">Přehled automatizací</span><span class="smeta">seřazeno podle tržeb v období</span></div>
       <div class="tcard" id="auto-tbl"><div class="empty">Načítám…</div></div>
     </div>
-    <div class="sec" style="margin-top:8px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <span style="font-size:13px;font-weight:600">&#128269; Diagnostika API</span>
-        <button class="ibtn" onclick="runDiag()" id="diag-btn">Spustit diagnostiku</button>
-      </div>
-      <div style="background:var(--bg);border:1px solid var(--border2);border-radius:var(--rs);padding:14px;font-family:'DM Mono',monospace;font-size:11.5px;line-height:1.8;overflow-x:auto;max-height:600px;overflow-y:auto">
-        <pre id="diag-out" style="white-space:pre-wrap;word-break:break-all;margin:0">Klikni na "Spustit diagnostiku"</pre>
-      </div>
-    </div>
   </div>
 
 </main>
@@ -229,8 +234,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
 
 // ── HISTORICKÁ DATA TRŽEB AUTOMATIZACÍ ───────────────────────────────────────
-// Tržby za konkrétní uzavřené měsíce — aktualizuj po skončení každého měsíce.
-// Klíč = název automatizace (musí odpovídat názvu v Ecomailu)
 const AUTO_HISTORY = {
   '2025-08': { 'Pop-up': 12195 },
   '2025-09': { 'Pop-up': 2626, 'Uvítání': 2969, 'Svátek': 1849 },
@@ -240,16 +243,7 @@ const AUTO_HISTORY = {
   '2026-01': { 'Pop-up': 8872, 'Uvítání': 6860, 'Opuštěný košík': 616, 'Reaktivace': 1803 },
   '2026-02': { 'Pop-up': 66882, 'Uvítání': 19708, 'Opuštěný košík': 1143, 'Svátek': 3281, 'Žádost o recenzi': 3603 },
   '2026-03': { 'Pop-up': 170032, 'Uvítání': 57032, 'Svátek': 1809, 'Žádost o recenzi': 2226, 'Opuštěný košík': 534 },
-  // Po skončení dubna 2026 přidej: '2026-04': { ... }
 };
-
-// Nejstarší sledovaný měsíc — vše před tímto je "Před srpnem 2025"
-const HISTORY_START = '2025-08';
-
-// ── VÝPOČET TRŽEB PER AUTOMATIZACE ───────────────────────────────────────────
-// Pro uzavřené měsíce: přímo z AUTO_HISTORY
-// Pro aktuální měsíc: lifetime (z API) − součet všech uzavřených měsíců − "před historií"
-// Pro "Před historií": lifetime − součet všech uzavřených měsíců − aktuální měsíc
 
 function sumHistoryForAuto(autoName, excludeMonth){
   let total = 0;
@@ -270,18 +264,14 @@ function matchAutoName(autoName, data){
 
 function getRevForMonth(ym, autoName, lifetimeValue){
   if(ym === 'before'){
-    // Před historií = lifetime − součet všech uzavřených měsíců − aktuální měsíc
     const knownSum = sumHistoryForAuto(autoName, null);
     return Math.max(0, lifetimeValue - knownSum);
   }
   if(AUTO_HISTORY[ym]){
-    // Uzavřený měsíc — přesná hodnota z historie
     const key = matchAutoName(autoName, AUTO_HISTORY[ym]);
     return key ? AUTO_HISTORY[ym][key] : 0;
   }
-  // Aktuální (neuzavřený) měsíc = lifetime − součet všech uzavřených měsíců − před historií
   const knownSum = sumHistoryForAuto(autoName, null);
-  // "před historií" je implicitně zahrnuto v lifetime - knownSum
   return Math.max(0, lifetimeValue - knownSum);
 }
 
@@ -298,7 +288,7 @@ function prevYM(ym){
 }
 function getAvailableMonths(){
   const months = new Set([...Object.keys(AUTO_HISTORY), currentYM()]);
-  const sorted = [...months].sort().reverse(); // nejnovější první
+  const sorted = [...months].sort().reverse(); 
   sorted.push('before');
   return sorted;
 }
@@ -349,16 +339,6 @@ function showErr(m){const b=$('ebar');b.style.display=m?'block':'none';b.textCon
 function kpi(id,v,n){$(id).innerHTML=`<div class="kval">${v}</div>`;const x=$(id+'-n');if(x)x.innerHTML=n||'';}
 function badge(s){const m={0:['ba','Koncept'],1:['bb','Příprava'],2:['bb','Odesílá'],3:['bg','Odesláno'],4:['br','Chyba'],7:['ba','Naplán.']};const[c,l]=m[s]||['',''+s];return`<span class="badge ${c}">${l}</span>`;}
 function setProgress(v,lbl){$('prog-wrap').style.display=v<100?'block':'none';$('prog-fill').style.width=v+'%';if(lbl)$('prog-lbl').textContent=lbl;}
-
-function deltaHtml(curr, prev){
-  if(prev===null||prev===undefined) return '';
-  const diff = curr - prev;
-  if(diff===0) return `<span style="color:var(--text-faint)">beze změny</span>`;
-  const sign = diff>0?'▲':'▼';
-  const cls  = diff>0?'up':'dn';
-  const p    = prev>0 ? ` (${Math.abs(diff/prev*100).toFixed(0)}%)` : '';
-  return `<span class="${cls}">${sign} ${Math.abs(Math.round(diff)).toLocaleString('cs-CZ')} Kč${p} vs. ${monthLabel(prevYM(selectedMonth))}</span>`;
-}
 
 const PAGES={
   overview:['Přehled',''],
@@ -427,26 +407,42 @@ async function loadAll(){
 }
 
 function render(camps,sm,autos,am,zakazDetail){
-  // Tržby automatizací pro vybraný a předchozí měsíc
-  const prev = prevYM(selectedMonth);
-  const autoRev={}, autoRevPrev={};
+  const autoRev={};
   autos.forEach(a=>{
     const lifetime = parseFloat((am[a.id]||{}).conversions_value||0);
     autoRev[a.id]     = getRevForMonth(selectedMonth, a.name||a.title||'', lifetime);
-    autoRevPrev[a.id] = prev ? getRevForMonth(prev, a.name||a.title||'', lifetime) : null;
   });
 
   let revC=0,ordC=0;
   camps.forEach(c=>{const s=sm[c.id]||{};revC+=parseFloat(s.conversions_value||0);ordC+=parseInt(s.conversions||0);});
   let revA=0;
   autos.forEach(a=>{revA+=autoRev[a.id]||0;});
-  let revAPrev=0;
-  if(prev) autos.forEach(a=>{revAPrev+=autoRevPrev[a.id]||0;});
 
   kpi('k-rev-total',czk(revC+revA),`<span class="nu">kampaně ${czk(revC)} + automatizace ${czk(revA)}</span>`);
   kpi('k-rev-camps',czk(revC),`<span class="nu">${ordC} objednávek z kampaní</span>`);
-  kpi('k-rev-autos',czk(revA),`<span class="nu">${prev?deltaHtml(revA,revAPrev):''}</span>`);
-  kpi('k-conv',num(ordC),`<span class="nu">objednávek z kampaní</span>`);
+  kpi('k-rev-autos',czk(revA),'');
+
+  // Vykreslení progress baru pro poměr tržeb
+  const totalRev = revC + revA;
+  let ratioHtml = '<div class="empty">Žádné tržby</div>';
+  
+  if (totalRev > 0) {
+    const pctC = (revC / totalRev * 100).toFixed(1);
+    const pctA = (revA / totalRev * 100).toFixed(1);
+    ratioHtml = `
+      <div class="ratio-wrap">
+        <div class="ratio-bar">
+          <div class="ratio-fill-camps" style="width: ${pctC}%"></div>
+          <div class="ratio-fill-autos" style="width: ${pctA}%"></div>
+        </div>
+        <div class="ratio-labels">
+          <span class="ratio-label-camps">Kampaně ${pctC}%</span>
+          <span class="ratio-label-autos">Automaty ${pctA}%</span>
+        </div>
+      </div>
+    `;
+  }
+  $('k-ratio').innerHTML = ratioHtml;
 
   if(zakazDetail){
     const inf=(zakazDetail.list)||{},sb=(zakazDetail.subscribers)||{};
@@ -487,7 +483,7 @@ function render(camps,sm,autos,am,zakazDetail){
   let orS=0,ctrS=0,n=0;
   autos.forEach(a=>{const s=am[a.id]||{};if(parseFloat(s.open_rate||0)>0){orS+=parseFloat(s.open_rate||0);ctrS+=parseFloat(s.click_rate||0);n++;}});
   kpi('k-ac',autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
-  kpi('k-arev',czk(revA),`<span class="nu">${prev?deltaHtml(revA,revAPrev):''}</span>`);
+  kpi('k-arev',czk(revA),'');
   $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
   $('k-actr').innerHTML=`<div class="kval">${pct(n?ctrS/n:0)}</div>`;
 
@@ -495,16 +491,15 @@ function render(camps,sm,autos,am,zakazDetail){
   const sorted=[...autos].sort((a,b)=>(autoRev[b.id]||0)-(autoRev[a.id]||0));
   $('auto-tbl').innerHTML=`<table><thead><tr>
     <th>Automatizace</th><th class="r">OR (celk.)</th><th class="r">CTR (celk.)</th>
-    <th class="r">Tržby v měsíci</th><th class="r">vs. předchozí měsíc</th><th class="r">Bounce</th>
+    <th class="r">Tržby v měsíci</th><th class="r">Bounce</th>
   </tr></thead><tbody>${
     sorted.map(a=>{
-      const s=am[a.id]||{}, rev=autoRev[a.id]||0, revP=autoRevPrev[a.id];
+      const s=am[a.id]||{}, rev=autoRev[a.id]||0;
       return`<tr>
         <td><div class="tn">${esc(a.name||a.title||'#'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
         <td class="r">${pct(s.open_rate)}</td>
         <td class="r">${pct(s.click_rate)}</td>
         <td class="r" style="color:var(--green);font-weight:500">${rev>0?czk(rev):'—'}</td>
-        <td class="r">${prev&&revP!==null?deltaHtml(rev,revP):''}</td>
         <td class="r">${pct(s.bounce_rate)}</td></tr>`;
     }).join('')
   }</tbody></table>`;
