@@ -164,25 +164,8 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
       <div class="psub" id="psub">Načítám…</div>
     </div>
     <div class="tctrl">
-      <div class="seg">
-        <button class="seg-btn" data-p="7"   onclick="setPreset('7')">7 dní</button>
-        <button class="seg-btn on" data-p="30" onclick="setPreset('30')">30 dní</button>
-        <button class="seg-btn" data-p="90"  onclick="setPreset('90')">3 měs.</button>
-        <button class="seg-btn" data-p="365" onclick="setPreset('365')">Rok</button>
-        <button class="seg-btn" data-p="lm"  onclick="setPreset('lm')">Minulý měsíc</button>
-      </div>
-      <div class="dp-wrap" id="dpw">
-        <button class="dp-btn" id="dpbtn" onclick="toggleDp()">
-          <svg viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="11" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 5h12M4 1v2M10 1v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          <span id="dp-lbl-txt">Vlastní rozsah</span>
-        </button>
-        <div class="dp-dd" id="dpdd">
-          <div class="dp-row">
-            <div class="dp-f"><span class="dp-lbl">Od</span><input class="dp-inp" type="date" id="dp-from"></div>
-            <div class="dp-f"><span class="dp-lbl">Do</span><input class="dp-inp" type="date" id="dp-to"></div>
-            <button class="dp-ok" onclick="applyCustom()">Použít</button>
-          </div>
-        </div>
+      <div style="position:relative">
+        <select id="month-picker" onchange="selectMonth(this.value)" style="appearance:none;-webkit-appearance:none;padding:7px 36px 7px 13px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;border:1px solid var(--border);background:var(--surface);border-radius:var(--rs);cursor:pointer;color:var(--text);outline:none;min-width:180px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b6b67' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center"></select>
       </div>
       <button class="ibtn" id="rbtn" onclick="loadAll()">
         <svg viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 112 7M12 7V4M12 7h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -249,57 +232,93 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
 <script>
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
 
-let dateFrom='', dateTo='';
-function todayStr(){ return new Date().toISOString().split('T')[0]; }
-function daysAgoStr(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().split('T')[0]; }
-function lastMonthRange(){
-  const now=new Date(),y=now.getFullYear(),m=now.getMonth();
-  return{from:new Date(y,m-1,1).toISOString().split('T')[0],to:new Date(y,m,0).toISOString().split('T')[0]};
-}
-function fmtPeriod(f,t){
-  const fmt=s=>new Date(s+'T12:00:00').toLocaleDateString('cs-CZ',{day:'numeric',month:'short',year:'numeric'});
-  return fmt(f)+' – '+fmt(t);
-}
-function initDates(){ dateTo=todayStr(); dateFrom=daysAgoStr(30); }
-function setPreset(p){
-  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
-  $('dpbtn').classList.remove('on'); $('dpdd').classList.remove('open');
-  if(p==='lm'){const r=lastMonthRange();dateFrom=r.from;dateTo=r.to;}
-  else{dateTo=todayStr();dateFrom=daysAgoStr(+p);}
-  updateSub(); loadAll();
-}
-function toggleDp(){
-  const open=!$('dpdd').classList.contains('open');
-  $('dpdd').classList.toggle('open',open);
-  $('dpbtn').classList.toggle('on',open);
-  if(open){$('dp-from').value=dateFrom;$('dp-to').value=dateTo;}
-}
-function applyCustom(){
-  const f=$('dp-from').value,t=$('dp-to').value;
-  if(!f||!t||f>t){alert('Zkontroluj data.');return;}
-  dateFrom=f;dateTo=t;
-  document.querySelectorAll('.seg-btn').forEach(b=>b.classList.remove('on'));
-  $('dpbtn').classList.add('on');
-  $('dp-lbl-txt').textContent=fmtPeriod(f,t);
-  $('dpdd').classList.remove('open');
-  updateSub(); loadAll();
-}
-document.addEventListener('click',e=>{if(!$('dpw').contains(e.target))$('dpdd').classList.remove('open');});
-function updateSub(){$('psub').textContent=fmtPeriod(dateFrom,dateTo);}
-
-const PAGES={
-  overview:['Přehled','Celkové metriky e-mail marketingu'],
-  campaigns:['Kampaně','Detail odeslaných kampaní za zvolené období'],
-  automations:['Automatizace','Statistiky automatizačních sekvencí'],
+// ── HISTORICKÁ DATA TRŽEB AUTOMATIZACÍ ───────────────────────────────────────
+// Klíč: 'YYYY-MM', hodnota: {nazev_automatizace: tržby v Kč za daný měsíc}
+// Speciální klíč 'before' = tržby před srpnem 2025 (vypočítáno jako lifetime - součet měsíců)
+const AUTO_REVENUE_HISTORY = {
+  '2025-08': { 'Pop-up': 12195 },
+  '2025-09': { 'Pop-up': 2626, 'Uvítání': 2969, 'Svátek': 1849 },
+  '2025-10': { 'Pop-up': 4291 },
+  '2025-11': { 'Pop-up': 1088, 'Uvítání': 1461, 'Opuštěný košík': 3664, 'Reaktivace': 1803 },
+  '2025-12': { 'Pop-up': 3871, 'Uvítání': 3111, 'Reaktivace': 1803 },
+  '2026-01': { 'Pop-up': 8872, 'Uvítání': 6860, 'Opuštěný košík': 616, 'Reaktivace': 1803 },
+  '2026-02': { 'Pop-up': 66882, 'Uvítání': 19708, 'Opuštěný košík': 1143, 'Svátek': 3281, 'Žádost o recenzi': 3603 },
+  // Březen 2026 — data k 23. 3. (zbytek měsíce bude dopočítán po jeho skončení)
+  '2026-03': { 'Pop-up': 170032, 'Uvítání': 57032, 'Svátek': 1809, 'Žádost o recenzi': 2226, 'Opuštěný košík': 534 },
 };
-function goView(v){
-  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
-  $('vw-'+v).classList.add('on');
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',(n.getAttribute('onclick')||'').includes("'"+v+"'")));
-  $('ptitle').textContent=PAGES[v][0];
-  $('psub').textContent=v==='overview'?fmtPeriod(dateFrom,dateTo):PAGES[v][1];
+
+// Vypočítá tržby "před srpnem 2025" jako: lifetime - součet všech známých měsíců
+// Voláno po načtení lifetime stats z API (am = automation stats map)
+function computeBeforeHistory(autos, am){
+  const result = {};
+  for(const a of autos){
+    const lifetime = parseFloat((am[a.id]||{}).conversions_value||0);
+    let knownSum = 0;
+    for(const [ym, data] of Object.entries(AUTO_REVENUE_HISTORY)){
+      const key = Object.keys(data).find(k =>
+        (a.name||'').toLowerCase().includes(k.toLowerCase()) ||
+        k.toLowerCase().includes((a.name||'').toLowerCase())
+      );
+      if(key) knownSum += data[key];
+    }
+    const before = Math.max(0, lifetime - knownSum);
+    result[a.name||a.id] = before;
+  }
+  return result;
 }
 
+// ── MĚSÍC STATE ──────────────────────────────────────────────────────────────
+function getAvailableMonths(){
+  const now = new Date();
+  const current = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const months = [...Object.keys(AUTO_REVENUE_HISTORY)];
+  if(!months.includes(current)) months.push(current);
+  months.sort();
+  months.unshift('before'); // "Před srpnem 2025" jako první volba
+  return months;
+}
+function monthLabel(ym){
+  if(ym === 'before') return 'Před srpnem 2025';
+  const [y,m] = ym.split('-');
+  // Capitalize first letter
+  const label = new Date(+y, +m-1, 1).toLocaleDateString('cs-CZ',{month:'long',year:'numeric'});
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+function monthRange(ym){
+  if(ym === 'before') return {from: '2020-01-01', to: '2025-07-31'};
+  const [y,m] = ym.split('-');
+  const from = `${y}-${m}-01`;
+  const last = new Date(+y, +m, 0);
+  const to = `${y}-${m}-${String(last.getDate()).padStart(2,'0')}`;
+  return {from, to};
+}
+function prevMonth(ym){
+  if(ym === 'before') return null;
+  const months = getAvailableMonths().filter(m => m !== 'before');
+  const idx = months.indexOf(ym);
+  return idx > 0 ? months[idx-1] : null;
+}
+
+let selectedMonth = '';
+function initMonth(){
+  const now = new Date();
+  selectedMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  renderMonthPicker();
+}
+function selectMonth(ym){
+  selectedMonth = ym;
+  loadAll();
+}
+function renderMonthPicker(){
+  const months = getAvailableMonths();
+  const sel = $('month-picker');
+  if(!sel) return;
+  sel.innerHTML = months.map(m =>
+    `<option value="${m}"${m===selectedMonth?' selected':''}>${monthLabel(m)}</option>`
+  ).join('');
+}
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
 const $   = id=>document.getElementById(id);
 const esc = s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const pct = v=>(v==null||isNaN(v))?'—':parseFloat(v).toFixed(1)+'%';
@@ -312,6 +331,31 @@ function kpi(id,v,n){$(id).innerHTML=`<div class="kval">${v}</div>`;const x=$(id
 function badge(s){const m={0:['ba','Koncept'],1:['bb','Příprava'],2:['bb','Odesílá'],3:['bg','Odesláno'],4:['br','Chyba'],7:['ba','Naplán.']};const[c,l]=m[s]||['',''+s];return`<span class="badge ${c}">${l}</span>`;}
 function setProgress(v,lbl){$('prog-wrap').style.display=v<100?'block':'none';$('prog-fill').style.width=v+'%';if(lbl)$('prog-lbl').textContent=lbl;}
 
+// Delta badge: porovnání s předchozím měsícem
+function delta(curr, prev){
+  if(!prev && !curr) return '';
+  if(!prev) return `<span class="up">▲ nové</span>`;
+  const diff = curr - prev;
+  const pctDiff = prev > 0 ? (diff/prev*100) : 0;
+  if(diff === 0) return `<span style="color:var(--text-faint)">= stejné</span>`;
+  const sign = diff > 0 ? '▲' : '▼';
+  const cls = diff > 0 ? 'up' : 'dn';
+  return `<span class="${cls}">${sign} ${Math.abs(Math.round(diff)).toLocaleString('cs-CZ')} Kč (${Math.abs(pctDiff).toFixed(0)}%)</span>`;
+}
+
+const PAGES={
+  overview:['Přehled',''],
+  campaigns:['Kampaně','Detail odeslaných kampaní za zvolené období'],
+  automations:['Automatizace','Statistiky automatizačních sekvencí'],
+};
+function goView(v){
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+  $('vw-'+v).classList.add('on');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',(n.getAttribute('onclick')||'').includes("'"+v+"'")));
+  $('ptitle').textContent=PAGES[v][0];
+  $('psub').textContent=v==='overview'?monthLabel(selectedMonth):PAGES[v][1];
+}
+
 async function apiGet(path){
   const r=await fetch(PROXY+'?path='+encodeURIComponent(path));
   if(!r.ok) throw new Error('HTTP '+r.status+' — '+path);
@@ -323,9 +367,16 @@ async function loadAll(){
   conn('ld','Načítám data…');
   showErr('');
   setProgress(5,'Načítám data…');
+  $('psub').textContent = monthLabel(selectedMonth);
+  renderMonthPicker();
+
+  const {from, to} = monthRange(selectedMonth);
+  const prev = prevMonth(selectedMonth);
+  let beforeHistory = null;
+
   try{
     const[rawC,rawA,rawL]=await Promise.all([
-      apiGet(`/campaigns?filters[date_from]=${dateFrom}&filters[date_to]=${dateTo}&filters[status]=3&per_page=50`),
+      apiGet(`/campaigns?filters[date_from]=${from}&filters[date_to]=${to}&filters[status]=3&per_page=50`),
       apiGet('/pipelines'),
       apiGet('/lists'),
     ]);
@@ -340,15 +391,18 @@ async function loadAll(){
       ...autos.map(a=>apiGet('/pipelines/'+a.id+'/stats').then(r=>{am[a.id]=r.stats||{};}).catch(()=>{am[a.id]={};}) ),
     ]);
 
+    // Vypočítej tržby před srpnem 2025
+    if(selectedMonth === 'before') beforeHistory = computeBeforeHistory(autos, am);
+
     setProgress(70,'Načítám kontakty…');
     const zakazList=lists.find(l=>{const n=(l.name||'').toLowerCase();return n.includes('zákazníci')||n.includes('zakaznici')||n.includes('customers');});
     let zakazDetail=null;
     if(zakazList) zakazDetail=await apiGet('/lists/'+zakazList.id).catch(()=>null);
 
     setProgress(100);
-    render(camps,sm,autos,am,zakazDetail);
+    render(camps, sm, autos, am, zakazDetail, selectedMonth, prev, beforeHistory);
     conn('','Připojeno · '+new Date().toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}));
-    updateSub();
+    goView(document.querySelector('.view.on')?.id.replace('vw-','') || 'overview');
   }catch(e){
     conn('er','Chyba');
     showErr('Nepodařilo se načíst data: '+e.message);
@@ -359,17 +413,47 @@ async function loadAll(){
   }
 }
 
-function render(camps,sm,autos,am,zakazDetail){
-  let revC=0,ordC=0;
-  camps.forEach(c=>{const s=sm[c.id]||{};revC+=parseFloat(s.conversions_value||0);ordC+=parseInt(s.conversions||0);});
-  let revA=0,ordA=0;
-  // Tržby automatizací: Ecomail vlastní atribuce (lifetime)
-  autos.forEach(a=>{const s=am[a.id]||{};revA+=parseFloat(s.conversions_value||0);ordA+=parseInt(s.conversions||0);});
+function getAutoRevForMonth(autos, ym, beforeHistory){
+  if(ym === 'before' && beforeHistory){
+    const result = {};
+    for(const a of autos){
+      const name = a.name||a.title||'';
+      const key = Object.keys(beforeHistory).find(k =>
+        name.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(name.toLowerCase())
+      );
+      result[a.id] = key ? beforeHistory[key] : 0;
+    }
+    return result;
+  }
+  const data = AUTO_REVENUE_HISTORY[ym] || {};
+  const result = {};
+  for(const a of autos){
+    const name = a.name||a.title||'';
+    const key = Object.keys(data).find(k =>
+      name.toLowerCase().includes(k.toLowerCase()) ||
+      k.toLowerCase().includes(name.toLowerCase())
+    );
+    result[a.id] = key ? data[key] : 0;
+  }
+  return result;
+}
 
-  kpi('k-rev-total',czk(revC+revA),`<span class="nu">kampaně ${czk(revC)} + automatizace ${czk(revA)}</span>`);
-  kpi('k-rev-camps',czk(revC),`<span class="nu">${ordC} objednávek z kampaní</span>`);
-  kpi('k-rev-autos',czk(revA),`<span class="nu">${ordA} objednávek · celková hodnota dle Ecomailu</span>`);
-  kpi('k-conv',num(ordC+ordA),`<span class="nu">${ordC} kampaně + ${ordA} automatizace</span>`);
+function render(camps, sm, autos, am, zakazDetail, ym, prevYm, beforeHistory){
+  const autoRev     = getAutoRevForMonth(autos, ym, beforeHistory);
+  const autoRevPrev = prevYm ? getAutoRevForMonth(autos, prevYm, null) : {};
+
+  let revC=0, ordC=0;
+  camps.forEach(c=>{const s=sm[c.id]||{};revC+=parseFloat(s.conversions_value||0);ordC+=parseInt(s.conversions||0);});
+  let revA=0, ordA=0;
+  autos.forEach(a=>{revA+=autoRev[a.id]||0;});
+  let revAPrev=0;
+  autos.forEach(a=>{revAPrev+=autoRevPrev[a.id]||0;});
+
+  // Tržby z kampaní předchozí měsíc — nemáme přesná data, ukážeme jen aktuální
+  kpi('k-rev-total', czk(revC+revA), `<span class="nu">kampaně ${czk(revC)} + automatizace ${czk(revA)}</span>`);
+  kpi('k-rev-camps', czk(revC), `<span class="nu">${ordC} objednávek z kampaní</span>`);
+  kpi('k-rev-autos', czk(revA||0), `<span class="nu">${delta(revA, revAPrev)}</span>`);
+  kpi('k-conv', num(ordC+ordA), `<span class="nu">${ordC} z kampaní</span>`);
 
   if(zakazDetail){
     const inf=(zakazDetail.list)||{},sb=(zakazDetail.subscribers)||{};
@@ -377,12 +461,13 @@ function render(camps,sm,autos,am,zakazDetail){
     const total=active+parseInt(sb.unsubscribed||0)+parseInt(sb.soft_bounced||0)+parseInt(sb.hard_bounced||0)+parseInt(sb.unconfirmed||0);
     kpi('k-contacts',num(active),`<span class="nu">${num(total)} celkem ve všech stavech</span>`);
   }else{
-    kpi('k-contacts','—',`<span class="nu">seznam "Zákazníci" nenalezen</span>`);
+    kpi('k-contacts','—','');
   }
 
-  $('ov-meta').textContent=camps.length+' kampaní v období';
+  // Přehled — kampaně
+  $('ov-meta').textContent=camps.length+' kampaní v '+monthLabel(ym);
   const wov=$('ov-tbl');
-  if(!camps.length){wov.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>';}
+  if(!camps.length) wov.innerHTML='<div class="empty">Žádné kampaně v tomto měsíci</div>';
   else wov.innerHTML=`<table><thead><tr><th>Kampaň</th><th class="r">Odesláno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Status</th></tr></thead><tbody>${
     camps.slice(0,8).map(c=>{const s=sm[c.id]||{};const or=parseFloat(s.open_rate||0);return`<tr>
       <td><div class="tn">${esc(c.title||c.subject||'—')}</div><div class="ts">${dt(c.sent_at)}</div></td>
@@ -394,9 +479,10 @@ function render(camps,sm,autos,am,zakazDetail){
       <td class="r">${badge(c.status)}</td></tr>`;}).join('')
   }</tbody></table>`;
 
+  // Kampaně detail
   $('cmp-head').textContent='Kampaně — '+camps.length+' výsledků';
   const wcmp=$('cmp-tbl');
-  if(!camps.length){wcmp.innerHTML='<div class="empty">Žádné kampaně v tomto období</div>';}
+  if(!camps.length) wcmp.innerHTML='<div class="empty">Žádné kampaně v tomto měsíci</div>';
   else wcmp.innerHTML=`<table><thead><tr><th>Kampaň</th><th class="r">Příjemci</th><th class="r">Doručeno</th><th class="r">Open Rate</th><th class="r">CTR</th><th class="r">Objednávky</th><th class="r">Tržby</th><th class="r">Bounce</th><th class="r">Spam</th><th class="r">Odhlásilo</th></tr></thead><tbody>${
     camps.map(c=>{const s=sm[c.id]||{};return`<tr>
       <td><div class="tn" style="max-width:180px">${esc(c.title||c.subject||'—')}</div><div class="ts">${dt(c.sent_at)}</div></td>
@@ -406,76 +492,36 @@ function render(camps,sm,autos,am,zakazDetail){
       <td class="r">${pct(s.bounce_rate)}</td><td class="r">${pct(s.spam_rate)}</td><td class="r">${pct(s.unsub_rate)}</td></tr>`;}).join('')
   }</tbody></table>`;
 
+  // Automatizace KPIs
   let orS=0,ctrS=0,n=0;
   autos.forEach(a=>{const s=am[a.id]||{};if(parseFloat(s.open_rate||0)>0){orS+=parseFloat(s.open_rate||0);ctrS+=parseFloat(s.click_rate||0);n++;}});
-  kpi('k-ac',autos.length,''); $('k-ac-n').textContent='aktivních automatizací';
-  kpi('k-arev',czk(revA),`<span class="nu">${ordA} objednávek · celková hodnota dle Ecomailu</span>`);
+  kpi('k-ac', autos.length, ''); $('k-ac-n').textContent='aktivních automatizací';
+  kpi('k-arev', czk(revA||0), `<span class="nu">${delta(revA, revAPrev)}</span>`);
   $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
   $('k-actr').innerHTML=`<div class="kval">${pct(n?ctrS/n:0)}</div>`;
 
+  // Automatizace tabulka
   const wauto=$('auto-tbl');
-  const sorted=[...autos].sort((a,b)=>parseFloat((am[b.id]||{}).conversions_value||0)-parseFloat((am[a.id]||{}).conversions_value||0));
+  const sorted=[...autos].sort((a,b)=>(autoRev[b.id]||0)-(autoRev[a.id]||0));
   wauto.innerHTML=`<table><thead><tr>
-    <th>Automatizace</th><th class="r">Odesláno (celk.)</th><th class="r">OR (celk.)</th><th class="r">CTR (celk.)</th><th class="r">Objednávky (celk.)</th><th class="r">Tržby (celk.)</th><th class="r">Bounce</th>
+    <th>Automatizace</th><th class="r">OR (celk.)</th><th class="r">CTR (celk.)</th><th class="r">Tržby v měsíci</th><th class="r">vs. předchozí měsíc</th><th class="r">Bounce</th>
   </tr></thead><tbody>${
-    sorted.map(a=>{const s=am[a.id]||{};return`<tr>
-      <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
-      <td class="r">${num(s.send)}</td>
-      <td class="r">${pct(s.open_rate)}</td>
-      <td class="r">${pct(s.click_rate)}</td>
-      <td class="r">${num(s.conversions)}</td>
-      <td class="r" style="color:var(--green);font-weight:500">${czk(s.conversions_value)}</td>
-      <td class="r">${pct(s.bounce_rate)}</td></tr>`;}).join('')
+    sorted.map(a=>{
+      const s=am[a.id]||{};
+      const rev=autoRev[a.id]||0;
+      const revP=autoRevPrev[a.id]||0;
+      return`<tr>
+        <td><div class="tn">${esc(a.name||a.title||'Automatizace #'+a.id)}</div><div class="ts">ID: ${a.id}</div></td>
+        <td class="r">${pct(s.open_rate)}</td>
+        <td class="r">${pct(s.click_rate)}</td>
+        <td class="r" style="color:var(--green);font-weight:500">${rev>0?czk(rev):'—'}</td>
+        <td class="r">${delta(rev,revP)}</td>
+        <td class="r">${pct(s.bounce_rate)}</td></tr>`;
+    }).join('')
   }</tbody></table>`;
 }
 
-async function runDiag(){
-  const el=$('diag-out'),btn=$('diag-btn');
-  btn.textContent='Načítám...'; btn.disabled=true;
-  el.textContent='';
-  const log=(...a)=>{el.textContent+=a.join(' ')+'\n';};
-  try{
-    // Vezmi email zákazníka který nakoupil v období
-    const txRes = await apiGet(`/tracker/transaction?date_from=${dateFrom}&date_to=${dateTo}&per_page=1&page=1`);
-    const email = txRes.data?.[0]?.email || '';
-    log('Testovací email (nakoupil v období): ' + email);
-
-    // Načti subscribers z automatizace 8948 od dateFrom
-    log('Načítám subscribers z auto 8948 od ' + dateFrom + '...');
-    const detRes = await apiGet('/pipelines/8948/stats-detail?per_page=5000&page=1&from_date=' + dateFrom);
-    const subs = detRes.subscribers || {};
-    const autoEmails = new Set(Object.keys(subs).map(e=>e.toLowerCase().trim()));
-    log('Subscribers od ' + dateFrom + ': ' + autoEmails.size);
-
-    // Načti transakce za dateFrom až dateTo
-    log('Načítám transakce za ' + dateFrom + ' – ' + dateTo + '...');
-    const txRes2 = await apiGet(`/tracker/transaction?date_from=${dateFrom}&date_to=${dateTo}&per_page=500&page=1`);
-    log('Transakcí celkem: ' + txRes2.total);
-
-    // Průnik
-    let matches = 0, rev = 0;
-    const matchedEmails = [];
-    for(const tx of txRes2.data || []){
-      const em = (tx.email||'').toLowerCase().trim();
-      if(autoEmails.has(em)){
-        matches++;
-        rev += parseFloat(tx.amount||0);
-        matchedEmails.push({email: em, amount: tx.amount, date: tx.timestamp});
-      }
-    }
-    log('\n=== Výsledek průniku ===');
-    log('Shod: ' + matches + ' transakcí');
-    log('Tržby: ' + Math.round(rev) + ' Kč');
-    log('\nEcomail UI ukazuje za toto období: 3 objednávky, ~2226 Kč');
-    log('\nShodné transakce:');
-    matchedEmails.forEach(m => log(' ' + m.email + ' | ' + m.amount + ' Kč | ' + m.date));
-
-  }catch(e){log('CHYBA: '+e.message);}
-  btn.textContent='Spustit diagnostiku'; btn.disabled=false;
-}
-
-initDates();
-updateSub();
+initMonth();
 loadAll();
 </script>
 </body>
