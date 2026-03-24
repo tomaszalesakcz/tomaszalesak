@@ -449,13 +449,13 @@ async function runDiag(){
 
     // Načti transakce za dateFrom až dateTo
     log('Načítám transakce za ' + dateFrom + ' – ' + dateTo + '...');
-    const txRes = await apiGet(`/tracker/transaction?date_from=${dateFrom}&date_to=${dateTo}&per_page=500&page=1`);
-    log('Transakcí celkem: ' + txRes.total);
+    const txRes2 = await apiGet(`/tracker/transaction?date_from=${dateFrom}&date_to=${dateTo}&per_page=500&page=1`);
+    log('Transakcí celkem: ' + txRes2.total);
 
     // Průnik
     let matches = 0, rev = 0;
     const matchedEmails = [];
-    for(const tx of txRes.data || []){
+    for(const tx of txRes2.data || []){
       const em = (tx.email||'').toLowerCase().trim();
       if(autoEmails.has(em)){
         matches++;
