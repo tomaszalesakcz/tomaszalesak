@@ -227,11 +227,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
   </div>
 
   <div class="view" id="vw-automations">
-    <div class="krow k3" style="margin-bottom:22px">
-      <div class="kcard"><div class="klbl">Aktivní automatizace</div><div id="k-ac"><div class="kval">—</div></div></div>
-      <div class="kcard"><div class="klbl">Prům. Open Rate</div><div id="k-aor"><div class="kval">—</div></div></div>
-      <div class="kcard"><div class="klbl">Prům. CTR</div><div id="k-actr"><div class="kval">—</div></div></div>
-    </div>
     <div class="sec">
       <div class="shead"><span class="stitle">Přehled automatizací</span><span class="smeta">seřazeno podle tržeb v období</span></div>
       <div class="tcard" id="auto-tbl"><div class="empty">Načítám…</div></div>
@@ -324,7 +319,7 @@ function monthLabel(ym){
 }
 
 function monthRange(ym){
-  const [y,m] = ym.split('-');
+  const [y,m] = split('-');
   const from = `${y}-${m}-01`;
   const to = `${y}-${m}-${String(new Date(+y,+m,0).getDate()).padStart(2,'0')}`;
   return {from, to};
@@ -518,13 +513,6 @@ function render(camps,sm,autos,am,zakazDetail){
       <td class="r">${num(s.conversions)}</td><td class="r">${czk(s.conversions_value)}</td>
       <td class="r">${pct(s.bounce_rate)}</td><td class="r">${pct(s.spam_rate)}</td><td class="r">${pct(s.unsub_rate)}</td></tr>`;}).join('')
   }</tbody></table>`;
-
-  let orS=0,ctrS=0,n=0;
-  autos.forEach(a=>{const s=am[a.id]||{};if(parseFloat(s.open_rate||0)>0){orS+=parseFloat(s.open_rate||0);ctrS+=parseFloat(s.click_rate||0);n++;}});
-  
-  $('k-ac').innerHTML = `<div class="kval">${autos.length}</div>`;
-  $('k-aor').innerHTML=`<div class="kval">${pct(n?orS/n:0)}</div>`;
-  $('k-actr').innerHTML=`<div class="kval">${pct(n?ctrS/n:0)}</div>`;
 
   const sorted=[...autos].sort((a,b)=>(autoRev[b.id]||0)-(autoRev[a.id]||0));
   $('auto-tbl').innerHTML=`<table><thead><tr>
