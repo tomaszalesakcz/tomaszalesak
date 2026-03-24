@@ -165,7 +165,7 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
     <div class="tctrl">
       <div style="position:relative">
-        <select id="month-picker" onchange="selectMonth(this.value)" style="appearance:none;-webkit-appearance:none;padding:7px 36px 7px 13px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;border:1px solid var(--border);background:var(--surface);border-radius:var(--rs);cursor:pointer;color:var(--text);outline:none;min-width:180px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b6b67' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center"></select>
+        <select id="month-picker" onchange="selectMonth(this.value)" style="appearance:none;-webkit-appearance:none;padding:7px 36px 7px 13px;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;border:1px solid var(--border);background:var(--surface);border-radius:var(--rs);cursor:pointer;color:var(--text);outline:none;min-width:180px;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b6b67' d='M6 8L1 3h10z'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 12px center"></select>
       </div>
       <button class="ibtn" id="rbtn" onclick="loadAll()">
         <svg viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 112 7M12 7V4M12 7h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -174,13 +174,11 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
-  <!-- progress -->
   <div class="prog-wrap" id="prog-wrap">
     <div class="prog-lbl" id="prog-lbl">Načítám transakce…</div>
     <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
   </div>
 
-  <!-- OVERVIEW -->
   <div class="view on" id="vw-overview">
     <div class="krow k3">
       <div class="kcard"><div class="klbl">Tržby celkem</div><div id="k-rev-total"><div class="shim" style="height:34px;width:90px"></div></div><div class="knote" id="k-rev-total-n">&nbsp;</div><div class="kblob" style="background:#16a34a"></div></div>
@@ -197,7 +195,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
-  <!-- CAMPAIGNS -->
   <div class="view" id="vw-campaigns">
     <div class="sec">
       <div class="shead"><span class="stitle" id="cmp-head">Kampaně</span></div>
@@ -205,7 +202,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
     </div>
   </div>
 
-  <!-- AUTOMATIONS -->
   <div class="view" id="vw-automations">
     <div class="krow k4" style="margin-bottom:22px">
       <div class="kcard"><div class="klbl">Automatizace</div><div id="k-ac"><div class="shim" style="height:34px;width:50px"></div></div><div class="knote" id="k-ac-n">&nbsp;</div></div>
@@ -229,9 +225,6 @@ td.r { text-align:right; font-family:'DM Mono',monospace; font-size:12.5px; colo
   </div>
 
 </main>
-<script>
-const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
-
 <script>
 const PROXY = 'https://vehiclass.jsem-72e.workers.dev';
 
