@@ -253,7 +253,6 @@ function checkPassword() {
 
 function unlockDashboard() {
   document.getElementById('lock-screen').style.display = 'none';
-  // Teprve po odemčení se spustí načítání dat
   initApp();
 }
 
@@ -262,12 +261,10 @@ function logout() {
   location.reload();
 }
 
-// Při načtení stránky kontrolujeme, zda už je uživatel přihlášený v této session
 window.onload = () => {
   if (sessionStorage.getItem('vehiclass_auth') === 'unlocked') {
     unlockDashboard();
   }
-  // Pokud není, zůstane svítit zamykací obrazovka a čeká na input
 };
 
 // --- PŮVODNÍ APLIKAČNÍ KÓD ---
@@ -319,7 +316,7 @@ function monthLabel(ym){
 }
 
 function monthRange(ym){
-  const [y,m] = split('-');
+  const [y,m] = ym.split('-');
   const from = `${y}-${m}-01`;
   const to = `${y}-${m}-${String(new Date(+y,+m,0).getDate()).padStart(2,'0')}`;
   return {from, to};
