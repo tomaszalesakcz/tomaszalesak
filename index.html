@@ -278,73 +278,54 @@
             transform: scale(1.02);
         }
 
-        /* --- BENEFITS REDESIGN --- */
+        /* --- BENEFITS (Cards - Champagne Gold Line Art) --- */
         .benefits {
-            background: #fdfcf8;
+            background: var(--bg-card);
         }
-        
+
         .benefits-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
+            gap: 30px;
+            text-align: center;
         }
-        
+
         .benefit-card {
-            padding: 50px 30px;
-            border-radius: 12px;
+            padding: 40px 25px;
+            border-radius: 10px;
             background: var(--bg-card);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            box-shadow: var(--shadow-card);
             transition: var(--transition-main);
             display: flex; 
             flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
-            text-align: center;
-            border: 1px solid rgba(197, 160, 89, 0.15); /* Velmi jemný zlatý okraj */
-            position: relative;
-            overflow: hidden;
+            border: 1px solid transparent;
         }
-        
-        /* Horní zlatý proužek pro prémiový detail */
-        .benefit-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--accent-gold);
-            opacity: 0.7;
-        }
-        
+
         .benefit-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             box-shadow: var(--shadow-float);
-            border-color: var(--accent-gold);
+            border-color: rgba(197, 160, 89, 0.2);
         }
-        
+
         .benefit-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 30px;
-            color: var(--accent-gold);
+            font-size: 3rem;
+            margin-bottom: 25px;
+            color: var(--accent-gold); /* Zlaté line icons */
+            display: block;
+        }
+
+        .benefit-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-heading);
+            font-weight: 600;
+            height: 3.6em; 
+            line-height: 1.4;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        
-        .benefit-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke-width: 1.25px; /* Tenké, elegantní linky */
-        }
-        
-        .benefit-card h3 {
-            font-family: var(--font-body);
-            font-size: 1.25rem;
-            color: var(--text-heading);
-            font-weight: 700;
-            line-height: 1.4;
-            margin: 0;
         }
         
         /* --- CHALLENGES SECTION --- */
@@ -721,9 +702,13 @@
             }
             
             .challenges-grid { grid-template-columns: 1fr; }
+            
             .benefits-grid { grid-template-columns: 1fr; }
+            
             .service-description { text-align: center; }
+            
             .about-image { order: -1; }
+            
             .slider-nav { right: 20px; }
         }
         
@@ -789,28 +774,30 @@
                 
                 <div class="benefit-card">
                     <div class="benefit-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/>
+                            <path d="M6 12h.01M18 12h.01M12 6V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/><path d="M16 6V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"/>
+                        </svg>
                     </div>
                     <h3>Vyšší a stabilnější tržby</h3>
                 </div>
 
                 <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
-                    </div>
+                    <div class="benefit-icon">🔄</div>
                     <h3>Více vracejících se zákazníků</h3>
                 </div>
 
                 <div class="benefit-card">
-                    <div class="benefit-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                    </div>
+                    <div class="benefit-icon">📈</div>
                     <h3>Efektivnější marketing s vyšší návratností</h3>
                 </div>
 
                 <div class="benefit-card">
                     <div class="benefit-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><line x1="2" y1="2" x2="9" y2="9"></line></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                            <path d="M13 10a1 1 0 0 1 1.7-.7l3.3 3.3a1 1 0 0 1-.7 1.7h-3a1 1 0 0 1-.7-1.7V10z"/><path d="M16.5 14.5l2 2a1.5 1.5 0 0 0 2.1-2.1l-2-2"/>
+                        </svg>
                     </div>
                     <h3>Snížení závislosti na placené reklamě</h3>
                 </div>
