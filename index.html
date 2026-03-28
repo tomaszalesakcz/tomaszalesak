@@ -281,7 +281,7 @@
         /* --- LOGOS SECTION --- */
         .logos-section {
             background: var(--bg-body);
-            padding: 0 0 80px 0; /* Navazuje na spodní padding hero sekce */
+            padding: 0 0 80px 0;
         }
 
         .logos-grid {
@@ -289,20 +289,29 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            gap: 50px;
+            gap: 60px; /* Zvětšena mezera mezi většími logy */
         }
 
         .logos-grid img {
-            height: 45px; /* Sjednotí výšku všech log */
+            height: 60px; /* Celkové zvětšení základní výšky */
             width: auto;
-            max-width: 160px; /* Zabrání přílišnému natažení do šířky */
+            max-width: 250px; /* Uvolnění maximální šířky pro široká loga */
             object-fit: contain;
-            filter: grayscale(100%) opacity(60%); /* Profi utlumený vzhled */
+            filter: grayscale(100%) opacity(60%);
             transition: var(--transition-main);
         }
 
         .logos-grid img:hover {
-            filter: grayscale(0%) opacity(100%); /* Při najetí myší se probarví */
+            filter: grayscale(0%) opacity(100%);
+        }
+
+        /* Individuální zvětšení specifických log pro optické srovnání */
+        .logos-grid img.logo-vosime {
+            height: 85px; 
+        }
+
+        .logos-grid img.logo-poda {
+            height: 75px; 
         }
 
         /* --- BENEFITS REDESIGN --- */
@@ -767,9 +776,11 @@
             .service-card h3 { font-size: 1.6rem; }
             .slider-nav { display: none; }
             
-            /* Logo sekce responsivita */
+            /* Logo sekce responsivita s udržením upravených poměrů */
             .logos-grid { gap: 30px; }
-            .logos-grid img { height: 35px; }
+            .logos-grid img { height: 45px; }
+            .logos-grid img.logo-vosime { height: 60px; }
+            .logos-grid img.logo-poda { height: 55px; }
         }
     </style>
 </head>
@@ -816,9 +827,9 @@
     <div class="logos-section">
         <div class="container logos-grid">
             <img src="images/brainmarket.png" alt="BrainMarket">
-            <img src="images/vosime.png" alt="Vosíme">
+            <img src="images/vosime.png" alt="Vosíme" class="logo-vosime">
             <img src="images/vehiclass.png" alt="Vehiclass">
-            <img src="images/poda.png" alt="Poda">
+            <img src="images/poda.png" alt="Poda" class="logo-poda">
             <img src="images/dualvit.png" alt="Dualvit">
         </div>
     </div>
