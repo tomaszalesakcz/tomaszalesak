@@ -278,6 +278,33 @@
             transform: scale(1.02);
         }
 
+        /* --- LOGOS SECTION --- */
+        .logos-section {
+            background: var(--bg-body);
+            padding: 0 0 80px 0; /* Navazuje na spodní padding hero sekce */
+        }
+
+        .logos-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 50px;
+        }
+
+        .logos-grid img {
+            height: 45px; /* Sjednotí výšku všech log */
+            width: auto;
+            max-width: 160px; /* Zabrání přílišnému natažení do šířky */
+            object-fit: contain;
+            filter: grayscale(100%) opacity(60%); /* Profi utlumený vzhled */
+            transition: var(--transition-main);
+        }
+
+        .logos-grid img:hover {
+            filter: grayscale(0%) opacity(100%); /* Při najetí myší se probarví */
+        }
+
         /* --- BENEFITS REDESIGN --- */
         .benefits {
             background: #fdfcf8;
@@ -739,6 +766,10 @@
             .benefit-card h3 { font-size: 1.1rem; }
             .service-card h3 { font-size: 1.6rem; }
             .slider-nav { display: none; }
+            
+            /* Logo sekce responsivita */
+            .logos-grid { gap: 30px; }
+            .logos-grid img { height: 35px; }
         }
     </style>
 </head>
@@ -781,6 +812,16 @@
             </div>
         </div>
     </section>
+
+    <div class="logos-section">
+        <div class="container logos-grid">
+            <img src="images/brainmarket.png" alt="BrainMarket">
+            <img src="images/vosime.png" alt="Vosíme">
+            <img src="images/vehiclass.png" alt="Vehiclass">
+            <img src="images/poda.png" alt="Poda">
+            <img src="images/dualvit.png" alt="Dualvit">
+        </div>
+    </div>
 
     <section class="benefits" id="benefits">
         <div class="container">
@@ -994,7 +1035,7 @@
     <section class="cta" id="cta">
         <div class="container">
             <h2><span class="highlight">Plácneme si?</span></h2>
-      
+       
             <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
             <a href="mailto:jsem@tomaszalesak.cz" class="btn">jsem@tomaszalesak.cz</a>
             <p style="margin-top: 25px; font-size: 0.95rem; color: #888;">Odpovídám nejpozději do 2. pracovního dne</p>
