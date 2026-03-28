@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tomáš Zálešák | Retenční marketing</title>
-    <meta name="description" content="Jsem specialista retenčního marketingu. Pomáhám byznysům udržet více zákazníků a zvyšovat tržby.">
+    <meta name="description" content="Jsem specialista retenčního marketingu. Pomáhám byznysům zvyšovat hodnotu zákazníků, aby déle zůstávali a opakovaně nakupovali.">
     <link rel="icon" type="image/png" href="images/TZ Logo.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZS7GT3PJ2"></script>
     <script>
@@ -27,230 +27,770 @@
     </script>
 
     <style>
-        :root {
-            --primary: #2A3561; /* Hluboká námořnická */
-            --accent: #C5A059;  /* Champagne Gold */
-            --text: #2D2D2D;
-            --text-light: #666666;
-            --bg-body: #FAF9F6; /* Soft Off-white */
-            --bg-card: rgba(255, 255, 255, 0.8);
-            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        /* --- GLOBAL & RESET (Updated Palette) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            /* Colors */
+            --primary-navy: #35437b;
+            --primary-navy-dark: #2a3561;
+            --accent-gold: #c5a059; /* Champagne Gold */
+            --accent-gold-light: #e0ca9e;
+            --bg-body: #fdfcf8; /* Soft Off-White */
+            --bg-card: #ffffff;
+            --text-main: #333333;
+            --text-heading: #000000;
+            --text-muted: #666666;
+            
+            /* Typography */
+            --font-heading: 'Lora', serif;
+            --font-body: 'Inter', sans-serif;
+            
+            /* Shadows & Effects */
+            --shadow-card: 0 4px 25px rgba(0, 0, 0, 0.08);
+            --shadow-float: 0 10px 40px rgba(53, 67, 123, 0.15);
+            --transition-main: all 0.3s ease;
+        }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text);
+            font-family: var(--font-body);
             line-height: 1.8;
-            overflow-x: hidden;
-            /* Subtilní šum na pozadí */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            background-blend-mode: overlay;
-            opacity: 0.98;
+            color: var(--text-main);
+            background: var(--bg-body);
         }
 
-        .container { max-width: 1140px; margin: 0 auto; padding: 0 25px; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-        h1, h2, h3 { 
-            font-family: 'Playfair Display', serif; 
-            font-weight: 700; 
+        /* --- UTILITY CLASSES --- */
+        .section-title {
+            font-family: var(--font-heading);
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--text-heading);
+            margin-bottom: 70px;
+            font-weight: 700;
             line-height: 1.2;
-            color: var(--primary);
         }
-
-        section { padding: 140px 0; }
-
-        /* Navigation */
-        header {
-            padding: 25px 0;
-            position: sticky;
-            top: 0;
-            background: rgba(250, 249, 246, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(0,0,0,0.03);
-        }
-
-        .header-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-        .logo-text { font-weight: 600; font-size: 1.1rem; color: var(--primary); letter-spacing: 1px; text-transform: uppercase; }
         
-        .main-nav a {
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 500;
-            margin: 0 15px;
-            font-size: 0.95rem;
-            transition: var(--transition);
+        section {
+            padding: 130px 0;
+            position: relative;
         }
-        .main-nav a:hover { color: var(--accent); }
 
-        /* Buttons */
+        /* Sekce s mírným oddělením */
+        section:nth-of-type(even) {
+            background-color: #f6f5f0;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .highlight {
+            position: relative;
+            display: inline-block;
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            z-index: 1;
+        }
+        .highlight::before {
+            content: "";
+            position: absolute;
+            left: -2px;
+            bottom: 0.12em;
+            width: calc(100% + 6px);
+            height: 0.35em;
+            background: rgba(197, 160, 89, 0.35); /* Zlatý highlight */
+            transform: skew(-8deg);
+            z-index: -1;
+            border-radius: 4px;
+            filter: blur(0.5px);
+        }
+        
         .btn {
             display: inline-block;
-            padding: 16px 40px;
-            background: var(--primary);
+            padding: 20px 50px;
+            background: var(--primary-navy);
             color: white;
             text-decoration: none;
-            border-radius: 4px; /* Prémiovější než kulaté */
+            border-radius: 5px; /* Méně zaoblené pro serióznost */
             font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: var(--transition);
-            border: 1px solid var(--primary);
+            font-size: 1.15rem;
+            transition: var(--transition-main);
+            box-shadow: 0 4px 15px rgba(53, 67, 123, 0.2);
         }
         .btn:hover {
-            background: transparent;
-            color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(42, 53, 97, 0.1);
+            background: var(--primary-navy-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(53, 67, 123, 0.3);
         }
 
-        /* Hero */
-        .hero { padding-top: 100px; }
-        .hero-columns { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 80px; align-items: center; }
-        .hero-content h1 { font-size: 3.8rem; margin-bottom: 30px; }
-        .highlight { 
-            position: relative; 
-            color: var(--accent); 
-            font-style: italic;
+        /* --- HEADER --- */
+        header {
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+            position: sticky;
+            top: 0;
+            background: var(--bg-body);
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
         }
         
+        .main-nav {
+            display: none;
+        }
+        .main-nav a {
+            color: var(--primary-navy);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 5px 10px;
+            transition: color 0.3s ease;
+        }
+        .main-nav a:hover {
+            color: var(--accent-gold);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold); /* Zlaté ikony */
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.1);
+            color: var(--primary-navy);
+        }
+
+        .social-links svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .header-btn {
+            padding: 14px 35px;
+            background: transparent;
+            color: var(--primary-navy);
+            border: 2px solid var(--accent-gold); /* Zlatý rámeček */
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: var(--transition-main);
+        }
+
+        .header-btn:hover {
+            background: var(--accent-gold);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 100px 0;
+            background: var(--bg-body);
+        }
+
+        .hero-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-heading);
+            font-size: 3.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+        
+        .hero-image {
+            text-align: center;
+            position: relative;
+        }
+
         .hero-image img {
             width: 100%;
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; /* Organický tvar fotky */
-            background: var(--accent);
-            padding: 10px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-float);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .hero-image img:hover {
+            transform: scale(1.02);
         }
 
-        /* Benefits Grid */
-        .benefits { background: #f2f1ed; }
-        .section-title { text-align: center; margin-bottom: 80px; font-size: 2.8rem; }
-        .benefits-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
-        .benefit-card {
-            background: var(--bg-body);
-            padding: 40px 30px;
+        /* --- BENEFITS (Cards - Champagne Gold Line Art) --- */
+        .benefits {
+            background: var(--bg-card);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
             text-align: center;
-            border-radius: 12px;
-            transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.02);
         }
-        .benefit-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        .benefit-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; filter: grayscale(1); }
 
-        /* Challenges (Minimalist blocks) */
-        .challenges-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
-        .challenge-card { border-top: 2px solid var(--accent); padding-top: 30px; }
-        .challenge-card h3 { font-size: 1.5rem; margin-bottom: 20px; color: var(--primary); }
-
-        /* Services (Glassmorphism) */
-        .services { background: var(--primary); color: white; }
-        .services .section-title { color: white; }
-        .services-list { display: flex; flex-direction: column; gap: 40px; max-width: 850px; margin: 0 auto; }
-        .service-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 50px;
-            transition: var(--transition);
+        .benefit-card {
+            padding: 40px 25px;
+            border-radius: 10px;
+            background: var(--bg-card);
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+            display: flex; 
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            border: 1px solid transparent;
         }
-        .service-card:hover { background: rgba(255, 255, 255, 0.08); border-color: var(--accent); }
-        .service-badge { color: var(--accent); font-weight: 600; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 10px; display: block; }
-        .service-card h3 { color: white; font-size: 2.2rem; margin-bottom: 20px; }
-        .service-points ul { list-style: none; margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .service-points li::before { content: "→"; color: var(--accent); margin-right: 10px; }
 
-        /* Portfolio Slider */
-        .portfolio-slider { display: flex; overflow-x: auto; gap: 30px; padding: 20px 0; scrollbar-width: none; }
-        .portfolio-card {
-            min-width: 350px;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: inherit;
-            border: 1px solid #eee;
-            transition: var(--transition);
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-float);
+            border-color: rgba(197, 160, 89, 0.2);
         }
-        .portfolio-card:hover { border-color: var(--accent); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
 
-        /* About Section */
-        .about-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
-        .about-image img { width: 100%; border-radius: 20px; filter: sepia(0.2); }
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            color: var(--accent-gold); /* Zlaté line icons */
+            display: block;
+        }
 
-        /* Footer */
-        footer { padding: 60px 0; text-align: center; background: #1a1a1a; color: #999; font-size: 0.9rem; }
+        .benefit-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-heading);
+            font-weight: 600;
+            height: 3.6em; 
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         
-        /* Mobile */
+        /* --- CHALLENGES SECTION --- */
+        .challenges {
+            background: #fdfcf8; /* Změna na soft off-white */
+        }
+        
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .challenge-card {
+            background: var(--bg-card);
+            border: 1px solid #eeeeee;
+            border-left: 5px solid var(--accent-gold); /* Zlatý akcent */
+            border-radius: 8px;
+            padding: 40px 35px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+            height: 100%;
+        }
+        
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-float);
+        }
+        
+        .challenge-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.35rem;
+            color: var(--primary-navy);
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+        
+        .challenge-card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* --- SERVICES SECTION (Glassmorphism inspired) --- */
+        .services {
+            background: var(--bg-card);
+        }
+
+        .services-intro {
+            max-width: 700px;
+            margin: 0 auto 70px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        
+        .services-list {
+            display: flex;
+            flex-direction: column;
+            gap: 70px; 
+            max-width: 800px;
+            margin: 90px auto 0;
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px); /* Jemný glassmorphism */
+            border-radius: 15px;
+            padding: 70px 40px 50px; 
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+            position: relative; 
+            text-align: center;
+            border: 1px solid rgba(197, 160, 89, 0.1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-float);
+            border-color: rgba(197, 160, 89, 0.3);
+        }
+        
+        .service-badge {
+            background: var(--accent-gold);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: inline-block;
+            position: absolute;
+            top: -20px; 
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(197, 160, 89, 0.2);
+        }
+        
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+        }
+        
+        .service-description {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-align: left; 
+        }
+
+        .service-points {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .service-points ul {
+            display: inline-block; 
+            text-align: left;   
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .service-points li {
+            position: relative;
+            padding-left: 32px; 
+            margin-bottom: 10px;
+            color: var(--text-main);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .service-points li::before {
+            content: "✔"; 
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--accent-gold);
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+        
+        /* --- ABOUT SECTION (Soft Off-White) --- */
+        .about {
+            background: #fdfcf8; 
+        }
+
+        .about-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+        
+        .about-content h2 {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            color: var(--text-heading);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .about-content p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+        
+        .about-content strong {
+            font-weight: 700;
+            color: var(--primary-navy);
+        }
+        
+        .about-content .btn {
+            margin-top: 20px;
+            padding: 16px 45px;
+            font-size: 1rem;
+        }
+        
+        .about-image {
+            text-align: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-float);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        /* --- PORTFOLIO/ARTICLES SECTION --- */
+        .portfolio {
+            background: var(--bg-card); 
+        }
+
+        .portfolio-slider-wrapper {
+            overflow: hidden;
+            padding: 0 20px;
+            margin: 70px auto 0;
+            position: relative; 
+        }
+        
+        .portfolio-slider {
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            gap: 30px;
+            padding-bottom: 30px; 
+            scroll-behavior: smooth; 
+        }
+
+        .portfolio-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .portfolio-slider::-webkit-scrollbar-thumb {
+            background: rgba(197, 160, 89, 0.4);
+            border-radius: 10px;
+        }
+
+        .portfolio-slider::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .portfolio-card {
+            min-width: 300px;
+            height: 230px;
+            scroll-snap-align: start;
+            background: var(--primary-navy); 
+            color: white;
+            border-radius: 10px;
+            padding: 35px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition-main);
+            position: relative;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid transparent;
+        }
+        
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-float);
+            border-color: rgba(197, 160, 89, 0.4);
+        }
+        
+        .portfolio-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.4rem;
+            color: white;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .portfolio-card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+        
+        .link-icon {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            width: 26px;
+            height: 26px;
+            color: var(--accent-gold); /* Zlatá ikona odkazu */
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            right: 0px; 
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        .slider-arrow {
+            background: var(--accent-gold);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition-main);
+        }
+        
+        .slider-arrow:hover {
+            background: var(--primary-navy-dark);
+        }
+        
+        .slider-arrow svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* --- CTA SECTION --- */
+        .cta {
+            padding: 100px 0;
+            background: #fdfcf8; /* Změna na soft off-white */
+            text-align: center; 
+        }
+
+        .cta h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .cta p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--bg-card);
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+
+        /* --- MEDIA QUERIES (Updated for new spacing) --- */
+        @media (min-width: 969px) {
+            .main-nav {
+                display: flex;
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 1050px) {
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .services-list {
+                max-width: 600px;
+            }
+        }
+
         @media (max-width: 968px) {
-            .hero-columns, .about-columns, .benefits-grid, .challenges-grid { grid-template-columns: 1fr; gap: 50px; }
-            .hero-content h1 { font-size: 2.8rem; }
-            .service-points ul { grid-template-columns: 1fr; }
-            .service-card { padding: 30px; }
-            .main-nav { display: none; }
+            .section-title, .about-content h2 { font-size: 2.2rem; }
+            .hero-content h1 { font-size: 2.5rem; }
+            
+            section { padding: 90px 0; }
+            
+            .hero-columns, .about-columns {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 50px;
+            }
+            
+            .challenges-grid { grid-template-columns: 1fr; }
+            
+            .benefits-grid { grid-template-columns: 1fr; }
+            
+            .service-description { text-align: center; }
+            
+            .about-image { order: -1; }
+            
+            .slider-nav { right: 20px; }
+        }
+        
+        @media (max-width: 768px) {
+            .logo-text { display: none; }
+            .section-title, .cta h2, .about-content h2 { font-size: 1.9rem; }
+            .hero-content h1 { font-size: 1.9rem; }
+            
+            .social-links { gap: 10px; }
+            .header-btn { padding: 10px 20px; font-size: 0.9rem; }
+            .btn { padding: 16px 40px; font-size: 1.05rem; }
+            
+            .benefit-card h3 { font-size: 1.1rem; }
+            .service-card h3 { font-size: 1.6rem; }
+            .slider-nav { display: none; }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="container header-content">
-            <a href="#" class="logo">
-                <img src="images/TZ Logo.png" alt="TZ" style="width: 45px; height: 45px; border-radius: 4px;">
+            <a href="https://tomaszalesak.cz" class="logo">
+                <img src="images/TZ Logo.png" alt="TZ">
                 <span class="logo-text">Tomáš Zálešák</span>
             </a>
-            <nav class="header-nav">
-                <div class="main-nav">
+    
+            <div class="header-nav">
+                <nav class="main-nav">
                     <a href="#services">Služby</a>
                     <a href="#about">O mně</a>
+                </nav>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/tomas-zalesak" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </a>
+                    <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" aria-label="YouTube">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
                 </div>
-                <a href="#cta" class="btn" style="padding: 10px 25px; font-size: 0.9rem;">Kontakt</a>
-            </nav>
+                <a href="#cta" class="header-btn">Kontakt</a>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        <section class="hero">
-            <div class="hero-columns">
-                <div class="hero-content">
-                    <h1>Více věrných zákazníků, <span class="highlight">vyšší tržby</span></h1>
-                    <p style="font-size: 1.2rem; margin-bottom: 40px; color: var(--text-light);">Pomůžu vašemu byznysu růst pomocí věrných zákazníků, kteří se vrací a opakovaně nakupují. Stavím na datech a zákaznickém výzkumu.</p>
-                    <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
-                </div>
-                <div class="hero-image">
-                    <img src="images/Tomas-Zalesak.png" alt="Tomáš Zálešák">
-                </div>
+    <section class="hero">
+        <div class="container hero-columns">
+            <div class="hero-content">
+                <h1>Více věrných zákazníků, <span class="highlight">vyšší tržby</span></h1>
+                <p>Pomůžu vašemu byznysu růst pomocí věrných zákazníků, kteří se vrací a opakovaně nakupují.
+                Stavím na datech a zákaznickém výzkumu.</p>
+                <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
             </div>
-        </section>
-    </div>
+            <div class="hero-image">
+                <img src="images/Tomas-Zalesak.png" alt="Tomáš Zálešák">
+            </div>
+        </div>
+    </section>
 
-    <section class="benefits">
+    <section class="benefits" id="benefits">
         <div class="container">
             <h2 class="section-title">Co získáte?</h2>
             <div class="benefits-grid">
                 <div class="benefit-card">
-                    <span class="benefit-icon">💰</span>
+                    <div class="benefit-icon">💰</div>
                     <h3>Vyšší a stabilnější tržby</h3>
                 </div>
                 <div class="benefit-card">
-                    <span class="benefit-icon">🔄</span>
+                    <div class="benefit-icon">🔄</div>
                     <h3>Více vracejících se zákazníků</h3>
                 </div>
                 <div class="benefit-card">
-                    <span class="benefit-icon">📈</span>
+                    <div class="benefit-icon">📈</div>
                     <h3>Efektivnější marketing s vyšší návratností</h3>
                 </div>
                 <div class="benefit-card">
-                    <span class="benefit-icon">📢</span>
+                    <div class="benefit-icon">📢</div>
                     <h3>Snížení závislosti na placené reklamě</h3>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="challenges">
+    <section class="challenges" id="challenges">
         <div class="container">
             <h2 class="section-title">Poznáváte se v tom?</h2>
             <div class="challenges-grid">
@@ -258,10 +798,12 @@
                     <h3>„Akvizice zdražuje a nedaří se nám udržet zákazníky."</h3>
                     <p>Získat nového zákazníka je čím dál dražší a placená reklama se přestává vyplácet? Identifikuji příležitosti a pomůžu vám nastavit systém, který zvýší opakované nákupy.</p>
                 </div>
+                
                 <div class="challenge-card">
                     <h3>„Nevíme, jak pracovat s databází. Chybí nám strategie.“</h3>
                     <p>Možná občas pošlete newsletter, ale chybí vám komunikační strategie. Na základě analýzy vašeho aktuálního stavu určím směr, vyberu správné kanály a vytvořím plán s přímým dopadem na tržby.</p>
                 </div>
+                
                 <div class="challenge-card">
                     <h3>„Neumíme z dat a nástrojů vytěžit maximum.“</h3>
                     <p>Ať už vhodný nástroj teprve vybíráte, nebo nějaký využíváte, pomůžu vám je efektivně spravovat. Propojím vaše data a nastavím základy pro komunikaci se zákazníky napříč různými kanály.</p>
@@ -269,46 +811,69 @@
             </div>
         </div>
     </section>
-
+    
     <section class="services" id="services">
         <div class="container">
             <h2 class="section-title">Možnosti spolupráce</h2>
+            <div class="services-intro">
+                Možností spolupráce je několik. Vždy záleží na tom, v jaké fázi se váš byznys nachází a co konkrétně potřebujete.
+            </div>
             <div class="services-list">
                 <div class="service-card">
-                    <span class="service-badge">Nevíme, kde začít a co vlastně potřebujeme</span>
+                    <div class="service-badge">„Nevíme, kde začít a co vlastně potřebujeme"</div>
                     <h3>Retenční audit & strategie</h3>
-                    <p>Na základě analýzy vašeho byznysu, dat a marketingu zjistím, kde vám utíkají peníze, proč se zákazníci nevracejí a jak zvýšit jejich hodnotu.</p>
+                    <div class="service-description">
+                        Na základě analýzy vašeho byznysu, dat a marketingu zjistím, kde vám utíkají peníze, proč se zákazníci nevracejí a jak zvýšit jejich hodnotu. pochopíte, na co se zaměřit v krátkodobém i dlouhodobém horizontu, jaké nástroje využívat a jak postupovat.Jasná strategie s cílem zvýšit tržby
+                    </div>
                     <div class="service-points">
                         <ul>
-                            <li>Analýza zákaznické báze</li>
-                            <li>Optimalizace nástrojů</li>
-                            <li>Strategie pro tržby</li>
+                            <li>Analýza zákaznické báze a marketingu</li>
+                            <li>Kontrola a optimalizace nástrojů</li>
+                            <li>Jasná strategie s cílem zvýšit tržby</li>
                         </ul>
                     </div>
                 </div>
-
+                
                 <div class="service-card">
-                    <span class="service-badge">Nevíme, jak efektivně využívat nástroje</span>
+                    <div class="service-badge">„Nevíme, jak efektivně využívat nástroje"</div>
                     <h3>E-mailingové & CRM nástroje</h3>
-                    <p>Pomůžu vám vybrat, nastavit a efektivně spravovat nástroje pro práci se zákazníky – od mailingových nástrojů po CRM platformy.</p>
+                    <div class="service-description"> 
+                        Pomůžu vám vybrat, nastavit a efektivně spravovat nástroje pro práci se zákazníky – od mailingových nástrojů po CRM platformy. Cílem je, abyste pomocí automatizací a kampaní efektivně komunikovali se zákazníky napříč různými kanály.Výběr a nastavení nástrojůKomunikační strategie napříč kanály
+                    </div>
                     <div class="service-points">
                         <ul>
-                            <li>Aktivace dat</li>
-                            <li>Nastavení platforem</li>
-                            <li>Komunikační plány</li>
+                            <li>Propojení a aktivace dat</li>
+                            <li>Výběr a nastavení nástrojů</li>
+                            <li>Komunikační strategie napříč kanály</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="service-card">
-                    <span class="service-badge">Potřebujeme strategického partnera</span>
+                    <div class="service-badge">„Potřebujeme strategického partnera"</div>
                     <h3>Externí řízení (CRM/retence)</h3>
-                    <p>Chcete se opřít do retence, ale nemáte na to člověka? Spojím síly s vaším týmem. Nastavím procesy a předám zkušenosti.</p>
+                    <div class="service-description">
+                        Chcete se opřít do retence, ale nemáte na to člověka? Spojím síly s vaším týmem. Nastavím procesy, předám zkušenosti a postavím základy, na kterých můžete do budoucna stavět.Role externího stratégaSpolupráce s interním nebo externím týmemPravidelná optimalizace na základě dat
+                    </div>
                     <div class="service-points">
                         <ul>
-                            <li>Externí stratég</li>
-                            <li>Mentoring týmu</li>
-                            <li>Průběžná optimalizace</li>
+                            <li>Role externího stratéga</li>
+                            <li>Spolupráce s interním nebo externím týmem</li>
+                            <li>Pravidelná optimalizace na základě dat</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-badge">„Potřebujeme poradit nebo nasměrovat"</div>
+                    <h3>Konzultace & tematické workshopy</h3>
+                    <div class="service-description">
+                        Potřebujete se rychle hnout z místa? Hledáte řešení na konkrétní problém? Nebo byste si rádi osvojili nové znalosti, praktické postupy nebo se naučili pracovat s nástroji? Domluvme si konzultaci nebo rovnou workshop pro celý tým.Workshopy pro týmy
+                    </div>
+                    <div class="service-points">
+                        <ul>
+                            <li>Jednorázové nebo pravidelné konzultace</li>
+                            <li>Workshopy pro týmy</li>
                         </ul>
                     </div>
                 </div>
@@ -321,12 +886,13 @@
             <div class="about-columns">
                 <div class="about-content">
                     <h2>Kdo vlastně jsem?</h2>
-                    <p>Většina marketérů řeší, jak přivést nové zákazníky. Já se jako jeden z mála freelancerů v ČR zaměřuji na to, <strong>jak si udržet ty stávající</strong>.</p>
-                    <p>Na volné noze podnikám <strong>více než 6 let</strong>. Od copywritingu jsem se postupně přesunul čistě k retenčnímu marketingu.</p>
-                    <a href="mailto:jsem@tomaszalesak.cz" class="btn" style="margin-top: 30px;">Napište mi</a>
+                    <p>Většina marketérů řeší, jak přivést nové zákazníky. Já se jako jeden z mála freelancerů v ČR zaměřuji na to, <strong>jak si udržet ty stávající</strong>. Věrní zákazníci, kteří se vrací a opakovaně nakupují, totiž zefektivňují investici do marketingu a přináší tržby a zisk.</p>
+                    <p>Klientům pomáhám naplno využít potenciál jejich zákaznické databáze – od chytrého e-mailingu až po komplexní retenční strategii.</p>
+                    <p>Na volné noze podnikám <strong>více než 6 let</strong>. Od copywritingu a content marketingu jsem se postupně přesunul čistě k retenčnímu marketingu. Díky tomu dokážu efektivně pracovat s databázi zákazníků – třeba i tou vaší.</p>
+                    <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
                 </div>
                 <div class="about-image">
-                    <img src="images/TZ1.png" alt="Tomáš Zálešák">
+                    <img src="images/TZ1.png" alt="Tomáš Zálešák" style="max-width: 300px;">
                 </div>
             </div>
         </div>
@@ -335,48 +901,132 @@
     <section class="portfolio">
         <div class="container">
             <h2 class="section-title">O své know-how se dělím</h2>
-            <div class="portfolio-slider">
-                <a href="https://tomaszalesak.cz/retencni-marketing" class="portfolio-card">
-                    <h3>Retenční marketing: Jak si udržet zákazníky</h3>
-                    <p>Blogový článek</p>
-                </a>
-                <a href="https://tomaszalesak.cz/jak-napsat-newsletter" class="portfolio-card">
-                    <h3>6 tipů, jak napsat newsletter</h3>
-                    <p>Blogový článek</p>
-                </a>
-                <a href="https://www.podnikatel.cz/clanky/retence-v-praxi-5-chyb-kvuli-kterym-vas-e-shop-prichazi-o-verne-zakazniky/" class="portfolio-card">
-                    <h3>5 chyb e-shopů v retenci</h3>
-                    <p>Podnikatel.cz</p>
-                </a>
+            <div class="portfolio-slider-wrapper">
+                <div class="portfolio-slider" id="portfolioSlider">
+                    <a href="https://tomaszalesak.cz/retencni-marketing" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>Retenční marketing: Jak si udržet zákazníky</h3>
+                            <p>Blogový článek</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                    <a href="https://tomaszalesak.cz/jak-napsat-newsletter" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>6 tipů, jak napsat newsletter</h3>
+                            <p>Blogový článek</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                    <a href="https://www.podnikatel.cz/clanky/retence-v-praxi-5-chyb-kvuli-kterym-vas-e-shop-prichazi-o-verne-zakazniky/" target="_blank" rel="noopener" class="portfolio-card">
+                         <div>
+                            <h3>5 chyb, kvůli kterým váš e-shop přichází o věrné zákazníky</h3>
+                            <p>Článek pro Podnikatel.cz</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                    <a href="https://www.podnikatel.cz/clanky/co-je-zakaznicka-zkusenost-a-proc-ji-vubec-resit-udelejte-z-ni-konkurencni-vyhodu/" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>Co je zákaznická zkušenost a proč ji vůbec řešit?</h3>
+                            <p>Článek pro Podnikatel.cz</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                    <a href="https://www.podnikatel.cz/clanky/zakaznik-ma-vzdy-pravdu-opravdu" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>Zákazník má vždy pravdu. Opravdu?</h3>
+                            <p>Článek pro Podnikatel.cz</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                     <a href="https://www.podnikatel.cz/clanky/vanocni-zne-skoncily-prave-ted-je-cas-na-poradny-vernostni-program/" target="_blank" rel="noopener" class="portfolio-card">
+                         <div>
+                            <h3>Jak vytvořit věrnostní program</h3>
+                            <p>Článek pro Podnikatel.cz</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                    <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>YouTube kanál</h3>
+                            <p>Postřehy ze světa marketingu</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                </div>
+                <div class="slider-nav">
+                    <button class="slider-arrow" id="slideRight" aria-label="Posunout doprava">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="cta" id="cta" style="text-align: center;">
+    <section class="cta" id="cta">
         <div class="container">
-            <h2 style="font-size: 3.5rem; margin-bottom: 20px;">Plácneme si?</h2>
-            <p style="max-width: 600px; margin: 0 auto 40px; font-size: 1.2rem;">Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
+            <h2><span class="highlight">Plácneme si?</span></h2>
+      
+            <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
             <a href="mailto:jsem@tomaszalesak.cz" class="btn">jsem@tomaszalesak.cz</a>
-            <p style="margin-top: 30px; opacity: 0.5;">Odpovídám nejpozději do 2. pracovního dne</p>
+            <p style="margin-top: 25px; font-size: 0.95rem; color: #888;">Odpovídám nejpozději do 2. pracovního dne</p>
         </div>
     </section>
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Tomáš Zálešák • IČO: 08372284</p>
+            <p>&copy; 2026 Tomáš Zálešák</p>
+            <p>IČO: 08372284 (neplátce DPH)</p>
         </div>
     </footer>
 
     <script>
-        // Smooth scroll
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Slider navigation for Portfolio section
+        const slider = document.getElementById('portfolioSlider');
+        const slideRight = document.getElementById('slideRight');
+        
+        if (slider && slideRight) {
+            slideRight.addEventListener('click', () => {
+                // Posune slider o šířku jedné karty plus mezeru
+                const cardWidth = slider.querySelector('.portfolio-card').offsetWidth;
+                const gap = 30; // Shodné s CSS gap
+                const scrollDistance = cardWidth + gap; 
+                
+                slider.scrollBy({
+                    left: scrollDistance,
                     behavior: 'smooth'
                 });
             });
-        });
+            
+            // Skrýt šipku, pokud jsme na konci slideru
+            slider.addEventListener('scroll', () => {
+                const maxScroll = slider.scrollWidth - slider.clientWidth;
+                if (slider.scrollLeft >= maxScroll - 10) {
+                    slideRight.style.opacity = '0.3';
+                    slideRight.style.cursor = 'default';
+                } else {
+                    slideRight.style.opacity = '1';
+                    slideRight.style.cursor = 'pointer';
+                }
+            });
+        }
     </script>
 </body>
 </html>
