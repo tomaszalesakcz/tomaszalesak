@@ -278,42 +278,6 @@
             transform: scale(1.02);
         }
 
-        /* --- LOGOS SECTION --- */
-        .logos-section {
-            background: var(--bg-body);
-            padding: 0 0 80px 0;
-        }
-
-        .logos-grid {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 60px; /* Zvětšena mezera mezi většími logy */
-        }
-
-        .logos-grid img {
-            height: 60px; /* Celkové zvětšení základní výšky */
-            width: auto;
-            max-width: 250px; /* Uvolnění maximální šířky pro široká loga */
-            object-fit: contain;
-            filter: grayscale(100%) opacity(60%);
-            transition: var(--transition-main);
-        }
-
-        .logos-grid img:hover {
-            filter: grayscale(0%) opacity(100%);
-        }
-
-        /* Individuální zvětšení specifických log pro optické srovnání */
-        .logos-grid img.logo-vosime {
-            height: 85px; 
-        }
-
-        .logos-grid img.logo-poda {
-            height: 75px; 
-        }
-
         /* --- BENEFITS REDESIGN --- */
         .benefits {
             background: #fdfcf8;
@@ -775,12 +739,6 @@
             .benefit-card h3 { font-size: 1.1rem; }
             .service-card h3 { font-size: 1.6rem; }
             .slider-nav { display: none; }
-            
-            /* Logo sekce responsivita s udržením upravených poměrů */
-            .logos-grid { gap: 30px; }
-            .logos-grid img { height: 45px; }
-            .logos-grid img.logo-vosime { height: 60px; }
-            .logos-grid img.logo-poda { height: 55px; }
         }
     </style>
 </head>
@@ -823,16 +781,6 @@
             </div>
         </div>
     </section>
-
-    <div class="logos-section">
-        <div class="container logos-grid">
-            <img src="images/brainmarket.png" alt="BrainMarket">
-            <img src="images/vosime.png" alt="Vosíme" class="logo-vosime">
-            <img src="images/vehiclass.png" alt="Vehiclass">
-            <img src="images/poda.png" alt="Poda" class="logo-poda">
-            <img src="images/dualvit.png" alt="Dualvit">
-        </div>
-    </div>
 
     <section class="benefits" id="benefits">
         <div class="container">
@@ -1046,7 +994,7 @@
     <section class="cta" id="cta">
         <div class="container">
             <h2><span class="highlight">Plácneme si?</span></h2>
-       
+      
             <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
             <a href="mailto:jsem@tomaszalesak.cz" class="btn">jsem@tomaszalesak.cz</a>
             <p style="margin-top: 25px; font-size: 0.95rem; color: #888;">Odpovídám nejpozději do 2. pracovního dne</p>
