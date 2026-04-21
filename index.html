@@ -260,6 +260,25 @@
             color: var(--text-muted);
             margin-bottom: 40px;
         }
+
+        /* --- HERO BADGES --- */
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 35px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-gold);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(197, 160, 89, 0.2);
+        }
         
         .hero-image {
             text-align: center;
@@ -725,6 +744,10 @@
             .service-description { text-align: center; }
             .about-image { order: -1; }
             .slider-nav { right: 20px; }
+
+            .hero-badges {
+                justify-content: center;
+            }
         }
         
         @media (max-width: 768px) {
@@ -771,6 +794,12 @@
     <section class="hero">
         <div class="container hero-columns">
             <div class="hero-content">
+                <div class="hero-badges">
+                    <span class="hero-badge">Retence zákazníků</span>
+                    <span class="hero-badge">CRM strategie</span>
+                    <span class="hero-badge">Zákaznická loajalita</span>
+                    <span class="hero-badge">Marketingová automatizace</span>
+                </div>
                 <h1>Více věrných zákazníků, <span class="highlight">vyšší tržby</span></h1>
                 <p>Pomůžu vám vytěžit maximum z vaší zákaznické databáze — od strategie přes výběr nástrojů až po samotnou komunikaci</p>
                 <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
@@ -828,12 +857,12 @@
                 </div>
                 
                 <div class="challenge-card">
-                    <h3>„Nevíme, jak pracovat s databází. Chybí nám strategie.“</h3>
+                    <h3>„Nevíme, jak pracovat s databází. Chybí nám strategie."</h3>
                     <p>Možná občas pošlete newsletter, ale chybí vám komunikační strategie. Na základě analýzy vašeho aktuálního stavu určím směr, vyberu správné kanály a vytvořím plán s přímým dopadem na tržby.</p>
                 </div>
                 
                 <div class="challenge-card">
-                    <h3>„Neumíme z dat a nástrojů vytěžit maximum.“</h3>
+                    <h3>„Neumíme z dat a nástrojů vytěžit maximum."</h3>
                     <p>Ať už vhodný nástroj teprve vybíráte, nebo nějaký využíváte, pomůžu vám je efektivně spravovat. Propojím vaše data a nastavím základy pro komunikaci se zákazníky napříč různými kanály.</p>
                 </div>
             </div>
@@ -938,13 +967,6 @@
                         </div>
                         <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     </a>
-                    <a href="https://tomaszalesak.cz/jak-napsat-newsletter" target="_blank" rel="noopener" class="portfolio-card">
-                        <div>
-                            <h3>6 tipů, jak napsat newsletter</h3>
-                            <p>Blogový článek</p>
-                        </div>
-                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                    </a>
                     <a href="https://www.podnikatel.cz/clanky/retence-v-praxi-5-chyb-kvuli-kterym-vas-e-shop-prichazi-o-verne-zakazniky/" target="_blank" rel="noopener" class="portfolio-card">
                          <div>
                             <h3>5 chyb, kvůli kterým váš e-shop přichází o věrné zákazníky</h3>
@@ -1032,9 +1054,8 @@
         
         if (slider && slideRight) {
             slideRight.addEventListener('click', () => {
-                // Posune slider o šířku jedné karty plus mezeru
                 const cardWidth = slider.querySelector('.portfolio-card').offsetWidth;
-                const gap = 30; // Shodné s CSS gap
+                const gap = 30;
                 const scrollDistance = cardWidth + gap; 
                 
                 slider.scrollBy({
@@ -1043,7 +1064,6 @@
                 });
             });
             
-            // Skrýt šipku, pokud jsme na konci slideru
             slider.addEventListener('scroll', () => {
                 const maxScroll = slider.scrollWidth - slider.clientWidth;
                 if (slider.scrollLeft >= maxScroll - 10) {
