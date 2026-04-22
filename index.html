@@ -27,7 +27,7 @@
     </script>
 
     <style>
-        /* --- GLOBAL & RESET (Updated Palette) --- */
+        /* --- GLOBAL & RESET --- */
         * {
             margin: 0;
             padding: 0;
@@ -35,22 +35,19 @@
         }
 
         :root {
-            /* Colors */
             --primary-navy: #35437b;
             --primary-navy-dark: #2a3561;
-            --accent-gold: #c5a059; /* Champagne Gold */
+            --accent-gold: #c5a059;
             --accent-gold-light: #e0ca9e;
-            --bg-body: #fdfcf8; /* Soft Off-White */
+            --bg-body: #fdfcf8;
             --bg-card: #ffffff;
             --text-main: #333333;
             --text-heading: #000000;
             --text-muted: #666666;
             
-            /* Typography */
             --font-heading: 'Lora', serif;
             --font-body: 'Inter', sans-serif;
             
-            /* Shadows & Effects */
             --shadow-card: 0 4px 25px rgba(0, 0, 0, 0.08);
             --shadow-float: 0 10px 40px rgba(53, 67, 123, 0.15);
             --transition-main: all 0.3s ease;
@@ -69,7 +66,6 @@
             padding: 0 20px;
         }
 
-        /* --- UTILITY CLASSES --- */
         .section-title {
             font-family: var(--font-heading);
             text-align: center;
@@ -85,7 +81,6 @@
             position: relative;
         }
 
-        /* Sekce s mírným oddělením */
         section:nth-of-type(even) {
             background-color: #f6f5f0;
             border-top: 1px solid rgba(197, 160, 89, 0.1);
@@ -106,7 +101,7 @@
             bottom: 0.12em;
             width: calc(100% + 6px);
             height: 0.35em;
-            background: rgba(197, 160, 89, 0.35); /* Zlatý highlight */
+            background: rgba(197, 160, 89, 0.35);
             transform: skew(-8deg);
             z-index: -1;
             border-radius: 4px;
@@ -119,7 +114,7 @@
             background: var(--primary-navy);
             color: white;
             text-decoration: none;
-            border-radius: 5px; /* Méně zaoblené pro serióznost */
+            border-radius: 5px;
             font-weight: 600;
             font-size: 1.15rem;
             transition: var(--transition-main);
@@ -139,7 +134,7 @@
             top: 0;
             background: var(--bg-body);
             z-index: 1000;
-            box-shadow: 0 4px 15 rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
         }
 
         .header-content {
@@ -201,7 +196,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--accent-gold); /* Zlaté ikony */
+            color: var(--accent-gold);
             transition: transform 0.3s ease, color 0.3s ease;
         }
 
@@ -261,7 +256,6 @@
             margin-bottom: 40px;
         }
 
-        /* --- HERO BADGES --- */
         .hero-badges {
             display: flex;
             flex-wrap: wrap;
@@ -297,7 +291,37 @@
             transform: scale(1.02);
         }
 
-        /* --- BENEFITS REDESIGN --- */
+        /* --- CLIENTS STRIP --- */
+        .clients {
+            padding: 35px 0;
+            background: var(--bg-card);
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .clients-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px 60px;
+        }
+
+        .clients-logos img {
+            height: 36px;
+            width: auto;
+            max-width: 130px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.55);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .clients-logos img:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.05);
+        }
+
+        /* --- BENEFITS --- */
         .benefits {
             background: #fdfcf8;
         }
@@ -318,12 +342,11 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            border: 1px solid rgba(197, 160, 89, 0.15); /* Velmi jemný zlatý okraj */
+            border: 1px solid rgba(197, 160, 89, 0.15);
             position: relative;
             overflow: hidden;
         }
         
-        /* Horní zlatý proužek pro prémiový detail */
         .benefit-card::before {
             content: "";
             position: absolute;
@@ -354,7 +377,7 @@
         .benefit-icon svg {
             width: 100%;
             height: 100%;
-            stroke-width: 1.25px; /* Tenké, elegantní linky */
+            stroke-width: 1.25px;
         }
         
         .benefit-card h3 {
@@ -368,7 +391,7 @@
         
         /* --- CHALLENGES SECTION --- */
         .challenges {
-            background: #fdfcf8; /* Změna na soft off-white */
+            background: #fdfcf8;
         }
         
         .challenges-grid {
@@ -380,7 +403,7 @@
         .challenge-card {
             background: var(--bg-card);
             border: 1px solid #eeeeee;
-            border-left: 5px solid var(--accent-gold); /* Zlatý akcent */
+            border-left: 5px solid var(--accent-gold);
             border-radius: 8px;
             padding: 40px 35px;
             box-shadow: var(--shadow-card);
@@ -408,7 +431,7 @@
             line-height: 1.6;
         }
 
-        /* --- SERVICES SECTION (Glassmorphism inspired) --- */
+        /* --- SERVICES SECTION --- */
         .services {
             background: var(--bg-card);
         }
@@ -432,7 +455,7 @@
         
         .service-card {
             background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px); /* Jemný glassmorphism */
+            backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 70px 40px 50px; 
             box-shadow: var(--shadow-card);
@@ -510,7 +533,7 @@
             font-size: 1.1rem;
         }
         
-        /* --- ABOUT SECTION (Soft Off-White) --- */
+        /* --- ABOUT SECTION --- */
         .about {
             background: #fdfcf8; 
         }
@@ -638,7 +661,7 @@
             right: 25px;
             width: 26px;
             height: 26px;
-            color: var(--accent-gold); /* Zlatá ikona odkazu */
+            color: var(--accent-gold);
         }
 
         .slider-nav {
@@ -676,7 +699,7 @@
         /* --- CTA SECTION --- */
         .cta {
             padding: 100px 0;
-            background: #fdfcf8; /* Změna na soft off-white */
+            background: #fdfcf8;
             text-align: center; 
         }
 
@@ -694,7 +717,6 @@
             margin-bottom: 40px;
         }
 
-
         /* --- FOOTER --- */
         footer {
             background: var(--bg-card);
@@ -708,7 +730,6 @@
             margin: 8px 0;
             font-size: 0.95rem;
         }
-
 
         /* --- MEDIA QUERIES --- */
         @media (min-width: 969px) {
@@ -744,10 +765,7 @@
             .service-description { text-align: center; }
             .about-image { order: -1; }
             .slider-nav { right: 20px; }
-
-            .hero-badges {
-                justify-content: center;
-            }
+            .hero-badges { justify-content: center; }
         }
         
         @media (max-width: 768px) {
@@ -762,6 +780,8 @@
             .benefit-card h3 { font-size: 1.1rem; }
             .service-card h3 { font-size: 1.6rem; }
             .slider-nav { display: none; }
+            .clients-logos img { height: 28px; }
+            .clients-logos { gap: 25px 40px; }
         }
     </style>
 </head>
@@ -808,6 +828,20 @@
             </div>
         </div>
     </section>
+
+    <!-- CLIENTS STRIP -->
+    <div class="clients">
+        <div class="container">
+            <div class="clients-logos">
+                <img src="images/brainmarket.png" alt="Brainmarket">
+                <img src="images/vosime.png" alt="Vošime">
+                <img src="images/datart.jpg" alt="Datart">
+                <img src="images/vehiclass.png" alt="Vehiclass">
+                <img src="images/poda.png" alt="Poda">
+                <img src="images/dualvit.png" alt="Dualvit">
+            </div>
+        </div>
+    </div>
 
     <section class="benefits" id="benefits">
         <div class="container">
@@ -1014,7 +1048,6 @@
     <section class="cta" id="cta">
         <div class="container">
             <h2><span class="highlight">Plácneme si?</span></h2>
-      
             <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
             <a href="mailto:jsem@tomaszalesak.cz" class="btn">jsem@tomaszalesak.cz</a>
             <p style="margin-top: 25px; font-size: 0.95rem; color: #888;">Odpovídám nejpozději do 2. pracovního dne</p>
@@ -1029,7 +1062,6 @@
     </footer>
 
     <script>
-        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1038,16 +1070,11 @@
                 if (target) {
                     const headerHeight = document.querySelector('header').offsetHeight;
                     const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                 }
             });
         });
         
-        // Slider navigation for Portfolio section
         const slider = document.getElementById('portfolioSlider');
         const slideRight = document.getElementById('slideRight');
         
@@ -1055,12 +1082,7 @@
             slideRight.addEventListener('click', () => {
                 const cardWidth = slider.querySelector('.portfolio-card').offsetWidth;
                 const gap = 30;
-                const scrollDistance = cardWidth + gap; 
-                
-                slider.scrollBy({
-                    left: scrollDistance,
-                    behavior: 'smooth'
-                });
+                slider.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
             });
             
             slider.addEventListener('scroll', () => {
