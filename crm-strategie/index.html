@@ -1,1 +1,931 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zvyšte tržby bez navyšování rozpočtů | Tomáš Zálešák</title>
+    <meta name="description" content="CRM strategie pro e-shopy a firmy. Pomůžu vám zvýšit tržby bez navyšování reklamních rozpočtů – díky chytré práci se zákaznickou databází.">
+    <link rel="icon" type="image/png" href="images/TZ Logo.png">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- GLOBAL & RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-navy: #35437b;
+            --primary-navy-dark: #2a3561;
+            --accent-gold: #c5a059;
+            --accent-gold-light: #e0ca9e;
+            --bg-body: #fdfcf8;
+            --bg-card: #ffffff;
+            --text-main: #333333;
+            --text-heading: #000000;
+            --text-muted: #666666;
+
+            --font-heading: 'Lora', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --shadow-card: 0 4px 25px rgba(0, 0, 0, 0.08);
+            --shadow-float: 0 10px 40px rgba(53, 67, 123, 0.15);
+            --transition-main: all 0.3s ease;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.8;
+            color: var(--text-main);
+            background: var(--bg-body);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--text-heading);
+            margin-bottom: 70px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        section {
+            padding: 130px 0;
+            position: relative;
+        }
+
+        section:nth-of-type(even) {
+            background-color: #f6f5f0;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .highlight {
+            position: relative;
+            display: inline-block;
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            z-index: 1;
+        }
+        .highlight::before {
+            content: "";
+            position: absolute;
+            left: -2px;
+            bottom: 0.12em;
+            width: calc(100% + 6px);
+            height: 0.35em;
+            background: rgba(197, 160, 89, 0.35);
+            transform: skew(-8deg);
+            z-index: -1;
+            border-radius: 4px;
+            filter: blur(0.5px);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 20px 50px;
+            background: var(--primary-navy);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.15rem;
+            transition: var(--transition-main);
+            box-shadow: 0 4px 15px rgba(53, 67, 123, 0.2);
+        }
+        .btn:hover {
+            background: var(--primary-navy-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(53, 67, 123, 0.3);
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+            position: sticky;
+            top: 0;
+            background: var(--bg-body);
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.1);
+            color: var(--primary-navy);
+        }
+
+        .social-links svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .header-btn {
+            padding: 14px 35px;
+            background: var(--accent-gold);
+            color: white;
+            border: 2px solid var(--accent-gold);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: var(--transition-main);
+        }
+
+        .header-btn:hover {
+            background: var(--primary-navy);
+            border-color: var(--primary-navy);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 100px 0 80px;
+            background: var(--bg-body);
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-heading);
+            font-size: 3.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            max-width: 820px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            margin-bottom: 35px;
+            letter-spacing: 0.01em;
+        }
+
+        /* --- VIDEO EMBED --- */
+        .hero-video {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 315px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-float);
+            border: 1px solid rgba(197, 160, 89, 0.15);
+        }
+
+        .video-wrapper::before {
+            content: "";
+            display: block;
+            padding-top: 177.78%;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* --- CLIENTS STRIP --- */
+        .clients {
+            padding: 35px 0;
+            background: var(--bg-card);
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .clients-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px 60px;
+        }
+
+        .clients-logos img {
+            height: 36px;
+            width: auto;
+            max-width: 130px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.55);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .clients-logos img:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.05);
+        }
+
+        /* --- BENEFITS --- */
+        .benefits {
+            background: #fdfcf8;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .benefit-card {
+            padding: 50px 30px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            transition: var(--transition-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(197, 160, 89, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-gold);
+            opacity: 0.7;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-float);
+            border-color: var(--accent-gold);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 30px;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .benefit-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 1.25px;
+        }
+
+        .benefit-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* --- CHALLENGES --- */
+        .challenges {
+            background: #fdfcf8;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .challenge-card {
+            background: var(--bg-card);
+            border: 1px solid #eeeeee;
+            border-left: 5px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 40px 35px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+            height: 100%;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-float);
+        }
+
+        .challenge-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.35rem;
+            color: var(--primary-navy);
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .challenge-card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* --- SERVICES SECTION --- */
+        .services {
+            background: var(--bg-card);
+        }
+
+        .services-intro {
+            max-width: 700px;
+            margin: 0 auto 70px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .services-list {
+            display: flex;
+            flex-direction: column;
+            gap: 70px;
+            max-width: 800px;
+            margin: 90px auto 0;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 70px 40px 50px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+            position: relative;
+            text-align: center;
+            border: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-float);
+            border-color: rgba(197, 160, 89, 0.3);
+        }
+
+        .service-badge {
+            background: var(--accent-gold);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: inline-block;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(197, 160, 89, 0.2);
+        }
+
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+        }
+
+        .service-description {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .service-points {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .service-points ul {
+            display: inline-block;
+            text-align: left;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .service-points li {
+            position: relative;
+            padding-left: 32px;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .service-points li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--accent-gold);
+            font-weight: 900;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 1050px) {
+            .services-list { max-width: 600px; }
+        }
+
+        @media (max-width: 768px) {
+            .service-card h3 { font-size: 1.6rem; }
+            .service-description { text-align: center; }
+        }
+
+        /* --- FOR WHOM --- */
+        .for-whom {
+            background: var(--bg-card);
+        }
+
+        .for-whom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .for-whom-box {
+            background: var(--bg-body);
+            border-radius: 12px;
+            padding: 35px 40px;
+            border: 1px solid rgba(197, 160, 89, 0.15);
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .for-whom-box::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+
+        .for-whom-box.yes::before {
+            background: var(--accent-gold);
+        }
+
+        .for-whom-box.no::before {
+            background: #cccccc;
+        }
+
+        .for-whom-box h3 {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .for-whom-box.yes h3 {
+            color: var(--primary-navy);
+        }
+
+        .for-whom-box.no h3 {
+            color: #999;
+        }
+
+        .for-whom-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .for-whom-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+
+        .for-whom-list li .check-icon {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+
+        .for-whom-box.yes .check-icon {
+            background: rgba(197, 160, 89, 0.15);
+            color: var(--accent-gold);
+        }
+
+        .for-whom-box.no .check-icon {
+            background: #f0f0f0;
+            color: #aaaaaa;
+        }
+
+        /* --- CTA SECTION --- */
+        .cta {
+            padding: 100px 0;
+            background: #fdfcf8;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .cta p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--bg-card);
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 1050px) {
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 968px) {
+            .section-title { font-size: 2.2rem; }
+            .hero-content h1 { font-size: 2.5rem; }
+            section { padding: 90px 0; }
+            .challenges-grid { grid-template-columns: 1fr; }
+            .for-whom-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .logo-text { display: none; }
+            .section-title, .cta h2 { font-size: 1.9rem; }
+            .hero-content h1 { font-size: 1.9rem; }
+            .header-btn { padding: 10px 20px; font-size: 0.9rem; }
+            .btn { padding: 16px 40px; font-size: 1.05rem; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .clients-logos img { height: 28px; }
+            .clients-logos { gap: 25px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container header-content">
+            <a href="https://tomaszalesak.cz" class="logo">
+                <img src="images/TZ Logo.png" alt="TZ">
+                <span class="logo-text">Tomáš Zálešák</span>
+            </a>
+            <div class="header-nav">
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/tomas-zalesak" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </a>
+                    <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" aria-label="YouTube">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
+                </div>
+                <a href="#cta" class="header-btn">Kontakt</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Zvyšte své tržby bez navyšování <span class="highlight">reklamních rozpočtů</span></h1>
+                <p class="hero-subtitle">CRM strategie pro e-shopy a firmy</p>
+            </div>
+            <div class="hero-video">
+                <div class="video-wrapper">
+                    <iframe
+                        src="https://www.youtube.com/embed/QmHkt9IDscg"
+                        title="Tomáš Zálešák – retenční marketing"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            <a href="mailto:jsem@tomaszalesak.cz" class="btn">Domluvme si schůzku</a>
+        </div>
+    </section>
+
+    <!-- CLIENTS STRIP -->
+    <div class="clients">
+        <div class="container">
+            <div class="clients-logos">
+                <img src="images/brainmarket.png" alt="Brainmarket">
+                <img src="images/vosime.png" alt="Vošime">
+                <img src="images/datart.jpg" alt="Datart">
+                <img src="images/vehiclass.png" alt="Vehiclass">
+                <img src="images/poda.png" alt="Poda">
+                <img src="images/dualvit.png" alt="Dualvit">
+            </div>
+        </div>
+    </div>
+
+    <!-- BENEFITS -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <h2 class="section-title">Co získáte?</h2>
+            <div class="benefits-grid">
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <h3>Vyšší a stabilnější tržby</h3>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+                    </div>
+                    <h3>Více vracejících se zákazníků</h3>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                    </div>
+                    <h3>Efektivnější marketing s vyšší návratností</h3>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line><path d="M12 9l3.5 3.5l-3.5 3.5l-3.5 -3.5z"></path></svg>
+                    </div>
+                    <h3>Snížení závislosti na placené reklamě</h3>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CHALLENGES -->
+    <section class="challenges" id="challenges">
+        <div class="container">
+            <h2 class="section-title">Poznáváte se v tom?</h2>
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <h3>„Akvizice zdražuje. Potřebujeme efektivněji škálovat růst."</h3>
+                    <p>Získat nového zákazníka je čím dál dražší a placená reklama se přestává vyplácet? Identifikuji příležitosti ve vaší databázi a pomůžu vám nastavit systém, který zvyšuje tržby.</p>
+                </div>
+
+                <div class="challenge-card">
+                    <h3>„Nevíme, jak pracovat s databází. Chybí nám strategie."</h3>
+                    <p>Možná občas pošlete newsletter, ale chybí vám komunikační strategie. Na základě analýzy vašeho aktuálního stavu určím směr, vyberu správné kanály a vytvořím plán s přímým dopadem na tržby.</p>
+                </div>
+
+                <div class="challenge-card">
+                    <h3>„Neumíme z dat a nástrojů vytěžit maximum."</h3>
+                    <p>Ať už vhodný nástroj teprve vybíráte, nebo nějaký využíváte, pomůžu vám je efektivně spravovat. Propojím vaše data a nastavím základy pro komunikaci se zákazníky napříč různými kanály.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOR WHOM -->
+    <section class="for-whom" id="for-whom">
+        <div class="container">
+            <h2 class="section-title">Pro koho to je?</h2>
+            <div class="for-whom-grid">
+
+                <div class="for-whom-box yes">
+                    <ul class="for-whom-list">
+                        <li>
+                            <span class="check-icon">✔</span>
+                            <span>E-shopy a firmy s existující zákaznickou databází</span>
+                        </li>
+                        <li>
+                            <span class="check-icon">✔</span>
+                            <span>Firmy, které už investují do marketingu</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="for-whom-box no">
+                    <ul class="for-whom-list">
+                        <li>
+                            <span class="check-icon">✕</span>
+                            <span>Začínající projekty</span>
+                        </li>
+                        <li>
+                            <span class="check-icon">✕</span>
+                            <span>Pro ty, kdo chtějí jen „posílat newslettery"</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Možnosti spolupráce</h2>
+            <div class="services-intro">
+                Možností spolupráce je několik. Vždy záleží na tom, v jaké fázi se váš byznys nachází a co konkrétně potřebujete.
+            </div>
+            <div class="services-list">
+                <div class="service-card">
+                    <div class="service-badge">„Nevíme, kde začít a co vlastně potřebujeme"</div>
+                    <h3>Retenční audit & strategie</h3>
+                    <div class="service-description">
+                        Na základě analýzy vašeho byznysu, dat a marketingu zjistím, kde vám utíkají peníze, proč se zákazníci nevracejí a jak zvýšit jejich hodnotu. Pochopíte, na co se zaměřit v krátkodobém i dlouhodobém horizontu, jaké nástroje využívat a jak postupovat.
+                    </div>
+                    <div class="service-points">
+                        <ul>
+                            <li>Analýza zákaznické báze a marketingu</li>
+                            <li>Kontrola a optimalizace nástrojů</li>
+                            <li>Jasná strategie s cílem zvýšit tržby</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-badge">„Nevíme, jak efektivně využívat nástroje"</div>
+                    <h3>E-mailingové & CRM nástroje</h3>
+                    <div class="service-description">
+                        Pomůžu vám vybrat, nastavit a efektivně spravovat nástroje pro práci se zákazníky – od mailingových nástrojů po CRM platformy. Cílem je, abyste pomocí automatizací a kampaní efektivně komunikovali se zákazníky napříč různými kanály.
+                    </div>
+                    <div class="service-points">
+                        <ul>
+                            <li>Propojení a aktivace dat</li>
+                            <li>Výběr a nastavení nástrojů</li>
+                            <li>Komunikační strategie napříč kanály</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-badge">„Potřebujeme strategického partnera"</div>
+                    <h3>Externí řízení (CRM/retence)</h3>
+                    <div class="service-description">
+                        Chcete se opřít do retence, ale nemáte na to člověka? Spojím síly s vaším týmem. Nastavím procesy, předám zkušenosti a postavím základy, na kterých můžete do budoucna stavět.
+                    </div>
+                    <div class="service-points">
+                        <ul>
+                            <li>Role externího stratéga</li>
+                            <li>Spolupráce s interním nebo externím týmem</li>
+                            <li>Pravidelná optimalizace na základě dat</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-badge">„Potřebujeme poradit nebo nasměrovat"</div>
+                    <h3>Konzultace & tematické workshopy</h3>
+                    <div class="service-description">
+                        Potřebujete se rychle hnout z místa? Hledáte řešení na konkrétní problém? Nebo byste si rádi osvojili nové znalosti, praktické postupy nebo se naučili pracovat s nástroji? Domluvme si konzultaci nebo rovnou workshop pro celý tým.
+                    </div>
+                    <div class="service-points">
+                        <ul>
+                            <li>Jednorázové nebo pravidelné konzultace</li>
+                            <li>Workshopy pro týmy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="cta">
+        <div class="container">
+            <h2><span class="highlight">Plácneme si?</span></h2>
+            <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
+            <a href="mailto:jsem@tomaszalesak.cz" class="btn">jsem@tomaszalesak.cz</a>
+            <p style="margin-top: 25px; font-size: 0.95rem; color: #888;">Odpovídám nejpozději do 2. pracovního dne</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Tomáš Zálešák</p>
+            <p>IČO: 08372284 (neplátce DPH)</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
