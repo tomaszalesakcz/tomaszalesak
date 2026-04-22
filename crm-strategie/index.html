@@ -3,28 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM strategie, která zvyšuje tržby | Tomáš Zálešák</title>
+    <title>Zvyšte tržby bez navyšování rozpočtů | Tomáš Zálešák</title>
     <meta name="description" content="CRM strategie pro e-shopy a firmy. Pomůžu vám zvýšit tržby bez navyšování reklamních rozpočtů – díky chytré práci se zákaznickou databází.">
-    <link rel="icon" type="image/png" href="../images/TZ Logo.png">
+    <link rel="icon" type="image/png" href="images/TZ Logo.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZS7GT3PJ2"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-5ZS7GT3PJ2');
-    </script>
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "u0yxi1k27g");
-    </script>
 
     <style>
         /* --- GLOBAL & RESET --- */
@@ -233,11 +218,16 @@
         }
 
         .hero-subtitle {
-            font-size: 1.25rem;
+            display: inline-block;
+            background: var(--primary-navy);
+            color: white;
+            padding: 8px 22px;
+            border-radius: 5px;
+            font-size: 0.95rem;
             font-weight: 600;
-            color: var(--primary-navy);
             margin-bottom: 35px;
             letter-spacing: 0.01em;
+            box-shadow: 0 4px 10px rgba(53, 67, 123, 0.2);
         }
 
         /* --- VIDEO EMBED --- */
@@ -529,96 +519,58 @@
             background: var(--bg-card);
         }
 
-        .for-whom-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+        .for-whom-list-wrap {
             max-width: 700px;
             margin: 0 auto;
-        }
-
-        .for-whom-box {
-            background: var(--bg-body);
-            border-radius: 12px;
-            padding: 35px 40px;
-            border: 1px solid rgba(197, 160, 89, 0.15);
-            box-shadow: var(--shadow-card);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .for-whom-box::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-        }
-
-        .for-whom-box.yes::before {
-            background: var(--accent-gold);
-        }
-
-        .for-whom-box.no::before {
-            background: #cccccc;
-        }
-
-        .for-whom-box h3 {
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .for-whom-box.yes h3 {
-            color: var(--primary-navy);
-        }
-
-        .for-whom-box.no h3 {
-            color: #999;
-        }
-
-        .for-whom-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
-        .for-whom-list li {
+        .for-whom-item {
             display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            font-size: 1.05rem;
-            line-height: 1.5;
+            align-items: center;
+            gap: 18px;
+            padding: 20px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .for-whom-item.yes {
+            background: var(--bg-body);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-left: 4px solid var(--accent-gold);
             color: var(--text-main);
         }
 
-        .for-whom-list li .check-icon {
+        .for-whom-item.no {
+            background: #f8f8f8;
+            border: 1px solid #e8e8e8;
+            border-left: 4px solid #cccccc;
+            color: var(--text-muted);
+        }
+
+        .for-whom-item .check-icon {
             flex-shrink: 0;
-            width: 22px;
-            height: 22px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.85rem;
             font-weight: 700;
-            margin-top: 2px;
         }
 
-        .for-whom-box.yes .check-icon {
+        .for-whom-item.yes .check-icon {
             background: rgba(197, 160, 89, 0.15);
             color: var(--accent-gold);
         }
 
-        .for-whom-box.no .check-icon {
-            background: #f0f0f0;
+        .for-whom-item.no .check-icon {
+            background: #eeeeee;
             color: #aaaaaa;
         }
 
@@ -690,7 +642,7 @@
     <header>
         <div class="container header-content">
             <a href="https://tomaszalesak.cz" class="logo">
-                <img src="../images/TZ Logo.png" alt="TZ">
+                <img src="images/TZ Logo.png" alt="TZ">
                 <span class="logo-text">Tomáš Zálešák</span>
             </a>
             <div class="header-nav">
@@ -732,12 +684,12 @@
     <div class="clients">
         <div class="container">
             <div class="clients-logos">
-                <img src="../images/brainmarket.png" alt="Brainmarket">
-                <img src="../images/vosime.png" alt="Vošime">
-                <img src="../images/datart.jpg" alt="Datart">
-                <img src="../images/vehiclass.png" alt="Vehiclass">
-                <img src="../images/poda.png" alt="Poda">
-                <img src="../images/dualvit.png" alt="Dualvit">
+                <img src="images/brainmarket.png" alt="Brainmarket">
+                <img src="images/vosime.png" alt="Vošime">
+                <img src="images/datart.jpg" alt="Datart">
+                <img src="images/vehiclass.png" alt="Vehiclass">
+                <img src="images/poda.png" alt="Poda">
+                <img src="images/dualvit.png" alt="Dualvit">
             </div>
         </div>
     </div>
@@ -807,34 +759,23 @@
     <section class="for-whom" id="for-whom">
         <div class="container">
             <h2 class="section-title">Pro koho to je?</h2>
-            <div class="for-whom-grid">
-
-                <div class="for-whom-box yes">
-                    <ul class="for-whom-list">
-                        <li>
-                            <span class="check-icon">✔</span>
-                            <span>E-shopy a firmy s existující zákaznickou databází</span>
-                        </li>
-                        <li>
-                            <span class="check-icon">✔</span>
-                            <span>Firmy, které už investují do marketingu</span>
-                        </li>
-                    </ul>
+            <div class="for-whom-list-wrap">
+                <div class="for-whom-item yes">
+                    <span class="check-icon">✔</span>
+                    <span>E-shopy a firmy s existující zákaznickou databází</span>
                 </div>
-
-                <div class="for-whom-box no">
-                    <ul class="for-whom-list">
-                        <li>
-                            <span class="check-icon">✕</span>
-                            <span>Začínající projekty</span>
-                        </li>
-                        <li>
-                            <span class="check-icon">✕</span>
-                            <span>Pro ty, kdo chtějí jen „posílat newslettery"</span>
-                        </li>
-                    </ul>
+                <div class="for-whom-item yes">
+                    <span class="check-icon">✔</span>
+                    <span>Firmy, které už investují do marketingu</span>
                 </div>
-
+                <div class="for-whom-item no">
+                    <span class="check-icon">✕</span>
+                    <span>Začínající projekty</span>
+                </div>
+                <div class="for-whom-item no">
+                    <span class="check-icon">✕</span>
+                    <span>Pro ty, kdo chtějí jen „posílat newslettery"</span>
+                </div>
             </div>
         </div>
     </section>
