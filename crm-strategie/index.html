@@ -574,6 +574,25 @@
             color: #aaaaaa;
         }
 
+        .service-prices {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px 20px;
+            margin-top: 25px;
+        }
+
+        .service-prices .service-price {
+            margin-top: 0;
+        }
+
+        .service-prices .price-divider {
+            color: #ddd;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
         .service-price {
             display: inline-block;
             margin-top: 25px;
@@ -766,7 +785,7 @@
 
                 <div class="challenge-card">
                     <h3>„Neumíme z dat a nástrojů vytěžit maximum."</h3>
-                    <p>Ať  vhodný nástroj teprve vybíráte, nebo už nějaký využíváte, pomůžu vám je naplno aktivovat. Propojím vaše data a nastavím základy pro komunikaci se zákazníky napříč různými kanály.</p>
+                    <p>Ať  vhodný nástroj teprve vybíráte, nebo už nějaký využíváte, pomůžu vám je naplno aktivovat Propojím vaše data a nastavím základy pro komunikaci se zákazníky napříč různými kanály.</p>
                 </div>
             </div>
         </div>
@@ -865,8 +884,10 @@
                             <li>Workshopy pro týmy</li>
                         </ul>
                     </div>
-                    <p class="service-price">2 000 Kč <span>/ hod</span></p>
-                    <p class="service-price">od 15 990 Kč <span>/ akce</span></p>
+                    <div style="margin-top: 25px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+                        <p class="service-price" style="margin-top: 0;">2 000 Kč <span>/ hod</span></p>
+                        <p class="service-price" style="margin-top: 0;">od 15 900 Kč <span>/ akce</span></p>
+                    </div>
                 </div>
             </div>
         </div>
