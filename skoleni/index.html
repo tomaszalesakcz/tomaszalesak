@@ -1,1 +1,1477 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychologie zákaznické věrnosti | Firemní školení – Tomáš Zálešák</title>
+    <meta name="description" content="Celodenní firemní školení o tom, proč se zákazníci vracejí – nebo odcházejí. Behaviorální psychologie převedená do konkrétních kroků pro váš marketingový tým.">
+    <link rel="icon" type="image/png" href="images/TZ Logo.png">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZS7GT3PJ2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5ZS7GT3PJ2');
+    </script>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u0yxi1k27g");
+    </script>
+
+    <style>
+        /* --- GLOBAL & RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-navy: #35437b;
+            --primary-navy-dark: #2a3561;
+            --accent-gold: #c5a059;
+            --accent-gold-light: #e0ca9e;
+            --bg-body: #fdfcf8;
+            --bg-alt: #f6f5f0;
+            --bg-card: #ffffff;
+            --text-main: #333333;
+            --text-heading: #000000;
+            --text-muted: #666666;
+
+            --font-heading: 'Lora', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --shadow-card: 0 4px 25px rgba(0, 0, 0, 0.08);
+            --shadow-float: 0 10px 40px rgba(53, 67, 123, 0.15);
+            --transition-main: all 0.3s ease;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.8;
+            color: var(--text-main);
+            background: var(--bg-body);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .container-narrow {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            max-width: 720px;
+            margin: 0 auto 70px;
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .block {
+            padding: 120px 0;
+            position: relative;
+        }
+
+        .block--alt {
+            background-color: var(--bg-alt);
+            border-top: 1px solid rgba(197, 160, 89, 0.12);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.12);
+        }
+
+        .block--white {
+            background-color: var(--bg-card);
+            border-top: 1px solid rgba(197, 160, 89, 0.12);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.12);
+        }
+
+        .highlight {
+            position: relative;
+            display: inline-block;
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            z-index: 1;
+        }
+        .highlight::before {
+            content: "";
+            position: absolute;
+            left: -2px;
+            bottom: 0.12em;
+            width: calc(100% + 6px);
+            height: 0.35em;
+            background: rgba(197, 160, 89, 0.35);
+            transform: skew(-8deg);
+            z-index: -1;
+            border-radius: 4px;
+            filter: blur(0.5px);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 20px 50px;
+            background: var(--primary-navy);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.15rem;
+            transition: var(--transition-main);
+            box-shadow: 0 4px 15px rgba(53, 67, 123, 0.2);
+        }
+        .btn:hover {
+            background: var(--primary-navy-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(53, 67, 123, 0.3);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 18px 45px;
+            background: transparent;
+            color: var(--primary-navy);
+            border: 2px solid var(--primary-navy);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: var(--transition-main);
+        }
+        .btn-secondary:hover {
+            background: var(--primary-navy);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: center;
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+            position: sticky;
+            top: 0;
+            background: var(--bg-body);
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 46px;
+            height: 46px;
+            border-radius: 8px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .main-nav { display: none; }
+
+        .main-nav a {
+            color: var(--primary-navy);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.98rem;
+            padding: 5px 8px;
+            transition: color 0.3s ease;
+        }
+        .main-nav a:hover { color: var(--accent-gold); }
+
+        .header-btn {
+            padding: 13px 32px;
+            background: var(--accent-gold);
+            color: white;
+            border: 2px solid var(--accent-gold);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: var(--transition-main);
+            white-space: nowrap;
+        }
+
+        .header-btn:hover {
+            background: var(--primary-navy);
+            border-color: var(--primary-navy);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- HERO --- */
+        .hero {
+            padding: 90px 0 80px;
+            background: var(--bg-body);
+        }
+
+        .hero-columns {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            background: var(--accent-gold);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            box-shadow: 0 4px 10px rgba(197, 160, 89, 0.2);
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-heading);
+            font-size: 3.1rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.18;
+            margin-bottom: 28px;
+        }
+
+        .hero-lead {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+        }
+
+        .hero-facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .hero-fact {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            color: var(--text-main);
+            padding: 9px 16px;
+            border-radius: 30px;
+            font-size: 0.92rem;
+            font-weight: 500;
+        }
+
+        .hero-fact svg {
+            width: 17px;
+            height: 17px;
+            color: var(--accent-gold);
+            flex-shrink: 0;
+        }
+
+        .hero-image { text-align: center; }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 380px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-float);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        /* --- CLIENTS --- */
+        .clients {
+            padding: 35px 0;
+            background: var(--bg-card);
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .clients-label {
+            text-align: center;
+            font-size: 0.88rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .clients-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px 55px;
+        }
+
+        .clients-logos img {
+            height: 34px;
+            width: auto;
+            max-width: 125px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.55);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .clients-logos img:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.05);
+        }
+
+        /* --- PROBLEM / STORY --- */
+        .story-lead {
+            max-width: 780px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .story-lead p {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin-bottom: 22px;
+            line-height: 1.75;
+        }
+
+        .story-lead .story-punch {
+            font-family: var(--font-heading);
+            font-size: 1.55rem;
+            color: var(--primary-navy);
+            font-weight: 700;
+            line-height: 1.45;
+            margin: 40px 0 0;
+        }
+
+        /* --- SYMPTOMS --- */
+        .symptoms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .symptom-card {
+            background: var(--bg-card);
+            border: 1px solid #eeeeee;
+            border-left: 5px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 38px 32px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+        }
+
+        .symptom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-float);
+        }
+
+        .symptom-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            color: var(--primary-navy);
+            margin-bottom: 16px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .symptom-card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        /* --- OUTCOMES --- */
+        .outcomes-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .outcome-card {
+            padding: 45px 28px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            transition: var(--transition-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(197, 160, 89, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .outcome-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-gold);
+            opacity: 0.7;
+        }
+
+        .outcome-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-float);
+            border-color: var(--accent-gold);
+        }
+
+        .outcome-icon {
+            width: 54px;
+            height: 54px;
+            margin-bottom: 24px;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .outcome-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 1.25px;
+        }
+
+        .outcome-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .outcome-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* --- PROGRAM --- */
+        .program-list {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .program-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-radius: 12px;
+            padding: 34px 38px;
+            display: grid;
+            grid-template-columns: 62px 1fr;
+            gap: 28px;
+            align-items: start;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+        }
+
+        .program-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-float);
+            border-color: var(--accent-gold);
+        }
+
+        .program-num {
+            font-family: var(--font-heading);
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            line-height: 1.1;
+            border-right: 1px solid rgba(197, 160, 89, 0.3);
+            padding-right: 22px;
+            min-height: 46px;
+            display: flex;
+            align-items: center;
+        }
+
+        .program-head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .program-item h3 {
+            font-family: var(--font-heading);
+            font-size: 1.45rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.35;
+            margin: 0;
+        }
+
+        .program-time {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            background: rgba(53, 67, 123, 0.08);
+            padding: 4px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .program-item p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .program-item p strong {
+            color: var(--primary-navy);
+            font-weight: 600;
+        }
+
+        .program-note {
+            max-width: 860px;
+            margin: 45px auto 0;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* --- FIT (pro koho / pro koho ne) --- */
+        .fit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .fit-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 45px 40px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(197, 160, 89, 0.15);
+        }
+
+        .fit-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .fit-card ul {
+            list-style: none;
+        }
+
+        .fit-card li {
+            position: relative;
+            padding-left: 34px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        .fit-card li::before {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: 900;
+            font-size: 1.05rem;
+        }
+
+        .fit-yes li::before {
+            content: "✔";
+            color: var(--accent-gold);
+        }
+
+        .fit-no li::before {
+            content: "✕";
+            color: #b9b3a6;
+        }
+
+        .fit-no li { color: var(--text-muted); }
+
+        /* --- LECTOR --- */
+        .lector-columns {
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 65px;
+            align-items: center;
+        }
+
+        .lector-image { text-align: center; }
+
+        .lector-image img {
+            width: 100%;
+            max-width: 320px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-float);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .lector-content h2 {
+            font-family: var(--font-heading);
+            font-size: 2.6rem;
+            color: var(--text-heading);
+            margin-bottom: 28px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .lector-content p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+        }
+
+        .lector-content strong {
+            font-weight: 700;
+            color: var(--primary-navy);
+        }
+
+        .lector-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .lector-link {
+            display: inline-block;
+            font-size: 0.92rem;
+            color: var(--primary-navy);
+            text-decoration: none;
+            border: 1px solid rgba(53, 67, 123, 0.25);
+            border-radius: 30px;
+            padding: 8px 18px;
+            transition: var(--transition-main);
+            font-weight: 500;
+        }
+
+        .lector-link:hover {
+            background: var(--primary-navy);
+            color: white;
+            border-color: var(--primary-navy);
+        }
+
+        /* --- FORMATS / PRICING --- */
+        .formats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        .format-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 45px 35px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(197, 160, 89, 0.15);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-main);
+            position: relative;
+        }
+
+        .format-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-float);
+            border-color: var(--accent-gold);
+        }
+
+        .format-card--featured {
+            border: 2px solid var(--accent-gold);
+        }
+
+        .format-flag {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-gold);
+            color: white;
+            padding: 7px 20px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(197, 160, 89, 0.25);
+        }
+
+        .format-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.55rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .format-meta {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .format-card p {
+            font-size: 0.98rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .format-price {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+            line-height: 1.3;
+        }
+
+        .format-price span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* --- INCLUDED --- */
+        .included-list {
+            max-width: 760px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 40px;
+        }
+
+        .included-list li {
+            list-style: none;
+            position: relative;
+            padding-left: 34px;
+            font-size: 1.02rem;
+            line-height: 1.6;
+            color: var(--text-main);
+        }
+
+        .included-list li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--accent-gold);
+            font-weight: 900;
+            font-size: 1.05rem;
+        }
+
+        /* --- FAQ --- */
+        .faq-list {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-radius: 10px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-navy);
+            padding: 26px 60px 26px 30px;
+            cursor: pointer;
+            position: relative;
+            line-height: 1.5;
+            transition: color 0.3s ease;
+        }
+
+        .faq-question:hover { color: var(--accent-gold); }
+
+        .faq-question::after {
+            content: "+";
+            position: absolute;
+            right: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.7rem;
+            font-weight: 400;
+            color: var(--accent-gold);
+            line-height: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-question::after {
+            content: "−";
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.35s ease;
+            padding: 0 30px;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+            padding: 0 30px 28px;
+        }
+
+        .faq-answer p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* --- FINAL CTA --- */
+        .cta-final {
+            padding: 110px 0;
+            background: var(--primary-navy);
+            text-align: center;
+            color: white;
+        }
+
+        .cta-final h2 {
+            font-family: var(--font-heading);
+            font-size: 2.6rem;
+            color: white;
+            margin-bottom: 22px;
+            font-weight: 700;
+            line-height: 1.25;
+        }
+
+        .cta-final p {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 40px;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-final .btn {
+            background: var(--accent-gold);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-final .btn:hover {
+            background: var(--accent-gold-light);
+            color: var(--primary-navy-dark);
+        }
+
+        .cta-note {
+            margin-top: 28px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--bg-card);
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        footer a {
+            color: var(--primary-navy);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover { color: var(--accent-gold); }
+
+        /* --- ACCESSIBILITY --- */
+        a:focus-visible, button:focus-visible {
+            outline: 3px solid var(--accent-gold);
+            outline-offset: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (min-width: 969px) {
+            .main-nav { display: flex; gap: 8px; }
+        }
+
+        @media (max-width: 1050px) {
+            .outcomes-grid { grid-template-columns: repeat(2, 1fr); }
+            .formats-grid { grid-template-columns: 1fr; max-width: 620px; margin: 0 auto; }
+            .format-card--featured { margin-top: 20px; }
+        }
+
+        @media (max-width: 968px) {
+            .block { padding: 85px 0; }
+            .section-title, .lector-content h2, .cta-final h2 { font-size: 2.1rem; }
+            .hero-content h1 { font-size: 2.4rem; }
+
+            .hero-columns, .lector-columns {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 45px;
+            }
+
+            .hero-facts, .btn-row { justify-content: center; }
+            .lector-links { justify-content: center; }
+            .lector-image { order: -1; }
+
+            .symptoms-grid { grid-template-columns: 1fr; }
+            .fit-grid { grid-template-columns: 1fr; }
+            .included-list { grid-template-columns: 1fr; max-width: 460px; }
+
+            .program-item {
+                grid-template-columns: 1fr;
+                gap: 14px;
+                padding: 30px 28px;
+            }
+
+            .program-num {
+                border-right: none;
+                border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+                padding-right: 0;
+                padding-bottom: 10px;
+                min-height: 0;
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-text { display: none; }
+            .section-title, .lector-content h2, .cta-final h2 { font-size: 1.85rem; }
+            .hero-content h1 { font-size: 1.95rem; }
+            .hero-lead { font-size: 1.08rem; }
+
+            .outcomes-grid { grid-template-columns: 1fr; }
+            .header-btn { padding: 10px 20px; font-size: 0.88rem; }
+            .btn { padding: 16px 38px; font-size: 1.05rem; width: 100%; text-align: center; }
+            .btn-secondary { width: 100%; text-align: center; }
+            .btn-row { flex-direction: column; align-items: stretch; }
+
+            .story-lead p { font-size: 1.08rem; }
+            .story-lead .story-punch { font-size: 1.3rem; }
+            .clients-logos img { height: 28px; }
+            .clients-logos { gap: 22px 38px; }
+            .fit-card, .format-card { padding: 35px 26px; }
+            .faq-question { font-size: 1rem; padding: 22px 52px 22px 22px; }
+            .faq-answer, .faq-item.open .faq-answer { padding-left: 22px; padding-right: 22px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <a href="https://tomaszalesak.cz" class="logo">
+                <img src="images/TZ Logo.png" alt="TZ">
+                <span class="logo-text">Tomáš Zálešák</span>
+            </a>
+
+            <div class="header-nav">
+                <nav class="main-nav">
+                    <a href="#program">Program</a>
+                    <a href="#pro-koho">Pro koho</a>
+                    <a href="#lektor">Lektor</a>
+                    <a href="#format">Formát a cena</a>
+                </nav>
+                <a href="#poptavka" class="header-btn">Nezávazná poptávka</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container hero-columns">
+            <div class="hero-content">
+                <span class="hero-eyebrow">Firemní školení na míru</span>
+                <h1>Psychologie <span class="highlight">zákaznické věrnosti</span></h1>
+                <p class="hero-lead">Proč se zákazníci vracejí – a proč odcházejí i ti spokojení. Celodenní školení, po kterém váš tým přesně ví, kde se věrnost rozhoduje a co s tím udělat příští týden.</p>
+
+                <div class="hero-facts">
+                    <span class="hero-fact">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        1 den / 6–7 hodin
+                    </span>
+                    <span class="hero-fact">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        Skupina do 15 lidí
+                    </span>
+                    <span class="hero-fact">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                        U vás ve firmě i online
+                    </span>
+                    <span class="hero-fact">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        Akční plán na konci dne
+                    </span>
+                </div>
+
+                <div class="btn-row">
+                    <a href="#poptavka" class="btn">Poptat termín</a>
+                    <a href="#program" class="btn-secondary">Prohlédnout program</a>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <img src="images/Tomas-Zalesak.png" alt="Tomáš Zálešák – lektor školení">
+            </div>
+        </div>
+    </section>
+
+    <!-- CLIENTS -->
+    <div class="clients">
+        <div class="container">
+            <p class="clients-label">Zkušenosti ze spolupráce se značkami</p>
+            <div class="clients-logos">
+                <img src="images/brainmarket.png" alt="Brainmarket">
+                <img src="images/vosime.png" alt="Vošime">
+                <img src="images/datart.jpg" alt="Datart">
+                <img src="images/vehiclass.png" alt="Vehiclass">
+                <img src="images/poda.png" alt="Poda">
+                <img src="images/dualvit.png" alt="Dualvit">
+            </div>
+        </div>
+    </div>
+
+    <!-- STORY / PROBLEM -->
+    <section class="block">
+        <div class="container">
+            <h2 class="section-title">Spokojený zákazník ještě není věrný zákazník</h2>
+            <div class="story-lead">
+                <p>Firmy měří spokojenost, sbírají hvězdičky a hlídají si NPS. A pak se diví, že většina zákazníků nakoupí jednou a už se neozve.</p>
+                <p>Spokojenost totiž odpovídá na otázku „splnilo to moje očekávání?“. Je to hodnocení jedné zkušenosti. Věrnost odpovídá na úplně jinou: <strong>„proč bych se měl vracet právě sem, když mám na výběr?“</strong></p>
+                <p>Odpověď na tu druhou otázku se nerozhoduje v tabulce. Rozhoduje se v hlavě zákazníka – v momentech, které většina firem vůbec neřídí, protože o nich neví.</p>
+                <p class="story-punch">Toto školení je o těch momentech. A o tom, jak je vzít do vlastních rukou.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SYMPTOMS -->
+    <section class="block block--alt">
+        <div class="container">
+            <h2 class="section-title">Poznáváte se v tom?</h2>
+            <p class="section-subtitle">Tři situace, kvůli kterým si firmy tohle školení nejčastěji objednávají.</p>
+            <div class="symptoms-grid">
+                <div class="symptom-card">
+                    <h3>„Máme skvělé recenze, ale zákazníci se nevracejí."</h3>
+                    <p>Hodnocení sedí, reklamací je málo, a přesto většina lidí nakoupí jen jednou. Chybí pochopení, proč spokojenost sama o sobě k návratu nestačí.</p>
+                </div>
+                <div class="symptom-card">
+                    <h3>„Akvizice zdražuje a my sázíme všechno na ni."</h3>
+                    <p>Rozpočty na reklamu rostou rychleji než tržby. Databáze stávajících zákazníků přitom leží ladem, protože nikdo neví, kudy do ní vstoupit.</p>
+                </div>
+                <div class="symptom-card">
+                    <h3>„Zkoušíme slevy a věrnostní program, ale nefunguje to."</h3>
+                    <p>Nástroje máte, aktivity běží, výsledky nic moc. Většinou proto, že řeší symptom, ne skutečný důvod, proč zákazník zůstává nebo odchází.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUTCOMES -->
+    <section class="block">
+        <div class="container">
+            <h2 class="section-title">Co si tým odnese</h2>
+            <p class="section-subtitle">Ne přednáška o teorii. Konkrétní principy, které váš tým hned uplatní na vlastní zákazníky.</p>
+            <div class="outcomes-grid">
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"></path></svg>
+                    </div>
+                    <h3>Uvidíte, kde vám zákazníci mizí</h3>
+                    <p>Konkrétní místa v zákaznické cestě, kde se rozhoduje o návratu – a kde je dnes ticho.</p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9.663 17h4.673M12 3v1M3.5 12H2m3.9-6.1L5 5m14 0l-.9.9M22 12h-1.5M9 21h6M8 17a6 6 0 1 1 8 0v1a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2z"></path></svg>
+                    </div>
+                    <h3>Pochopíte, proč lidé zůstávají</h3>
+                    <p>Psychologické principy věrnosti vysvětlené na příkladech značek, ne na akademických grafech.</p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><polyline points="19 9 13 15 9 11 5 15"></polyline></svg>
+                    </div>
+                    <h3>Získáte pákový bod pro tržby</h3>
+                    <p>Vyšší podíl opakovaných nákupů znamená stabilnější tržby a nižší závislost na placené akvizici.</p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    </div>
+                    <h3>Odejdete s akčním plánem</h3>
+                    <p>Ne s pocitem „to bylo zajímavé", ale se seznamem kroků, které dávají smysl právě u vás.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM -->
+    <section class="block block--alt" id="program">
+        <div class="container">
+            <h2 class="section-title">Program dne</h2>
+            <p class="section-subtitle">Šest bloků, které vedou od pochopení problému k systému, jenž pracuje za vás. Přibližně polovina dne je praktická.</p>
+
+            <div class="program-list">
+
+                <div class="program-item">
+                    <div class="program-num">01</div>
+                    <div>
+                        <div class="program-head">
+                            <h3>Proč odcházejí i spokojení zákazníci</h3>
+                            <span class="program-time">60 min</span>
+                        </div>
+                        <p>Ukotvení problému v číslech – kolik stojí získat zákazníka a kolik ho udržet. Rozebereme mýtus <strong>„spokojenost = věrnost"</strong> a ukážeme, proč se podle spokojenosti nedá předpovědět návrat.</p>
+                    </div>
+                </div>
+
+                <div class="program-item">
+                    <div class="program-num">02</div>
+                    <div>
+                        <div class="program-head">
+                            <h3>Psychologické principy věrnosti</h3>
+                            <span class="program-time">90 min</span>
+                        </div>
+                        <p>Behaviorální ekonomie prakticky a bez balastu: <strong>závazek a konzistence, ztrátová averze, status quo bias, sociální důkaz, návykové smyčky</strong>. Každý princip na konkrétním příkladu značky, kterou znáte.</p>
+                    </div>
+                </div>
+
+                <div class="program-item">
+                    <div class="program-num">03</div>
+                    <div>
+                        <div class="program-head">
+                            <h3>Psychologická mapa zákaznické cesty</h3>
+                            <span class="program-time">60 min</span>
+                        </div>
+                        <p>Momenty pravdy, kde se věrnost skutečně láme: <strong>onboarding, druhý nákup, ticho po nákupu a chvíle těsně před odchodem</strong>. Co se v každém z nich zákazníkovi honí hlavou.</p>
+                    </div>
+                </div>
+
+                <div class="program-item">
+                    <div class="program-num">04</div>
+                    <div>
+                        <div class="program-head">
+                            <h3>Workshop: aplikace na váš byznys</h3>
+                            <span class="program-time">90 min</span>
+                        </div>
+                        <p>Nejpraktičtější blok dne. Ve skupinách <strong>zmapujete vlastní zákaznickou cestu</strong> a hledáte psychologické páky, které u vás reálně fungují. Celý blok facilituji a vstupuji do diskuze.</p>
+                    </div>
+                </div>
+
+                <div class="program-item">
+                    <div class="program-num">05</div>
+                    <div>
+                        <div class="program-head">
+                            <h3>Od poznání k systému: CRM postavené na psychologii</h3>
+                            <span class="program-time">60 min</span>
+                        </div>
+                        <p>Jak principy zabudovat do <strong>segmentace, automatizací a komunikace</strong>, aby fungovaly samy a opakovaně. Bez závislosti na jednom konkrétním nástroji – ukazuji logiku, ne proklikávání rozhraní.</p>
+                    </div>
+                </div>
+
+                <div class="program-item">
+                    <div class="program-num">06</div>
+                    <div>
+                        <div class="program-head">
+                            <h3>Shrnutí a akční plán</h3>
+                            <span class="program-time">30 min</span>
+                        </div>
+                        <p>Každý účastník odchází s <strong>vlastním akčním plánem</strong> – konkrétními kroky pro svou oblast, seřazenými podle dopadu a náročnosti.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <p class="program-note">Program ladím podle vašeho oboru a fáze byznysu. Před školením si spolu projdeme, kde vás nejvíc tlačí bota.</p>
+        </div>
+    </section>
+
+    <!-- FIT -->
+    <section class="block" id="pro-koho">
+        <div class="container">
+            <h2 class="section-title">Pro koho školení je (a pro koho ne)</h2>
+            <p class="section-subtitle">Raději si to vyjasníme dopředu, než abyste seděli celý den na něčem, co vám nesedí.</p>
+
+            <div class="fit-grid">
+                <div class="fit-card fit-yes">
+                    <h3>Dává smysl, když…</h3>
+                    <ul>
+                        <li>máte marketingový, CRM nebo CX tým a chcete ho posunout ve stejném směru</li>
+                        <li>váš byznys stojí na opakovaných nákupech nebo dlouhodobém vztahu se zákazníkem</li>
+                        <li>akvizice zdražuje a hledáte růst i jinde než v reklamním rozpočtu</li>
+                        <li>máte databázi zákazníků, ale nevytěžujete z ní, co by šlo</li>
+                        <li>chcete, aby tým sdílel společný jazyk a přestal řešit retenci ad hoc</li>
+                    </ul>
+                </div>
+
+                <div class="fit-card fit-no">
+                    <h3>Nedává smysl, když…</h3>
+                    <ul>
+                        <li>prodáváte jednorázově a opakovaný nákup u vás nedává ekonomický smysl</li>
+                        <li>hledáte kurz ovládání konkrétního nástroje krok za krokem</li>
+                        <li>čekáte hotová řešení bez zapojení týmu – půl dne je praktická práce</li>
+                        <li>chcete jen inspirativní přednášku, po které se nic nemění</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LECTOR -->
+    <section class="block block--alt" id="lektor">
+        <div class="container">
+            <div class="lector-columns">
+                <div class="lector-image">
+                    <img src="images/TZ1.png" alt="Tomáš Zálešák">
+                </div>
+                <div class="lector-content">
+                    <h2>Kdo vás bude školit</h2>
+                    <p>Jsem <strong>Tomáš Zálešák</strong> a jako jeden z mála freelancerů v ČR se zaměřuju čistě na to, jak si udržet stávající zákazníky – ne jak přivést nové.</p>
+                    <p>Na volné noze podnikám <strong>více než 6 let</strong>. Od copywritingu a obsahu jsem se postupně přesunul k retenčnímu marketingu a CRM. Pracoval jsem na projektech pro značky jako Brainmarket, Datart nebo Poda.</p>
+                    <p>Školení stavím na tom, co dělám denně v praxi: hledám, kde firmám utíkají zákazníci, a stavím systémy, které je vracejí zpět. Psychologie je vysvětlení <em>proč</em>. Zbytek dne je o tom <em>jak</em>.</p>
+
+                    <div class="lector-links">
+                        <a class="lector-link" href="https://www.linkedin.com/in/tomas-zalesak" target="_blank" rel="noopener">LinkedIn</a>
+                        <a class="lector-link" href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener">YouTube</a>
+                        <a class="lector-link" href="https://www.podnikatel.cz/clanky/retence-v-praxi-5-chyb-kvuli-kterym-vas-e-shop-prichazi-o-verne-zakazniky/" target="_blank" rel="noopener">Články pro Podnikatel.cz</a>
+                        <a class="lector-link" href="https://tomaszalesak.cz/retencni-marketing" target="_blank" rel="noopener">Retenční marketing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMATS -->
+    <section class="block" id="format">
+        <div class="container">
+            <h2 class="section-title">Formát a cena</h2>
+            <p class="section-subtitle">Vyberte podle toho, kolik času máte a jak hluboko chcete jít. Ceny jsou orientační, finální nabídku pošlu po krátkém hovoru.</p>
+
+            <div class="formats-grid">
+
+                <div class="format-card">
+                    <h3>Manažerský briefing</h3>
+                    <p class="format-meta">4 hodiny · do 15 osob</p>
+                    <p>Zkrácená verze pro vedení a manažery. Bez rozsáhlého workshopu, ale se všemi klíčovými principy a jasným závěrem, kam napřít pozornost.</p>
+                    <div class="format-price">od 12 000 Kč<span>za celou skupinu</span></div>
+                </div>
+
+                <div class="format-card format-card--featured">
+                    <span class="format-flag">Nejčastější volba</span>
+                    <h3>Celodenní školení</h3>
+                    <p class="format-meta">6–7 hodin · do 15 osob</p>
+                    <p>Kompletní program včetně praktického workshopu na vaší vlastní zákaznické cestě. Každý účastník odchází s akčním plánem.</p>
+                    <div class="format-price">od 22 000 Kč<span>za celou skupinu</span></div>
+                </div>
+
+                <div class="format-card">
+                    <h3>Školení + navazující konzultace</h3>
+                    <p class="format-meta">1 den + follow-up</p>
+                    <p>Celodenní školení a k tomu konzultace po několika týdnech – projdeme, co se povedlo zavést a kde to drhne.</p>
+                    <div class="format-price">na míru<span>podle rozsahu spolupráce</span></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- INCLUDED -->
+    <section class="block block--white">
+        <div class="container">
+            <h2 class="section-title">Co je v ceně</h2>
+            <ul class="included-list">
+                <li>Úvodní hovor a přizpůsobení programu vašemu oboru</li>
+                <li>Celodenní vedení školení včetně facilitace workshopu</li>
+                <li>Pracovní sešit „Psychologická mapa zákaznické cesty"</li>
+                <li>Podklady a shrnutí pro každého účastníka</li>
+                <li>Seznam doporučených zdrojů a nástrojů</li>
+                <li>Prostor na dotazy z vaší konkrétní praxe</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="block">
+        <div class="container">
+            <h2 class="section-title">Časté otázky</h2>
+
+            <div class="faq-list">
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">Musíme mít CRM nebo e-mailingový nástroj, abychom ze školení něco měli?</button>
+                    <div class="faq-answer">
+                        <p>Nemusíte. Školení není o ovládání nástroje, ale o principech, podle kterých se zákazník rozhoduje. Pokud nástroj máte, blok 5 vám ukáže, jak do něj principy zabudovat. Pokud ho nemáte, budete vědět, podle čeho ho vybírat.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">Je to jen pro e-shopy?</button>
+                    <div class="faq-answer">
+                        <p>Ne. Nejvíc zkušeností mám z e-commerce, takže odtud pochází nejvíc příkladů. Principy ale platí všude, kde zákazník opakovaně nakupuje nebo zůstává – od služeb po B2B. Před školením se domluvíme, z jakého prostředí mají být příklady.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">Kolik lidí by mělo být na školení?</button>
+                    <div class="faq-answer">
+                        <p>Ideálně 6 až 15. Menší skupina umožňuje reálnou diskuzi a kvalitní workshop. U větších týmů se dá školení rozdělit do dvou běhů – ozvěte se a domluvíme se.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">Jde školení udělat online?</button>
+                    <div class="faq-answer">
+                        <p>Ano, i když prezenční verze funguje lépe kvůli workshopu. Online variantu obvykle dělím na dva půldny, aby účastníci udrželi pozornost a měli prostor na práci mezi bloky.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">Jak dlouho dopředu je potřeba se objednat?</button>
+                    <div class="faq-answer">
+                        <p>Obvykle 3 až 4 týdny. Část času padne na přípravu programu na míru – potřebuju rozumět vašemu byznysu, abych mohl použít příklady, které vám něco řeknou.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">Co když potřebujeme spíš pomoct s realizací než školení?</button>
+                    <div class="faq-answer">
+                        <p>Napište mi. Kromě školení dělám retenční audity, nastavování CRM a e-mailingových nástrojů nebo externí vedení retence. Na úvodním hovoru vám řeknu, co dává ve vaší situaci větší smysl.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="cta-final" id="poptavka">
+        <div class="container-narrow">
+            <h2>Pojďme se domluvit na termínu</h2>
+            <p>Napište mi pár vět o tom, co děláte a koho chcete školit. Ozvu se s návrhem programu a cenou – nezávazně a bez tlaku.</p>
+            <a href="mailto:jsem@tomaszalesak.cz?subject=Pop%C3%A1vka%20%C5%A1kolen%C3%AD%20Psychologie%20z%C3%A1kaznick%C3%A9%20v%C4%9Brnosti" class="btn">jsem@tomaszalesak.cz</a>
+            <p class="cta-note">Odpovídám nejpozději do 2. pracovního dne.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p><a href="https://tomaszalesak.cz">tomaszalesak.cz</a></p>
+            <p>&copy; 2026 Tomáš Zálešák</p>
+            <p>IČO: 08372284 (neplátce DPH)</p>
+        </div>
+    </footer>
+
+    <script>
+        // Plynulé posouvání s ohledem na sticky hlavičku
+        document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+            anchor.addEventListener('click', function (e) {
+                var targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                var target = document.querySelector(targetId);
+                if (!target) return;
+                e.preventDefault();
+                var headerHeight = document.querySelector('header').offsetHeight;
+                var targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+            });
+        });
+
+        // FAQ akordeon
+        document.querySelectorAll('.faq-question').forEach(function (question) {
+            question.addEventListener('click', function () {
+                var item = this.parentElement;
+                var isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(function (el) {
+                    el.classList.remove('open');
+                });
+                if (!isOpen) {
+                    item.classList.add('open');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
