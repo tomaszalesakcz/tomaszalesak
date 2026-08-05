@@ -587,6 +587,157 @@
             font-style: italic;
         }
 
+        /* --- MODULES --- */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .module-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-radius: 12px;
+            padding: 38px 32px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-float);
+            border-color: var(--accent-gold);
+        }
+
+        .module-icon {
+            width: 44px;
+            height: 44px;
+            margin-bottom: 20px;
+            color: var(--accent-gold);
+        }
+
+        .module-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 1.4px;
+        }
+
+        .module-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.35;
+            margin-bottom: 14px;
+        }
+
+        .module-card p {
+            font-size: 0.98rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin-bottom: 22px;
+            flex-grow: 1;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-top: 18px;
+            border-top: 1px solid #eee;
+        }
+
+        .tag {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--primary-navy);
+            background: rgba(53, 67, 123, 0.07);
+            padding: 5px 12px;
+            border-radius: 20px;
+            line-height: 1.4;
+        }
+
+        /* --- TOOLS --- */
+        .tools-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            border-left: 5px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 50px 45px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .tools-wrap p {
+            font-size: 1.08rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tool-chip {
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: var(--primary-navy);
+            background: var(--bg-alt);
+            border: 1px solid rgba(197, 160, 89, 0.25);
+            padding: 9px 18px;
+            border-radius: 30px;
+        }
+
+        /* --- PROCESS --- */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .process-num {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 22px;
+            border-radius: 50%;
+            background: var(--primary-navy);
+            color: white;
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .process-step h3 {
+            font-family: var(--font-body);
+            font-size: 1.12rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .process-step p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
         /* --- FIT (pro koho / pro koho ne) --- */
         .fit-grid {
             display: grid;
@@ -995,6 +1146,10 @@
 
             .symptoms-grid { grid-template-columns: 1fr; }
             .fit-grid { grid-template-columns: 1fr; }
+            .modules-grid { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 28px; }
+            .tools-wrap { padding: 40px 30px; }
+            .tools-list { justify-content: center; }
             .included-list { grid-template-columns: 1fr; max-width: 460px; }
 
             .program-item {
@@ -1020,6 +1175,7 @@
             .hero-lead { font-size: 1.08rem; }
 
             .outcomes-grid { grid-template-columns: 1fr; }
+            .process-grid { grid-template-columns: 1fr; }
             .header-btn { padding: 10px 20px; font-size: 0.88rem; }
             .btn { padding: 16px 38px; font-size: 1.05rem; width: 100%; text-align: center; }
             .btn-secondary { width: 100%; text-align: center; }
@@ -1046,10 +1202,10 @@
 
             <div class="header-nav">
                 <nav class="main-nav">
-                    <a href="#program">Program</a>
+                    <a href="#temata">Témata</a>
                     <a href="#pro-koho">Pro koho</a>
+                    <a href="#prubeh">Jak to probíhá</a>
                     <a href="#lektor">Lektor</a>
-                    <a href="#format">Formát a cena</a>
                 </nav>
                 <a href="#poptavka" class="header-btn">Nezávazná poptávka</a>
             </div>
@@ -1062,7 +1218,7 @@
             <div class="hero-content">
                 <span class="hero-eyebrow">Firemní školení na míru</span>
                 <h1>Psychologie <span class="highlight">zákaznické věrnosti</span></h1>
-                <p class="hero-lead">Proč se zákazníci vracejí – a proč odcházejí i ti spokojení. Celodenní školení, po kterém váš tým přesně ví, kde se věrnost rozhoduje a co s tím udělat příští týden.</p>
+                <p class="hero-lead">Proč se zákazníci vracejí – a proč odcházejí i ti spokojení. Školení na míru, které skládám z témat podle toho, co váš tým reálně potřebuje. Od psychologie rozhodování až po konkrétní nastavení v nástrojích, které používáte.</p>
 
                 <div class="hero-facts">
                     <span class="hero-fact">
@@ -1071,7 +1227,7 @@
                     </span>
                     <span class="hero-fact">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                        Praktické příklady
+                        Teorie podložená praktickými příklady
                     </span>
                     <span class="hero-fact">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
@@ -1080,8 +1236,8 @@
                 </div>
 
                 <div class="btn-row">
-                    <a href="#poptavka" class="btn">Poptat termín</a>
-                    <a href="#program" class="btn-secondary">Prohlédnout program</a>
+                    <a href="#poptavka" class="btn">Poptat školení</a>
+                    <a href="#temata" class="btn-secondary">Prohlédnout témata</a>
                 </div>
             </div>
 
@@ -1111,7 +1267,7 @@
         <div class="container">
             <h2 class="section-title">Spokojený zákazník ≠ věrný zákazník</h2>
             <div class="story-lead">
-                <p>Firmy měří spokojenost, sbírají hvězdičky a hlídají si NPS. Proto je překvapuje, když spokojení zákazníci nakoupí jednou a už se nikdy neozvou.</p>
+                <p>Firmy měří spokojenost, sbírají hvězdičky a hlídají si NPS. Proto je překvapuje, když spokojení zákazníci nakoupí jednou a už se nikdy neozvou</p>
                 <p>Spokojenost totiž odpovídá na otázku „Splnilo to moje očekávání?“. Je to hodnocení jedné zkušenosti. Věrnost odpovídá na úplně jinou: <strong>„Proč bych se měl vracet právě sem, když mám na výběr?“</strong></p>
                 <p>Odpověď na tu druhou otázku se nerozhoduje v tabulce. Rozhoduje se v hlavě zákazníka – v momentech, které většina firem vůbec nebere v potaz.</p>
             </div>
@@ -1183,72 +1339,165 @@
         </div>
     </section>
 
-    <!-- PROGRAM -->
-    <section class="block block--alt" id="program">
+    <!-- MODULES -->
+    <section class="block block--alt" id="temata">
         <div class="container">
-            <h2 class="section-title">Program školení</h2>
-            <p class="section-subtitle">Jde pouze o orientační strukturu. Konkrétní obsah vždy přizpůsobuji na míru.</p>
+            <h2 class="section-title">Z čeho školení poskládáme</h2>
+            <p class="section-subtitle">Nemám jednu pevnou osnovu. Níže jsou témata, kterými se zabývám – vybereme z nich ta, která vám dávají smysl, a poskládám z nich půldenní nebo celodenní program. Klidně jen dvě do hloubky, klidně přehled napříč.</p>
 
-            <div class="program-list">
+            <div class="modules-grid">
 
-                <div class="program-item">
-                    <div class="program-num">01</div>
-                    <div>
-                        <div class="program-head">
-                            <h3>Proč odcházejí i spokojení zákazníci</h3>
-                        </div>
-                        <p>Ukotvení problému v číslech – kolik stojí získat zákazníka a kolik ho udržet. Rozebereme mýtus <strong>„spokojenost = věrnost"</strong> a ukážeme, proč se podle spokojenosti nedá předpovědět návrat.</p>
+                <div class="module-card">
+                    <div class="module-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9.663 17h4.673M12 3v1M3.5 12H2m3.9-6.1L5 5m14 0l-.9.9M22 12h-1.5M9 21h6M8 17a6 6 0 1 1 8 0v1a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2z"></path></svg>
+                    </div>
+                    <h3>Psychologie zákaznického rozhodování</h3>
+                    <p>Proč se lidé vracejí a proč odcházejí i ti spokojení. Behaviorální principy vysvětlené prakticky a na příkladech konkrétních značek.</p>
+                    <div class="tags">
+                        <span class="tag">Ztrátová averze</span>
+                        <span class="tag">Status quo bias</span>
+                        <span class="tag">Sociální důkaz</span>
+                        <span class="tag">Návykové smyčky</span>
                     </div>
                 </div>
 
-                <div class="program-item">
-                    <div class="program-num">02</div>
-                    <div>
-                        <div class="program-head">
-                            <h3>Principy věrnosti</h3>
-                        </div>
-                        <p>Behaviorální ekonomie prakticky a bez balastu: <strong>závazek a konzistence, ztrátová averze, status quo bias, sociální důkaz, návykové smyčky</strong>.</p>
+                <div class="module-card">
+                    <div class="module-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"></path><path d="M9 3v15"></path><path d="M15 6v15"></path></svg>
+                    </div>
+                    <h3>Zákaznická cesta a momenty pravdy</h3>
+                    <p>Jakými fázemi zákazník prochází, co se mu v každé z nich honí hlavou a kde se reálně láme rozhodnutí, jestli se vrátí.</p>
+                    <div class="tags">
+                        <span class="tag">Onboarding</span>
+                        <span class="tag">Druhý nákup</span>
+                        <span class="tag">Ticho po nákupu</span>
+                        <span class="tag">Moment před odchodem</span>
                     </div>
                 </div>
 
-                <div class="program-item">
-                    <div class="program-num">03</div>
-                    <div>
-                        <div class="program-head">
-                            <h3>Psychologická mapa zákaznické cesty</h3>
-                        </div>
-                        <p>Jakými fázemi zákazník prochází, co se mu v každé z nich honí hlavou a jaké kroky podniknout, abychom zvýšili pravděpodobnost, že nám neodpadne.</p>
+                <div class="module-card">
+                    <div class="module-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><rect x="7" y="12" width="3" height="6"></rect><rect x="12" y="8" width="3" height="10"></rect><rect x="17" y="5" width="3" height="13"></rect></svg>
+                    </div>
+                    <h3>Retenční metriky a čtení dat</h3>
+                    <p>Která čísla o zákaznících skutečně něco vypovídají, jak je počítat a jak podle nich poznat problém dřív, než se projeví na tržbách.</p>
+                    <div class="tags">
+                        <span class="tag">Repeat purchase rate</span>
+                        <span class="tag">CLV</span>
+                        <span class="tag">Churn</span>
+                        <span class="tag">Kohortní analýza</span>
                     </div>
                 </div>
 
-                <div class="program-item">
-                    <div class="program-num">04</div>
-                    <div>
-                        <div class="program-head">
-                            <h3>Od poznání k systému</h3>
-                        </div>
-                        <p>Jaké nástroje využívat pro analytiku, jak číst a vyhodnocovat data a jak je přetavit do praxe.</p>
+                <div class="module-card">
+                    <div class="module-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    </div>
+                    <h3>Segmentace zákaznické databáze</h3>
+                    <p>Jak databázi rozdělit tak, aby to mělo dopad na komunikaci i tržby – podle chování a hodnoty, ne podle demografie.</p>
+                    <div class="tags">
+                        <span class="tag">RFM segmentace</span>
+                        <span class="tag">Zákaznické skupiny</span>
+                        <span class="tag">Personalizace</span>
                     </div>
                 </div>
 
-                <div class="program-item">
-                    <div class="program-num">05</div>
-                    <div>
-                        <div class="program-head">
-                            <h3>Shrnutí a akční plán</h3>
-                        </div>
-                        <p>Každý účastník odchází s <strong>vlastním akčním plánem</strong> – konkrétními kroky pro svou oblast, seřazenými podle dopadu a náročnosti.</p>
+                <div class="module-card">
+                    <div class="module-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M22 7l-10 5L2 7"></path></svg>
+                    </div>
+                    <h3>E-mailing a automatizace v praxi</h3>
+                    <p>Které automatizace mají největší dopad, jak je poskládat za sebe a čím se liší kampaň, která prodává, od té, která jen zaplňuje schránku.</p>
+                    <div class="tags">
+                        <span class="tag">Automatizační scénáře</span>
+                        <span class="tag">Opuštěný košík</span>
+                        <span class="tag">Post-purchase</span>
+                        <span class="tag">Reaktivace</span>
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    </div>
+                    <h3>Věrnostní programy</h3>
+                    <p>Kdy věrnostní program skutečně vytváří věrnost a kdy jen rozdává slevy lidem, kteří by nakoupili tak jako tak.</p>
+                    <div class="tags">
+                        <span class="tag">Typy programů</span>
+                        <span class="tag">Nastavení odměn</span>
+                        <span class="tag">Časté chyby</span>
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    </div>
+                    <h3>Zákaznická zkušenost a zpětná vazba</h3>
+                    <p>Jak sbírat zpětnou vazbu, aby se z ní dalo něco vyčíst, a co si počít se zjištěním, že spokojenost sama o sobě k návratu nestačí.</p>
+                    <div class="tags">
+                        <span class="tag">CX v praxi</span>
+                        <span class="tag">Sběr zpětné vazby</span>
+                        <span class="tag">Práce s reklamacemi</span>
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                    </div>
+                    <h3>Nástroje a jejich nastavení</h3>
+                    <p>Jak vybrat nástroj, co v něm nastavit jako první a jak z něj vytěžit víc, než jen rozesílku newsletteru. Ukazuji přímo v prostředí, které používáte.</p>
+                    <div class="tags">
+                        <span class="tag">Výběr nástroje</span>
+                        <span class="tag">Propojení dat</span>
+                        <span class="tag">Živé ukázky</span>
+                    </div>
+                </div>
+
+                <div class="module-card">
+                    <div class="module-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </div>
+                    <h3>Workshop na vašich datech</h3>
+                    <p>Praktický blok, kde tým mapuje vlastní zákaznickou cestu a hledá konkrétní příležitosti. Facilituji a vstupuji do diskuze.</p>
+                    <div class="tags">
+                        <span class="tag">Práce ve skupinách</span>
+                        <span class="tag">Vaše data</span>
+                        <span class="tag">Akční plán</span>
                     </div>
                 </div>
 
             </div>
 
-            <p class="program-note">Program ladím podle vašeho oboru a fáze byznysu. Před školením si spolu projdeme, kde vás nejvíc tlačí bota.</p>
+            <p class="program-note">Nevíte, co si vybrat? To je běžné. Na úvodním hovoru projdeme, kde vás tlačí bota, a osnovu navrhnu já.</p>
+        </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section class="block">
+        <div class="container">
+            <h2 class="section-title">Ukazuji to na konkrétních nástrojích</h2>
+            <p class="section-subtitle">Teorie je jen půlka. Druhá půlka je vidět, jak se principy promítnou do prostředí, ve kterém váš tým denně pracuje.</p>
+
+            <div class="tools-wrap">
+                <p>Pracuji nástrojově agnosticky – neprodávám žádnou platformu a nevedu kurz proklikávání jednoho rozhraní. Pokud ale používáte konkrétní nástroj, připravím ukázky přímo v něm: jak vypadá segment, jak se staví automatizace, kde se dá vyčíst chování zákazníků. A pokud nástroj teprve vybíráte, projdeme, podle čeho se rozhodovat.</p>
+                <div class="tools-list">
+                    <span class="tool-chip">Ecomail</span>
+                    <span class="tool-chip">SmartEmailing</span>
+                    <span class="tool-chip">Klaviyo</span>
+                    <span class="tool-chip">Mailchimp</span>
+                    <span class="tool-chip">Samba.ai</span>
+                    <span class="tool-chip">Meiro</span>
+                    <span class="tool-chip">GA4</span>
+                    <span class="tool-chip">Váš nástroj</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- FIT -->
-    <section class="block" id="pro-koho">
+    <section class="block block--alt" id="pro-koho">
         <div class="container">
             <h2 class="section-title">Pro koho školení je (a pro koho ne)</h2>
             <div class="fit-grid">
@@ -1274,6 +1523,37 @@
         </div>
     </section>
 
+    <!-- PROCESS -->
+    <section class="block" id="prubeh">
+        <div class="container">
+            <h2 class="section-title">Jak to probíhá</h2>
+            <p class="section-subtitle">Od prvního e-mailu po školení obvykle uplynou tři až čtyři týdny. Většina toho času padne na přípravu na míru.</p>
+
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="process-num">1</div>
+                    <h3>Úvodní hovor</h3>
+                    <p>Projdeme, čím se zabýváte, kdo bude na školení a co potřebujete vyřešit. Nezávazně a zdarma.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-num">2</div>
+                    <h3>Návrh osnovy</h3>
+                    <p>Pošlu konkrétní návrh témat, rozsah, termín a cenu. Osnovu klidně několikrát upravíme.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-num">3</div>
+                    <h3>Školení</h3>
+                    <p>U vás ve firmě nebo online. Příklady i ukázky v nástrojích připravuji podle vašeho oboru.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-num">4</div>
+                    <h3>Co dál</h3>
+                    <p>Účastníci odcházejí s podklady a akčním plánem. Pokud potřebujete, navážeme konzultací.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- LECTOR -->
     <section class="block block--alt" id="lektor">
         <div class="container">
@@ -1284,7 +1564,7 @@
                 <div class="lector-content">
                     <h2>Kdo vás bude školit</h2>
                     <p>Jsem <strong>Tomáš Zálešák</strong> a jako jeden z mála freelancerů v ČR se zaměřuju čistě na to, jak si udržet stávající zákazníky – ne jak přivést nové.</p>
-                    <p>Na volné noze podnikám <strong>více než 6 let</strong>. Od copywritingu a obsahu jsem se postupně přesunul k retenčnímu marketingu a CRM..</p>
+                    <p>Na volné noze podnikám <strong>více než 6 let</strong>. Od copywritingu a obsahu jsem se postupně přesunul k retenčnímu marketingu a CRM.</p>
                     <p>Školení stavím na tom, co dělám denně v praxi: hledám, kde firmám utíkají zákazníci, a stavím systémy, které je vracejí zpět. Psychologie je vysvětlení <em>proč</em>. Zbytek dne je o tom <em>jak</em>.</p>
                 </div>
             </div>
@@ -1296,9 +1576,10 @@
         <div class="container">
             <h2 class="section-title">Co je v ceně</h2>
             <ul class="included-list">
-                <li>Úvodní hovor a přizpůsobení programu vašemu oboru</li>
-                <li>Celodenní vedení školení včetně facilitace workshopu</li>
+                <li>Úvodní hovor a sestavení osnovy na míru</li>
+                <li>Vedení školení včetně facilitace praktických bloků</li>
                 <li>Podklady a shrnutí pro každého účastníka</li>
+                <li>Ukázky v nástrojích, které používáte</li>
                 <li>Prostor na dotazy z vaší konkrétní praxe</li>
             </ul>
         </div>
@@ -1319,9 +1600,16 @@
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question" type="button">Pro koho je školení vhodné?</button>
+                    <button class="faq-question" type="button">Je to jen pro e-shopy?</button>
                     <div class="faq-answer">
-                        <p>Nejvíc z něho vytěží e-commerce byznysy. Principy věrnosti ale platí všude, kde zákazník opakovaně nakupuje nebo zůstává.</p>
+                        <p>Ne. Nejvíc zkušeností mám z e-commerce, takže odtud pochází nejvíc příkladů. Principy ale platí všude, kde zákazník opakovaně nakupuje nebo zůstává – od služeb po B2B.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">Jak dlouhé školení si máme objednat?</button>
+                    <div class="faq-answer">
+                        <p>Záleží na tom, kolik témat chcete pobrat a jak do hloubky. Půldenní formát stihne dvě až tři témata v přehledu, celodenní umožní zařadit i praktický workshop na vašich datech. Na úvodním hovoru vám řeknu, co se do jakého rozsahu reálně vejde.</p>
                     </div>
                 </div>
 
@@ -1340,7 +1628,7 @@
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question" type="button">Co když potřebujeme pomoct spíše s realizací?</button>
+                    <button class="faq-question" type="button">Co když potřebujeme spíš pomoct s realizací?</button>
                     <div class="faq-answer">
                         <p>Kromě školení dělám audity, vytvářím retenční strategie a pracuji se CRM a e-mailingovými nástroji.</p>
                     </div>
@@ -1354,7 +1642,7 @@
     <section class="cta-final" id="poptavka">
         <div class="container-narrow">
             <h2>Pojďme se domluvit na termínu</h2>
-            <a href="mailto:jsem@tomaszalesak.cz" class="btn">jsem@tomaszalesak.cz</a>
+            <a href="mailto:jsem@tomaszalesak.cz?subject=Pop%C3%A1vka%20%C5%A1kolen%C3%AD%20Psychologie%20z%C3%A1kaznick%C3%A9%20v%C4%9Brnosti" class="btn">jsem@tomaszalesak.cz</a>
             <p class="cta-note">Odpovídám nejpozději do 2. pracovního dne.</p>
         </div>
     </section>
