@@ -39,15 +39,16 @@
             --primary-navy-dark: #2a3561;
             --accent-gold: #c5a059;
             --accent-gold-light: #e0ca9e;
+            --accent-gold-text: #8a6d2f;
             --bg-body: #fdfcf8;
             --bg-card: #ffffff;
             --text-main: #333333;
             --text-heading: #000000;
             --text-muted: #666666;
-            
+
             --font-heading: 'Lora', serif;
             --font-body: 'Inter', sans-serif;
-            
+
             --shadow-card: 0 4px 25px rgba(0, 0, 0, 0.08);
             --shadow-float: 0 10px 40px rgba(53, 67, 123, 0.15);
             --transition-main: all 0.3s ease;
@@ -75,7 +76,7 @@
             font-weight: 700;
             line-height: 1.2;
         }
-        
+
         section {
             padding: 130px 0;
             position: relative;
@@ -107,7 +108,7 @@
             border-radius: 4px;
             filter: blur(0.5px);
         }
-        
+
         .btn {
             display: inline-block;
             padding: 20px 50px;
@@ -169,7 +170,7 @@
             align-items: center;
             gap: 25px;
         }
-        
+
         .main-nav {
             display: none;
         }
@@ -273,7 +274,7 @@
             font-weight: 600;
             box-shadow: 0 4px 10px rgba(197, 160, 89, 0.2);
         }
-        
+
         .hero-image {
             text-align: center;
             position: relative;
@@ -325,20 +326,20 @@
         .benefits {
             background: #fdfcf8;
         }
-        
+
         .benefits-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 25px;
         }
-        
+
         .benefit-card {
             padding: 50px 30px;
             border-radius: 12px;
             background: var(--bg-card);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
             transition: var(--transition-main);
-            display: flex; 
+            display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
@@ -346,7 +347,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .benefit-card::before {
             content: "";
             position: absolute;
@@ -357,13 +358,13 @@
             background: var(--accent-gold);
             opacity: 0.7;
         }
-        
+
         .benefit-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--shadow-float);
             border-color: var(--accent-gold);
         }
-        
+
         .benefit-icon {
             width: 60px;
             height: 60px;
@@ -373,13 +374,13 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .benefit-icon svg {
             width: 100%;
             height: 100%;
             stroke-width: 1.25px;
         }
-        
+
         .benefit-card h3 {
             font-family: var(--font-body);
             font-size: 1.25rem;
@@ -388,18 +389,18 @@
             line-height: 1.4;
             margin: 0;
         }
-        
+
         /* --- CHALLENGES SECTION --- */
         .challenges {
             background: #fdfcf8;
         }
-        
+
         .challenges-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 30px;
         }
-        
+
         .challenge-card {
             background: var(--bg-card);
             border: 1px solid #eeeeee;
@@ -410,12 +411,12 @@
             transition: var(--transition-main);
             height: 100%;
         }
-        
+
         .challenge-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-float);
         }
-        
+
         .challenge-card h3 {
             font-family: var(--font-body);
             font-size: 1.35rem;
@@ -424,7 +425,7 @@
             font-weight: 700;
             line-height: 1.4;
         }
-        
+
         .challenge-card p {
             font-size: 1rem;
             color: var(--text-muted);
@@ -437,105 +438,105 @@
         }
 
         .services-intro {
-            max-width: 700px;
-            margin: 0 auto 70px;
-            font-size: 1.2rem;
+            max-width: 620px;
+            margin: 0 auto 45px;
+            font-size: 1.1rem;
             line-height: 1.6;
             color: var(--text-muted);
             text-align: center;
         }
-        
+
         .services-list {
-            display: flex;
-            flex-direction: column;
-            gap: 70px; 
-            max-width: 800px;
-            margin: 90px auto 0;
-        }
-        
-        .service-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 70px 40px 50px; 
-            box-shadow: var(--shadow-card);
-            transition: var(--transition-main);
-            position: relative; 
-            text-align: center;
-            border: 1px solid rgba(197, 160, 89, 0.1);
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-float);
-            border-color: rgba(197, 160, 89, 0.3);
-        }
-        
-        .service-badge {
-            background: var(--accent-gold);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            display: inline-block;
-            position: absolute;
-            top: -20px; 
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 5;
-            white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(197, 160, 89, 0.2);
-        }
-        
-        .service-card h3 {
-            font-family: var(--font-heading);
-            font-size: 2rem;
-            color: var(--text-heading);
-            margin-bottom: 20px;
-        }
-        
-        .service-description {
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            text-align: left; 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+            align-items: stretch;
         }
 
-        .service-points {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(197, 160, 89, 0.25);
+            border-radius: 12px;
+            padding: 30px 32px;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
         }
+
+        .service-badge {
+            align-self: flex-start;
+            background: rgba(197, 160, 89, 0.14);
+            color: var(--accent-gold-text);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }
+
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            line-height: 1.25;
+            color: var(--text-heading);
+            margin-bottom: 14px;
+        }
+
+        .service-description {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
         .service-points ul {
-            display: inline-block; 
-            text-align: left;   
             list-style: none;
             padding: 0;
             margin: 0;
         }
+
         .service-points li {
             position: relative;
-            padding-left: 32px; 
-            margin-bottom: 10px;
-            color: var(--text-main);
-            font-size: 1rem;
+            padding-left: 26px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
             line-height: 1.5;
+            color: var(--text-main);
         }
+
         .service-points li::before {
-            content: "✔"; 
+            content: "✔";
             position: absolute;
             left: 0;
-            top: 2px;
+            top: 1px;
             color: var(--accent-gold);
-            font-weight: 900;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
-        
+
+        .service-price {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+        }
+
+        .service-price span {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
         /* --- ABOUT SECTION --- */
         .about {
-            background: #fdfcf8; 
+            background: #fdfcf8;
         }
 
         .about-columns {
@@ -544,7 +545,7 @@
             gap: 70px;
             align-items: center;
         }
-        
+
         .about-content h2 {
             font-family: var(--font-heading);
             font-size: 2.8rem;
@@ -558,18 +559,18 @@
             color: var(--text-muted);
             margin-bottom: 25px;
         }
-        
+
         .about-content strong {
             font-weight: 700;
             color: var(--primary-navy);
         }
-        
+
         .about-content .btn {
             margin-top: 20px;
             padding: 16px 45px;
             font-size: 1rem;
         }
-        
+
         .about-image {
             text-align: center;
         }
@@ -584,23 +585,23 @@
 
         /* --- PORTFOLIO/ARTICLES SECTION --- */
         .portfolio {
-            background: var(--bg-card); 
+            background: var(--bg-card);
         }
 
         .portfolio-slider-wrapper {
             overflow: hidden;
             padding: 0 20px;
             margin: 70px auto 0;
-            position: relative; 
+            position: relative;
         }
-        
+
         .portfolio-slider {
             display: flex;
             overflow-x: scroll;
             scroll-snap-type: x mandatory;
             gap: 30px;
-            padding-bottom: 30px; 
-            scroll-behavior: smooth; 
+            padding-bottom: 30px;
+            scroll-behavior: smooth;
         }
 
         .portfolio-slider::-webkit-scrollbar {
@@ -621,7 +622,7 @@
             min-width: 300px;
             height: 230px;
             scroll-snap-align: start;
-            background: var(--primary-navy); 
+            background: var(--primary-navy);
             color: white;
             border-radius: 10px;
             padding: 35px;
@@ -634,13 +635,13 @@
             justify-content: space-between;
             border: 1px solid transparent;
         }
-        
+
         .portfolio-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-float);
             border-color: rgba(197, 160, 89, 0.4);
         }
-        
+
         .portfolio-card h3 {
             font-family: var(--font-body);
             font-size: 1.4rem;
@@ -648,13 +649,13 @@
             margin-bottom: 10px;
             font-weight: 600;
         }
-        
+
         .portfolio-card p {
             font-size: 1rem;
             color: rgba(255, 255, 255, 0.8);
             margin-bottom: 30px;
         }
-        
+
         .link-icon {
             position: absolute;
             bottom: 25px;
@@ -667,7 +668,7 @@
         .slider-nav {
             position: absolute;
             top: 50%;
-            right: 0px; 
+            right: 0px;
             transform: translateY(-50%);
             z-index: 10;
         }
@@ -686,11 +687,11 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: var(--transition-main);
         }
-        
+
         .slider-arrow:hover {
             background: var(--primary-navy-dark);
         }
-        
+
         .slider-arrow svg {
             width: 24px;
             height: 24px;
@@ -700,7 +701,7 @@
         .cta {
             padding: 100px 0;
             background: #fdfcf8;
-            text-align: center; 
+            text-align: center;
         }
 
         .cta h2 {
@@ -738,47 +739,52 @@
                 gap: 20px;
             }
         }
-        
+
         @media (max-width: 1050px) {
             .benefits-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            .services-list {
-                max-width: 600px;
             }
         }
 
         @media (max-width: 968px) {
             .section-title, .about-content h2 { font-size: 2.2rem; }
             .hero-content h1 { font-size: 2.5rem; }
-            
+
             section { padding: 90px 0; }
-            
+
             .hero-columns, .about-columns {
                 grid-template-columns: 1fr;
                 text-align: center;
                 gap: 50px;
             }
-            
+
             .challenges-grid { grid-template-columns: 1fr; }
             .benefits-grid { grid-template-columns: 1fr; }
-            .service-description { text-align: center; }
             .about-image { order: -1; }
             .slider-nav { right: 20px; }
             .hero-badges { justify-content: center; }
         }
-        
+
+        @media (max-width: 860px) {
+            .services-list {
+                grid-template-columns: 1fr;
+                max-width: 520px;
+                gap: 20px;
+            }
+            .service-card { padding: 26px 24px; }
+            .service-card h3 { font-size: 1.35rem; }
+        }
+
         @media (max-width: 768px) {
             .logo-text { display: none; }
             .section-title, .cta h2, .about-content h2 { font-size: 1.9rem; }
             .hero-content h1 { font-size: 1.9rem; }
-            
+
             .social-links { gap: 10px; }
             .header-btn { padding: 10px 20px; font-size: 0.9rem; }
             .btn { padding: 16px 40px; font-size: 1.05rem; }
-            
+
             .benefit-card h3 { font-size: 1.1rem; }
-            .service-card h3 { font-size: 1.6rem; }
             .slider-nav { display: none; }
             .clients-logos img { height: 28px; }
             .clients-logos { gap: 25px 40px; }
@@ -792,7 +798,7 @@
                 <img src="images/TZ Logo.png" alt="TZ">
                 <span class="logo-text">Tomáš Zálešák</span>
             </a>
-    
+
             <div class="header-nav">
                 <nav class="main-nav">
                     <a href="#services">Služby</a>
@@ -842,7 +848,7 @@
             </div>
         </div>
     </div>
-    
+
     <section class="challenges" id="challenges">
         <div class="container">
             <h2 class="section-title">Poznáváte se v tom?</h2>
@@ -851,12 +857,12 @@
                     <h3>„Akvizice zdražuje. Potřebujeme efektivněji škálovat růst."</h3>
                     <p>Získat nového zákazníka je čím dál dražší a placená reklama se přestává vyplácet? Identifikuji příležitosti ve vaší databázi a pomůžu vám nastavit systém, který zvyšuje tržby.</p>
                 </div>
-                
+
                 <div class="challenge-card">
                     <h3>„Nevíme, jak pracovat s databází. Chybí nám strategie."</h3>
                     <p>Možná občas pošlete newsletter, ale chybí vám komunikační strategie. Na základě analýzy vašeho aktuálního stavu určím směr, vyberu správné kanály a vytvořím plán s přímým dopadem na tržby.</p>
                 </div>
-                
+
                 <div class="challenge-card">
                     <h3>„Neumíme z dat a nástrojů vytěžit maximum."</h3>
                     <p>Ať už vhodný nástroj teprve vybíráte, nebo nějaký využíváte, pomůžu vám je efektivně spravovat. Propojím vaše data a nastavím základy pro komunikaci se zákazníky napříč různými kanály.</p>
@@ -864,19 +870,20 @@
             </div>
         </div>
     </section>
-    
+
     <section class="services" id="services">
         <div class="container">
             <h2 class="section-title">Možnosti spolupráce</h2>
             <div class="services-intro">
-                Možností spolupráce je několik. Vždy záleží na tom, v jaké fázi se váš byznys nachází a co konkrétně potřebujete.
+                Přesnou částku znáte před zahájením spolupráce. Nacenění dostanete po úvodním hovoru, ve kterém zjistím, co potřebujete.
             </div>
             <div class="services-list">
+
                 <div class="service-card">
                     <div class="service-badge">„Nevíme, kde začít a co vlastně potřebujeme"</div>
-                    <h3>Retenční audit & strategie</h3>
+                    <h3>Retenční audit &amp; strategie</h3>
                     <div class="service-description">
-                        Na základě analýzy vašeho byznysu, dat a marketingu zjistím, kde vám utíkají peníze, proč se zákazníci nevracejí a jak zvýšit jejich hodnotu. Pochopíte, na co se zaměřit v krátkodobém i dlouhodobém horizontu, jaké nástroje využívat a jak postupovat.
+                        Zjistím, kde vám utíkají peníze a proč se zákazníci nevracejí. Dostanete plán, na co se zaměřit, jaké nástroje využívat a jak postupovat.
                     </div>
                     <div class="service-points">
                         <ul>
@@ -886,12 +893,12 @@
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="service-card">
                     <div class="service-badge">„Nevíme, jak efektivně využívat nástroje"</div>
-                    <h3>E-mailingové & CRM nástroje</h3>
-                    <div class="service-description"> 
-                        Pomůžu vám vybrat, nastavit a efektivně spravovat nástroje pro práci se zákazníky – od mailingových nástrojů po CRM platformy. Cílem je, abyste pomocí automatizací a kampaní efektivně komunikovali se zákazníky napříč různými kanály.
+                    <h3>E-mailingové &amp; CRM nástroje</h3>
+                    <div class="service-description">
+                        Vyberu, nastavím a spravuji nástroje pro práci se zákazníky, od mailingu po CRM platformy, abyste komunikovali napříč kanály.
                     </div>
                     <div class="service-points">
                         <ul>
@@ -904,14 +911,14 @@
 
                 <div class="service-card">
                     <div class="service-badge">„Potřebujeme strategického partnera"</div>
-                    <h3>Externí řízení (CRM/retence)</h3>
+                    <h3>Externí řízení retence</h3>
                     <div class="service-description">
-                        Chcete se opřít do retence, ale nemáte na to člověka? Spojím síly s vaším týmem. Nastavím procesy, předám zkušenosti a postavím základy, na kterých můžete do budoucna stavět.
+                        Chcete se opřít do retence, ale nemáte na to člověka? Nastavím procesy a postavím základy, na kterých můžete dál stavět.
                     </div>
                     <div class="service-points">
                         <ul>
                             <li>Role externího stratéga</li>
-                            <li>Spolupráce s interním nebo externím týmem</li>
+                            <li>Spolupráce s interním i externím týmem</li>
                             <li>Pravidelná optimalizace na základě dat</li>
                         </ul>
                     </div>
@@ -921,15 +928,16 @@
                     <div class="service-badge">„Potřebujeme poradit nebo nasměrovat"</div>
                     <h3>Konzultace</h3>
                     <div class="service-description">
-                        Potřebujete se rychle hnout z místa? Hledáte řešení na konkrétní problém? Nebo byste si rádi osvojili nové znalosti, praktické postupy nebo se naučili pracovat s nástroji? Domluvme si konzultaci.
+                        Potřebujete se rychle hnout z místa nebo vyřešit konkrétní problém? Domluvme si konzultaci.
                     </div>
                     <div class="service-points">
                         <ul>
-                            <li>Jednorázové nebo pravidelné konzultace</li>
-                            <li>Témata: online marketing, e-mailing, retence, CRM nástroje, zákaznická data, CX a další</li>
+                            <li>Jednorázové i pravidelné konzultace</li>
+                            <li>E-mailing, retence, CRM nástroje, zákaznická data, CX</li>
                         </ul>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -941,7 +949,7 @@
                     <h2>Kdo vlastně jsem?</h2>
                     <p>Většina marketérů řeší, jak přivést nové zákazníky. Já se jako jeden z mála freelancerů v ČR zaměřuji na to, <strong>jak si udržet ty stávající</strong>. Věrní zákazníci, kteří se vrací a opakovaně nakupují, totiž zefektivňují investici do marketingu a přináší tržby a zisk.</p>
                     <p>Klientům pomáhám naplno využít potenciál jejich zákaznické databáze – od chytrého e-mailingu až po komplexní retenční strategii.</p>
-                    <p>Na volné noze podnikám <strong>více než 7 let</strong>. Od copywritingu a content marketingu jsem se postupně přesunul čistě k retenčnímu marketingu. Díky tomu dokážu efektivně pracovat s databázi zákazníků – třeba i tou vaší.</p>
+                    <p>Na volné noze podnikám <strong>více než 7 let</strong>. Od copywritingu a content marketingu jsem se postupně přesunul čistě k retenčnímu marketingu. Díky tomu dokážu efektivně pracovat s databází zákazníků – třeba i tou vaší.</p>
                     <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
                 </div>
                 <div class="about-image">
@@ -1037,17 +1045,17 @@
                 }
             });
         });
-        
+
         const slider = document.getElementById('portfolioSlider');
         const slideRight = document.getElementById('slideRight');
-        
+
         if (slider && slideRight) {
             slideRight.addEventListener('click', () => {
                 const cardWidth = slider.querySelector('.portfolio-card').offsetWidth;
                 const gap = 30;
                 slider.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
             });
-            
+
             slider.addEventListener('scroll', () => {
                 const maxScroll = slider.scrollWidth - slider.clientWidth;
                 if (slider.scrollLeft >= maxScroll - 10) {
