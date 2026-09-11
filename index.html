@@ -244,7 +244,7 @@
 
         .hero-content h1 {
             font-family: var(--font-heading);
-            font-size: 3.2rem;
+            font-size: 2.8rem;
             color: var(--text-heading);
             font-weight: 700;
             line-height: 1.2;
@@ -448,9 +448,9 @@
 
         .services-list {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            max-width: 900px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            max-width: 1120px;
             margin: 0 auto;
             align-items: stretch;
         }
@@ -459,11 +459,31 @@
             background: var(--bg-card);
             border: 1px solid rgba(197, 160, 89, 0.25);
             border-radius: 12px;
-            padding: 30px 32px;
+            padding: 36px 30px 32px;
             display: flex;
             flex-direction: column;
             text-align: left;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            transition: var(--transition-main);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-gold);
+            opacity: 0.7;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-float);
+            border-color: var(--accent-gold);
         }
 
         .service-badge {
@@ -480,8 +500,8 @@
 
         .service-card h3 {
             font-family: var(--font-heading);
-            font-size: 1.5rem;
-            line-height: 1.25;
+            font-size: 1.45rem;
+            line-height: 1.3;
             color: var(--primary-navy);
             margin-bottom: 14px;
         }
@@ -489,8 +509,14 @@
         .service-description {
             color: var(--text-muted);
             font-size: 0.98rem;
-            line-height: 1.6;
-            margin-bottom: 18px;
+            line-height: 1.65;
+            margin-bottom: 22px;
+        }
+
+        .service-points {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(197, 160, 89, 0.2);
         }
 
         .service-points ul {
@@ -502,10 +528,14 @@
         .service-points li {
             position: relative;
             padding-left: 26px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-size: 0.95rem;
             line-height: 1.5;
             color: var(--text-main);
+        }
+
+        .service-points li:last-child {
+            margin-bottom: 0;
         }
 
         .service-points li::before {
@@ -518,7 +548,7 @@
         }
 
         .service-price {
-            margin-top: auto;
+            margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid rgba(197, 160, 89, 0.2);
             font-family: var(--font-heading);
@@ -740,6 +770,19 @@
             }
         }
 
+        @media (max-width: 1150px) {
+            .services-list {
+                max-width: 900px;
+                gap: 22px;
+            }
+            .service-card {
+                padding: 32px 26px 28px;
+            }
+            .service-card h3 {
+                font-size: 1.3rem;
+            }
+        }
+
         @media (max-width: 1050px) {
             .benefits-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -748,7 +791,7 @@
 
         @media (max-width: 968px) {
             .section-title, .about-content h2 { font-size: 2.2rem; }
-            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content h1 { font-size: 2.2rem; }
 
             section { padding: 90px 0; }
 
@@ -763,22 +806,24 @@
             .about-image { order: -1; }
             .slider-nav { right: 20px; }
             .hero-badges { justify-content: center; }
-        }
 
-        @media (max-width: 860px) {
             .services-list {
                 grid-template-columns: 1fr;
-                max-width: 520px;
+                max-width: 560px;
                 gap: 20px;
             }
-            .service-card { padding: 26px 24px; }
-            .service-card h3 { font-size: 1.35rem; }
+            .service-card {
+                padding: 30px 26px 26px;
+            }
+            .service-card h3 {
+                font-size: 1.35rem;
+            }
         }
 
         @media (max-width: 768px) {
             .logo-text { display: none; }
             .section-title, .cta h2, .about-content h2 { font-size: 1.9rem; }
-            .hero-content h1 { font-size: 1.9rem; }
+            .hero-content h1 { font-size: 1.75rem; }
 
             .social-links { gap: 10px; }
             .header-btn { padding: 10px 20px; font-size: 0.9rem; }
@@ -788,6 +833,13 @@
             .slider-nav { display: none; }
             .clients-logos img { height: 28px; }
             .clients-logos { gap: 25px 40px; }
+
+            .services-list { max-width: 100%; }
+            .service-card { padding: 28px 22px 24px; }
+            .service-card h3 { font-size: 1.25rem; }
+            .service-description { font-size: 0.95rem; margin-bottom: 18px; }
+            .service-points { padding-top: 18px; }
+            .service-points li { font-size: 0.92rem; }
         }
     </style>
 </head>
@@ -820,7 +872,7 @@
     <section class="hero">
         <div class="container hero-columns">
             <div class="hero-content">
-                <h1>Více věrných zákazníků, <span class="highlight">vyšší tržby</span></h1>
+                <h1><span class="highlight">Vyšší obrat</span> díky stávajícím zákazníkům</h1>
                 <p>Stavím retenční strategie, implementuji e-mailingové nebo CRM/CDP nástroje a školím jednotlivce i týmy.</p>
                 <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
             </div>
@@ -903,28 +955,15 @@
                 </div>
 
                 <div class="service-card">
-                    <h3>Externí řízení</h3>
+                    <h3>Školení e-mailingu &amp; retence</h3>
                     <div class="service-description">
-                        Chcete se opřít do retence, ale nemáte na to člověka? Nastavím procesy a postavím základy, na kterých můžete dál stavět.
+                        Máte šikovný tým, jen mu chybí know-how? Naučím vaše lidi pracovat s daty, segmentací a retenční komunikací tak, aby to zvládli sami.
                     </div>
                     <div class="service-points">
                         <ul>
-                            <li>Role externího stratéga</li>
-                            <li>Spolupráce s interním i externím týmem</li>
-                            <li>Pravidelná optimalizace na základě dat</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="service-card">
-                    <h3>Konzultace</h3>
-                    <div class="service-description">
-                        Potřebujete se rychle hnout z místa nebo vyřešit konkrétní problém? Domluvme si konzultaci.
-                    </div>
-                    <div class="service-points">
-                        <ul>
-                            <li>Jednorázové i pravidelné konzultace</li>
-                            <li>E-mailing, retence, CRM nástroje, zákaznická data, CX</li>
+                            <li>Školení na míru podle vašich nástrojů a dat</li>
+                            <li>Segmentace, automatizace, měření retence</li>
+                            <li>Online i u vás ve firmě</li>
                         </ul>
                     </div>
                 </div>
