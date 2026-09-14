@@ -82,7 +82,9 @@
             position: relative;
         }
 
-        section:nth-of-type(even) {
+        /* Střídání pozadí sekcí – řízeno třídou, ne pořadím,
+           aby přidání nové sekce nerozhodilo zbytek webu. */
+        section.alt-bg {
             background-color: #f6f5f0;
             border-top: 1px solid rgba(197, 160, 89, 0.1);
             border-bottom: 1px solid rgba(197, 160, 89, 0.1);
@@ -391,10 +393,6 @@
         }
 
         /* --- CHALLENGES SECTION --- */
-        .challenges {
-            background: #fdfcf8;
-        }
-
         .challenges-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -520,6 +518,40 @@
             top: 1px;
             color: var(--accent-gold);
             font-size: 1rem;
+        }
+
+        /* --- TOOLS SECTION --- */
+        .tools-intro {
+            max-width: 620px;
+            margin: 0 auto 55px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .tools-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 45px 70px;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .tools-logos img {
+            height: 44px;
+            width: auto;
+            max-width: 170px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.6);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .tools-logos img:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.05);
         }
 
         /* --- ABOUT SECTION --- */
@@ -688,7 +720,6 @@
         /* --- CTA SECTION --- */
         .cta {
             padding: 100px 0;
-            background: #fdfcf8;
             text-align: center;
         }
 
@@ -776,6 +807,9 @@
                 padding-top: 24px;
                 border-top: 1px solid rgba(197, 160, 89, 0.3);
             }
+
+            .tools-logos { gap: 35px 55px; }
+            .tools-logos img { height: 38px; max-width: 145px; }
         }
 
         @media (max-width: 768px) {
@@ -798,6 +832,10 @@
             .service-description { font-size: 0.97rem; }
             .service-points { padding-top: 20px; }
             .service-points li { font-size: 0.94rem; margin-bottom: 10px; }
+
+            .tools-intro { font-size: 1rem; margin-bottom: 40px; }
+            .tools-logos { gap: 28px 40px; }
+            .tools-logos img { height: 32px; max-width: 125px; }
         }
     </style>
 </head>
@@ -812,6 +850,7 @@
             <div class="header-nav">
                 <nav class="main-nav">
                     <a href="#services">Služby</a>
+                    <a href="#tools">Nástroje</a>
                     <a href="#about">O mně</a>
                 </nav>
                 <div class="social-links">
@@ -854,7 +893,7 @@
         </div>
     </div>
 
-    <section class="challenges" id="challenges">
+    <section class="challenges alt-bg" id="challenges">
         <div class="container">
             <h2 class="section-title">Poznáváte se v tom?</h2>
             <div class="challenges-grid">
@@ -936,6 +975,20 @@
         </div>
     </section>
 
+    <!-- TOOLS SECTION -->
+    <section class="tools alt-bg" id="tools">
+        <div class="container">
+            <h2 class="section-title">Nástroje, se kterými pracuji</h2>
+            <div class="tools-logos">
+                <img src="images/Bloomreach.png" alt="Bloomreach">
+                <img src="images/Ecomail.png" alt="Ecomail">
+                <img src="images/Klaviyo.png" alt="Klaviyo">
+                <img src="images/SmartEmailing.png" alt="SmartEmailing">
+                <img src="images/Leadhub.png" alt="Leadhub">
+            </div>
+        </div>
+    </section>
+
     <section class="about" id="about">
         <div class="container">
             <div class="about-columns">
@@ -1010,7 +1063,7 @@
         </div>
     </section>
 
-    <section class="cta" id="cta">
+    <section class="cta alt-bg" id="cta">
         <div class="container">
             <h2><span class="highlight">Plácneme si?</span></h2>
             <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
