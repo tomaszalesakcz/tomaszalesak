@@ -554,6 +554,87 @@
             transform: scale(1.05);
         }
 
+        /* --- FAQ SECTION --- */
+        .faq {
+            background: var(--bg-card);
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid #eeeeee;
+            border-left: 5px solid var(--accent-gold);
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--shadow-float);
+        }
+
+        .faq-item summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 26px 32px;
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            font-weight: 700;
+            line-height: 1.4;
+            color: var(--primary-navy);
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary::after {
+            content: "+";
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(197, 160, 89, 0.12);
+            color: var(--accent-gold-text);
+            font-size: 1.4rem;
+            font-weight: 500;
+            line-height: 1;
+            transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+        }
+
+        .faq-item[open] summary::after {
+            transform: rotate(45deg);
+            background: var(--accent-gold);
+            color: white;
+        }
+
+        .faq-item summary:focus-visible {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 4px;
+            border-radius: 8px;
+        }
+
+        .faq-answer {
+            padding: 0 32px 28px;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
         /* --- ABOUT SECTION --- */
         .about {
             background: #fdfcf8;
@@ -810,6 +891,8 @@
 
             .tools-logos { gap: 35px 55px; }
             .tools-logos img { height: 38px; max-width: 145px; }
+
+            .faq-list { max-width: 620px; gap: 16px; }
         }
 
         @media (max-width: 768px) {
@@ -836,6 +919,11 @@
             .tools-intro { font-size: 1rem; margin-bottom: 40px; }
             .tools-logos { gap: 28px 40px; }
             .tools-logos img { height: 32px; max-width: 125px; }
+
+            .faq-list { max-width: 100%; gap: 14px; }
+            .faq-item summary { padding: 22px 22px; font-size: 1.05rem; gap: 16px; }
+            .faq-item summary::after { width: 28px; height: 28px; font-size: 1.25rem; }
+            .faq-answer { padding: 0 22px 24px; font-size: 0.97rem; }
         }
     </style>
 </head>
@@ -943,7 +1031,7 @@
                     <div class="service-main">
                         <h3>E-mailingové &amp; CRM nástroje</h3>
                         <div class="service-description">
-                            Vyberu, nastavím a spravuji nástroje pro práci se zákaznickou databází, abyste s ní efektivně komunikovali.
+                            Vyberu, nastavím a předám vám nástroje pro práci se zákaznickou databází tak, abyste s ní dokázali efektivně komunikovat sami.
                         </div>
                     </div>
                     <div class="service-points">
@@ -985,6 +1073,44 @@
                 <img src="images/SmartEmailing.png" alt="SmartEmailing">
                 <img src="images/Klaviyo_logo1.png" alt="Klaviyo">
                 <img src="images/Leadhub_logo.png" alt="Leadhub">
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Časté dotazy</h2>
+            <div class="faq-list">
+
+                <details class="faq-item">
+                    <summary>Pro koho je spolupráce vhodná?</summary>
+                    <div class="faq-answer">
+                        Pro e-shopy a firmy, které mají zákaznickou bázi s potenciálem k opakovaným nákupům.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Kolik spolupráce stojí?</summary>
+                    <div class="faq-answer">
+                        Záleží na rozsahu – audit a strategie, implementace nástroje i školení mají jinou náročnost. Na úvodní konzultaci zdarma zjistím, co potřebujete, a přesnou cenu vám řeknu dřív, než cokoli začneme. Žádné skryté náklady ani překvapení na faktuře.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Zvládnete implementaci CDP?</summary>
+                    <div class="faq-answer">
+                        Ano. Strategii, výběr nástroje a nastavení e-mailingových nástrojů zvládnu sám. Na implementaci robustních CDP platforem, jako je Bloomreach, spolupracuji s ověřenými partnery. Projekt ale řídím já a zůstávám vaší kontaktní osobou.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Můžete naši retenci převzít dlouhodobě?</summary>
+                    <div class="faq-answer">
+                       Nefunguji jako externí CRM specialista, který spravuje kampaně. Vytvořím strategii, nastavím nástroje a procesy a zaučím váš tým, případně najdu pro vás vhodného člověka. Cílem je, abyste zvládli retenci řídit interně – samozřejmě vám však můžu být k dispozici prostřednictvím pravidelných konzultací.
+                    </div>
+                </details>
+
             </div>
         </div>
     </section>
