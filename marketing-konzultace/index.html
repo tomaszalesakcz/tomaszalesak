@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomáš Zálešák | Marketingový konzultant</title>
+    <meta name="description" content="Marketingový konzultant pro majitele firem a e-shopů, které chtějí růst chytřeji. Úvodní konzultace zdarma.">
+    <link rel="icon" type="image/png" href="..images/TZ Logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5ZS7GT3PJ2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5ZS7GT3PJ2');
+    </script>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "u0yxi1k27g");
+    </script>
+
+    <style>
+        /* --- GLOBAL & RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-navy: #35437b;
+            --primary-navy-dark: #2a3561;
+            --accent-gold: #c5a059;
+            --accent-gold-light: #e0ca9e;
+            --accent-gold-text: #8a6d2f;
+            --bg-body: #fdfcf8;
+            --bg-card: #ffffff;
+            --text-main: #333333;
+            --text-heading: #000000;
+            --text-muted: #666666;
+
+            --font-heading: 'Lora', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --shadow-card: 0 4px 25px rgba(0, 0, 0, 0.08);
+            --shadow-float: 0 10px 40px rgba(53, 67, 123, 0.15);
+            --transition-main: all 0.3s ease;
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.8;
+            color: var(--text-main);
+            background: var(--bg-body);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            text-align: center;
+            font-size: 2.8rem;
+            color: var(--text-heading);
+            margin-bottom: 70px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        section {
+            padding: 130px 0;
+            position: relative;
+        }
+
+        /* Střídání pozadí sekcí – řízeno třídou, ne pořadím,
+           aby přidání nové sekce nerozhodilo zbytek webu. */
+        section.alt-bg {
+            background-color: #f6f5f0;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .highlight {
+            position: relative;
+            display: inline-block;
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            z-index: 1;
+        }
+        .highlight::before {
+            content: "";
+            position: absolute;
+            left: -2px;
+            bottom: 0.12em;
+            width: calc(100% + 6px);
+            height: 0.35em;
+            background: rgba(197, 160, 89, 0.35);
+            transform: skew(-8deg);
+            z-index: -1;
+            border-radius: 4px;
+            filter: blur(0.5px);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 20px 50px;
+            background: var(--primary-navy);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.15rem;
+            transition: var(--transition-main);
+            box-shadow: 0 4px 15px rgba(53, 67, 123, 0.2);
+        }
+        .btn:hover {
+            background: var(--primary-navy-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(53, 67, 123, 0.3);
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+            position: sticky;
+            top: 0;
+            background: var(--bg-body);
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-navy);
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .main-nav {
+            display: none;
+        }
+        .main-nav a {
+            color: var(--primary-navy);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 5px 10px;
+            transition: color 0.3s ease;
+        }
+        .main-nav a:hover {
+            color: var(--accent-gold);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.1);
+            color: var(--primary-navy);
+        }
+
+        .social-links svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .header-btn {
+            padding: 14px 35px;
+            background: var(--accent-gold);
+            color: white;
+            border: 2px solid var(--accent-gold);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: var(--transition-main);
+        }
+
+        .header-btn:hover {
+            background: var(--primary-navy);
+            border-color: var(--primary-navy);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 100px 0;
+            background: var(--bg-body);
+        }
+
+        .hero-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 35px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-gold);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(197, 160, 89, 0.2);
+        }
+
+        .hero-image {
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: var(--shadow-float);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .hero-image img:hover {
+            transform: scale(1.02);
+        }
+
+        /* --- CLIENTS STRIP --- */
+        .clients {
+            padding: 35px 0;
+            background: var(--bg-card);
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        .clients-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px 60px;
+        }
+
+        .clients-logos img {
+            height: 36px;
+            width: auto;
+            max-width: 130px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.55);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .clients-logos img:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.05);
+        }
+
+        /* --- BENEFITS --- */
+        .benefits {
+            background: #fdfcf8;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .benefit-card {
+            padding: 50px 30px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            transition: var(--transition-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid rgba(197, 160, 89, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-gold);
+            opacity: 0.7;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-float);
+            border-color: var(--accent-gold);
+        }
+
+        .benefit-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 30px;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .benefit-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 1.25px;
+        }
+
+        .benefit-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* --- CHALLENGES SECTION --- */
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .challenge-card {
+            background: var(--bg-card);
+            border: 1px solid #eeeeee;
+            border-left: 5px solid var(--accent-gold);
+            border-radius: 8px;
+            padding: 40px 35px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+            height: 100%;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-float);
+        }
+
+        .challenge-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.35rem;
+            color: var(--primary-navy);
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .challenge-card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* --- SERVICES SECTION --- */
+        .services {
+            background: var(--bg-card);
+        }
+
+        .services-intro {
+            max-width: 620px;
+            margin: 0 auto 45px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .services-list {
+            display: flex;
+            flex-direction: column;
+            gap: 26px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 45px;
+            align-items: start;
+            background: var(--bg-card);
+            border: 1px solid #eeeeee;
+            border-left: 5px solid var(--accent-gold);
+            border-radius: 10px;
+            padding: 40px 45px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+            text-align: left;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-float);
+        }
+
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            line-height: 1.3;
+            color: var(--primary-navy);
+            margin-bottom: 14px;
+        }
+
+        .service-description {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        .service-points {
+            border-left: 1px solid rgba(197, 160, 89, 0.3);
+            padding-left: 45px;
+        }
+
+        .service-points ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .service-points li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 12px;
+            font-size: 0.97rem;
+            line-height: 1.55;
+            color: var(--text-main);
+        }
+
+        .service-points li:last-child {
+            margin-bottom: 0;
+        }
+
+        .service-points li::before {
+            content: "✔";
+            position: absolute;
+            left: 0;
+            top: 1px;
+            color: var(--accent-gold);
+            font-size: 1rem;
+        }
+
+        /* --- TOOLS SECTION --- */
+        .tools-intro {
+            max-width: 620px;
+            margin: 0 auto 55px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .tools-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 45px 70px;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .tools-logos img {
+            height: 44px;
+            width: auto;
+            max-width: 170px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.6);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .tools-logos img:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.05);
+        }
+
+        /* --- FAQ SECTION --- */
+        .faq {
+            background: var(--bg-card);
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid #eeeeee;
+            border-left: 5px solid var(--accent-gold);
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-main);
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--shadow-float);
+        }
+
+        .faq-item summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 26px 32px;
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            font-weight: 700;
+            line-height: 1.4;
+            color: var(--primary-navy);
+        }
+
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary::after {
+            content: "+";
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(197, 160, 89, 0.12);
+            color: var(--accent-gold-text);
+            font-size: 1.4rem;
+            font-weight: 500;
+            line-height: 1;
+            transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+        }
+
+        .faq-item[open] summary::after {
+            transform: rotate(45deg);
+            background: var(--accent-gold);
+            color: white;
+        }
+
+        .faq-item summary:focus-visible {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 4px;
+            border-radius: 8px;
+        }
+
+        .faq-answer {
+            padding: 0 32px 28px;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about {
+            background: #fdfcf8;
+        }
+
+        .about-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            color: var(--text-heading);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .about-content p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .about-content strong {
+            font-weight: 700;
+            color: var(--primary-navy);
+        }
+
+        .about-content .btn {
+            margin-top: 20px;
+            padding: 16px 45px;
+            font-size: 1rem;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-float);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        /* --- PORTFOLIO/ARTICLES SECTION --- */
+        .portfolio {
+            background: var(--bg-card);
+        }
+
+        .portfolio-slider-wrapper {
+            overflow: hidden;
+            padding: 0 20px;
+            margin: 70px auto 0;
+            position: relative;
+        }
+
+        .portfolio-slider {
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            gap: 30px;
+            padding-bottom: 30px;
+            scroll-behavior: smooth;
+        }
+
+        .portfolio-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .portfolio-slider::-webkit-scrollbar-thumb {
+            background: rgba(197, 160, 89, 0.4);
+            border-radius: 10px;
+        }
+
+        .portfolio-slider::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .portfolio-card {
+            min-width: 300px;
+            height: 230px;
+            scroll-snap-align: start;
+            background: var(--primary-navy);
+            color: white;
+            border-radius: 10px;
+            padding: 35px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition-main);
+            position: relative;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid transparent;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-float);
+            border-color: rgba(197, 160, 89, 0.4);
+        }
+
+        .portfolio-card h3 {
+            font-family: var(--font-body);
+            font-size: 1.4rem;
+            color: white;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .portfolio-card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+
+        .link-icon {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            width: 26px;
+            height: 26px;
+            color: var(--accent-gold);
+        }
+
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            right: 0px;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        .slider-arrow {
+            background: var(--accent-gold);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition-main);
+        }
+
+        .slider-arrow:hover {
+            background: var(--primary-navy-dark);
+        }
+
+        .slider-arrow svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* --- CTA SECTION --- */
+        .cta {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .cta p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--bg-card);
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(197, 160, 89, 0.1);
+        }
+
+        footer p {
+            color: var(--text-muted);
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (min-width: 969px) {
+            .main-nav {
+                display: flex;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 1050px) {
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .service-card {
+                gap: 35px;
+                padding: 36px 38px;
+            }
+            .service-points {
+                padding-left: 35px;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .section-title, .about-content h2 { font-size: 2.2rem; }
+            .hero-content h1 { font-size: 2.2rem; }
+
+            section { padding: 90px 0; }
+
+            .hero-columns, .about-columns {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 50px;
+            }
+
+            .challenges-grid { grid-template-columns: 1fr; }
+            .benefits-grid { grid-template-columns: 1fr; }
+            .about-image { order: -1; }
+            .slider-nav { right: 20px; }
+            .hero-badges { justify-content: center; }
+
+            .services-list {
+                max-width: 620px;
+                gap: 22px;
+            }
+
+            .service-card {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                padding: 34px 32px;
+            }
+
+            .service-points {
+                border-left: none;
+                padding-left: 0;
+                padding-top: 24px;
+                border-top: 1px solid rgba(197, 160, 89, 0.3);
+            }
+
+            .tools-logos { gap: 35px 55px; }
+            .tools-logos img { height: 38px; max-width: 145px; }
+
+            .faq-list { max-width: 620px; gap: 16px; }
+        }
+
+        @media (max-width: 768px) {
+            .logo-text { display: none; }
+            .section-title, .cta h2, .about-content h2 { font-size: 1.9rem; }
+            .hero-content h1 { font-size: 1.75rem; }
+
+            .social-links { gap: 10px; }
+            .header-btn { padding: 10px 20px; font-size: 0.9rem; }
+            .btn { padding: 16px 40px; font-size: 1.05rem; }
+
+            .benefit-card h3 { font-size: 1.1rem; }
+            .slider-nav { display: none; }
+            .clients-logos img { height: 28px; }
+            .clients-logos { gap: 25px 40px; }
+
+            .services-list { max-width: 100%; }
+            .service-card { padding: 28px 24px; gap: 20px; }
+            .service-card h3 { font-size: 1.35rem; }
+            .service-description { font-size: 0.97rem; }
+            .service-points { padding-top: 20px; }
+            .service-points li { font-size: 0.94rem; margin-bottom: 10px; }
+
+            .tools-intro { font-size: 1rem; margin-bottom: 40px; }
+            .tools-logos { gap: 28px 40px; }
+            .tools-logos img { height: 32px; max-width: 125px; }
+
+            .faq-list { max-width: 100%; gap: 14px; }
+            .faq-item summary { padding: 22px 22px; font-size: 1.05rem; gap: 16px; }
+            .faq-item summary::after { width: 28px; height: 28px; font-size: 1.25rem; }
+            .faq-answer { padding: 0 22px 24px; font-size: 0.97rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="https://tomaszalesak.cz/marketing-konzultace" class="logo">
+                <img src="..images/TZ Logo.png" alt="TZ">
+                <span class="logo-text">Tomáš Zálešák</span>
+            </a>
+
+            <div class="header-nav">
+                <nav class="main-nav">
+                    <a href="#services">Služby</a>
+                    <a href="#tools">Nástroje</a>
+                    <a href="#about">O mně</a>
+                </nav>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/tomas-zalesak" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </a>
+                    <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" aria-label="YouTube">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </a>
+                </div>
+                <a href="#cta" class="header-btn">Kontakt</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-columns">
+            <div class="hero-content">
+                <h1><span class="highlight">Marketing</span> n</h1>
+                <p>Pomůžu vám zorientovat se v online marketingu – od strategie po exekutivu.</p>
+                <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište, jak vám můžu pomoct</a>
+            </div>
+            <div class="hero-image">
+                <img src="..images/Tomas-Zalesak.png" alt="Tomáš Zálešák">
+            </div>
+        </div>
+    </section>
+
+    <!-- CLIENTS STRIP -->
+    <div class="clients">
+        <div class="container">
+            <div class="clients-logos">
+                <img src="..images/brainmarket.png" alt="Brainmarket">
+                <img src="..images/vosime.png" alt="Vosíme">
+                <img src="..images/datart.jpg" alt="Datart">
+                <img src="..images/vehiclass.png" alt="Vehiclass">
+                <img src="..images/poda.png" alt="Poda">
+                <img src="..images/dualvit.png" alt="Dualvit">
+            </div>
+        </div>
+    </div>
+
+    <section class="challenges alt-bg" id="challenges">
+        <div class="container">
+            <h2 class="section-title">Poznáváte se v tom?</h2>
+            <div class="challenges-grid">
+                <div class="challenge-card">
+                    <h3>„Potřebujeme se posunout, ale nevíme, jaké kroky podniknout."</h3>
+                </div>
+
+                <div class="challenge-card">
+                    <h3>„Máme nástroje, ale nedokážeme je naplno využít."</h3>
+                </div>
+
+                <div class="challenge-card">
+                    <h3>„Nevíme, co řešit dřív. Nápadů je spousta, času málo."</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Možnosti spolupráce</h2>
+            <div class="services-intro">
+                Přesnou částku vám řeknu před zahájením spolupráce.
+            </div>
+            <div class="services-list">
+
+                <div class="service-card">
+                    <div class="service-main">
+                        <h3>Audit a konzultace</h3>
+                        <div class="service-description">
+                            Žádné knížecí rady typu „zapněte reklamu“ nebo „tvořte obsah“. Často bývá zakopaný pes i tam, kde byste ho vůbec nečekali – a třeba i mimo marketing. 
+                        </div>
+                    </div>
+                    <div class="service-points">
+                        <ul>
+                            <li>Jednorázová konzultace</li>
+                            <li>Pravidelné konzultace</li>
+                            <li>Hluboký audit marketingu se seznamem priorit</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-main">
+                        <h3>Školeníe</h3>
+                        <div class="service-description">
+                            Ať už se potřebujete rychle naučit s konkrétními nástroji, nebo hledáte marketingovou „nalejvárnu“, předám vám osobně nebo se svými kolegy potřebné know-how.
+                        </div>
+                    </div>
+                    <div class="service-points">
+                        <ul>
+                            <li>PPC reklamy</li>
+                            <li>AI v marketingu</li>
+                            <li>E-mail marketing</li>
+                            <li>Zákaznická cesta a psychologie prodeje</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-main">
+                        <h3>Zajištění služeb</h3>
+                        <div class="service-description">
+                            Pokud si potřebujete vypůjčit
+                        </div>
+                    </div>
+                    <div class="service-points">
+                        <ul>
+                            <li>Školení na míru podle vašich nástrojů a dat</li>
+                            <li>Segmentace, automatizace, měření retence</li>
+                            <li>Online i u vás ve firmě</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Časté dotazy</h2>
+            <div class="faq-list">
+
+                <details class="faq-item">
+                    <summary>Pro koho je spolupráce vhodná?</summary>
+                    <div class="faq-answer">
+                        Pro majitele firem a e-shopů, které nemají vlastní marketingové oddělení nebo potřebují 
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Kolik spolupráce stojí?</summary>
+                    <div class="faq-answer">
+                        Záleží na rozsahu – na úvodní bezplatné konzultaci zjistím, co potřebujete, a přesnou cenu vám řeknu dřív, než cokoli začneme. Žádné skryté náklady ani překvapení na faktuře.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Spravujete PPC kampaně?</summary>
+                    <div class="faq-answer">
+                        Osobně ne, ale spolupracuji se zkušenými kolegy, které vám rád doporučím.
+                    </div>
+                </details>
+
+              <details class="faq-item">
+                    <summary>Jak probíhá konzultace?</summary>
+                    <div class="faq-answer">
+                        Nejprve se podívám blíže na váš byznys – čím víc informací od vás dostanu, tím efektivněji vám dokážu pomoct. Zpravidla se pak potkáme online, případně osobně, pokud jste z Moravskoslezského kraje.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary>Jak probíhá školení?</summary>
+                    <div class="faq-answer">
+                       Probereme, co přesně potřebujete, a na základě toho pak vytvořím návrh školení na míru včetně ceny. Pokud si plácneme, zrealizujeme ho buď u vás, nebo online.
+                    </div>
+                </details>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-columns">
+                <div class="about-content">
+                    <h2>Kdo vlastně jsem?</h2>
+                    <p>Marketingu se věnuji od roku 2019. Za tu dobu jsem spolupracoval  pro společnosti jako BrainMarket, HP Tronic (Datart) nebo Vosíme.cz. Nejsem agentura, takže vám neprodám nic, co nepotřebujete. Pokud vycítím, že pro vás nejsem ten pravý, řeknu vám to.</p>
+                    <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište mi</a>
+                </div>
+                <div class="about-image">
+                    <img src="..images/TZ1.png" alt="Tomáš Zálešák" style="max-width: 300px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio">
+        <div class="container">
+            <h2 class="section-title">O své know-how se dělím</h2>
+            <div class="portfolio-slider-wrapper">
+                <div class="portfolio-slider" id="portfolioSlider">
+                    <a href="https://tomaszalesak.cz/retencni-marketing" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>Retenční marketing: Jak si udržet zákazníky</h3>
+                            <p>Blogový článek</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                    <a href="https://www.podnikatel.cz/clanky/retence-v-praxi-5-chyb-kvuli-kterym-vas-e-shop-prichazi-o-verne-zakazniky/" target="_blank" rel="noopener" class="portfolio-card">
+                         <div>
+                            <h3>5 chyb, kvůli kterým váš e-shop přichází o věrné zákazníky</h3>
+                            <p>Článek pro Podnikatel.cz</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                    <a href="https://www.podnikatel.cz/clanky/co-je-zakaznicka-zkusenost-a-proc-ji-vubec-resit-udelejte-z-ni-konkurencni-vyhodu/" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>Co je zákaznická zkušenost a proč ji vůbec řešit?</h3>
+                            <p>Článek pro Podnikatel.cz</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                    <a href="https://www.podnikatel.cz/clanky/zakaznik-ma-vzdy-pravdu-opravdu" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>Zákazník má vždy pravdu. Opravdu?</h3>
+                            <p>Článek pro Podnikatel.cz</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                     <a href="https://www.podnikatel.cz/clanky/vanocni-zne-skoncily-prave-ted-je-cas-na-poradny-vernostni-program/" target="_blank" rel="noopener" class="portfolio-card">
+                         <div>
+                            <h3>Jak vytvořit věrnostní program</h3>
+                            <p>Článek pro Podnikatel.cz</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                    <a href="https://www.youtube.com/@tomaszalesakcz" target="_blank" rel="noopener" class="portfolio-card">
+                        <div>
+                            <h3>YouTube kanál</h3>
+                            <p>Postřehy ze světa marketingu</p>
+                        </div>
+                        <svg class="link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                </div>
+                <div class="slider-nav">
+                    <button class="slider-arrow" id="slideRight" aria-label="Posunout doprava">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta alt-bg" id="cta">
+        <div class="container">
+            <h2><span class="highlight">Plácneme si?</span></h2>
+            <p>Napište mi, s čím potřebujete pomoct, a domluvíme si nezávaznou úvodní konzultaci zdarma.</p>
+            <a href="mailto:jsem@tomaszalesak.cz" class="btn">jsem@tomaszalesak.cz</a>
+            <p style="margin-top: 25px; font-size: 0.95rem; color: #888;">Odpovídám nejpozději do 2. pracovního dne</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Tomáš Zálešák</p>
+            <p>IČO: 08372284 (neplátce DPH)</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+
+        const slider = document.getElementById('portfolioSlider');
+        const slideRight = document.getElementById('slideRight');
+
+        if (slider && slideRight) {
+            slideRight.addEventListener('click', () => {
+                const cardWidth = slider.querySelector('.portfolio-card').offsetWidth;
+                const gap = 30;
+                slider.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+            });
+
+            slider.addEventListener('scroll', () => {
+                const maxScroll = slider.scrollWidth - slider.clientWidth;
+                if (slider.scrollLeft >= maxScroll - 10) {
+                    slideRight.style.opacity = '0.3';
+                    slideRight.style.cursor = 'default';
+                } else {
+                    slideRight.style.opacity = '1';
+                    slideRight.style.cursor = 'pointer';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
