@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tomáš Zálešák | Marketingový konzultant</title>
     <meta name="description" content="Marketingový konzultant pro majitele firem a e-shopů, které chtějí růst chytřeji. Úvodní konzultace zdarma.">
-    <link rel="icon" type="image/png" href="../images/TZ Logo.png">
+    <link rel="icon" type="image/png" href="../images/TZ%20Logo.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -393,41 +393,88 @@
         }
 
         /* --- CHALLENGES SECTION --- */
-        .challenges-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+        /* Přímá řeč zobrazená jako konverzační bubliny:
+           střídavě vlevo (bílá) a vpravo (navy), s ocáskem a zlatým akcentem. */
+        .quotes {
+            display: flex;
+            flex-direction: column;
+            gap: 42px;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .challenge-card {
+        .quote-bubble {
+            position: relative;
+            width: 78%;
+            margin: 0;
+            padding: 38px 46px;
+            border-radius: 24px;
             background: var(--bg-card);
-            border: 1px solid #eeeeee;
-            border-left: 5px solid var(--accent-gold);
-            border-radius: 8px;
-            padding: 40px 35px;
+            color: var(--primary-navy);
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.65rem;
+            line-height: 1.45;
             box-shadow: var(--shadow-card);
             transition: var(--transition-main);
-            height: 100%;
         }
 
-        .challenge-card:hover {
-            transform: translateY(-5px);
+        .quote-bubble:hover {
+            transform: translateY(-4px);
             box-shadow: var(--shadow-float);
         }
 
-        .challenge-card h3 {
-            font-family: var(--font-body);
-            font-size: 1.35rem;
-            color: var(--primary-navy);
-            margin-bottom: 20px;
-            font-weight: 700;
-            line-height: 1.4;
+        .quote-bubble p {
+            margin: 0;
         }
 
-        .challenge-card p {
-            font-size: 1rem;
-            color: var(--text-muted);
-            line-height: 1.6;
+        /* zlatý akcent u okraje bubliny */
+        .quote-bubble::before {
+            content: "";
+            position: absolute;
+            top: 30px;
+            bottom: 30px;
+            width: 5px;
+            background: var(--accent-gold);
+        }
+
+        /* ocásek bubliny */
+        .quote-bubble::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            width: 30px;
+            height: 16px;
+            background: inherit;
+        }
+
+        .quote-bubble:nth-of-type(odd) {
+            align-self: flex-start;
+            border-bottom-left-radius: 6px;
+        }
+        .quote-bubble:nth-of-type(odd)::before {
+            left: 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .quote-bubble:nth-of-type(odd)::after {
+            left: 34px;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+        }
+
+        .quote-bubble:nth-of-type(even) {
+            align-self: flex-end;
+            background: var(--primary-navy);
+            color: #ffffff;
+            border-bottom-right-radius: 6px;
+        }
+        .quote-bubble:nth-of-type(even)::before {
+            right: 0;
+            border-radius: 4px 0 0 4px;
+        }
+        .quote-bubble:nth-of-type(even)::after {
+            right: 34px;
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
         }
 
         /* --- SERVICES SECTION --- */
@@ -478,6 +525,20 @@
             line-height: 1.3;
             color: var(--primary-navy);
             margin-bottom: 14px;
+        }
+
+        .service-price {
+            display: inline-block;
+            margin-bottom: 16px;
+            padding: 5px 14px;
+            background: rgba(197, 160, 89, 0.14);
+            border: 1px solid rgba(197, 160, 89, 0.35);
+            border-radius: 5px;
+            color: var(--accent-gold-text);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 700;
+            line-height: 1.5;
         }
 
         .service-description {
@@ -865,7 +926,8 @@
                 gap: 50px;
             }
 
-            .challenges-grid { grid-template-columns: 1fr; }
+            .quotes { gap: 38px; }
+            .quote-bubble { width: 88%; padding: 30px 34px; font-size: 1.4rem; }
             .benefits-grid { grid-template-columns: 1fr; }
             .about-image { order: -1; }
             .slider-nav { right: 20px; }
@@ -905,6 +967,12 @@
             .btn { padding: 16px 40px; font-size: 1.05rem; }
 
             .benefit-card h3 { font-size: 1.1rem; }
+
+            .quotes { gap: 34px; }
+            .quote-bubble { width: 94%; padding: 26px 26px; font-size: 1.2rem; border-radius: 20px; }
+            .quote-bubble::before { top: 22px; bottom: 22px; }
+            .quote-bubble:nth-of-type(odd)::after { left: 26px; }
+            .quote-bubble:nth-of-type(even)::after { right: 26px; }
             .slider-nav { display: none; }
             .clients-logos img { height: 28px; }
             .clients-logos { gap: 25px 40px; }
@@ -931,7 +999,7 @@
     <header>
         <div class="container header-content">
             <a href="https://tomaszalesak.cz/marketing-konzultace" class="logo">
-                <img src="../images/TZ Logo.png" alt="TZ">
+                <img src="../images/TZ%20Logo.png" alt="TZ">
                 <span class="logo-text">Tomáš Zálešák</span>
             </a>
 
@@ -957,7 +1025,7 @@
     <section class="hero">
         <div class="container hero-columns">
             <div class="hero-content">
-                <h1><span class="highlight">Marketing</span> n</h1>
+                <h1><span class="highlight">Marketing</span> nemusí být věda</h1>
                 <p>Pomůžu vám zorientovat se v online marketingu – od strategie po exekutivu.</p>
                 <a href="mailto:jsem@tomaszalesak.cz" class="btn">Napište, jak vám můžu pomoct</a>
             </div>
@@ -984,18 +1052,18 @@
     <section class="challenges alt-bg" id="challenges">
         <div class="container">
             <h2 class="section-title">Poznáváte se v tom?</h2>
-            <div class="challenges-grid">
-                <div class="challenge-card">
-                    <h3>„Potřebujeme se posunout, ale nevíme, jaké kroky podniknout."</h3>
-                </div>
+            <div class="quotes">
+                <blockquote class="quote-bubble">
+                    <p>„Potřebujeme se posunout, ale nevíme, jaké kroky podniknout."</p>
+                </blockquote>
 
-                <div class="challenge-card">
-                    <h3>„Máme nástroje, ale nedokážeme je naplno využít."</h3>
-                </div>
+                <blockquote class="quote-bubble">
+                    <p>„Máme nástroje, ale nedokážeme je naplno využít."</p>
+                </blockquote>
 
-                <div class="challenge-card">
-                    <h3>„Nevíme, co řešit dřív. Nápadů je spousta, času málo."</h3>
-                </div>
+                <blockquote class="quote-bubble">
+                    <p>„Nevíme, co řešit dřív. Nápadů je spousta, času málo."</p>
+                </blockquote>
             </div>
         </div>
     </section>
@@ -1011,6 +1079,7 @@
                 <div class="service-card">
                     <div class="service-main">
                         <h3>Audit a konzultace</h3>
+                        <div class="service-price">od 9 900 Kč</div>
                         <div class="service-description">
                             Žádné knížecí rady typu „zapněte reklamu“ nebo „tvořte obsah“. Často bývá zakopaný pes i tam, kde byste ho vůbec nečekali – a třeba i mimo marketing. 
                         </div>
@@ -1026,7 +1095,8 @@
 
                 <div class="service-card">
                     <div class="service-main">
-                        <h3>Školeníe</h3>
+                        <h3>Školení</h3>
+                        <div class="service-price">od 19 900 Kč</div>
                         <div class="service-description">
                             Ať už se potřebujete rychle naučit s konkrétními nástroji, nebo hledáte marketingovou „nalejvárnu“, předám vám osobně nebo se svými kolegy potřebné know-how.
                         </div>
@@ -1043,16 +1113,17 @@
 
                 <div class="service-card">
                     <div class="service-main">
-                        <h3>Zajištění služeb</h3>
+                        <h3>Implementace a nastavení nástrojů</h3>
                         <div class="service-description">
-                            Pokud si potřebujete vypůjčit
+                            Začít s novým nástrojem úplně od nuly bývá náročné. Pomůžu vám ho nastavit a současně vás s ním naučím pracovat, abyste z něho dokázali vytěžit maximum.
                         </div>
                     </div>
                     <div class="service-points">
                         <ul>
-                            <li>Školení na míru podle vašich nástrojů a dat</li>
-                            <li>Segmentace, automatizace, měření retence</li>
-                            <li>Online i u vás ve firmě</li>
+                            <li>Google Ads / Facebook Ads</li>
+                            <li>E-mailingové nástroje</li>
+                            <li>Microsoft Clarity</li>
+                            <li>Google Analytics</li>
                         </ul>
                     </div>
                 </div>
@@ -1062,7 +1133,7 @@
     </section>
 
     <!-- FAQ SECTION -->
-    <section class="faq" id="faq">
+    <section class="faq alt-bg" id="faq">
         <div class="container">
             <h2 class="section-title">Časté dotazy</h2>
             <div class="faq-list">
@@ -1190,7 +1261,7 @@
     <footer>
         <div class="container">
             <p>&copy; 2026 Tomáš Zálešák</p>
-            <p>IČO: 08372284</p>
+            <p>IČO: 08372284 (neplátce DPH)</p>
         </div>
     </footer>
 
